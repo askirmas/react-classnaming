@@ -8,7 +8,7 @@ it("TypeScript manipulations", () => {
   )
 
   React_createElement({
-    ...classNaming({"class1": undefined})
+    ...classNaming("abc", {"class1": undefined})
   })
 
   React_createElement(

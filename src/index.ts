@@ -21,12 +21,24 @@ export {
   classNaming
 }
 
+/**
+ * Makes `className` string from imported CSS
+ * @param classNames 
+ * @example <div className={classNaming({ClassName})} />
+ * @example <div {...classNaming({ClassName})} />
+ */
 function classNaming<O>(
-  /** Comment */
   classNames: ClassNamesMap<string>
 ): O extends string ? string : ClassName;
+/**
+ * Makes `className` string from imported CSS
+ * @param propagatedClassName 
+ * @param classNames 
+ * @example <div className={classNaming({ClassName})} />
+ * @example <div {...classNaming({ClassName})} />
+ */
 function classNaming<O>(
-  className: undefined|string,
+  propagatedClassName: undefined|string,
   classNames: ClassNamesMap<string>
 ): O extends string ? string : ClassName;
 function classNaming(...args: any[]) {
