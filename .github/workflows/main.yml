@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install
-        run: npm install --no-optional
+        run: npm ci --no-optional
 
       - name: build
         run: npm run build

@@ -55,5 +55,9 @@
   "optionalDependencies": {
     "git-hooks-wrapper": "^0.7.1",
     "np": "^7.3.0"
+  },
+  "dependencies": {
+    "git-hooks-wrapper": "^0.7.1",
+    "np": "^7.3.0"
   }
 }
