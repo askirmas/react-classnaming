@@ -5,10 +5,12 @@ it("demo", () => expect(classNaming(
     "hashed": "Hash",
     "notHashed": undefined,
     //@ts-expect-error
-    "UnknownValueType": []
+    "UnknownValueType": [],
+    //@ts-expect-error
+    "false_is_also_unknown": false
   }
 )).toStrictEqual({
-  "className": "Hash notHashed UnknownValueType"
+  "className": "Hash notHashed UnknownValueType false_is_also_unknown"
 }))
 
 it("as string", () => expect(
