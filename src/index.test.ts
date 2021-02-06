@@ -1,7 +1,12 @@
 import classNaming from ".";
 
 it("demo", () => expect(classNaming(
-  {"hashed": "Hash", "notHashed": undefined}
+  {
+    "hashed": "Hash",
+    "notHashed": undefined,
+    //@ts-expect-error
+    "UnknownValueType": []
+  }
 )).toStrictEqual({
-  "className": "Hash notHashed"
+  "className": "Hash notHashed UnknownValueType"
 }))

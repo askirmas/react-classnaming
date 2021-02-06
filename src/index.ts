@@ -1,7 +1,11 @@
 const {keys: $keys} = Object
 , classNameKey = "className"
 
-export type ClassNames<C extends string> = Record<C, string|undefined>
+export type ClassNames<C extends string> = Record<C,
+  undefined
+  |string
+  //TODO `|boolean`
+>
 
 export default classNaming
 
