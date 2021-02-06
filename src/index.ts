@@ -21,13 +21,14 @@ export {
   classNaming
 }
 
-function classNaming(
+function classNaming<O>(
+  /** Comment */
   classNames: ClassNamesMap<string>
-): ClassName;
-function classNaming(
+): O extends string ? string : ClassName;
+function classNaming<O>(
   className: undefined|string,
   classNames: ClassNamesMap<string>
-): ClassName;
+): O extends string ? string : ClassName;
 function classNaming(...args: any[]) {
   return _classNaming(args.pop(), args.pop())
 }

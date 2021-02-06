@@ -13,8 +13,7 @@ it("TypeScript manipulations", () => {
 
   React_createElement(
     {
-      //@ts-expect-error
-      "className": classNaming({"class1": undefined})
+      "className": classNaming<string>({"class1": undefined})
     }
   )
 
