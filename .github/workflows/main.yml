@@ -37,8 +37,11 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Install
+      - name: install
         run: npm ci --no-optional
 
       - name: build
         run: npm run build
+        
+      - name: coverage
+        uses: codecov/codecov-action@v1
