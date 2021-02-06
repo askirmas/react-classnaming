@@ -41,6 +41,13 @@ it("No trim, no dedup", () => expect(classNaming(
   "className": " Dup  Dup   Dup   Dup "
 }))
 
+it("with empties", () => expect(classNaming(
+  " ",
+  {}
+)).toStrictEqual({
+  "className": "  "
+}))
+
 it("in `.join`", () => expect(
     [
     "class1",
