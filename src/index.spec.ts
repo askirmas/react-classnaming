@@ -3,13 +3,17 @@ import classNaming from "."
 
 it("TypeScript manipulations", () => {
 
-  createElement(
+  React_createElement(
     classNaming({"class1": undefined})
   )
 
-  createElement(
+  React_createElement({
+    ...classNaming({"class1": undefined})
+  })
+
+  React_createElement(
     {
-      //@ts-expect-error //TODO
+      //@ts-expect-error
       "className": classNaming({"class1": undefined})
     }
   )
@@ -17,6 +21,6 @@ it("TypeScript manipulations", () => {
   expect(true).toBe(true)
 })
 
-function createElement(props: HTMLAttributes<HTMLElement>) {
+function React_createElement(props: HTMLAttributes<HTMLElement>) {
   return props
 }

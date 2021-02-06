@@ -1,5 +1,5 @@
 const {keys: $keys, defineProperty: $defineProperty} = Object
-, classNameKey = "className"
+, classNameKey = "className" as const
 
 export type ClassNames<C extends string> = Record<C,
   undefined
@@ -31,5 +31,5 @@ function classNaming<C extends string>(classNames: ClassNames<C>) {
     value: () => classString
   })
 
-  return $return
+  return $return 
 }
