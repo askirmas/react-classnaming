@@ -40,3 +40,20 @@ it("No trim, no dedup", () => expect(classNaming(
 )).toStrictEqual({
   "className": " Dup  Dup   Dup   Dup "
 }))
+
+it("in `.join`", () => expect(
+    [
+    "class1",
+    classNaming({"class2": undefined}),
+    "class3"
+  ].join(" ")
+).toBe(
+  "class1 class2 class3"
+))
+
+it("TBD in sum", () => expect(
+  "class1" + classNaming({"class2": undefined}) + "class3"
+//TODO 
+).not.toBe(
+  "class1 class2 class3"
+))
