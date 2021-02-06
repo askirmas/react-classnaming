@@ -51,9 +51,33 @@ it("in `.join`", () => expect(
   "class1 class2 class3"
 ))
 
-it("TBD in sum", () => expect(
-  "class1" + classNaming({"class2": undefined}) + "class3"
-//TODO 
-).not.toBe(
-  "class1 class2 class3"
-))
+
+describe("in sum", () => {
+  it("expected", () => expect(
+    "class1" + classNaming({"class2": undefined}) + "class3"
+  ).toBe(
+    "class1class2class3"
+  ))
+
+  describe("if extended", () => {
+    const output = classNaming({"class2": undefined})
+    , {className} = output
+
+    Object.defineProperty(output, "valueOf", {
+      "value": () => ` ${className} `
+    })
+
+    it("in sum", () => expect(
+      "class1" + output + "class3"
+    ).toBe(
+      "class1 class2 class3"
+    ))
+
+    it("as string calls valueOf", () => expect(
+      `${output}`
+    ).toBe(
+      " class2 "
+    ))
+
+  })
+})
