@@ -1,0 +1,54 @@
+{
+  "display": "CLI",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "CommonJS",
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "lib": [
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "node",
+      "jest"
+    ],
+    "resolveJsonModule": true,
+
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveSymlinks": true,
+
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "downlevelIteration": true,
+    "keyofStringsOnly": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    "preserveConstEnums": true,
+    "stripInternal": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    
+    "pretty": true,
+
+    "noEmit": true,    
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.json"
+  ]
+}
