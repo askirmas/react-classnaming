@@ -1,7 +1,7 @@
 {
   "name": "react-classnaming",
   "version": "0.1.0-0",
-  "description": "",
+  "description": "Easy applied function to use with CSS modules and do not get lost in CSS classes",
   "main": "dist",
   "scripts": {
     "dev": "npm run test -- --watch --coverage=false",
@@ -19,7 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
-  "keywords": [],
+  "keywords": [
+    "react", "className", "classNames", "css", "modules"
+  ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
   "license": "MIT",
   "bugs": {
