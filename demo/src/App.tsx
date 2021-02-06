@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
-import classNaming from "react-classnaming"
-import type { ClassNames } from "react-classnaming"
+import classNaming from "./react-classnaming"
+import type { ClassNames } from "./react-classnaming"
 
 type AppProps = PropsWithChildren<
   {
