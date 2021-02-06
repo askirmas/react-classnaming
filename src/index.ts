@@ -21,26 +21,26 @@ export {
   classNaming
 }
 
-function classNaming<C extends string>(
-  classNames: ClassNamesMap<C>
+function classNaming(
+  classNames: ClassNamesMap<string>
 ): ClassName;
-function classNaming<C extends string>(
+function classNaming(
   className: undefined|string,
-  classNames: ClassNamesMap<C>
+  classNames: ClassNamesMap<string>
 ): ClassName;
 function classNaming(...args: any[]) {
   return _classNaming(args.pop(), args.pop())
 }
 
-function _classNaming<C extends string>(
-  classNames: ClassNamesMap<C>,
+function _classNaming(
+  classNames: ClassNamesMap<string>,
   className: undefined|string
 ): ClassName {
   const keys = $keys(classNames)
   , {length} = keys
 
   for (let i = length; i--;) {
-    const key = keys[i] as C
+    const key = keys[i]
     , value = classNames[key]
 
     if (typeof value === "string")
