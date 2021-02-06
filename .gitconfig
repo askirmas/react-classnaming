@@ -19,5 +19,5 @@
 [difftool "vscode"]
     cmd = code --wait --diff $LOCAL $REMOTE
 [remote "origin"]
-	url = git@github.com:askirmas/classnaming.git
+	url = git@github.com:askirmas/react-classnaming.git
 	fetch = +refs/heads/*:refs/remotes/origin/*

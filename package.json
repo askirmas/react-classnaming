@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/askirmas/classnaming.git"
+    "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
   "keywords": [],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/askirmas/classnaming/issues#bugs"
+    "url": "https://github.com/askirmas/react-classnaming/issues#bugs"
   },
-  "homepage": "https://github.com/askirmas/classnaming#readme",
+  "homepage": "https://github.com/askirmas/react-classnaming#readme",
   "private": false,
   "publishConfig": {
     "access": "public"
