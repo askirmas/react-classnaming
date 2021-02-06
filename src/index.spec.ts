@@ -1,25 +1,21 @@
 import type {HTMLAttributes} from "react"
 import classNaming from "."
 
-it("as object", () => expect(
+it("TypeScript manipulations", () => {
+
   createElement(
     classNaming({"class1": undefined})
   )
-).toStrictEqual({
-  "className": "class1"
-}))
 
-it("TBD as string", () => expect(
   createElement(
     {
-      //@ts-expect-error
+      //@ts-expect-error //TODO
       "className": classNaming({"class1": undefined})
     }
   )
-//TODO
-).not.toStrictEqual({
-  "className": "class1"
-}))
+
+  expect(true).toBe(true)
+})
 
 function createElement(props: HTMLAttributes<HTMLElement>) {
   return props

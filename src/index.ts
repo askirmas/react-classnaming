@@ -1,4 +1,4 @@
-const {keys: $keys} = Object
+const {keys: $keys, defineProperty: $defineProperty} = Object
 , classNameKey = "className"
 
 export type ClassNames<C extends string> = Record<C,
@@ -21,8 +21,15 @@ function classNaming<C extends string>(classNames: ClassNames<C>) {
       keys[i] = value
   }
 
-  return {
-    [classNameKey]: keys
-    .join(" ")
+  const classString = keys
+  .join(" ")
+  , $return = {
+    [classNameKey]: classString
   }
+
+  $defineProperty($return, "toString", {
+    value: () => classString
+  })
+
+  return $return
 }

@@ -10,3 +10,9 @@ it("demo", () => expect(classNaming(
 )).toStrictEqual({
   "className": "Hash notHashed UnknownValueType"
 }))
+
+it("as string", () => expect(
+  `${classNaming({"class": undefined})}`
+).toBe(
+  "class"
+))
