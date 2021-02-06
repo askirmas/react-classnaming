@@ -1,14 +1,18 @@
 const {keys: $keys, defineProperty: $defineProperty} = Object
 , classNameKey = "className" as const
 
-export type ClassNamesMap<C extends string> = Record<C,
+export type ClassNames<C extends string> = {
+  classNames: ClassNamesMap<C>
+}
+
+type ClassNamesMap<C extends string> = Record<C,
   undefined
   |string
   //TODO `|boolean`
 >
 
 type ClassName = {
-  "className": string
+  className: string
   toString: () => string
 }
 
