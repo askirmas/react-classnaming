@@ -17,6 +17,9 @@ type ClassName = {
 }
 
 export default classNaming
+export {
+  classNaming
+}
 
 function classNaming<C extends string>(
   classNames: ClassNamesMap<C>
