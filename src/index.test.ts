@@ -16,3 +16,15 @@ it("as string", () => expect(
 ).toBe(
   "class"
 ))
+
+it("with start", () => expect(
+  `${classNaming("propagated", {"class": undefined})}`
+).toBe(
+  "propagated class"
+))
+
+it("with `undefined` start", () => expect(
+  `${classNaming(undefined, {"class": undefined})}`
+).toBe(
+  "class"
+))

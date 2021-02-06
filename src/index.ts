@@ -1,15 +1,34 @@
 const {keys: $keys, defineProperty: $defineProperty} = Object
 , classNameKey = "className" as const
 
-export type ClassNames<C extends string> = Record<C,
+export type ClassNamesMap<C extends string> = Record<C,
   undefined
   |string
   //TODO `|boolean`
 >
 
+type ClassName = {
+  "className": string
+  toString: () => string
+}
+
 export default classNaming
 
-function classNaming<C extends string>(classNames: ClassNames<C>) {
+function classNaming<C extends string>(
+  classNames: ClassNamesMap<C>
+): ClassName;
+function classNaming<C extends string>(
+  className: undefined|string,
+  classNames: ClassNamesMap<C>
+): ClassName;
+function classNaming(...args: any[]) {
+  return _classNaming(args.pop(), args.pop())
+}
+
+function _classNaming<C extends string>(
+  classNames: ClassNamesMap<C>,
+  className: undefined|string
+): ClassName {
   const keys = $keys(classNames)
   , {length} = keys
 
@@ -21,8 +40,14 @@ function classNaming<C extends string>(classNames: ClassNames<C>) {
       keys[i] = value
   }
 
-  const classString = keys
-  .join(" ")
+  const classString = `${
+    !className
+    ? ""
+    : `${className} `
+  }${
+    keys
+    .join(" ")
+  }`
   , $return = {
     [classNameKey]: classString
   }
