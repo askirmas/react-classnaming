@@ -41,14 +41,14 @@
     "pretty": true,
 
     "noEmit": true,    
-    "sourceMap": true
+    "sourceMap": false,
+    "outDir": "dist",
+    "declaration": true
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
-    "**/*.ts",
-    "**/*.js",
-    "**/*.json"
+    "src/**/*.ts"
   ]
 }

@@ -2,9 +2,15 @@
   "name": "classnaming",
   "version": "0.0.1",
   "description": "",
+  "main": "dist",
   "scripts": {
-    "test": "npm run jest",
     "dev": "npm run test -- --watch --coverage=false",
+    "build": "npm run compile",
+    "prebuild": "npm run test",
+    "release": "np",
+    "postrelease": "npm update",
+    "test": "npm run jest",
+    "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
     "jest": "jest --runInBand"
   },
@@ -19,6 +25,7 @@
     "url": "https://github.com/askirmas/classnaming/issues#bugs"
   },
   "homepage": "https://github.com/askirmas/classnaming#readme",
+  "private": false,
   "publishConfig": {
     "access": "public"
   },
@@ -33,5 +40,10 @@
   },
   "np": {
     "yarn": false
-  }
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "dist"
+  ]
 }
