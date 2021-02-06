@@ -1,11 +1,22 @@
+import type { PropsWithChildren } from "react";
 import classNaming from "react-classnaming"
-import AppClassNames from './App.module.css';
+import type { ClassNames } from "react-classnaming"
 
-const {App__container, App__header, App__link} = AppClassNames
+type AppProps = PropsWithChildren<
+  {
+    "className"?: string
+  }
+  & ClassNames<"App__container"|"App__header"|"App__link"|"NotExistent">
+>
 
-function App() {
+function App({
+  className,
+  classNames: {
+    App__container, App__header, App__link
+  }
+}: AppProps) {
   return (
-    <div {...classNaming({App__container})}>
+    <div {...classNaming(className, {App__container})}>
       <header className={classNaming<string>({App__header})}>
         <a {...{
           ...classNaming({App__link}),
