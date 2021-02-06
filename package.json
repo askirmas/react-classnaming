@@ -7,6 +7,7 @@
     "dev": "npm run test -- --watch --coverage=false",
     "build": "npm run compile",
     "prebuild": "npm run test",
+    "postbuild": "cd demo && npm run build",
     "release": "np",
     "postrelease": "npm update",
     "test": "npm run jest",
