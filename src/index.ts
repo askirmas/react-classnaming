@@ -5,10 +5,12 @@ export type ClassNames<C extends string> = {
   classNames: ClassNamesMap<C>
 }
 
+//TODO PropsWithClassNames<C> that omits `className`
+
 type ClassNamesMap<C extends string> = Record<C,
   undefined
   |string
-  //TODO `|boolean`
+  //TODO ? `|boolean`
 >
 
 type ClassName = {
