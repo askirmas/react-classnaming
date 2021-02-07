@@ -7,10 +7,12 @@
     "dev": "npm run test -- --watch --coverage=false",
     "build": "npm run compile",
     "prebuild": "npm run test",
-    "postbuild-": "cd demo && npm run build",
+    "-postbuild-": "npm run spec",
     "release": "np",
+    "prerelease": "npm run build",
     "postrelease": "npm update",
     "test": "npm run jest",
+    "spec": "cd demo && npm run build",
     "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
     "jest": "jest --runInBand"
@@ -39,7 +41,6 @@
   "devDependencies": {
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
-    "demo": "file:demo",
     "git-hooks-wrapper": "^0.7.1",
     "jest": "^26.6.3",
     "np": "^7.3.0",
