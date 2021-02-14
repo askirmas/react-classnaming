@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "npm run test -- --watch --coverage=false",
     "build": "npm run compile",
-    "prebuild": "npm run test",
-    "-postbuild-": "npm run spec",
+    "test": "npm run build",
+    "prebuild": "npm run unit",
+    "postbuild": "npm run spec",
     "release": "np",
     "prerelease": "npm run build",
     "postrelease": "npm update",
-    "test": "npm run jest",
-    "spec": "cd demo && npm run build",
+    "unit": "npm run jest",
+    "spec": "cd __recipes__ && npm run test",
     "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
     "jest": "jest --runInBand"
