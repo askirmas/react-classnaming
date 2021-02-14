@@ -4,7 +4,7 @@ const {keys: $keys, defineProperty: $defineProperty} = Object
 export type ClassNames<C extends string> = {
   classNames: ClassNamesMap<C>
 }
-
+export type ClassNamesFrom<C extends ClassNames<string>> = Pick<C, "classNames">
 //TODO PropsWithClassNames<C> that omits `className`
 
 type ClassNamesMap<C extends string> = Record<C,
