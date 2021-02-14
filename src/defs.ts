@@ -4,8 +4,9 @@ export type ClassNames<C extends string> = {
   classNames: ClassNamesMap<C>
 }
 
-export type ClassName = {
-  className: string
+export type ClassName = {className: string}
+
+export type ClassNameOut = ClassName & {
   toString: () => string
 }
 

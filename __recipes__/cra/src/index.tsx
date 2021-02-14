@@ -2,22 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import AppClassNames from './App.module.css';
+import CssClassNames from './App.module.css';
 
-const {App__container, App__header, App__link, NotExistent} = AppClassNames
-, Redundant = undefined
+const {App__Container, App__Content, Content, App__Header, Header, App__link, NotExistent} = CssClassNames
+, AppClassNames = {App__Container, App__Content, Content, App__Header, Header, App__link, NotExistent}
+, {Content: _, ...WithoutSomeClassName} = AppClassNames
+, RedundantClassName = undefined
 
 ReactDOM.render(
   <React.StrictMode>
-    {//@ts-expect-error Type '{ readonly [key: string]: string; }' is missing the following properties
-      <App classNames={AppClassNames}/>
+
+    <App className="App" classNames={AppClassNames}/>
+
+    {//@ts-expect-error Property is missing
+      <App className="App" classNames={WithoutSomeClassName}/>
     }
-    {//@ts-expect-error Property 'NotExistent' is missing
-      <App classNames={{App__container, App__header, App__link}}/>
-    }
-    <App className="App" classNames={{App__container, App__header, App__link, NotExistent,
+
+    <App className="App" classNames={{...AppClassNames, 
       //@ts-expect-error Object literal may only specify known properties, and 'Redundant' does not exist 
-      Redundant
+      RedundantClassName
     }}/>
   </React.StrictMode>,
   document.getElementById('root')

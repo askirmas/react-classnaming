@@ -1,9 +1,9 @@
-import type { ClassNamesMap, ClassName } from "./defs"
+import type { ClassNamesMap, ClassNameOut } from "./defs"
 
 const {keys: $keys, defineProperty: $defineProperty} = Object
 , classNameKey = "className" as const
 
-export type {ClassNamesFrom, ClassNames} from "./defs"
+export type {ClassNamesFrom, ClassNames, ClassName} from "./defs"
 export default classNaming
 export {
   classNaming
@@ -17,7 +17,7 @@ export {
  */
 function classNaming<O>(
   classNames: ClassNamesMap<string>
-): O extends string ? string : ClassName;
+): O extends string ? string : ClassNameOut;
 /**
  * Makes `className` string from imported CSS
  * @param propagatedClassName 
@@ -28,7 +28,7 @@ function classNaming<O>(
 function classNaming<O>(
   propagatedClassName: undefined|string,
   classNames: ClassNamesMap<string>
-): O extends string ? string : ClassName;
+): O extends string ? string : ClassNameOut;
 function classNaming(...args: any[]) {
   return _classNaming(args.pop(), args.pop())
 }
@@ -36,7 +36,7 @@ function classNaming(...args: any[]) {
 function _classNaming(
   classNames: ClassNamesMap<string>,
   className: undefined|string
-): ClassName {
+): ClassNameOut {
   const keys = $keys(classNames)
   , {length} = keys
 
