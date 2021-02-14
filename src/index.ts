@@ -1,10 +1,15 @@
+import { JSXElementConstructor } from "react"
+
 const {keys: $keys, defineProperty: $defineProperty} = Object
 , classNameKey = "className" as const
 
 export type ClassNames<C extends string> = {
   classNames: ClassNamesMap<C>
 }
-export type ClassNamesFrom<C extends ClassNames<string>> = Pick<C, "classNames">
+
+type Picker<T, K> = K extends keyof T ? Pick<T, K> : never
+export type ClassNamesFrom<C>
+= Picker<C extends JSXElementConstructor<infer P> ? P : C, "classNames">
 //TODO PropsWithClassNames<C> that omits `className`
 
 type ClassNamesMap<C extends string> = Record<C,

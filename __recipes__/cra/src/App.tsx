@@ -6,6 +6,7 @@ type AppProps = PropsWithChildren<
   {"className"?: string}
   & ClassNames<"App__container"|"App__header"|"NotExistent">
   & ClassNamesFrom<LinkProps>
+  & ClassNamesFrom<typeof Link>
 >
 
 function App({
