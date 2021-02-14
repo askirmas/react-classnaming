@@ -5,8 +5,7 @@ import type { ClassNames, ClassNamesFrom } from "react-classnaming"
 type AppProps = PropsWithChildren<
   {"className"?: string}
   & ClassNames<"App__container"|"App__header"|"NotExistent">
-  & ClassNamesFrom<LinkProps>
-  & ClassNamesFrom<typeof Link>
+  & ClassNamesFrom<LinkProps, typeof Link>
 >
 
 function App({
