@@ -1,10 +1,9 @@
 import { Component, LinkHTMLAttributes, PropsWithChildren } from "react";
 import classNaming from "react-classnaming"
-import type { ClassNames, ClassNamesFrom, ClassName } from "react-classnaming"
+import type { ClassNames, ClassNamesFrom } from "react-classnaming"
 
 type AppProps = PropsWithChildren<
-  ClassName
-  & ClassNames<"App__Container"|"App__Header"|"App__Content"|"NotExistent">
+  ClassNames<true, "App__Container"|"App__Header"|"App__Content"|"NotExistent">
   & ClassNamesFrom<LinkProps, typeof Header, typeof Content>
 >
 
@@ -15,9 +14,18 @@ function App({
   }
 }: AppProps) {
   return (
-    <div {...classNaming(className, {App__Container})}>
-      <Header {...{...classNaming({App__Header}), classNames}}/>
-      <Content {...classNaming({App__Content})} {...{classNames}}>
+    <div {...classNaming(className, {App__Container})} id={classNaming<string>({App__Container})}>
+      <Header
+        // TODO Why TS doesn't check object
+        {...classNaming({App__Header})}
+        {...{classNames}}
+        //@ts-expect-error Property 'className' does not exist
+        className="" 
+      />
+      <Content {...{
+        ...classNaming({App__Content}),
+        classNames
+      }}>
         <Link {...{classNames}} href="https://reactjs.org">
           Learn React
         </Link>
@@ -40,10 +48,10 @@ function Link({href, children, "classNames": {App__link}}: LinkProps) {
   }</a>
 }
 
-function Header({className, classNames: {Header}}: ClassName & ClassNames<"Header">) {
-  return <header {...classNaming(className, {Header})}>Header</header>
+function Header({classNames: {Header}}: ClassNames<"Header">) {
+  return <header {...classNaming({Header})}>Header</header>
 }
-class Content extends Component<PropsWithChildren<ClassName & ClassNames<"Content">>> {
+class Content extends Component<PropsWithChildren<ClassNames<true, "Content">>> {
   render() {
     const {
       className,
