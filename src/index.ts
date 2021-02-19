@@ -19,10 +19,16 @@ type tClassNamed = {
   className: string
   toString: () => string
 }
+
+type tToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 interface iClassNamedCall<K extends string> {
-  //TODO (...args: K[]): tClassNamingReturn
-  (map: Partial<Record<K, true|Falsy>>): tClassNamed
-  //TODO (withClassName: true|false, ...args: K[]): tClassNamingReturn
+  (...toggles: K[]): tClassNamed
+  (map: tToggleMap<K>): tClassNamed
+  //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
+}
+interface _iClassNamedCall<K extends string> {
+  (map: K|tToggleMap<K>, ...toggles: K[]): tClassNamed
+  //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
 }
 
 interface iClassNamingReturn<K extends string> extends tClassNamed, iClassNamedCall<K> {}
@@ -52,11 +58,16 @@ function classNaming<O, ClassKeys extends string = string>(
 function classNaming<_, ClassKeys extends string>(...args: any[]) {
   const classNames = args.pop()
   , className = args.pop()
-  , $return: iClassNamedCall<ClassKeys> & Partial<tClassNamed>
-  = (map: Partial<Record<ClassKeys, true|Falsy>>) => {
-    const filtered: Partial<ClassNamesMap<ClassKeys>> = {}
-    for (const key in map) {
-      const value = map[key]
+  //TODO Check `new Proxy(string)` with `call` handler
+  , $return: _iClassNamedCall<ClassKeys> & Partial<tClassNamed>
+  = (map, ...toggles) => {
+    const keys = toggles.concat(typeof map !== "object" ? map : $keys(map) as ClassKeys[])
+    , {length} = keys
+    , filtered: Partial<ClassNamesMap<ClassKeys>> = {}
+
+    for (let i = 0; i < length; i++) {
+      const key = keys[i]
+      , value = typeof map !== "object" ? key : map[key]
       if (!(value && key in classNames))
         continue
       filtered[key] = classNames[key]

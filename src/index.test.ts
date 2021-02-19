@@ -20,20 +20,34 @@ describe("demo",() => {
     "class"
   ))
   
-  it("callback for toggling", () => expect(
+  it("callback for toggling with map", () => expect(
     {...classNaming("propagate", {
         "class": undefined,
         "class--on": undefined,
         "class--off": undefined,
-        "class2": undefined
+        "class2": undefined,
+        "class3": undefined
     })({
       "class--on": true,
       "class--off": false,
-      //@ts-expect-error
-      "class--": true,
+      "class3": true
     })
   }).toStrictEqual({
-    "className": "propagate class--on"
+    "className": "propagate class--on class3"
+  }))
+
+  it("callback for toggling with array", () => expect(
+    {...classNaming("propagate", {
+        "class": undefined,
+        "class--on": undefined,
+        "class--off": undefined,
+        "class2": undefined,
+        "class3": undefined
+    })(
+      "class3", "class--on"
+    )
+  }).toStrictEqual({
+    "className": "propagate class--on class3"
   }))
 })
 
@@ -108,3 +122,14 @@ describe("in sum", () => {
 
   })
 })
+
+it("toggling not existant", () => expect({...
+  //@ts-expect-error
+  classNaming({
+      "class": undefined,
+  })({
+      "class2": true,
+  })
+}).toStrictEqual({
+  "className": ""
+}))

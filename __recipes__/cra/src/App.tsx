@@ -25,7 +25,7 @@ function App({
         className="" 
       />
       <Content {...{
-        ...classToggler({App__Content: true}),
+        ...classToggler("App__Content"),
         classNames
       }}>
         <Link {...{classNames}} href="https://reactjs.org">
