@@ -1,6 +1,10 @@
 import type { ClassNamesMap } from "./defs"
 
-const {keys: $keys, defineProperty: $defineProperty} = Object
+const {
+  keys: $keys,
+  defineProperty: $defineProperty,
+  assign: $assign
+} = Object
 , classNameKey = "className" as const
 
 export type {ClassNamesFrom, ClassNames} from "./defs"
@@ -9,18 +13,29 @@ export {
   classNaming
 }
 
+type Falsy = undefined|null|false|0|""
+
+type tClassNamed = {
+  className: string
+  toString: () => string
+}
+interface iClassNamedCall<K extends string> {
+  //TODO (...args: K[]): tClassNamingReturn
+  (map: Partial<Record<K, true|Falsy>>): tClassNamed
+  //TODO (withClassName: true|false, ...args: K[]): tClassNamingReturn
+}
+
+interface iClassNamingReturn<K extends string> extends tClassNamed, iClassNamedCall<K> {}
+
 /**
  * Makes `className` string from imported CSS
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
  */
-function classNaming<O>(
-  classNames: ClassNamesMap<string>
-): O extends string ? string : {
-  className: string
-  toString: () => string
-}
+function classNaming<O, ClassKeys extends string = string>(
+  classNames: ClassNamesMap<ClassKeys>
+): O extends string ? string : iClassNamingReturn<ClassKeys>
 
 /**
  * Makes `className` string from imported CSS
@@ -29,24 +44,34 @@ function classNaming<O>(
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
  */
-function classNaming<O>(
+function classNaming<O, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
-  classNames: ClassNamesMap<string>
-): O extends string ? string : {
-  className: string
-  toString: () => string
-}
-function classNaming(...args: any[]) {
-  return _classNaming(args.pop(), args.pop())
+  classNames: ClassNamesMap<ClassKeys>
+): O extends string ? string : iClassNamingReturn<ClassKeys>
+
+function classNaming<_, ClassKeys extends string>(...args: any[]) {
+  const classNames = args.pop()
+  , className = args.pop()
+  , $return: iClassNamedCall<ClassKeys> & Partial<tClassNamed>
+  = (map: Partial<Record<ClassKeys, true|Falsy>>) => {
+    const filtered: Partial<ClassNamesMap<ClassKeys>> = {}
+    for (const key in map) {
+      const value = map[key]
+      if (!(value && key in classNames))
+        continue
+      filtered[key] = classNames[key]
+    }
+    return _classNaming(filtered, className, {})
+  }
+  
+  return _classNaming(classNames, className, $return)
 }
 
-function _classNaming(
+function _classNaming<T extends Partial<tClassNamed>>(
   classNames: ClassNamesMap<string>,
-  className: undefined|string
-): {
-  className: string
-  toString: () => string
-} {
+  className: undefined|string,
+  destination: T
+): T & tClassNamed {
   const keys = $keys(classNames)
   , {length} = keys
 
@@ -66,13 +91,16 @@ function _classNaming(
     keys
     .join(" ")
   }`
-  , $return = {
-    [classNameKey]: classString
-  }
 
-  $defineProperty($return, "toString", {
-    value: () => classString
-  })
+  $assign(destination, {[classNameKey]: classString})
 
-  return $return 
+  $defineProperty(
+    destination,
+    "toString",
+    {
+      value: () => classString
+    }
+  )
+
+  return destination as T & tClassNamed
 }
