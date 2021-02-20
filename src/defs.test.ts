@@ -1,7 +1,10 @@
+import type { JSXElementConstructor } from "react";
 import { Component } from "react";
-import type { ClassNamesStrict, GetClassKeys } from "./defs";
+import type { ClassNamesProp, ClassNamesStrict, GetClassKeys } from "./defs";
 
-class ClassComponent extends Component<ClassNamesStrict<never, "comp1"|"comp2">> {}
+class ClassComponent0 extends Component<ClassNamesStrict<never, "comp1"|"comp2">> {}
+class ClassComponent1 extends Component<ClassNamesStrict<true, never>> {}
+class ClassComponent2 extends Component<ClassNamesStrict<true, "comp1"|"comp2">> {}
 
 describe("ClassNamesStrict", () => {
   it("<never, 'class1'|'class2'>", () => {
@@ -15,8 +18,8 @@ describe("ClassNamesStrict", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
-  it("", () => {
-    const suites: Record<string, ClassNamesStrict<never, never, typeof ClassComponent>> = {
+  it("ClassComponent0", () => {
+    const suites: Record<string, ClassNamesStrict<never, never, typeof ClassComponent0>> = {
       "good": {
         classNames: {
           comp1: undefined,
@@ -38,7 +41,7 @@ describe("ClassNamesStrict", () => {
 
 describe("GetClassKeys", () => {
   it("ClassComponent", () => {
-    const suites: Record<string, GetClassKeys<typeof ClassComponent>> = {
+    const suites: Record<string, GetClassKeys<typeof ClassComponent0>> = {
       "comp1": "comp1",
       "comp2": "comp2",
       //@ts-expect-error
@@ -46,4 +49,21 @@ describe("GetClassKeys", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
+})
+
+it("WithClassNames", () => {
+  type WithClassNames = ClassNamesProp | JSXElementConstructor<ClassNamesProp>
+  // | Component<ClassNamesProp> | (props: ClassNamesProp) => any
+
+  const suites: Record<string, WithClassNames> = {
+    ClassComponent0,
+    //TODO
+    //@ts-expect-error Property 'className' is missing
+    ClassComponent1,
+    //TODO
+    //@ts-expect-error Property 'className' is missing
+    ClassComponent2,
+  }
+
+  expect(suites).toBeInstanceOf(Object)
 })
