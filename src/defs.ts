@@ -4,7 +4,7 @@ import type { JSXElementConstructor } from "react"
  * @example ClassNames<true> === {className: string}
  * @example ClassNames<"class1"|"class2"> === {classNames: {class1: undefined|string, class2: undefined|string}}
  * @example ClassNames<Props1, Props2> === {classNames: Props1["classNames"] & Props2["classNames"]}
- * @example ClassName<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
+ * @example ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
  */
 export type ClassNames<
   C0 extends true | string| ReactRelated,

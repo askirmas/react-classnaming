@@ -24,3 +24,15 @@ Check the tests with detailed usage: [./src/index.test.ts](.src/index.test.ts)
 
 With create-react-application: [./__recipes__/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
 
+## TS Generic for props 
+```ts
+import type { ClassNames } from "react-classnaming"
+
+ClassNames<true>
+
+ClassNames<"class1"|"class2">
+
+ClassNames<Props1, Props2>
+
+ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
+```
