@@ -15,29 +15,32 @@ export {
 
 type Falsy = undefined|null|false|0|""
 
-type tClassNamed = {
+type ClassNamed = {
   className: string
   toString: () => string
 }
 
-type tToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
-interface iClassNamedCall<K extends string> {
-  (toggleMapOrKeyExpression: Falsy|K|tToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): tClassNamed
+type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
+interface ClassToggling<K extends string> {
+  (toggleMapOrKeyExpression: Falsy|K|ToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): ClassNamed
   //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
 }
 
-interface iClassNamingReturn<K extends string> extends tClassNamed, iClassNamedCall<K> {}
+/**
+ * @example classToggling({class1: bool1}, bool2 && class2)
+ */
+interface ClassNaming<K extends string> extends ClassNamed, ClassToggling<K> {}
 
 /**
  * Makes `className` string from imported CSS
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
- * @example classNaming(classNames)({class1: bool1}, bool2 && class2) />
+ * @example classNaming(classNames)({class1: bool1}, bool2 && class2)
  */
-function classNaming<O, ClassKeys extends string = string>(
+function classNaming<Return, ClassKeys extends string = string>(
   classNames: ClassNamesMap<ClassKeys>
-): O extends string ? string : iClassNamingReturn<ClassKeys>
+): Return extends string ? string : ClassNaming<keyof typeof classNames>
 
 /**
  * Makes `className` string from imported CSS
@@ -45,21 +48,21 @@ function classNaming<O, ClassKeys extends string = string>(
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
- * @example classNaming(classNames)({class1: bool1}, bool2 && class2) />
+ * @example classNaming(classNames)({class1: bool1}, bool2 && class2)
  */
-function classNaming<O, ClassKeys extends string = string>(
+function classNaming<Return, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
   classNames: ClassNamesMap<ClassKeys>
-): O extends string ? string : iClassNamingReturn<ClassKeys>
+): Return extends string ? string : ClassNaming<keyof typeof classNames>
 
 function classNaming<_, ClassKeys extends string>(...args: any[]) {
   const classNames = args.pop()
   , className = args.pop()
   //TODO Check `new Proxy(string)` with `call` handler
-  , $return: iClassNamedCall<ClassKeys> & Partial<tClassNamed>
+  , $return: ClassToggling<ClassKeys> & Partial<ClassNamed>
   = (toggleMapOrKeyExpression, ...classKeyExpressions) => {
     const [map, firstKey] = toggleMapOrKeyExpression === null || typeof toggleMapOrKeyExpression !== "object"
-    ? [{} as tToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
+    ? [{} as ToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
     : [toggleMapOrKeyExpression, false] as const
     
     , keys = classKeyExpressions
@@ -85,11 +88,11 @@ function classNaming<_, ClassKeys extends string>(...args: any[]) {
   return _classNaming(classNames, className, $return)
 }
 
-function _classNaming<T extends Partial<tClassNamed>>(
+function _classNaming<T extends Partial<ClassNamed>>(
   classNames: ClassNamesMap<string>,
   className: undefined|string,
   destination: T
-): T & tClassNamed {
+): T & ClassNamed {
   const keys = $keys(classNames)
   , {length} = keys
 
@@ -130,5 +133,5 @@ function _classNaming<T extends Partial<tClassNamed>>(
     }
   )
 
-  return destination as T & tClassNamed
+  return destination as T & ClassNamed
 }
