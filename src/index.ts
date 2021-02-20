@@ -65,35 +65,8 @@ function classNaming<Return, ClassKeys extends string = string>(
 function classNaming<_, ClassKeys extends string>(...args: any[]) {
   const classNames = args.pop()
   , className = args.pop()
-  //TODO Check `new Proxy(string)` with `call` handler
-  , base: ClassToggling<ClassKeys> & Partial<ClassNamed>
-  = (toggleMapOrKeyExpression, ...classKeyExpressions) => {
-    const [map, firstKey] = toggleMapOrKeyExpression === null || typeof toggleMapOrKeyExpression !== "object"
-    ? [{} as ToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
-    : [toggleMapOrKeyExpression, false] as const
-    
-    , keys = classKeyExpressions
-    .concat(firstKey)
-    .concat($keys(map) as ClassKeys[])
-    .filter(Boolean) as ClassKeys[]
-
-    , {length} = keys
-    , filtered: Partial<ClassNamesMap<ClassKeys>> = {}
-
-    for (let i = 0; i < length; i++) {
-      const key = keys[i]
-      , allowed = key in map ? map[key] : key
-
-      if (!(allowed && key in classNames)) 
-        continue
-
-      filtered[key] = classNames[key]
-    }
-    return _classNaming(filtered, className, {})
-  }
   
-  const $return = _classNaming(classNames, className, base)
-  return $return
+  return _classNaming(classNames, className, contexted<ClassKeys>(classNames, className))
 }
 
 function _classNaming<T extends Partial<ClassNamed>>(
@@ -142,4 +115,37 @@ function _classNaming<T extends Partial<ClassNamed>>(
   )
 
   return destination as T & ClassNamed
+}
+
+function contexted<ClassKeys extends string>(
+  classNames: ClassNamesMap<string>,
+  className: undefined|string
+) {
+  const $return: ClassToggling<ClassKeys> & Partial<ClassNamed>
+  = (toggleMapOrKeyExpression, ...classKeyExpressions) => {
+    const [map, firstKey] = toggleMapOrKeyExpression === null || typeof toggleMapOrKeyExpression !== "object"
+    ? [{} as ToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
+    : [toggleMapOrKeyExpression, false] as const
+    
+    , keys = classKeyExpressions
+    .concat(firstKey)
+    .concat($keys(map) as ClassKeys[])
+    .filter(Boolean) as ClassKeys[]
+
+    , {length} = keys
+    , filtered: Partial<ClassNamesMap<ClassKeys>> = {}
+
+    for (let i = 0; i < length; i++) {
+      const key = keys[i]
+      , allowed = key in map ? map[key] : key
+
+      if (!(allowed && key in classNames)) 
+        continue
+
+      filtered[key] = classNames[key]
+    }
+    return _classNaming(filtered, className, {})
+  }
+
+  return $return
 }
