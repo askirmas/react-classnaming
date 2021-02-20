@@ -1,10 +1,13 @@
 import { Component, LinkHTMLAttributes, PropsWithChildren } from "react";
 import classNaming from "react-classnaming"
-import type { ClassNames, ClassNamesFrom } from "react-classnaming"
+import type { ClassNames } from "react-classnaming"
 
 type AppProps = PropsWithChildren<
-  ClassNames<true, "App__Container"|"App__Header"|"App__Content"|"NotExistent">
-  & ClassNamesFrom<LinkProps, typeof Header, typeof Content>
+  ClassNames<
+    true,
+    "App__Container"|"App__Header"|"App__Content"|"NotExistent", 
+    LinkProps, typeof Header, typeof Content
+  >
 >
 
 function App({

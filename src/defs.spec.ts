@@ -1,5 +1,15 @@
 import { Component } from "react";
-import type { ClassNames, ClassNamesFrom } from "./defs";
+import type { ClassNames } from "./defs";
+
+type ClassNamesSingleton<C extends string> = {classNames: Record<C, string|undefined>}
+
+class ClassComponent extends Component<ClassNamesSingleton<"component">> {}
+class ClassPureComponent extends Component<ClassNamesSingleton<"pureComponent">> {}
+function Functional(_: ClassNamesSingleton<"functional">) {
+  return null
+}
+type ComponentProps= ClassNamesSingleton<"props">
+
 
 describe("ClassNames", () => {
   it("<true>", () => {
@@ -23,6 +33,12 @@ describe("ClassNames", () => {
 
   it("<'class1'|'class2'>", () => {
     const suites: Record<string, ClassNames<"class1"|"class2">> = {
+      "omitted": {
+        //@ts-expect-error ReactRelated
+        classNames: {
+          class1: undefined
+        }
+      },
       "classNames only": {
         classNames: {class1: undefined, class2: undefined}
       },
@@ -36,7 +52,7 @@ describe("ClassNames", () => {
       "className and classNames": {
         //@ts-expect-error Object literal may only specify known properties, but 'className' does not exist
         className: "",
-        classNames: {class1: undefined}
+        classNames: {class1: undefined, class2: undefined}
       }
     }
     expect(suites).toBeInstanceOf(Object)
@@ -59,7 +75,8 @@ describe("ClassNames", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
-
+})
+describe("", () => {
   it("<'class1', true>", () => {
     const suite1
     //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
@@ -74,7 +91,8 @@ describe("ClassNames", () => {
     : ClassNames<true,
       //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
       true
-    > = {className: "", classNames: ""}
+    > = {
+      className: ""}
 
     expect(suite1).toBeInstanceOf(Object)
   })
@@ -85,29 +103,22 @@ describe("ClassNames", () => {
       //@ts-expect-error Type 'string' does not satisfy the constraint 'never'
       "class2"
     >
-    = {classNames: {"class1": undefined}}
+    = {classNames: {"class1": undefined, class2: undefined}}
 
     expect(suite1).toBeInstanceOf(Object)
   })
+
 })
 
 describe("ClassNamesFrom", () => {
-  type ClassNamesSingleton<C extends string> = {classNames: Record<C, string|undefined>}
-
-  class ClassComponent extends Component<ClassNamesSingleton<"component">> {}
-  class ClassPureComponent extends Component<ClassNamesSingleton<"pureComponent">> {}
-  function Functional(_: ClassNamesSingleton<"functional">) {
-    return null
-  }
-  type ComponentProps= ClassNamesSingleton<"props">
 
   it("manually merge", () => {
     type AppClassNames = (
       ClassNamesSingleton<"App">
-      & ClassNamesFrom<typeof ClassComponent>
-      & ClassNamesFrom<typeof ClassPureComponent>
-      & ClassNamesFrom<typeof Functional>
-      & ClassNamesFrom<ComponentProps>
+      & ClassNames<typeof ClassComponent>
+      & ClassNames<typeof ClassPureComponent>
+      & ClassNames<typeof Functional>
+      & ClassNames<ComponentProps>
     )["classNames"];
   
     const suites: Record<string, AppClassNames> = {
@@ -168,15 +179,13 @@ describe("ClassNamesFrom", () => {
   })
 
   it("multiple apply", () => {
-    type AppClassnames = (
-      ClassNamesSingleton<"App">
-      & ClassNamesFrom<
+    type AppClassnames = ClassNames<
+        "App",
         typeof ClassComponent,
         typeof ClassPureComponent,
         typeof Functional,
         ComponentProps
-      >
-    )["classNames"];
+    >["classNames"];
 
     const suites: Record<string, AppClassnames> = {
       "exact": {

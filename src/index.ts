@@ -7,7 +7,7 @@ const {
 } = Object
 , classNameKey = "className" as const
 
-export type {ClassNamesFrom, ClassNames} from "./defs"
+export type {ClassNames} from "./defs"
 export default classNaming
 export {
   classNaming
