@@ -15,6 +15,25 @@ describe("ClassNamesStrict", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
+  it("", () => {
+    const suites: Record<string, ClassNamesStrict<never, never, typeof ClassComponent>> = {
+      "good": {
+        classNames: {
+          comp1: undefined,
+          comp2: undefined,
+          //@ts-expect-error Object literal may only specify known properties, and 'redundant' does not exist
+          redundant: undefined
+        }
+      },
+      "omitted": {
+        //@ts-expect-error Property 'comp2' is missing in type
+        classNames: {
+          comp1: undefined,
+        }
+      }
+    }
+    expect(suites).toBeInstanceOf(Object)
+  })
 })
 
 describe("GetClassKeys", () => {

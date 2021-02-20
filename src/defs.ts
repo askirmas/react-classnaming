@@ -14,30 +14,24 @@ export type ClassNames<
 : C0 extends string ? ClassNamesStrict<never, C0>
 : never
 
-export type ClassNamesStrict<C0 extends true | never, C1 extends string | never>
-= Ever<C0, {className: string}> & Ever<C1, {"classNames": ClassNamesMap<C1>}>
+export type ClassNamesStrict<C0 extends true | never, C1 extends string | never, C2=never, C3=never, C4=never, C5=never, C6=never, C7=never, C8=never, C9=never, C10=never, C11=never>
+= Ever<C0, {className: string}> & ClassNamesProp<C1
+| GetClassKeys<C2>
+| GetClassKeys<C3>
+| GetClassKeys<C4>
+| GetClassKeys<C5>
+| GetClassKeys<C6>
+| GetClassKeys<C7>
+| GetClassKeys<C8>
+| GetClassKeys<C9>
+| GetClassKeys<C10>
+| GetClassKeys<C11>
+>
 
-// type ClassNamesSingleton<C>
-// = [C] extends [never]
-// ? EmptyObject
-// : C extends string
-// ? {classNames: ClassNamesMap<C>}
-// : never
+export type ClassNamesFrom<C1, C2=never, C3=never, C4=never, C5=never, C6=never, C7=never, C8=never, C9=never, C10=never>
+= ClassNamesStrict<never, never, C1, C2, C3, C4, C5, C6, C7, C8, C9, C10>
 
-export type ClassNamesFrom<C1, C2=never, C3=never, C4=never, C5=never, C6=never, C7=never, C8=never, C9=never, C10=never> = {
-  "classNames": ClassNamesMap<
-  | GetClassKeys<C1>
-  | GetClassKeys<C2>
-  | GetClassKeys<C3>
-  | GetClassKeys<C4>
-  | GetClassKeys<C5>
-  | GetClassKeys<C6>
-  | GetClassKeys<C7>
-  | GetClassKeys<C8>
-  | GetClassKeys<C9>
-  | GetClassKeys<C10>
-  >
-}
+export type ClassNamesProp<C extends string> = Ever<C, {classNames: ClassNamesMap<C>}>
 
 export type ClassNamesMap<C extends string> = Record<C, undefined|string>
 
