@@ -19,9 +19,7 @@ function App({
   const classToggler = classNaming(classNames)
 
   return (
-    <div {...classNaming(className, {App__Container})} id={classNaming<string>({App__Container})} {...{classNames: {
-      toString: () => undefined
-    }}}>
+    <div {...classNaming(className, {App__Container})} id={classNaming<string>({App__Container})}>
       <Header
         // TODO Why TS doesn't check object
         {...classToggler({App__Header: true})}

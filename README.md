@@ -20,7 +20,7 @@ import classNaming from "react-classnaming"
 <div {...classNaming(classNames)({class1: bool1}, bool2 && class2)}>
 ```
 
-Check the tests with detailed usage: [./src/index.test.ts](.src/index.test.ts)
+Check the tests with detailed usage: [./src/index.test.ts](./src/index.test.ts)
 
 With create-react-application: [./__recipes__/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
 
