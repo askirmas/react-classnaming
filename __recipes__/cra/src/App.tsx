@@ -16,19 +16,19 @@ function App({
     App__Container
   }
 }: AppProps) {
-  const classToggler = classNaming(classNames)
+  const classes = classNaming(classNames)
 
   return (
     <div {...classNaming(className, {App__Container})} id={classNaming<string>({App__Container})}>
       <Header
         // TODO Why TS doesn't check object
-        {...classToggler({App__Header: true})}
+        {...classes({App__Header: true})}
         {...{classNames}}
         //@ts-expect-error Property 'className' does not exist
         className="" 
       />
       <Content {...{
-        ...classToggler("App__Content"),
+        ...classes("App__Content"),
         classNames
       }}>
         <Link {...{classNames}} href="https://reactjs.org">
