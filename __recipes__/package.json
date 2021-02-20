@@ -2,8 +2,8 @@
   "name": "__recipes__",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "start": "react-scripts start", 
     "test": "cd cra && npm run test"
   },
   "keywords": [],

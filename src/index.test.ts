@@ -44,7 +44,7 @@ describe("demo",() => {
         "class2": undefined,
         "class3": undefined
     })(
-      "class3", "class--on"
+      "class3", "class--on", false && "class3"
     )
   }).toStrictEqual({
     "className": "propagate class--on class3"
@@ -124,10 +124,10 @@ describe("in sum", () => {
 })
 
 it("toggling not existant", () => expect({...
-  //@ts-expect-error
   classNaming({
       "class": undefined,
   })({
+      //@ts-expect-error
       "class2": true,
   })
 }).toStrictEqual({

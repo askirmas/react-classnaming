@@ -22,12 +22,7 @@ type tClassNamed = {
 
 type tToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 interface iClassNamedCall<K extends string> {
-  (...toggles: K[]): tClassNamed
-  (map: tToggleMap<K>): tClassNamed
-  //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
-}
-interface _iClassNamedCall<K extends string> {
-  (map: K|tToggleMap<K>, ...toggles: K[]): tClassNamed
+  (toggleMapOrKeyExpression: Falsy|K|tToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): tClassNamed
   //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
 }
 
@@ -38,6 +33,7 @@ interface iClassNamingReturn<K extends string> extends tClassNamed, iClassNamedC
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
+ * @example classNaming(classNames)({class1: bool1}, bool2 && class2) />
  */
 function classNaming<O, ClassKeys extends string = string>(
   classNames: ClassNamesMap<ClassKeys>
@@ -49,6 +45,7 @@ function classNaming<O, ClassKeys extends string = string>(
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
+ * @example classNaming(classNames)({class1: bool1}, bool2 && class2) />
  */
 function classNaming<O, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
@@ -59,17 +56,27 @@ function classNaming<_, ClassKeys extends string>(...args: any[]) {
   const classNames = args.pop()
   , className = args.pop()
   //TODO Check `new Proxy(string)` with `call` handler
-  , $return: _iClassNamedCall<ClassKeys> & Partial<tClassNamed>
-  = (map, ...toggles) => {
-    const keys = toggles.concat(typeof map !== "object" ? map : $keys(map) as ClassKeys[])
+  , $return: iClassNamedCall<ClassKeys> & Partial<tClassNamed>
+  = (toggleMapOrKeyExpression, ...classKeyExpressions) => {
+    const [map, firstKey] = toggleMapOrKeyExpression === null || typeof toggleMapOrKeyExpression !== "object"
+    ? [{} as tToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
+    : [toggleMapOrKeyExpression, false] as const
+    
+    , keys = classKeyExpressions
+    .concat(firstKey)
+    .concat($keys(map) as ClassKeys[])
+    .filter(Boolean) as ClassKeys[]
+
     , {length} = keys
     , filtered: Partial<ClassNamesMap<ClassKeys>> = {}
 
     for (let i = 0; i < length; i++) {
       const key = keys[i]
-      , value = typeof map !== "object" ? key : map[key]
-      if (!(value && key in classNames))
+      , allowed = key in map ? map[key] : key
+
+      if (!(allowed && key in classNames)) 
         continue
+
       filtered[key] = classNames[key]
     }
     return _classNaming(filtered, className, {})
@@ -102,6 +109,16 @@ function _classNaming<T extends Partial<tClassNamed>>(
     keys
     .join(" ")
   }`
+
+  // TODO For propagation
+  // $defineProperty(
+  //   classNames,
+  //   "toString",
+  //   {
+  //     value: undefined
+  //   }
+  // )
+  // $assign(destination, {classNames})
 
   $assign(destination, {[classNameKey]: classString})
 
