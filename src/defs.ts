@@ -19,20 +19,21 @@ export type ClassNames<
   C9 extends ReactRelated = never,
   C10 extends ReactRelated = never
 >
-= ClassNamesStrict<
-  Extract<C0, true>,
-  Extract<C0 | C1, string>,
-  Extract<C0 | C1, ReactRelated>,
-  C2,
-  C3,
-  C4,
-  C5,
-  C6,
-  C7,
-  C8,
-  C9,
-  C10
+= Ever<Extract<C0, true>, {className: string}>
+& ClassNamesProp<
+  Extract<C0 | C1, string>
+  | GetClassKeys<Extract<C0 | C1, ReactRelated>>
+  | GetClassKeys<C2>
+  | GetClassKeys<C3>
+  | GetClassKeys<C4>
+  | GetClassKeys<C5>
+  | GetClassKeys<C6>
+  | GetClassKeys<C7>
+  | GetClassKeys<C8>
+  | GetClassKeys<C9>
+  | GetClassKeys<C10>  
 >
+
 
 export type ClassNamesStrict<
   C0 extends true | never,
@@ -49,6 +50,7 @@ export type ClassNamesStrict<
   C11 extends ReactRelated = never
 >
 = Ever<C0, {className: string}> & ClassNamesProp<C1
+> & ClassNamesProp<C1
 | GetClassKeys<C2>
 | GetClassKeys<C3>
 | GetClassKeys<C4>
@@ -57,8 +59,8 @@ export type ClassNamesStrict<
 | GetClassKeys<C7>
 | GetClassKeys<C8>
 | GetClassKeys<C9>
-| GetClassKeys<C10>
-| GetClassKeys<C11>
+| GetClassKeys<C10>  
+| GetClassKeys<C11>  
 >
 
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
