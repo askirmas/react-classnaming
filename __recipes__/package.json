@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "react-scripts start",
     "test": "cd cra && npm run test"
   },
   "keywords": [],

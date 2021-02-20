@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: install
-        run: npm ci --prefer-offline --no-audit 
+        run: npm ci --prefer-offline --no-audit --silent --quiet --no-progress
 
       - name: build
         run: npm run build

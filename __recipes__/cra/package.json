@@ -20,10 +20,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "npm ci --prefer-offline --no-audit",
+    "prebuild": "npm run setup",
     "build": "react-scripts build",
+    "setup": "npm uninstall react-classnaming && npm install ../..",
     "test": "npm run build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "?ci": "npm ci --prefer-offline --no-audit --silent --quiet --no-progress"
   },
   "eslintConfig": {
     "extends": [
