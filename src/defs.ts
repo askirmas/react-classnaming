@@ -25,23 +25,24 @@ export type ClassNamesStrict<C0 extends true | never, C1 extends string | never>
 // : never
 
 export type ClassNamesFrom<C1, C2=never, C3=never, C4=never, C5=never, C6=never, C7=never, C8=never, C9=never, C10=never> = {
-  "classNames": GetClassNamesProp<C1>
-  & GetClassNamesProp<C2>
-  & GetClassNamesProp<C3>
-  & GetClassNamesProp<C4>
-  & GetClassNamesProp<C5>
-  & GetClassNamesProp<C6>
-  & GetClassNamesProp<C7>
-  & GetClassNamesProp<C8>
-  & GetClassNamesProp<C9>
-  & GetClassNamesProp<C10>
+  "classNames": ClassNamesMap<
+  | GetClassKeys<C1>
+  | GetClassKeys<C2>
+  | GetClassKeys<C3>
+  | GetClassKeys<C4>
+  | GetClassKeys<C5>
+  | GetClassKeys<C6>
+  | GetClassKeys<C7>
+  | GetClassKeys<C8>
+  | GetClassKeys<C9>
+  | GetClassKeys<C10>
+  >
 }
 
 export type ClassNamesMap<C extends string> = Record<C, undefined|string>
 
 type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 type GetClassNames<T, K = "classNames", D = EmptyObject> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
-export type GetClassNamesProp<C> = GetClassNames<GetProps<C>>
 export type GetClassKeys<C> = keyof GetClassNames<GetProps<C>>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V

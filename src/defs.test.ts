@@ -1,5 +1,5 @@
 import { Component } from "react";
-import type { ClassNamesStrict, GetClassNamesProp, GetClassKeys } from "./defs";
+import type { ClassNamesStrict, GetClassKeys } from "./defs";
 
 class ClassComponent extends Component<ClassNamesStrict<never, "comp1"|"comp2">> {}
 
@@ -16,19 +16,6 @@ describe("ClassNamesStrict", () => {
     expect(suites).toBeInstanceOf(Object)
   })
 })
-
-describe("GetClassNamesProp", () => {
-  it("ClassComponent", () => {
-    const suites: Record<string, GetClassNamesProp<typeof ClassComponent>> = {
-      "good": {
-        comp1: undefined,
-        comp2: undefined
-      }
-    }
-    expect(suites).toBeInstanceOf(Object)
-  })
-})
-
 
 describe("GetClassKeys", () => {
   it("ClassComponent", () => {
