@@ -1,15 +1,10 @@
-import { Component } from "react";
+import { Component, PureComponent } from "react";
 import type { ClassNames } from "./defs";
 
-type ClassNamesSingleton<C extends string> = {classNames: Record<C, string|undefined>}
-
-class ClassComponent extends Component<ClassNamesSingleton<"component">> {}
-class ClassPureComponent extends Component<ClassNamesSingleton<"pureComponent">> {}
-function Functional(_: ClassNamesSingleton<"functional">) {
-  return null
-}
-type ComponentProps= ClassNamesSingleton<"props">
-
+type Props = ClassNames<true, "props">
+function Functional(_: ClassNames<"functional">) { return null }
+class ClassComponent extends Component<ClassNames<"component"|"comp0">> {}
+class ClassPureComponent extends PureComponent<ClassNames<"pureComponent">> {}
 
 describe("ClassNames", () => {
   it("<true>", () => {
@@ -76,7 +71,7 @@ describe("ClassNames", () => {
     expect(suites).toBeInstanceOf(Object)
   })
 })
-describe("", () => {
+describe("Miss-use", () => {
   it("<'class1', true>", () => {
     const suite1
     //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
@@ -114,17 +109,18 @@ describe("ClassNamesFrom", () => {
 
   it("manually merge", () => {
     type AppClassNames = (
-      ClassNamesSingleton<"App">
+      ClassNames<"App">
       & ClassNames<typeof ClassComponent>
       & ClassNames<typeof ClassPureComponent>
       & ClassNames<typeof Functional>
-      & ClassNames<ComponentProps>
+      & ClassNames<Props>
     )["classNames"];
   
     const suites: Record<string, AppClassNames> = {
       "exact": {
         App: undefined,
         component: undefined,
+        comp0: undefined,
         functional: undefined,
         props: undefined,
         pureComponent: undefined
@@ -179,18 +175,20 @@ describe("ClassNamesFrom", () => {
   })
 
   it("multiple apply", () => {
-    type AppClassnames = ClassNames<
+    type AppClassNames = ClassNames<
+        true,
         "App",
         typeof ClassComponent,
         typeof ClassPureComponent,
         typeof Functional,
-        ComponentProps
+        Props
     >["classNames"];
 
-    const suites: Record<string, AppClassnames> = {
+    const suites: Record<string, AppClassNames> = {
       "exact": {
         App: undefined,
         component: undefined,
+        comp0: undefined,
         functional: undefined,
         props: undefined,
         pureComponent: undefined

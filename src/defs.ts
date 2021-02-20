@@ -34,35 +34,6 @@ export type ClassNames<
   | GetClassKeys<C10>  
 >
 
-
-export type ClassNamesStrict<
-  C0 extends true | never,
-  C1 extends string | never = never,
-  C2 extends ReactRelated = never,
-  C3 extends ReactRelated = never,
-  C4 extends ReactRelated = never,
-  C5 extends ReactRelated = never,
-  C6 extends ReactRelated = never,
-  C7 extends ReactRelated = never,
-  C8 extends ReactRelated = never,
-  C9 extends ReactRelated = never,
-  C10 extends ReactRelated = never,
-  C11 extends ReactRelated = never
->
-= Ever<C0, {className: string}> & ClassNamesProp<C1
-> & ClassNamesProp<C1
-| GetClassKeys<C2>
-| GetClassKeys<C3>
-| GetClassKeys<C4>
-| GetClassKeys<C5>
-| GetClassKeys<C6>
-| GetClassKeys<C7>
-| GetClassKeys<C8>
-| GetClassKeys<C9>
-| GetClassKeys<C10>  
-| GetClassKeys<C11>  
->
-
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
 export type ClassNamesProp<C extends string = string> = Ever<C, {classNames: ClassNamesMap<C>}>
