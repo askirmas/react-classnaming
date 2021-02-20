@@ -10,16 +10,17 @@ Easy applied function to use with [CSS modules](https://github.com/css-modules/c
 npm install --save react-classnaming
 ```
 
-## Basic usage
+## Examples
 
 ```tsx
 import classNaming from "react-classnaming"
 
 <div {...classNaming("class1", {class2, class3})}>
 <div className={classNaming<string>({class4})}>
+<div {...classNaming(classNames)({class1: bool1}, bool2 && class2)}>
 ```
 
-## Usage
+Check the tests with detailed usage: [./src/index.test.ts](.src/index.test.ts)
 
-See more at [*./demo/src/*](./demo/src/) 
+With create-react-application: [./__recipes__/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
 

@@ -21,14 +21,15 @@ type ClassNamed = {
 }
 
 type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
+
 interface ClassToggling<K extends string> {
+  /**
+   * @example <div {...classToggling({class1: !isHidden}, isOpen2 && class2)} />
+   */
   (toggleMapOrKeyExpression: Falsy|K|ToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): ClassNamed
   //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
 }
 
-/**
- * @example classToggling({class1: bool1}, bool2 && class2)
- */
 interface ClassNaming<K extends string> extends ClassNamed, ClassToggling<K> {}
 
 /**
@@ -36,11 +37,12 @@ interface ClassNaming<K extends string> extends ClassNamed, ClassToggling<K> {}
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
- * @example classNaming(classNames)({class1: bool1}, bool2 && class2)
+ * @example classToggling({class1: !isHidden}, isOpen2 && class2)
  */
 function classNaming<Return, ClassKeys extends string = string>(
   classNames: ClassNamesMap<ClassKeys>
-): Return extends string ? string : ClassNaming<keyof typeof classNames>
+): Return extends string ? string :
+ClassNaming<keyof typeof classNames>
 
 /**
  * Makes `className` string from imported CSS
@@ -48,7 +50,7 @@ function classNaming<Return, ClassKeys extends string = string>(
  * @param classNames 
  * @example <div className={classNaming({ClassName})} />
  * @example <div {...classNaming({ClassName})} />
- * @example classNaming(classNames)({class1: bool1}, bool2 && class2)
+ * @example classToggling({class1: !isHidden}, isOpen2 && class2)
  */
 function classNaming<Return, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
@@ -59,7 +61,7 @@ function classNaming<_, ClassKeys extends string>(...args: any[]) {
   const classNames = args.pop()
   , className = args.pop()
   //TODO Check `new Proxy(string)` with `call` handler
-  , $return: ClassToggling<ClassKeys> & Partial<ClassNamed>
+  , base: ClassToggling<ClassKeys> & Partial<ClassNamed>
   = (toggleMapOrKeyExpression, ...classKeyExpressions) => {
     const [map, firstKey] = toggleMapOrKeyExpression === null || typeof toggleMapOrKeyExpression !== "object"
     ? [{} as ToggleMap<ClassKeys>, toggleMapOrKeyExpression] as const
@@ -85,7 +87,8 @@ function classNaming<_, ClassKeys extends string>(...args: any[]) {
     return _classNaming(filtered, className, {})
   }
   
-  return _classNaming(classNames, className, $return)
+  const $return = _classNaming(classNames, className, base)
+  return $return
 }
 
 function _classNaming<T extends Partial<ClassNamed>>(
