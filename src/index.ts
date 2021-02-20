@@ -1,3 +1,8 @@
+/** TBD 
+ * 1. `typeof classNaming === "function"` falls <div className={classNaming()} />
+ * 2. <div {...{false, undefined, null}}/> falls attributes
+*/
+
 import type { ClassNamesMap } from "./defs"
 
 const {

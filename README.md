@@ -16,7 +16,7 @@ npm install --save react-classnaming
 import classNaming from "react-classnaming"
 
 <div {...classNaming("class1", {class2, class3})}>
-<div className={classNaming<string>({class4})}>
+<div className={`${classNaming({class4})}`}>
 <div {...classNaming(classNames)({class1: bool1}, bool2 && class2)}>
 ```
 
