@@ -6,14 +6,16 @@ import type { JSXElementConstructor } from "react"
  * @example ClassNames<Props1, Props2> === {classNames: Props1["classNames"] & Props2["classNames"]}
  * @example ClassName<true, "class1", typeof Component1> = {className: string, classNames: {class1: undefined|string} & Component1ClassNames} 
  */
-export type ClassNames<C0 extends true|string, C1 extends (C0 extends true ? string : never) = never>
-= C0 extends true ? ClassNamesSimple<C0, C1>
-: C0 extends string ? ClassNamesSimple<never, C0>
+export type ClassNames<
+  C0 extends true|string,
+  C1 extends (C0 extends true ? string : never) = never
+>
+= C0 extends true ? ClassNamesStrict<C0, C1>
+: C0 extends string ? ClassNamesStrict<never, C0>
 : never
 
-type ClassNamesSimple<C0 extends true | never, C1 extends string | never>
+export type ClassNamesStrict<C0 extends true | never, C1 extends string | never>
 = Ever<C0, {className: string}> & Ever<C1, {"classNames": ClassNamesMap<C1>}>
-type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 
 // type ClassNamesSingleton<C>
 // = [C] extends [never]
@@ -39,5 +41,8 @@ export type ClassNamesMap<C extends string> = Record<C, undefined|string>
 
 type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 type GetClassNames<T, K = "classNames", D = EmptyObject> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
-type GetClassNamesProp<C> = GetClassNames<GetProps<C>>
+export type GetClassNamesProp<C> = GetClassNames<GetProps<C>>
+export type GetClassKeys<C> = keyof GetClassNames<GetProps<C>>
+
+type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 type EmptyObject = Record<never, never>
