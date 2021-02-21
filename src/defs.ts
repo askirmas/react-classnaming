@@ -35,6 +35,16 @@ export type ClassNames<
   | GetClassKeys<C10>  
 >
 
+export type ClassNamed = {
+  className: string
+  toString: () => string
+}
+
+export type ClassNamer<ClassKeys extends string> = {
+  className?: undefined|string
+  classNames: ClassNamesMap<ClassKeys>
+}
+
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
 export type ClassNamesProp<C extends string = string> = Ever<C, {classNames: ClassNamesMap<C>}>
@@ -51,10 +61,5 @@ type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 type EmptyObject = Record<never, never>
 
 export type Falsy = undefined|null|false|0|""
-
-export type ClassNamed = {
-  className: string
-  toString: () => string
-}
 
 export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
