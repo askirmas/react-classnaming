@@ -16,7 +16,8 @@ const {
 export default classNaming
 export {
   classNaming,
-  classNameCheck
+  classNamesCheck,
+  classNamingBasic
 }
 
 type Falsy = undefined|null|false|0|""
@@ -68,6 +69,23 @@ function classNaming<_, ClassKeys extends string>(...args: any[]) {
   , className = args.pop()
   
   return _classNaming(classNames, className, contexted<ClassKeys>(classNames, className))
+}
+
+function classNamingBasic<Return, ClassKeys extends string = string>(
+  classNames: ClassNamesMap<ClassKeys>
+): Return extends string ? string : ClassNamed
+function classNamingBasic<Return, ClassKeys extends string = string>(
+  propagatedClassName: undefined|string,
+  classNames: ClassNamesMap<ClassKeys>
+): Return extends string ? string : ClassNamed
+function classNamingBasic(
+  arg0: undefined|string|ClassNamesMap<string>,
+  arg1: undefined|ClassNamesMap<string> = undefined
+): ClassNamed {
+  const classNames = typeof arg0 === "object" ? arg0 : arg1
+  , className = typeof arg0 === "object" ? undefined : arg0
+
+  return _classNaming(classNames!, className, {})
 }
 
 function _classNaming<T extends Partial<ClassNamed>>(
@@ -151,7 +169,7 @@ function contexted<ClassKeys extends string>(
   return $return
 }
 
-function classNameCheck<
+function classNamesCheck<
   K extends string | ReactRelated = string,
   T extends ClassNamesMap<string> = never
 >(

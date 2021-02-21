@@ -1,17 +1,17 @@
 import React from "react"
 import {renderToStaticMarkup} from "react-dom/server"
-import classNaming, {classNameCheck} from "."
+import {classNamesCheck, classNamingBasic} from "."
 import type { ClassNames, ClassNamesMap } from "./defs"
 
 function Root(_: ClassNames<"fc1"|"fc2">) {
   return null
 }
 
-describe(classNaming.name, () => {
+describe(classNamingBasic.name, () => {
   function Button({
     className, "classNames": { Btn }
   }: ClassNames<true, "Btn">) {
-    return <button {...classNaming(className, { Btn })}/>
+    return <button {...classNamingBasic(className, { Btn })}/>
   }
 
   function Root({
@@ -19,32 +19,31 @@ describe(classNaming.name, () => {
   }: ClassNames<"App__Item"|"App__Footer", typeof Button>) {
     return <>
       <Button {...{
-        ...classNaming({ App__Item }),
+        ...classNamingBasic({ App__Item }),
         classNames
       }}/>
       <div
-        //TODO Invalid property due to function
-        className={classNaming<string>({App__Footer})}
-        data-class={`${classNaming({App__Footer})}`}
+        className={classNamingBasic<string>({App__Footer})}
+        data-class={`${classNamingBasic({App__Footer})}`}
       />
     </>
   }
 
   expect(renderToStaticMarkup(
-    <Root classNames={classNameCheck()}/>
+    <Root classNames={classNamesCheck()}/>
   )).toBe([
     '<button class="App__Item Btn"></button>',
-    '<div data-class="App__Footer"></div>'
+    '<div class="App__Footer" data-class="App__Footer"></div>'
   ].join(""))
 })
 
-describe(classNameCheck.name, () => {
+describe(classNamesCheck.name, () => {
   it("dummy", () => {
-    <Root classNames={classNameCheck()}/>;
+    <Root classNames={classNamesCheck()}/>;
 
     //@ts-expect-error Property 'fc2' is missing
-    <Root classNames={classNameCheck<"fc1">()}/>;
-    <Root classNames={classNameCheck<"fc1"|"fc2"|"etc">()}/>;
+    <Root classNames={classNamesCheck<"fc1">()}/>;
+    <Root classNames={classNamesCheck<"fc1"|"fc2"|"etc">()}/>;
 
     expect(true).toBe(true)
   })
@@ -53,7 +52,7 @@ describe(classNameCheck.name, () => {
     const classNames = {} as ClassNamesMap<"fc1"|"fc2"|"fc3">;
     //@ts-expect-error is missing the following properties
     <Root classNames={
-      classNameCheck<"">(classNames)
+      classNamesCheck<"">(classNames)
     } />;
 
     // TypeScript doesn't check redundant props
@@ -62,9 +61,9 @@ describe(classNameCheck.name, () => {
     <Root classNames={classNames as ClassNames<typeof Root>["classNames"]} />;
     
     //@ts-expect-error //TODO TBD redundant props
-    <Root classNames={classNameCheck<typeof Root>(classNames)} />;
+    <Root classNames={classNamesCheck<typeof Root>(classNames)} />;
     //@ts-expect-error //TODO TBD not error
-    <Root3 classNames={classNameCheck<typeof Root3>(classNames)} />;
+    <Root3 classNames={classNamesCheck<typeof Root3>(classNames)} />;
 
     function Root3(_: ClassNames<"fc1"|"fc2"|"fc3">) {
       return null

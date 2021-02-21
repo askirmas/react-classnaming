@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import CssClassNames from './App.module.css';
-import {classNameCheck} from "react-classnaming"
+import {classNamesCheck} from "react-classnaming"
 
 const {App__Container, App__Content, Content, App__Header, Header, App__link, NotExistent} = CssClassNames
 , AppClassNames = {App__Container, App__Content, Content, App__Header, Header, App__link, NotExistent}
@@ -24,10 +24,10 @@ ReactDOM.render(
       RedundantClassName
     }}/>
 
-    <App className="App" classNames={classNameCheck()}/>
+    <App className="App" classNames={classNamesCheck()}/>
 
     {//@ts-expect-error is missing the following properties
-      <App className="App" classNames={classNameCheck<"">()}/>
+      <App className="App" classNames={classNamesCheck<"">()}/>
     }
 
     {/*TODO Check redundant props via
