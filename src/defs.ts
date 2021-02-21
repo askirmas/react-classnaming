@@ -6,6 +6,7 @@ import type { JSXElementConstructor } from "react"
  * @example ClassNames<Props1, Props2> === {classNames: Props1["classNames"] & Props2["classNames"]}
  * @example ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
  */
+//TODO string | ClassNamesMap
 export type ClassNames<
   C0 extends true | string| ReactRelated,
   C1 extends (C0 extends true ? string : never) | ReactRelated = never,
@@ -38,7 +39,7 @@ export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
 export type ClassNamesProp<C extends string = string> = Ever<C, {classNames: ClassNamesMap<C>}>
 
-type ClassValue = undefined|string
+export type ClassValue = undefined|string
 
 export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 

@@ -5,7 +5,7 @@
   "main": "dist",
   "scripts": {
     "dev": "npm run test -- --watch --coverage=false",
-    "test": "npm run jest",
+    "test": "npm run jest --",
     "build": "npm run compile",
     "prebuild": "npm run test",
     "postbuild": "npm run spec",
