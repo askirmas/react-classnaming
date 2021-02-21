@@ -1,4 +1,4 @@
-import { classNamingCtx } from ".";
+import classNamingCtx from "./ctx";
 
 describe(classNamingCtx.name, () => {
   const classNames = {
