@@ -42,9 +42,11 @@
     "@types/react": ">=15"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.11",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.1",
+    "classnames": "^2.2.6",
     "git-hooks-wrapper": "^0.7.1",
     "jest": "^26.6.3",
     "np": "^7.3.0",

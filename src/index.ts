@@ -1,4 +1,4 @@
-export type { ClassNames } from "./defs"
+export type { ClassNames, ClassValue } from "./defs"
 
 import classNamingCtx from "./ctx"
 import classNamesCheck from "./check"
