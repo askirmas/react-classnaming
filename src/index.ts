@@ -4,8 +4,7 @@
 */
 export type { ClassNames } from "./defs"
 import { EMPTY_OBJECT } from "./consts"
-import type { ClassNamesMap, ClassValue, ReactRelated } from "./defs"
-import { emptize, stringifyClassNamed, truthyKeys } from "./utils"
+import type { ClassNamesMap, ReactRelated, Falsy, ClassNamed, ToggleMap } from "./defs"
 
 const {
   keys: $keys,
@@ -14,6 +13,7 @@ const {
 } = Object
 , classNameKey = "className" as const
 
+import classNamingCtx from "./ctx"
 export default classNaming
 export {
   classNaming,
@@ -21,15 +21,6 @@ export {
   classNamingBasic,
   classNamingCtx
 }
-
-type Falsy = undefined|null|false|0|""
-
-type ClassNamed = {
-  className: string
-  toString: () => string
-}
-
-type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 
 interface ClassToggling<K extends string> {
   /**
@@ -170,57 +161,6 @@ function contexted<ClassKeys extends string>(
 
   return $return
 }
-
-
-function classNamingCtx<ClassKeys extends string>({
-  classNames, className
-}: {
-  className?: string
-  classNames: ClassNamesMap<ClassKeys>
-}) {
-  emptize(classNames)
-
-  return function classNamer(
-    //TODO (typeof className extends string ? true : never)
-    arg0: ToggleMap<ClassKeys> | ClassKeys | true,
-    arg1?: [Extract<typeof arg0, boolean>] extends [never]
-    ? (ClassKeys | Falsy)
-    : (ToggleMap<ClassKeys> | ClassKeys | Falsy),
-    ...args: (ClassKeys | Falsy)[]
-  ) {
-
-    const withPropagation = arg0 === true
-    //@ts-expect-error
-    , allowed: ClassKeys[] = truthyKeys(arg0 === true ? false : arg0)
-    //@ts-expect-error
-    .concat(truthyKeys(arg1))
-    //@ts-expect-error
-    .concat(args)
-    .filter(Boolean)
-    
-    for (let i = allowed.length; i--;) {
-      const key = allowed[i]
-      , hash: ClassValue = classNames[key]
-      
-      if (hash !== undefined)
-        //@ts-expect-error
-        allowed[i] = hash
-    }
-    
-    const classNameString = `${
-      className && withPropagation
-      ? `${className} `
-      : ""
-    }${
-      allowed.join(" ")
-    }`
-
-    return stringifyClassNamed({
-      className: classNameString
-    })
-  }  
-}
-
 
 function classNamesCheck<
   K extends string | ReactRelated = string,

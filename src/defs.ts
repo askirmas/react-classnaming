@@ -49,3 +49,12 @@ export type GetClassKeys<C> = keyof GetClassNames<GetProps<C>>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 type EmptyObject = Record<never, never>
+
+export type Falsy = undefined|null|false|0|""
+
+export type ClassNamed = {
+  className: string
+  toString: () => string
+}
+
+export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
