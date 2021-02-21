@@ -1,6 +1,6 @@
 import React from "react"
-import {renderToStaticMarkup} from "react-dom/server"
 import {classNamesCheck, classNamingBasic} from "."
+import expectToRender from "../expect-to-render"
 import type { ClassNames, ClassNamesMap } from "./defs"
 
 function Root(_: ClassNames<"fc1"|"fc2">) {
@@ -29,12 +29,13 @@ describe(classNamingBasic.name, () => {
     </>
   }
 
-  it("demo", () => expect(renderToStaticMarkup(
-    <Root classNames={classNamesCheck()}/>
-  )).toBe([
-    '<button class="App__Item Btn"></button>',
-    '<div class="App__Footer" data-class="App__Footer"></div>'
-  ].join("")))
+  it("demo", () => expectToRender(
+    <Root classNames={classNamesCheck()}/>,
+    [
+      '<button class="App__Item Btn"></button>',
+      '<div class="App__Footer" data-class="App__Footer"></div>'
+    ]
+  ))
 
   it("vscode renamed", () => {
     function Root({
@@ -43,9 +44,8 @@ describe(classNamingBasic.name, () => {
       return <div {...classNamingBasic({App: App__Container})}/>
     }
 
-    expect(renderToStaticMarkup(
-      <Root classNames={classNamesCheck()} />
-    )).toBe(
+    expectToRender(
+      <Root classNames={classNamesCheck()} />,
       '<div class="App"></div>'
     )
   })
