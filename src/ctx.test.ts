@@ -88,4 +88,14 @@ describe(classNamingCtx.name, () => {
       className: "App class1 hash4"
     }))
   })
+
+  it("for component", () => expect(classNamingCtx(
+    {classNames},
+    {withClassNames: true}
+  )(
+    false
+  )).toStrictEqual({
+    className: "",
+    classNames
+  }))
 })

@@ -1,6 +1,5 @@
 /** TBD 
- * 1. `typeof classNaming === "function"` falls <div className={classNaming()} />
- * 2. <div {...{false, undefined, null}}/> falls attributes
+ * 1. <div {...{false, undefined, null}}/> falls attributes
 */
 export type { ClassNames } from "./defs"
 import { EMPTY_OBJECT } from "./consts"
