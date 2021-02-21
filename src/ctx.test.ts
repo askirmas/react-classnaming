@@ -89,13 +89,12 @@ describe(classNamingCtx.name, () => {
     }))
   })
 
-  it("for component", () => expect(classNamingCtx(
+  it("only propagate classNames", () => expect(classNamingCtx(
     {classNames},
     {withClassNames: true}
-  )(
-    false
-  )).toStrictEqual({
+  )()).toStrictEqual({
     className: "",
     classNames
   }))
+
 })

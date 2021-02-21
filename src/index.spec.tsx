@@ -8,9 +8,7 @@ function Root(_: ClassNames<"fc1"|"fc2">) {
 }
 
 describe(classNamingBasic.name, () => {
-  function Button({
-    className, "classNames": { Btn }
-  }: ClassNames<true, "Btn">) {
+  function Button({className, "classNames": { Btn }}: ClassNames<true, "Btn">) {
     return <button {...classNamingBasic(className, { Btn })}/>
   }
 
@@ -29,11 +27,23 @@ describe(classNamingBasic.name, () => {
     </>
   }
 
-  it("demo", () => expectToRender(
+  it("not css module", () => expectToRender(
     <Root classNames={classNamesCheck()}/>,
     [
       '<button class="App__Item Btn"></button>',
       '<div class="App__Footer" data-class="App__Footer"></div>'
+    ]
+  ))
+
+  it("css module", () => expectToRender(
+    <Root classNames={{
+      App__Footer: "footer-hash",
+      App__Item: "item-hash",
+      Btn: "btn-hash"
+    }}/>,
+    [
+      '<button class="item-hash btn-hash"></button>',
+      '<div class="footer-hash" data-class="footer-hash"></div>'
     ]
   ))
 

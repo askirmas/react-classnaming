@@ -1,5 +1,5 @@
 import { Component, LinkHTMLAttributes, PropsWithChildren } from "react";
-import classNaming from "react-classnaming"
+import {classNamingBasic, classNamingCtx} from "react-classnaming"
 import type { ClassNames } from "react-classnaming"
 
 type AppProps = PropsWithChildren<
@@ -16,19 +16,21 @@ function App({
     App__Container
   }
 }: AppProps) {
-  const classes = classNaming(classNames)
+  const classes = classNamingCtx({classNames}, {withClassNames: true})
 
   return (
-    <div {...classNaming(className, {App__Container})} id={classNaming<string>({App__Container})}>
+    <div
+      {...classNamingBasic(className, {App__Container})}
+      id={classNamingBasic<string>({App__Container})}
+    >
       <Header
         // TODO Why TS doesn't check object
         {...classes({App__Header: true})}
-        {...{classNames}}
         //@ts-expect-error Property 'className' does not exist
         className="" 
       />
       <Content {...{
-        ...classes("App__Content"),
+        ...classes(),
         classNames
       }}>
         <Link {...{classNames}} href="https://reactjs.org">
@@ -44,7 +46,7 @@ function App({
 type LinkProps = ClassNames<"App__link"> & PropsWithChildren<LinkHTMLAttributes<HTMLLinkElement>>
 function Link({href, children, "classNames": {App__link}}: LinkProps) {
   return <a {...{
-    ...classNaming({App__link}),
+    ...classNamingBasic({App__link}),
     href,
     "target": "_blank",
     "rel": "noopener noreferrer"
@@ -54,7 +56,7 @@ function Link({href, children, "classNames": {App__link}}: LinkProps) {
 }
 
 function Header({classNames: {Header}}: ClassNames<"Header">) {
-  return <header {...classNaming({Header})}>Header</header>
+  return <header {...classNamingBasic({Header})}>Header</header>
 }
 class Content extends Component<PropsWithChildren<ClassNames<true, "Content">>> {
   render() {
@@ -64,7 +66,7 @@ class Content extends Component<PropsWithChildren<ClassNames<true, "Content">>> 
       children
     } = this.props
 
-    return <main {...classNaming(className, {Content})}>{children}</main>
+    return <main {...classNamingBasic(className, {Content})}>{children}</main>
   }
 }
 

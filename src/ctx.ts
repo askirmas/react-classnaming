@@ -16,7 +16,7 @@ interface tClassNaming<
   */
  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   (
-    propagate_or_map_or_expression: true | ToggleMap<ClassKeys> | ClassKeys | Falsy,
+    propagate_or_map_or_expression?: true | ToggleMap<ClassKeys> | ClassKeys | Falsy,
     map_or_expression?: (
       [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
       ? never
@@ -59,7 +59,7 @@ function classNamer<
   withClassNames extends boolean|undefined
 >(
   this: Partial<ClassNamer<ClassKeys> & ClassNamerOptions<withClassNames>>,
-  arg0: true | ToggleMap<ClassKeys> | ClassKeys,
+  arg0?: true | ToggleMap<ClassKeys> | ClassKeys,
   arg1?: ToggleMap<ClassKeys> | ClassKeys,
   ...args: (ClassKeys | Falsy)[]
 ): ClassNamed & Partial<Pick<typeof this, "classNames">> {
@@ -71,7 +71,6 @@ function classNamer<
   } = this
   , withPropagation = arg0 === true
   , allowed: ClassKeys[] = truthyKeys(arg0 === true ? false : arg0)
-  //@ts-expect-error
   .concat(truthyKeys(arg1))
   //@ts-expect-error
   .concat(args)
