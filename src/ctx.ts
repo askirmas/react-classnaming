@@ -1,4 +1,3 @@
-export type { ClassNames } from "./defs"
 import type { Falsy, ToggleMap, ClassValue, ClassNamer, ClassNamed } from "./defs"
 import { emptize, stringifyClassNamed, truthyKeys } from "./utils"
 
@@ -6,7 +5,9 @@ export default classNamingCtx
 
 function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
   emptize(ctx.classNames)
+  
   const {classNames, className} = ctx
+
   return function classNamer/*<ClassKeys extends string>*/(
     // this: ClassNamer<ClassKeys>,
     //TODO (typeof className extends string ? true : never)
@@ -18,13 +19,15 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
   ): ClassNamed {
     // const {className, classNames} = this
     const withPropagation = arg0 === true
-    //@ts-expect-error
     , allowed: ClassKeys[] = truthyKeys(arg0 === true ? false : arg0)
     //@ts-expect-error
     .concat(truthyKeys(arg1))
     //@ts-expect-error
     .concat(args)
-    .filter(Boolean)
+    .filter<ClassKeys>(
+      //@ts-expect-error
+      Boolean
+    )
     
     for (let i = allowed.length; i--;) {
       const key = allowed[i]
@@ -37,8 +40,7 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
     
     const allowedString = allowed.join(" ")
     , propagated = withPropagation && className || ""
-  
-    return stringifyClassNamed({
+    , $return = {
       className: `${
         propagated
       }${
@@ -48,7 +50,11 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
       }${
         allowedString
       }`
-    })
+    }
+    
+    stringifyClassNamed($return)
+
+    return $return
   }    
 }
 
