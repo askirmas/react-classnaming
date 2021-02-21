@@ -1,8 +1,9 @@
 {
   "name": "react-classnaming",
   "version": "0.6.0",
-  "description": "Easy applied function to use with CSS modules and do not get lost in CSS classes",
+  "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
   "main": "dist",
+  "dependencies": {},
   "scripts": {
     "dev": "npm run test -- --watch --coverage=false",
     "test": "npm run jest --",
@@ -22,12 +23,11 @@
     "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
   "keywords": [
-    "React",
-    "className", "class",
-    "classNames",
+    "React", "CSS class", "CSS modules", "typescript",
+    "className",
+    "class", "classNames",
     "classNaming",
     "css", "modules",
-    "CSS modules",
     "css-modules"
   ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",

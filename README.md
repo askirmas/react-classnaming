@@ -1,8 +1,10 @@
 # react-classnaming
 
-Easy applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes by powerful TypeScript notation
+Easily applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes by powerful TypeScript notation
 
-![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) [![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)](https://www.npmjs.com/package/react-classnaming) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/maintainability) ![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main) ![version](https://img.shields.io/npm/v/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
+![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
+
+[![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)](https://www.npmjs.com/package/react-classnaming) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues) ![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main) ![dependencies](https://img.shields.io/github/package-json/dependencies/askirmas/react-classnaming) ![version](https://img.shields.io/npm/v/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
 ## Installation
 

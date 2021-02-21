@@ -104,7 +104,6 @@ function classNamer<
     allowedString
   }`
   
-
   if (!withClassNames) {
     return stringifyClassNamed({
       className
