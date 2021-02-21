@@ -4,7 +4,7 @@
 */
 export type { ClassNames } from "./defs"
 import { EMPTY_OBJECT } from "./consts"
-import type { ClassNamesMap, ReactRelated, Falsy, ClassNamed, ToggleMap } from "./defs"
+import type { ClassNamesMap, ReactRelated, ClassNamed, ToggleMap, ClassNaming, ClassToggling } from "./defs"
 
 const {
   keys: $keys,
@@ -21,16 +21,6 @@ export {
   classNamingBasic,
   classNamingCtx
 }
-
-interface ClassToggling<K extends string> {
-  /**
-   * @example <div {...classToggling({class1: !isHidden}, isOpen2 && class2)} />
-   */
-  (toggleMapOrKeyExpression: Falsy|K|ToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): ClassNamed
-  //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
-}
-
-interface ClassNaming<K extends string> extends ClassNamed, ClassToggling<K> {}
 
 /**
  * Makes `className` string from imported CSS

@@ -1,4 +1,13 @@
 import type { JSXElementConstructor } from "react"
+export interface ClassToggling<K extends string> {
+  /**
+   * @example <div {...classToggling({class1: !isHidden}, isOpen2 && class2)} />
+   */
+  (toggleMapOrKeyExpression: Falsy|K|ToggleMap<K>, ...classKeyExpressions: (Falsy|K)[]): ClassNamed
+  //TODO (withClassName: true|false, ...toggles: K[]): tClassNamed
+}
+
+export interface ClassNaming<K extends string> extends ClassNamed, ClassToggling<K> {}
 
 /** Multipurpose generic
  * @example ClassNames<true> === {className: string}

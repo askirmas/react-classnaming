@@ -8,7 +8,7 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
   
   const {classNames, className} = ctx
 
-  return function classNamer/*<ClassKeys extends string>*/(
+  const classNamer = function classNamer/*<ClassKeys extends string>*/(
     // this: ClassNamer<ClassKeys>,
     //TODO (typeof className extends string ? true : never)
     arg0: ToggleMap<ClassKeys> | ClassKeys | true,
@@ -51,10 +51,12 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
         allowedString
       }`
     }
-    
+
     stringifyClassNamed($return)
 
     return $return
-  }    
+  }   
+  
+  return classNamer
 }
 
