@@ -1,8 +1,8 @@
 # react-classnaming
 
-Easy applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes
+Easy applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes by powerful TypeScript notation
 
-![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) ![test@ci](https://github.com/askirmas/react-classnaming/workflows/CI/badge.svg?branch=main) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) ![version](https://img.shields.io/npm/v/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
+![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) [![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)](https://www.npmjs.com/package/react-classnaming) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/maintainability) ![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main) ![version](https://img.shields.io/npm/v/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
 ## Installation
 
@@ -10,43 +10,61 @@ Easy applied function to use optionally with [CSS modules](https://github.com/cs
 npm install --save react-classnaming
 ```
 
-## Examples
+## Examples of usage
+
+Check the tests with detailed usage: [src/basic.spec.tsx](./src/basic.spec.tsx) and [src/ctx.spec.tsx](./src/ctx.spec.tsx)
+
+With create-react-application: [./\_\_recipes\_\_/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
+
+### Basic
 
 ```tsx
-import classNaming from "react-classnaming"
+import {classNamingBasic} from "react-classnaming"
+import classNamingBasic from "react-classnaming/basic"
 
-<div {...classNaming("class1", {class2, class3})}>
-<div className={`${classNaming({class4})}`}>
-<div {...classNaming(classNames)({class1: bool1}, bool2 && class2)}>
+const {className, classNames: {class2, class3, class4, class5}} = props
+
+<div {...classNamingBasic("class1", {class2, class3})}>
+<div className={`${classNamingBasic({class4})}`}>
+<div className={classNamingBasic<string>({class5})}>
 ```
 
-Check the tests with detailed usage: [./src/index.test.ts](./src/index.test.ts)
+### From css-module or simulation
 
-With create-react-application: [./__recipes__/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
+```tsx
+import {classNamingCtx} from "react-classnaming"
+import classNamingCtx from "react-classnaming/ctx"
+import css from "./some.css" // {"class1": "hash1", "class2": "hash2"}
 
-## TS Generic for props 
+const classNaming = classNamingCtx({className: "App", classNames: css})
+
+<div {...classes(true, {class1: true, class2: false})}/> // className="App hash1"
+<div {...classes("class2")}/> // className="hash2"
+```
+
+### TS generic for props 
 ```ts
 import type { ClassNames } from "react-classnaming"
 
-ClassNames<true>
+ClassNames<true> // requires `className`
 
-ClassNames<"class1"|"class2">
+ClassNames<"class1"|"class2"> // requires to supply `.class1` and `.class2`
 
-ClassNames<Props1, Props2>
+ClassNames<Props1, Props2> // requires to supply `classNames` for `Props1` and `Props2` 
 
-ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
+ClassNames<true, "class1", Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `.class1`, `classNames` from `Props`, class component `Component` and function component `FunctionalComponent`
 ```
 
-## Root apply
+### Root apply
 ```tsx
 import {classNamesCheck} from "react-classnaming"
 
 ReactDOM.render( <Root classNames={classNamesCheck()}/> )
 ReactDOM.render( <Root classNames={classNamesCheck<"class1"|"class2">()}/> )
 
-import classNames from "./modules.scss"
+import classNames from "./modules.css"
 
-ReactDOM.render( <Root classNames={names(classNames))}/> )
+ReactDOM.render( <Root classNames={classNamesCheck(classNames))}/> )
 ```
 
 ## vs [classnames](https://github.com/JedWatson/classnames#readme)
