@@ -1,6 +1,3 @@
-/** TBD 
- * 1. <div {...{false, undefined, null}}/> falls attributes
-*/
 export type { ClassNames } from "./defs"
 import type { ClassNamesMap, ClassNamed } from "./defs"
 
