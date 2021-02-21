@@ -39,8 +39,11 @@ function classNamedToString(this: {className: string}) {
   return this.className
 }
 
-function emptize(source: Record<string, any>) {
-  if (!source.hasOwnProperty(stringifyProperty))
+function emptize(source: undefined|Record<string, any>) {
+  if (
+    source
+    && !source.hasOwnProperty(stringifyProperty)
+  )
     $defineProperty(source, stringifyProperty, {value: emptyLambda})
   return source
 }

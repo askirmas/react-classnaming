@@ -34,8 +34,6 @@ function classNamingCtx<ClassKeys extends string/*, withClassNames extends boole
   {classNames, className}: ClassNamer<ClassKeys>,
   options?: ClassNamerOptions//<withClassNames>
 ): tClassNaming<ClassKeys> {
-  emptize(classNames)
-
   return classNamer.bind({classNames, className, ...options}) as tClassNaming<ClassKeys>
 }
 
@@ -49,7 +47,7 @@ type ClassNamerOptions<
 }>
 
 function classNamer<ClassKeys extends string>(
-  this: ClassNamer<ClassKeys> & ClassNamerOptions,
+  this: Partial<ClassNamer<ClassKeys> & ClassNamerOptions>,
   arg0: true | ToggleMap<ClassKeys> | ClassKeys,
   arg1?: ToggleMap<ClassKeys> | ClassKeys,
   ...args: (ClassKeys | Falsy)[]
@@ -82,7 +80,7 @@ function classNamer<ClassKeys extends string>(
 
   for (let i = allowed.length; i--;) {
     const key = allowed[i]
-    , hash: ClassValue = classNames[key]
+    , hash: ClassValue = classNames?.[key]
     
     if (hash !== undefined)
       //@ts-expect-error
