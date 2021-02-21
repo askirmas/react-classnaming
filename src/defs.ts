@@ -72,3 +72,5 @@ export type EmptyObject = Record<never, never>
 export type Falsy = undefined|null|false|0|""
 
 export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
+
+// type get<T, K> = K extends keyof T ? T[K] : never

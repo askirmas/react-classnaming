@@ -49,7 +49,6 @@ describe(classNamingCtx.name, () => {
 
   it("propagate classNames by option", () => {
     const App = ({classNames, className}: ClassNames<true, "App__Item", typeof Component>) =>
-      //@ts-expect-error //TODO Types of property 'classNames' are incompatible.
       <Component {
         ...classNamingCtx(
           {classNames, className},

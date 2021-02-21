@@ -1,10 +1,13 @@
-import type { Falsy, ToggleMap, ClassValue, ClassNamer, ClassNamed, ClassNamesMap } from "./defs"
+import type { Falsy, ToggleMap, ClassValue, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
 import { emptize, stringifyClassNamed, truthyKeys } from "./utils"
 
 emptize(classNamer)
 
 //TODO no `className` - no first `true`
-interface tClassNaming<ClassKeys extends string> {
+interface tClassNaming<
+  ClassKeys extends string,
+  withClassNames extends boolean | undefined
+> {
   /**
    * @example classes(true) === props.className
    * @example classes({class1: true, class2: false}) === "class1"
@@ -20,7 +23,11 @@ interface tClassNaming<ClassKeys extends string> {
       : ToggleMap<ClassKeys>
     ) | ClassKeys | Falsy,
     ...expressions: (ClassKeys | Falsy)[]
-  ) : ClassNamed & {classNames?: ClassNamesMap<ClassKeys>}
+  ) : ClassNamed & (
+    withClassNames extends true
+    ? {classNames: ClassNamesMap<ClassKeys>}
+    : EmptyObject
+  ) 
 }
 
 export default classNamingCtx
@@ -30,35 +37,32 @@ export default classNamingCtx
  * @example const classes = classNamingCtx({className, classNames})
  * @example const classes = classNamingCtx({classNames})
  */
-function classNamingCtx<ClassKeys extends string/*, withClassNames extends boolean = false*/>(
+function classNamingCtx<
+  ClassKeys extends string,
+  withClassNames extends boolean|undefined
+>(
   {classNames, className}: ClassNamer<ClassKeys>,
-  options?: ClassNamerOptions//<withClassNames>
-): tClassNaming<ClassKeys> {
-  return classNamer.bind({classNames, className, ...options}) as tClassNaming<ClassKeys>
+  options?: ClassNamerOptions<withClassNames>
+) {
+  return classNamer.bind({classNames, className, ...options}) as tClassNaming<ClassKeys, withClassNames>
 }
 
-// type get<T, K> = K extends keyof T ? T[K] : never
-
 type ClassNamerOptions<
-  // withClassNames extends undefined|boolean = undefined|boolean
+  withClassNames extends undefined|boolean
 > = Partial<{
-  withClassNames: boolean //withClassNames
+  withClassNames: withClassNames
   // withSelf: boolean
 }>
 
-function classNamer<ClassKeys extends string>(
-  this: Partial<ClassNamer<ClassKeys> & ClassNamerOptions>,
+function classNamer<
+  ClassKeys extends string,
+  withClassNames extends boolean|undefined
+>(
+  this: Partial<ClassNamer<ClassKeys> & ClassNamerOptions<withClassNames>>,
   arg0: true | ToggleMap<ClassKeys> | ClassKeys,
   arg1?: ToggleMap<ClassKeys> | ClassKeys,
   ...args: (ClassKeys | Falsy)[]
-): ClassNamed
-& Partial<Pick<typeof this, "classNames">>
-// & (
-//   [Extract<get<typeof this, "withClassNames">, true>] extends [never]
-//   ? EmptyObject
-//   : Pick<typeof this, "classNames">
-// )
-{
+): ClassNamed & Partial<Pick<typeof this, "classNames">> {
   const {
     className: _propagated,
     classNames,
