@@ -2,8 +2,8 @@
  * 1. `typeof classNaming === "function"` falls <div className={classNaming()} />
  * 2. <div {...{false, undefined, null}}/> falls attributes
 */
-
-import type { ClassNamesMap } from "./defs"
+export type { ClassNames } from "./defs"
+import type { ClassNamesMap, ReactRelated } from "./defs"
 
 const {
   keys: $keys,
@@ -11,11 +11,12 @@ const {
   assign: $assign
 } = Object
 , classNameKey = "className" as const
+, EMPTY_OBJECT = {} as const
 
-export type {ClassNames} from "./defs"
 export default classNaming
 export {
-  classNaming
+  classNaming,
+  classNameCheck
 }
 
 type Falsy = undefined|null|false|0|""
@@ -148,4 +149,16 @@ function contexted<ClassKeys extends string>(
   }
 
   return $return
+}
+
+function classNameCheck<
+  K extends string | ReactRelated = string,
+  T extends ClassNamesMap<string> = never
+>(
+  classNames = EMPTY_OBJECT as [T] extends [never] ? ClassNamesMap<string> : T
+) {
+  
+  return classNames as ClassNamesMap<
+    Extract<K, string>
+  >
 }

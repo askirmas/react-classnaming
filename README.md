@@ -36,3 +36,15 @@ ClassNames<Props1, Props2>
 
 ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
 ```
+
+## Root apply
+```tsx
+import {classNameCheck} from "react-classnaming"
+
+ReactDOM.render( <Root classNames={classNameCheck()}/> )
+ReactDOM.render( <Root classNames={classNameCheck<"class1"|"class2">()}/> )
+
+import classNames from "./modules.scss"
+
+ReactDOM.render( <Root classNames={names(classNames))}/> )
+```
