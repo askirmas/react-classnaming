@@ -11,17 +11,15 @@ export {
   truthyKeys, stringifyClassNamed, emptize
 }
 
+//TODO Better type notation
 function truthyKeys<T>(source: T) {
   if (source === null || typeof source !== "object")
     return source
     ? [source]
     : EMPTY_ARRAY
-  
-  // TS bug
-  const src = source
-  
-  return ($keys(src) as (keyof T)[])
-  .filter(key => src[key])
+    
+  return ($keys(source) as (keyof T)[])
+  .filter(key => source[key])
 }
 
 function stringifyClassNamed<T extends {className: string}>(source: T) :T {
