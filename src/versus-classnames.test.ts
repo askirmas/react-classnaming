@@ -1,6 +1,5 @@
 /// <reference path="../global.d.ts" />
 
-import css from "./some.css"
 import type {ClassNames} from "."
 import {
   classNamesCheck,
@@ -11,7 +10,9 @@ import {
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
 
-const module_css = {
+import css from "./some.css"
+import module from "./some.module.css"
+const module_css: typeof module = {
   "class1": "hash1",
   "class2": "hash2"
 }
