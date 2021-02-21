@@ -4,7 +4,13 @@ Easily applied function to use optionally with [CSS modules](https://github.com/
 
 ![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
 
-[![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)](https://www.npmjs.com/package/react-classnaming) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues) ![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main) ![dependencies](https://img.shields.io/github/package-json/dependencies/askirmas/react-classnaming) ![version](https://img.shields.io/npm/v/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
+![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)
+![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues)
+[![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/)
+[![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming)
+[![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming)
+![license](https://img.shields.io/npm/l/react-classnaming)
 
 ## Installation
 
