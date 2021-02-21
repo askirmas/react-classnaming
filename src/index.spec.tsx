@@ -1,11 +1,42 @@
 import React from "react"
-import {classNameCheck} from "."
+import {renderToStaticMarkup} from "react-dom/server"
+import classNaming, {classNameCheck} from "."
 import type { ClassNames, ClassNamesMap } from "./defs"
 
 function Root(_: ClassNames<"fc1"|"fc2">) {
   return null
 }
 
+describe(classNaming.name, () => {
+  function Button({
+    className, "classNames": { Btn }
+  }: ClassNames<true, "Btn">) {
+    return <button {...classNaming(className, { Btn })}/>
+  }
+
+  function Root({
+    classNames, "classNames": { App__Item, App__Footer }
+  }: ClassNames<"App__Item"|"App__Footer", typeof Button>) {
+    return <>
+      <Button {...{
+        ...classNaming({ App__Item }),
+        classNames
+      }}/>
+      <div
+        //TODO Invalid property due to function
+        className={classNaming<string>({App__Footer})}
+        data-class={`${classNaming({App__Footer})}`}
+      />
+    </>
+  }
+
+  expect(renderToStaticMarkup(
+    <Root classNames={classNameCheck()}/>
+  )).toBe([
+    '<button class="App__Item Btn"></button>',
+    '<div data-class="App__Footer"></div>'
+  ].join(""))
+})
 
 describe(classNameCheck.name, () => {
   it("dummy", () => {
