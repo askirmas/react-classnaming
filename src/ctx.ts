@@ -35,16 +35,19 @@ function classNamingCtx<ClassKeys extends string>(ctx: ClassNamer<ClassKeys>) {
         allowed[i] = hash
     }
     
-    const classNameString = `${
-      className && withPropagation
-      ? `${className} `
-      : ""
-    }${
-      allowed.join(" ")
-    }`
+    const allowedString = allowed.join(" ")
+    , propagated = withPropagation && className || ""
   
     return stringifyClassNamed({
-      className: classNameString
+      className: `${
+        propagated
+      }${
+        propagated && allowedString
+        ? " "
+        : ""
+      }${
+        allowedString
+      }`
     })
   }    
 }

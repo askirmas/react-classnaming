@@ -67,10 +67,10 @@ describe(classNamingCtx.name, () => {
 
   describe("className + classNames", () => {
     const classes = classNamingCtx({className, classNames})
-    it("only propagated - trailing space", () => expect(classes(
+    it("only propagated", () => expect(classes(
       true
     )).toStrictEqual({
-      className: `${className} `
+      className
     }))
 
     it("without propagation", () => expect(classes(
