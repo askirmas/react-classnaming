@@ -24,7 +24,7 @@ function truthyKeys<T>(source: T) {
   .filter(key => src[key])
 }
 
-function stringifyClassNamed(source: {className: string}) {
+function stringifyClassNamed<T extends {className: string}>(source: T) :T {
   if (!source.hasOwnProperty(stringifyProperty))
     $defineProperty(source, stringifyProperty, {value: classNamedToString})
   
