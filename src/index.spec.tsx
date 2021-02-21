@@ -29,12 +29,26 @@ describe(classNamingBasic.name, () => {
     </>
   }
 
-  expect(renderToStaticMarkup(
+  it("demo", () => expect(renderToStaticMarkup(
     <Root classNames={classNamesCheck()}/>
   )).toBe([
     '<button class="App__Item Btn"></button>',
     '<div class="App__Footer" data-class="App__Footer"></div>'
-  ].join(""))
+  ].join("")))
+
+  it("vscode renamed", () => {
+    function Root({
+      "classNames": {App: App__Container}
+    }: ClassNames<"App">) {
+      return <div {...classNamingBasic({App: App__Container})}/>
+    }
+
+    expect(renderToStaticMarkup(
+      <Root classNames={classNamesCheck()} />
+    )).toBe(
+      '<div class="App"></div>'
+    )
+  })
 })
 
 describe(classNamesCheck.name, () => {

@@ -38,7 +38,9 @@ export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
 export type ClassNamesProp<C extends string = string> = Ever<C, {classNames: ClassNamesMap<C>}>
 
-export type ClassNamesMap<C extends string> = Record<C, undefined|string>
+type ClassValue = undefined|string
+
+export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 
 type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 type GetClassNames<T, K = "classNames", D = EmptyObject> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
