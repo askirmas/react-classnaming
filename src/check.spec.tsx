@@ -52,6 +52,16 @@ it("equility if possible", () => {
 
   <App classNames={classNamesCheck<typeof App>(module_css)} />;
 
+  <App
+    //@ts-expect-error is not assignable
+    classNames={
+      classNamesCheck<typeof Component>(css)} />;
+      
+  <App
+    //@ts-expect-error is not assignable
+    classNames={
+      classNamesCheck<typeof Component>(module_css)} />;
+ 
   //TODO //@ts-expect-error
   classNamesCheck<typeof Component>(module_css);
 
