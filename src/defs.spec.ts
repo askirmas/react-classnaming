@@ -70,6 +70,14 @@ describe("ClassNames", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
+
+  it("nothing to pick", () => {
+    type NoClassNames = ClassNames<true>
+    const suites: Record<string, ClassNames<NoClassNames>> = {
+      "nothing": {classnames: {}}
+    }
+    expect(suites).toBeInstanceOf(Object)
+  })
 })
 describe("Miss-use", () => {
   it("<'class1', true>", () => {
