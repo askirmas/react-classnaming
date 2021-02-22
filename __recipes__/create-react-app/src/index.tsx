@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
+import { classNamesCheck } from 'react-classnaming';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App className="App"/>
+    <App classnames={classNamesCheck()}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

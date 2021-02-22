@@ -22,7 +22,7 @@ npm install --save react-classnaming
 
 Check the tests with detailed usage: [src/basic.spec.tsx](./src/basic.spec.tsx) and [src/ctx.spec.tsx](./src/ctx.spec.tsx)
 
-With create-react-application: [./\_\_recipes\_\_/cra/src/App.tsx](./__recipes__/cra/src/App.tsx) 
+With create-react-application: [./\_\_recipes\_\_/create-react-app/src/App.tsx](./__recipes__/create-react-app/src/App.tsx) 
 
 ### Basic
 

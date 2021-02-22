@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "npm run cra && npm run create-react-app",
-    "cra": "cd cra && npm run build",
+    "test": "npm run create-react-app",
     "create-react-app": "cd create-react-app && npm run build"
   },
   "keywords": [],
