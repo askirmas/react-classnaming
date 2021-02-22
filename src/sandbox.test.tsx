@@ -1,23 +1,41 @@
 import React from "react"
-import expectToRender from "../expect-to-render"
+import expectRender from "../expect-to-same-render"
 
-it("falsy props", () => expectToRender(
+it("falsy props", () => expectRender(
   <div {...{
     "null": null,
     "undefined": undefined,
     "false": false, 
     "data-false": false,
     "empty": ""
-  }}/>,
-  '<div data-false="false" empty=""></div>'
+  }}/>
+).toSame(
+  <div data-false="false"
+    //@ts-expect-error Property 'empty' does not exist
+    empty="" />
 ))
 
-it("object props", () => expectToRender(
+it("object props", () => expectRender(
   //@ts-expect-error
   <div {...{
     "null": {[Symbol.toPrimitive]: () => null},
     "undefined": {toString: () => undefined},
     "false": {valueOf: () => false}
-  }}/>,
-  '<div null="null" undefined="undefined" false="false"></div>'
+  }}/>
+).toSame(
+  <div
+    //@ts-expect-error Property 'null' does not exist
+    null="null"
+    undefined="undefined"
+    false="false"
+  />
+))
+
+//TODO emits no warning!!! Against `classNames`
+it("props to dom attribute", () => expectRender(
+  //@ts-expect-error
+  <div classnames={{toString: () => ""}} />
+).toSame(
+  //@ts-expect-error
+  <div classnames="" />
 ))

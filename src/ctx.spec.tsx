@@ -1,6 +1,6 @@
 import React from "react"
 import { classNamesCheck, classNamingCtx } from "."
-import expectToRender from "../expect-to-render"
+import expectRender from "../expect-to-same-render"
 import { ClassNames } from "./defs"
 
 const {classNames}: ClassNames<typeof App> = {
@@ -31,20 +31,18 @@ function App({classNames, className}: ClassNames<true, "App__Item", typeof Compo
 }
 
 describe(classNamingCtx.name, () => {
-  it("not module", () => expectToRender(
-    <App className="MyApp" classNames={classNamesCheck()} />,
-    [
-      '<div class="MyApp App__Item class1"></div>',
-      '<div class="class2"></div>'
-    ]
+  it("not module", () => expectRender(
+    <App className="MyApp" classNames={classNamesCheck()} />
+  ).toSame(
+    <div className="MyApp App__Item class1" />,
+    <div className="class2" />
   ))
 
-  it("css module", () => expectToRender(
-    <App className="MyApp" classNames={classNames} />,
-    [
-      '<div class="MyApp hash hash1"></div>',
-      '<div class="hash2"></div>'
-    ]
+  it("css module", () => expectRender(
+    <App className="MyApp" classNames={classNames} />
+  ).toSame(
+    <div className="MyApp hash hash1" />,
+    <div className="hash2" />
   ))
 
   it("propagate classNames by option", () => {
@@ -57,18 +55,17 @@ describe(classNamingCtx.name, () => {
           true, "App__Item"
       )}/>
     
-    expectToRender(
-      <App className="MyApp" classNames={classNames}/>,
-      [
-        '<div class="MyApp hash hash1"></div>',
-        '<div class="hash2"></div>'
-        ]
+    expectRender(
+      <App className="MyApp" classNames={classNames}/>
+    ).toSame(
+      <div className="MyApp hash hash1" />,
+      <div className="hash2" />
     )
   })  
 
   it("not propagate classNames", () => {
     const App = ({classNames, className}: ClassNames<true, "App__Item", typeof Component>) =>
-      //@ts-expect-error Types of property 'classNames' are incompatible Type 'undefined' is not assignable 
+      //@ts-expect-error Types of property classNames are incompatible Type undefined is not assignable 
       <Component {
         ...classNamingCtx({
           classNames, className
@@ -76,12 +73,11 @@ describe(classNamingCtx.name, () => {
           true, "App__Item"
       )}/>
     
-    expectToRender(
-      <App className="MyApp" classNames={classNames}/>,
-      [
-        '<div class="MyApp hash class1"></div>',
-        '<div class="class2"></div>'  
-      ]
+    expectRender(
+      <App className="MyApp" classNames={classNames}/>
+    ).toSame(
+      <div className="MyApp hash class1" />,
+      <div className="class2" />  
     )
   })
 
@@ -91,9 +87,12 @@ describe(classNamingCtx.name, () => {
         ...classNamingCtx({classNames}, {withClassNames: true})("class1")
       }/>
 
-    expectToRender(
-      <Component classNames={classNames}/>,
-      '<div class="hash1" classNames=""></div>'
+    expectRender(
+      <Component classNames={classNames}/>
+    ).toSame(
+      <div className="hash1"
+        //@ts-expect-error  Property 'classNames' does not exist
+        classNames="" />
     )
   })
 })

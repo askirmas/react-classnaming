@@ -1,5 +1,5 @@
 import React from "react"
-import expectToRender from "../expect-to-render"
+import expectRender from "../expect-to-same-render"
 import type { ClassNames, ClassValue } from "./defs"
 import classNamingBasic from "./basic"
 import classNamesCheck from "./check"
@@ -18,29 +18,27 @@ function Root({
     }}/>
     <div
       className={classNamingBasic<string>({App__Footer})}
-      data-class={`${classNamingBasic({App__Footer})}`}
+      data-classname={`${classNamingBasic({App__Footer})}`}
     />
   </>
 }
 
-it("not css module", () => expectToRender(
-  <Root classNames={classNamesCheck()}/>,
-  [
-    '<button class="App__Item Btn"></button>',
-    '<div class="App__Footer" data-class="App__Footer"></div>'
-  ]
+it("not css module", () => expectRender(
+  <Root classNames={classNamesCheck()}/>
+).toSame(  
+  <button className="App__Item Btn"></button>,
+  <div className="App__Footer" data-classname="App__Footer"></div>
 ))
 
-it("css module", () => expectToRender(
+it("css module", () => expectRender(
   <Root classNames={{
     App__Footer: "footer-hash",
     App__Item: "item-hash",
     Btn: "btn-hash"
-  }}/>,
-  [
-    '<button class="item-hash btn-hash"></button>',
-    '<div class="footer-hash" data-class="footer-hash"></div>'
-  ]
+  }}/>
+).toSame(
+  <button className="item-hash btn-hash"></button>,
+  <div className="footer-hash" data-classname="footer-hash"></div>
 ))
 
 it("vscode couldn't rename enum element", () => {
@@ -50,9 +48,10 @@ it("vscode couldn't rename enum element", () => {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
-  expectToRender(
-    <Root classNames={classNamesCheck()} />,
-    '<div class="App"></div>'
+  expectRender(
+    <Root classNames={classNamesCheck()} />
+  ).toSame(
+    <div className="App"></div>
   )
 })
 
@@ -79,19 +78,16 @@ it("vscode can rename property", () => {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
-  expectToRender(
-    <>
-      <Root
-        //TODO Solve it
-        //@ts-expect-error Property 'App' is missing in type 'Record<string, 
-        classNames={
-          classNamesCheck()} />
-      <Root2 classNames={classNamesCheck()} />
-    </>,
-    [
-      '<div class="App"></div>',
-      '<div class="App"></div>'
-    ]
+  expectRender(
+    <Root
+      //TODO Solve it
+      //@ts-expect-error Property 'App' is missing in type 'Record<string, 
+      classNames={
+        classNamesCheck()} />,
+    <Root2 classNames={classNamesCheck()} />
+  ).toSame(
+    <div className="App"/>,
+    <div className="App"/>
   )
 })
 
@@ -107,17 +103,14 @@ it("additional type check after rename", () => {
     class2
   } = classNamesCheck<Props1 & Props2>();
 
-  expectToRender(
-    <>
-      <div {...classNamingBasic<Props1>({class1})} />
-      <div {...classNamingBasic<Props2>({
-        //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
-        class2
-      })} />
-    </>,
-    [
-      '<div class="class1"></div>',
-      '<div class="class2"></div>'
-    ]
+  expectRender(
+    <div {...classNamingBasic<Props1>({class1})} />,
+    <div {...classNamingBasic<Props2>({
+      //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
+      class2
+    })} />
+  ).toSame(
+    <div className="class1"/>,
+    <div className="class2"/>    
   )
 })
