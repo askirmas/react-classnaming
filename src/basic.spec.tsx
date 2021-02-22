@@ -75,7 +75,7 @@ it("vscode can rename property", () => {
       //@ts-expect-error Property 'App' does not exist
       App: App__Container
     }
-  }: ClassNames<RootProps>) {
+  }: ClassNames<typeof Root>) {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
@@ -91,6 +91,33 @@ it("vscode can rename property", () => {
     [
       '<div class="App"></div>',
       '<div class="App"></div>'
+    ]
+  )
+})
+
+it("additional type check after rename", () => {
+  type Props1 = {
+    classNames: { class1: ClassValue }
+  }
+  type Props2 = {
+    classNames: { class2_renamed: ClassValue }
+  }
+  const { class1,
+    //@ts-expect-error Property 'class2' does not exist 
+    class2
+  } = classNamesCheck<Props1 & Props2>();
+
+  expectToRender(
+    <>
+      <div {...classNamingBasic<Props1>({class1})} />
+      <div {...classNamingBasic<Props2>({
+        //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
+        class2
+      })} />
+    </>,
+    [
+      '<div class="class1"></div>',
+      '<div class="class2"></div>'
     ]
   )
 })

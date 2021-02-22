@@ -1,5 +1,5 @@
 export type { ClassNames } from "./defs"
-import type { ClassNamesMap, ClassNamed } from "./defs"
+import type { ClassNamesMap, ClassNamed, GetClassKeys } from "./defs"
 
 const {
   keys: $keys,
@@ -16,7 +16,7 @@ export default classNamingBasic
  * @example <div {...classNaming({ClassName})} />
  */
 function classNamingBasic<Return, ClassKeys extends string = string>(
-  classNames: ClassNamesMap<ClassKeys>
+  classNames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
 ): Return extends string ? string : ClassNamed
 
 /**
@@ -26,7 +26,7 @@ function classNamingBasic<Return, ClassKeys extends string = string>(
  */
 function classNamingBasic<Return, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
-  classNames: ClassNamesMap<ClassKeys>
+  classNames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
 ): Return extends string ? string : ClassNamed
 
 function classNamingBasic(
