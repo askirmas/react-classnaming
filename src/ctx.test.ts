@@ -1,14 +1,14 @@
 import classNamingCtx from "./ctx";
 
 describe(classNamingCtx.name, () => {
-  const classNames = {
+  const classnames = {
     "class3": "hash3",
     "class4": "hash4",
   } as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
   , className = "App"
 
-  describe("classNames", () => {
-    const classes = classNamingCtx({classNames})
+  describe("classnames", () => {
+    const classes = classNamingCtx({classnames})
     it("map", () => expect(classes(
       {
         class1: true,
@@ -65,8 +65,8 @@ describe(classNamingCtx.name, () => {
     }))
   })
 
-  describe("className + classNames", () => {
-    const classes = classNamingCtx({className, classNames})
+  describe("className + classnames", () => {
+    const classes = classNamingCtx({className, classnames})
     it("only propagated", () => expect(classes(
       true
     )).toStrictEqual({
@@ -89,12 +89,12 @@ describe(classNamingCtx.name, () => {
     }))
   })
 
-  it("only propagate classNames", () => expect(classNamingCtx(
-    {classNames},
+  it("only propagate classnames", () => expect(classNamingCtx(
+    {classnames},
     {withClassNames: true}
   )()).toStrictEqual({
     className: "",
-    classNames
+    classnames
   }))
 
 })

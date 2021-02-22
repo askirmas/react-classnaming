@@ -16,7 +16,7 @@ export default classNamingBasic
  * @example <div {...classNaming({ClassName})} />
  */
 function classNamingBasic<Return, ClassKeys extends string = string>(
-  classNames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
+  classnames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
 ): Return extends string ? string : ClassNamed
 
 /**
@@ -26,30 +26,30 @@ function classNamingBasic<Return, ClassKeys extends string = string>(
  */
 function classNamingBasic<Return, ClassKeys extends string = string>(
   propagatedClassName: undefined|string,
-  classNames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
+  classnames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
 ): Return extends string ? string : ClassNamed
 
 function classNamingBasic(
   arg0: undefined|string|ClassNamesMap<string>,
   arg1: undefined|ClassNamesMap<string> = undefined
 ): ClassNamed {
-  const classNames = typeof arg0 === "object" ? arg0 : arg1
+  const classnames = typeof arg0 === "object" ? arg0 : arg1
   , className = typeof arg0 === "object" ? undefined : arg0
 
-  return _classNaming(classNames!, className, {})
+  return _classNaming(classnames!, className, {})
 }
 
 function _classNaming<T extends Partial<ClassNamed>>(
-  classNames: ClassNamesMap<string>,
+  classnames: ClassNamesMap<string>,
   className: undefined|string,
   destination: T
 ): T & ClassNamed {
-  const keys = $keys(classNames)
+  const keys = $keys(classnames)
   , {length} = keys
 
   for (let i = length; i--;) {
     const key = keys[i]
-    , value = classNames[key]
+    , value = classnames[key]
 
     if (typeof value === "string")
       keys[i] = value
@@ -66,13 +66,13 @@ function _classNaming<T extends Partial<ClassNamed>>(
 
   // TODO For propagation
   // $defineProperty(
-  //   classNames,
+  //   classnames,
   //   "toString",
   //   {
   //     value: undefined
   //   }
   // )
-  // $assign(destination, {classNames})
+  // $assign(destination, {classnames})
 
   $assign(destination, {[classNameKey]: classString})
 

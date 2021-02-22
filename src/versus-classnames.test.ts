@@ -21,9 +21,9 @@ it("usage interface", () => {
     whatever
   } = classNamesCheck<"class1"|"class2">(css)
   
-  const props: ClassNames<"class2"> = {"classNames": css}
+  const props: ClassNames<"class2"> = {"classnames": css}
   
-  const {classNames: {class2}} = props
+  const {classnames: {class2}} = props
 
   expect(
     classNamingBasic({class1, class2})
@@ -41,7 +41,7 @@ it("css module", () => expect({
     "class1", "class3"
   )
 }).toStrictEqual(
-  classNamingCtx({classNames: module_css})(
+  classNamingCtx({classnames: module_css})(
     "class1",
     //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
     "class3"

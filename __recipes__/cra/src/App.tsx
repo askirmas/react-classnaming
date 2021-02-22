@@ -12,11 +12,11 @@ type AppProps = PropsWithChildren<
 
 function App({
   className,
-  classNames, classNames: {
+  classnames, classnames: {
     App__Container
   }
 }: AppProps) {
-  const classes = classNamingCtx({classNames}, {withClassNames: true})
+  const classes = classNamingCtx({classnames}, {withClassNames: true})
 
   return (
     <div
@@ -31,9 +31,9 @@ function App({
       />
       <Content {...{
         ...classes(),
-        classNames
+        classnames
       }}>
-        <Link {...{classNames}} href="https://reactjs.org">
+        <Link {...{classnames}} href="https://reactjs.org">
           Learn React
         </Link>
       </Content>
@@ -44,7 +44,7 @@ function App({
 // OTHER MODULES
 
 type LinkProps = ClassNames<"App__link"> & PropsWithChildren<LinkHTMLAttributes<HTMLLinkElement>>
-function Link({href, children, "classNames": {App__link}}: LinkProps) {
+function Link({href, children, "classnames": {App__link}}: LinkProps) {
   return <a {...{
     ...classNamingBasic({App__link}),
     href,
@@ -55,14 +55,14 @@ function Link({href, children, "classNames": {App__link}}: LinkProps) {
   }</a>
 }
 
-function Header({classNames: {Header}}: ClassNames<"Header">) {
+function Header({classnames: {Header}}: ClassNames<"Header">) {
   return <header {...classNamingBasic({Header})}>Header</header>
 }
 class Content extends Component<PropsWithChildren<ClassNames<true, "Content">>> {
   render() {
     const {
       className,
-      classNames: {Content},
+      classnames: {Content},
       children
     } = this.props
 

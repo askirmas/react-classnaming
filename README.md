@@ -30,7 +30,7 @@ With create-react-application: [./\_\_recipes\_\_/cra/src/App.tsx](./__recipes__
 import {classNamingBasic} from "react-classnaming"
 import classNamingBasic from "react-classnaming/basic"
 
-const {className, classNames: {class2, class3, class4, class5}} = props
+const {className, classnames: {class2, class3, class4, class5}} = props
 
 <div {...classNamingBasic("class1", {class2, class3})}>
 <div className={`${classNamingBasic({class4})}`}>
@@ -44,7 +44,7 @@ import {classNamingCtx} from "react-classnaming"
 import classNamingCtx from "react-classnaming/ctx"
 import css from "./some.css" // {"class1": "hash1", "class2": "hash2"}
 
-const classNaming = classNamingCtx({className: "App", classNames: css})
+const classNaming = classNamingCtx({className: "App", classnames: css})
 
 <div {...classes(true, {class1: true, class2: false})}/> // className="App hash1"
 <div {...classes("class2")}/> // className="hash2"
@@ -58,22 +58,22 @@ ClassNames<true> // requires `className`
 
 ClassNames<"class1"|"class2"> // requires to supply `.class1` and `.class2`
 
-ClassNames<Props1, Props2> // requires to supply `classNames` for `Props1` and `Props2` 
+ClassNames<Props1, Props2> // requires to supply `classnames` for `Props1` and `Props2` 
 
-ClassNames<true, "class1", Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `.class1`, `classNames` from `Props`, class component `Component` and function component `FunctionalComponent`
+ClassNames<true, "class1", Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `.class1`, `classnames` from `Props`, class component `Component` and function component `FunctionalComponent`
 ```
 
 ### Root apply
 ```tsx
 import {classNamesCheck} from "react-classnaming"
 
-ReactDOM.render( <Root classNames={classNamesCheck()}/> )
-ReactDOM.render( <Root classNames={classNamesCheck<"class1"|"class2">()}/> )
+ReactDOM.render( <Root classnames={classNamesCheck()}/> )
+ReactDOM.render( <Root classnames={classNamesCheck<"class1"|"class2">()}/> )
 
 import css from "./module.css"
 
-ReactDOM.render( <Root classNames={classNamesCheck(css))} /> )
-ReactDOM.render( <Root classNames={classNamesCheck<typeof Root, typeof css>(css))} /> )
+ReactDOM.render( <Root classnames={classNamesCheck(css))} /> )
+ReactDOM.render( <Root classnames={classNamesCheck<typeof Root, typeof css>(css))} /> )
 ```
 
 ## vs [classnames](https://github.com/JedWatson/classnames#readme)
@@ -98,9 +98,9 @@ const { class1,
   whatever
 } = classNamesCheck<"class1"|"class2">(css)
 
-const props: ClassNames<"class2"> = {"classNames": css}
+const props: ClassNames<"class2"> = {"classnames": css}
 
-const {class2} = props.classNames
+const {class2} = props.classnames
 
 <div {...classNamingBasic({class1, class2})} />
 <div id={classNamingBasic<string>({class1, class2})} />
@@ -119,7 +119,7 @@ const cx = classnames_bind.bind(module_css)
 /** VERSUS */
 
 import {classNamingCtx} from "react-classnaming"
-const classNaming = classNamingCtx({classNames: module_css})
+const classNaming = classNamingCtx({classnames: module_css})
 //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
 <div {...classNaming("class1", "class3")} />
 ```

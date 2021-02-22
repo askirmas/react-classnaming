@@ -13,53 +13,53 @@ function App(_: ClassNames<"class1"|"class2">) { return null }
 function Component(_: ClassNames<"class1">) { return null }
 
 it("without", () => {
-  <App classNames={css} />;
-  <App classNames={module_css} />;
-  <Component classNames={module_css} />;
+  <App classnames={css} />;
+  <App classnames={module_css} />;
+  <Component classnames={module_css} />;
 })
 
 it("declares", () => {
-  <App classNames={classNamesCheck()} />;
+  <App classnames={classNamesCheck()} />;
 
   <App
       //@ts-expect-error Property 'class2' is missing
-      classNames={
+      classnames={
         classNamesCheck<"class1">() } />;
 
     <App
       //@ts-expect-error Property 'class2' is missing
-      classNames={
+      classnames={
         classNamesCheck<typeof Component>()} />;
   
   expect(true).toBe(true)
 })
 
 it("propagates", () => {
-  <App classNames={classNamesCheck(css)} />;
+  <App classnames={classNamesCheck(css)} />;
 
-  <Component classNames={classNamesCheck(module_css)} />;
+  <Component classnames={classNamesCheck(module_css)} />;
 
-  <App classNames={classNamesCheck(module_css)} />;
+  <App classnames={classNamesCheck(module_css)} />;
 
   <App
     //@ts-expect-error Property 'class2' is missing
-    classNames={
+    classnames={
       classNamesCheck({class1: undefined})} />;
 })
 
 it("equility if possible", () => {
-  <App classNames={classNamesCheck<typeof App>(css)} />;
+  <App classnames={classNamesCheck<typeof App>(css)} />;
 
-  <App classNames={classNamesCheck<typeof App>(module_css)} />;
+  <App classnames={classNamesCheck<typeof App>(module_css)} />;
 
   <App
     //@ts-expect-error is not assignable
-    classNames={
+    classnames={
       classNamesCheck<typeof Component>(css)} />;
 
   <App
     //@ts-expect-error is not assignable
-    classNames={
+    classnames={
       classNamesCheck<typeof Component>(module_css)} />;
     
   classNamesCheck<typeof Component>({class1: "undefined",
@@ -68,14 +68,14 @@ it("equility if possible", () => {
   //TODO //@ts-expect-error
   classNamesCheck<typeof Component, typeof module_css>(module_css);
 
-  <App classNames={classNamesCheck<typeof App, typeof css>(css)} />;
+  <App classnames={classNamesCheck<typeof App, typeof css>(css)} />;
 
-  <Component classNames={classNamesCheck<typeof App, typeof module_css>(module_css)} /> ;
+  <Component classnames={classNamesCheck<typeof App, typeof module_css>(module_css)} /> ;
 
   //@ts-expect-error Property 'class1' is missing in type '"class2"[]'
-  <Component classNames={classNamesCheck<typeof Component, typeof module_css>(module_css)} /> ;
+  <Component classnames={classNamesCheck<typeof Component, typeof module_css>(module_css)} /> ;
   //@ts-expect-error Property 'class1' is missing in type '"class2"[]'
-  <Component classNames={classNamesCheck<typeof Component, typeof module_css>()} /> ;
+  <Component classnames={classNamesCheck<typeof Component, typeof module_css>()} /> ;
 
   expect(true).toBe(true)
 })

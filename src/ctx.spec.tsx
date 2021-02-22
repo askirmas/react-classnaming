@@ -3,8 +3,8 @@ import { classNamesCheck, classNamingCtx } from "."
 import expectRender from "../expect-to-same-render"
 import { ClassNames } from "./defs"
 
-const {classNames}: ClassNames<typeof App> = {
-  classNames: {
+const {classnames}: ClassNames<typeof App> = {
+  classnames: {
     "App__Item": "hash",
     class1: "hash1",
     class2: "hash2"
@@ -19,62 +19,62 @@ function Component(props: ClassNames<true, "class1"|"class2">) {
   </>
 }
 
-function App({classNames, className}: ClassNames<true, "App__Item", typeof Component>) {
+function App({classnames, className}: ClassNames<true, "App__Item", typeof Component>) {
   return <Component {...{
     ...classNamingCtx({
-      classNames, className
+      classnames, className
     })(
       true, "App__Item"
     ),
-    classNames
+    classnames
   }}/>
 }
 
 describe(classNamingCtx.name, () => {
   it("not module", () => expectRender(
-    <App className="MyApp" classNames={classNamesCheck()} />
+    <App className="MyApp" classnames={classNamesCheck()} />
   ).toSame(
     <div className="MyApp App__Item class1" />,
     <div className="class2" />
   ))
 
   it("css module", () => expectRender(
-    <App className="MyApp" classNames={classNames} />
+    <App className="MyApp" classnames={classnames} />
   ).toSame(
     <div className="MyApp hash hash1" />,
     <div className="hash2" />
   ))
 
-  it("propagate classNames by option", () => {
-    const App = ({classNames, className}: ClassNames<true, "App__Item", typeof Component>) =>
+  it("propagate classnames by option", () => {
+    const App = ({classnames, className}: ClassNames<true, "App__Item", typeof Component>) =>
       <Component {
         ...classNamingCtx(
-          {classNames, className},
+          {classnames, className},
           {withClassNames: true}
         )(
           true, "App__Item"
       )}/>
     
     expectRender(
-      <App className="MyApp" classNames={classNames}/>
+      <App className="MyApp" classnames={classnames}/>
     ).toSame(
       <div className="MyApp hash hash1" />,
       <div className="hash2" />
     )
   })  
 
-  it("not propagate classNames", () => {
-    const App = ({classNames, className}: ClassNames<true, "App__Item", typeof Component>) =>
-      //@ts-expect-error Types of property classNames are incompatible Type undefined is not assignable 
+  it("not propagate classnames", () => {
+    const App = ({classnames, className}: ClassNames<true, "App__Item", typeof Component>) =>
+      //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable 
       <Component {
         ...classNamingCtx({
-          classNames, className
+          classnames, className
         })(
           true, "App__Item"
       )}/>
     
     expectRender(
-      <App className="MyApp" classNames={classNames}/>
+      <App className="MyApp" classnames={classnames}/>
     ).toSame(
       <div className="MyApp hash class1" />,
       <div className="class2" />  
@@ -82,17 +82,17 @@ describe(classNamingCtx.name, () => {
   })
 
   it("propagate wrongly to leaf element", () => {
-    const Component = ({classNames}: ClassNames<"class1">) =>
+    const Component = ({classnames}: ClassNames<"class1">) =>
       <div {
-        ...classNamingCtx({classNames}, {withClassNames: true})("class1")
+        ...classNamingCtx({classnames}, {withClassNames: true})("class1")
       }/>
 
     expectRender(
-      <Component classNames={classNames}/>
+      <Component classnames={classnames}/>
     ).toSame(
       <div className="hash1"
-        //@ts-expect-error  Property 'classNames' does not exist
-        classNames="" />
+        //@ts-expect-error  Property 'classnames' does not exist
+        classnames="" />
     )
   })
 })

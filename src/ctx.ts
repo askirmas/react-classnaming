@@ -25,7 +25,7 @@ interface tClassNaming<
     ...expressions: (ClassKeys | Falsy)[]
   ) : ClassNamed & (
     withClassNames extends true
-    ? {classNames: ClassNamesMap<ClassKeys>}
+    ? {classnames: ClassNamesMap<ClassKeys>}
     : EmptyObject
   ) 
 }
@@ -34,17 +34,17 @@ export default classNamingCtx
 
 /**
  * @example const classes = classNamingCtx(this.props)
- * @example const classes = classNamingCtx({className, classNames})
- * @example const classes = classNamingCtx({classNames})
+ * @example const classes = classNamingCtx({className, classnames})
+ * @example const classes = classNamingCtx({classnames})
  */
 function classNamingCtx<
   ClassKeys extends string,
   withClassNames extends boolean|undefined
 >(
-  {classNames, className}: ClassNamer<ClassKeys>,
+  {classnames, className}: ClassNamer<ClassKeys>,
   options?: ClassNamerOptions<withClassNames>
 ) {
-  return classNamer.bind({classNames, className, ...options}) as tClassNaming<ClassKeys, withClassNames>
+  return classNamer.bind({classnames, className, ...options}) as tClassNaming<ClassKeys, withClassNames>
 }
 
 type ClassNamerOptions<
@@ -62,10 +62,10 @@ function classNamer<
   arg0?: true | ToggleMap<ClassKeys> | ClassKeys,
   arg1?: ToggleMap<ClassKeys> | ClassKeys,
   ...args: (ClassKeys | Falsy)[]
-): ClassNamed & Partial<Pick<typeof this, "classNames">> {
+): ClassNamed & Partial<Pick<typeof this, "classnames">> {
   const {
     className: _propagated,
-    classNames,
+    classnames,
     withClassNames,
     // withSelf
   } = this
@@ -79,11 +79,11 @@ function classNamer<
     Boolean
   )
   
-  emptize(classNames)
+  emptize(classnames)
 
   for (let i = allowed.length; i--;) {
     const key = allowed[i]
-    , hash: ClassValue = classNames?.[key]
+    , hash: ClassValue = classnames?.[key]
     
     if (hash !== undefined)
       //@ts-expect-error
@@ -111,7 +111,7 @@ function classNamer<
   } else {
     return stringifyClassNamed({
       className,
-      classNames
+      classnames
     })
   }
 }   

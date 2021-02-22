@@ -13,14 +13,14 @@ describe("ClassNames", () => {
       //@ts-expect-error Property 'className' is missing
       "empty object"
       : {},
-      "classNames only": {
-        //@ts-expect-error Object literal may only specify known properties, but 'classNames' does not exist
-        classNames: {}
+      "classnames only": {
+        //@ts-expect-error Object literal may only specify known properties, but 'classnames' does not exist
+        classnames: {}
       },
-      "className and classNames": {
+      "className and classnames": {
         className: "",
-        //@ts-expect-error Object literal may only specify known properties, but 'classNames' does not exist
-        classNames: {}
+        //@ts-expect-error Object literal may only specify known properties, but 'classnames' does not exist
+        classnames: {}
       }
     }
     expect(suites).toBeInstanceOf(Object)
@@ -30,24 +30,24 @@ describe("ClassNames", () => {
     const suites: Record<string, ClassNames<"class1"|"class2">> = {
       "omitted": {
         //@ts-expect-error ReactRelated
-        classNames: {
+        classnames: {
           class1: undefined
         }
       },
-      "classNames only": {
-        classNames: {class1: undefined, class2: undefined}
+      "classnames only": {
+        classnames: {class1: undefined, class2: undefined}
       },
       "className only": {
         //@ts-expect-error Object literal may only specify known properties, but 'className' does not exist
         className: ""
       },
-      //@ts-expect-error Property 'classNames' is missing
+      //@ts-expect-error Property 'classnames' is missing
       "empty object"
       : {},
-      "className and classNames": {
+      "className and classnames": {
         //@ts-expect-error Object literal may only specify known properties, but 'className' does not exist
         className: "",
-        classNames: {class1: undefined, class2: undefined}
+        classnames: {class1: undefined, class2: undefined}
       }
     }
     expect(suites).toBeInstanceOf(Object)
@@ -55,15 +55,15 @@ describe("ClassNames", () => {
 
   it("<true, 'class1'|'class2'>", () => {
     const suites: Record<string, ClassNames<true, "class1"|"class2">> = {
-      "className and classNames": {
+      "className and classnames": {
         className: "",
-        classNames: {class1: undefined, class2: undefined}
+        classnames: {class1: undefined, class2: undefined}
       },
       //@ts-expect-error Property 'className' is missing
-      "classNames only": {
-        classNames: {class1: undefined, class2: undefined}
+      "classnames only": {
+        classnames: {class1: undefined, class2: undefined}
       },
-      //@ts-expect-error Property 'classNames' is missing
+      //@ts-expect-error Property 'classnames' is missing
       "className only": {
         className: ""
       }
@@ -76,7 +76,7 @@ describe("Miss-use", () => {
     const suite1
     //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
     : ClassNames<"class1", true>
-    = {classNames: {"class1": undefined}}
+    = {classnames: {"class1": undefined}}
 
     expect(suite1).toBeInstanceOf(Object)
   })
@@ -98,7 +98,7 @@ describe("Miss-use", () => {
       //@ts-expect-error Type 'string' does not satisfy the constraint 'never'
       "class2"
     >
-    = {classNames: {"class1": undefined, class2: undefined}}
+    = {classnames: {"class1": undefined, class2: undefined}}
 
     expect(suite1).toBeInstanceOf(Object)
   })
@@ -114,7 +114,7 @@ describe("ClassNamesFrom", () => {
       & ClassNames<typeof ClassPureComponent>
       & ClassNames<typeof Functional>
       & ClassNames<Props>
-    )["classNames"];
+    )["classnames"];
   
     const suites: Record<string, AppClassNames> = {
       "exact": {
@@ -182,7 +182,7 @@ describe("ClassNamesFrom", () => {
         typeof ClassPureComponent,
         typeof Functional,
         Props
-    >["classNames"];
+    >["classnames"];
 
     const suites: Record<string, AppClassNames> = {
       "exact": {

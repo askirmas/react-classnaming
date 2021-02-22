@@ -1,8 +1,8 @@
 import { EMPTY_OBJECT } from "./consts"
 import type { ClassNames, ReactRelated, ClassNamesMap } from "./defs"
 
-type GetClassNames<Source extends string | ReactRelated = string> = "classNames" extends keyof ClassNames<Source>
-? ClassNames<Source>["classNames"]
+type GetClassNames<Source extends string | ReactRelated = string> = "classnames" extends keyof ClassNames<Source>
+? ClassNames<Source>["classnames"]
 : never
 
 export default classNamesCheck
@@ -20,7 +20,7 @@ function classNamesCheck<
  * Propagates argument's shape.
  * For checking equality add `typeof css_module` as second generic parameter
 */
-function classNamesCheck<T extends ClassNamesMap<string>>(classNames: T): T
+function classNamesCheck<T extends ClassNamesMap<string>>(classnames: T): T
 
 //TODO On assignment
 /** Checks equality
@@ -31,11 +31,11 @@ function classNamesCheck<T extends ClassNamesMap<string>>(classNames: T): T
 function classNamesCheck<
   K extends string | ReactRelated,
   T extends GetClassNames<K> = GetClassNames<K>
->(classNames?: T): string extends keyof T ? GetClassNames<K>
+>(classnames?: T): string extends keyof T ? GetClassNames<K>
 : keyof T extends keyof GetClassNames<K> ? T
 // For Verbosing redundant keys
 : Exclude<keyof T, keyof GetClassNames<K>>[]
 
-function classNamesCheck(classNames = EMPTY_OBJECT) {
-  return classNames
+function classNamesCheck(classnames = EMPTY_OBJECT) {
+  return classnames
 }

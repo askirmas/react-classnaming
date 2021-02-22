@@ -13,25 +13,25 @@ const {App__Container, App__Content, Content, App__Header, Header, App__link, No
 ReactDOM.render(
   <React.StrictMode>
 
-    <App className="App" classNames={AppClassNames}/>
+    <App className="App" classnames={AppClassNames}/>
 
     {//@ts-expect-error Property is missing
-      <App className="App" classNames={WithoutSomeClassName}/>
+      <App className="App" classnames={WithoutSomeClassName}/>
     }
 
-    <App className="App" classNames={{...AppClassNames, 
+    <App className="App" classnames={{...AppClassNames, 
       //@ts-expect-error Object literal may only specify known properties, and 'Redundant' does not exist 
       RedundantClassName
     }}/>
 
-    <App className="App" classNames={classNamesCheck()}/>
+    <App className="App" classnames={classNamesCheck()}/>
 
     {//@ts-expect-error is missing the following properties
-      <App className="App" classNames={classNamesCheck<"">()}/>
+      <App className="App" classnames={classNamesCheck<"">()}/>
     }
 
     {/*TODO Check redundant props via
-        <Root classNames={classNameCheck<typeof Root>(classNames)} />;
+        <Root classnames={classNameCheck<typeof Root>(classnames)} />;
     */}
   </React.StrictMode>,
   document.getElementById('root')

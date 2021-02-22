@@ -4,17 +4,17 @@ import type { ClassNames, ClassValue } from "./defs"
 import classNamingBasic from "./basic"
 import classNamesCheck from "./check"
 
-function Button({className, "classNames": { Btn }}: ClassNames<true, "Btn">) {
+function Button({className, "classnames": { Btn }}: ClassNames<true, "Btn">) {
   return <button {...classNamingBasic(className, { Btn })}/>
 }
 
 function Root({
-  classNames, "classNames": { App__Item, App__Footer }
+  classnames, "classnames": { App__Item, App__Footer }
 }: ClassNames<"App__Item"|"App__Footer", typeof Button>) {
   return <>
     <Button {...{
       ...classNamingBasic({ App__Item }),
-      classNames
+      classnames
     }}/>
     <div
       className={classNamingBasic<string>({App__Footer})}
@@ -24,14 +24,14 @@ function Root({
 }
 
 it("not css module", () => expectRender(
-  <Root classNames={classNamesCheck()}/>
+  <Root classnames={classNamesCheck()}/>
 ).toSame(  
   <button className="App__Item Btn"></button>,
   <div className="App__Footer" data-classname="App__Footer"></div>
 ))
 
 it("css module", () => expectRender(
-  <Root classNames={{
+  <Root classnames={{
     App__Footer: "footer-hash",
     App__Item: "item-hash",
     Btn: "btn-hash"
@@ -43,13 +43,13 @@ it("css module", () => expectRender(
 
 it("vscode couldn't rename enum element", () => {
   function Root({
-    "classNames": {App: App__Container}
+    "classnames": {App: App__Container}
   }: ClassNames<"App">) {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
   expectRender(
-    <Root classNames={classNamesCheck()} />
+    <Root classnames={classNamesCheck()} />
   ).toSame(
     <div className="App"></div>
   )
@@ -57,19 +57,19 @@ it("vscode couldn't rename enum element", () => {
 
 it("vscode can rename property", () => {
   type RootProps = {
-    classNames: {
+    classnames: {
       App__Container: ClassValue
     }
   }
 
   function Root({
-    "classNames": {App__Container: App__Container}
+    "classnames": {App__Container: App__Container}
   }: RootProps) {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
   function Root2({
-    "classNames": {
+    "classnames": {
       // VSCode didn't rename here due to `ClassNames<>` wrapper
       //@ts-expect-error Property 'App' does not exist
       App: App__Container
@@ -82,9 +82,9 @@ it("vscode can rename property", () => {
     <Root
       //TODO Solve it
       //@ts-expect-error Property 'App' is missing in type 'Record<string, 
-      classNames={
+      classnames={
         classNamesCheck()} />,
-    <Root2 classNames={classNamesCheck()} />
+    <Root2 classnames={classNamesCheck()} />
   ).toSame(
     <div className="App"/>,
     <div className="App"/>
@@ -93,10 +93,10 @@ it("vscode can rename property", () => {
 
 it("additional type check after rename", () => {
   type Props1 = {
-    classNames: { class1: ClassValue }
+    classnames: { class1: ClassValue }
   }
   type Props2 = {
-    classNames: { class2_renamed: ClassValue }
+    classnames: { class2_renamed: ClassValue }
   }
   const { class1,
     //@ts-expect-error Property 'class2' does not exist 

@@ -5,7 +5,7 @@ it("falsy props", () => expectRender(
   <div {...{
     "null": null,
     "undefined": undefined,
-    "false": false, 
+    // "false": false,  // console.error Warning: Received `false` for a non-boolean attribute `false`.
     "data-false": false,
     "empty": ""
   }}/>
@@ -31,7 +31,7 @@ it("object props", () => expectRender(
   />
 ))
 
-//TODO emits no warning!!! Against `classNames`
+//TODO emits no warning!!! Against `classnames`
 it("props to dom attribute", () => expectRender(
   //@ts-expect-error
   <div classnames={{toString: () => ""}} />

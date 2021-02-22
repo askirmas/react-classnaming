@@ -2,8 +2,8 @@ import type { JSXElementConstructor } from "react"
 
 /** Multipurpose generic
  * @example ClassNames<true> === {className: string}
- * @example ClassNames<"class1"|"class2"> === {classNames: {class1: undefined|string, class2: undefined|string}}
- * @example ClassNames<Props1, Props2> === {classNames: Props1["classNames"] & Props2["classNames"]}
+ * @example ClassNames<"class1"|"class2"> === {classnames: {class1: undefined|string, class2: undefined|string}}
+ * @example ClassNames<Props1, Props2> === {classnames: Props1["classnames"] & Props2["classnames"]}
  * @example ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
  */
 //TODO Consider string | ClassNamesMap
@@ -42,12 +42,12 @@ export type ClassNamed = {
 
 export type ClassNamer<ClassKeys extends string> = {
   className?: undefined|string
-  classNames: ClassNamesMap<ClassKeys>
+  classnames: ClassNamesMap<ClassKeys>
 }
 
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
-export type ClassNamesProp<C extends string> = Ever<C, {classNames: ClassNamesMap<C>}>
+export type ClassNamesProp<C extends string> = Ever<C, {classnames: ClassNamesMap<C>}>
 
 export type ClassValue = undefined|string
 
@@ -55,7 +55,7 @@ export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 
 type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 //TODO Consider not empty object
-type GetClassNames<T, K = "classNames", D = EmptyObject> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
+type GetClassNames<T, K = "classnames", D = EmptyObject> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
 export type GetClassKeys<C> = keyof GetClassNames<GetProps<C>>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
