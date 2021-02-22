@@ -1,5 +1,3 @@
-/// <reference path="../global.d.ts" />
-
 import type {ClassNames} from "."
 import {
   classNamesCheck,

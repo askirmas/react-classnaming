@@ -1,41 +1,62 @@
 import React from "react"
 import classNamesCheck from "./check"
-import type { ClassNames, ClassNamesMap } from "./defs"
+import type { ClassNames } from "./defs"
 
-function Root(_: ClassNames<"fc1"|"fc2">) {
-  return null
+import css from "./some.css"
+import module from "./some.module.css"
+const module_css: typeof module = {
+  "class1": "hash1",
+  "class2": "hash2"
 }
 
-it("dummy", () => {
-  <Root classNames={classNamesCheck()}/>;
+function App(_: ClassNames<"class1"|"class2">) { return null }
+function Component(_: ClassNames<"class1">) { return null }
 
-  //@ts-expect-error Property 'fc2' is missing
-  <Root classNames={classNamesCheck<"fc1">()}/>;
-  <Root classNames={classNamesCheck<"fc1"|"fc2"|"etc">()}/>;
+it("without", () => {
+  <App classNames={css} />;
+  <App classNames={module_css} />;
+  <Component classNames={module_css} />;
+})
 
+it("declares", () => {
+  <App classNames={classNamesCheck()} />;
+
+  <App
+      //@ts-expect-error Property 'class2' is missing
+      classNames={
+        classNamesCheck<"class1">() } />;
+
+    <App
+      //@ts-expect-error Property 'class2' is missing
+      classNames={
+        classNamesCheck<typeof Component>()} />;
+  
   expect(true).toBe(true)
 })
 
-it("check that all are used", () => {
-  const classNames = {} as ClassNamesMap<"fc1"|"fc2"|"fc3">;
-  //@ts-expect-error is missing the following properties
-  <Root classNames={
-    classNamesCheck<"">(classNames)
-  } />;
+it("propagates", () => {
+  <App classNames={classNamesCheck(css)} />;
 
-  // TypeScript doesn't check redundant props
-  <Root classNames={{} as ClassNamesMap<"fc1"|"fc2">} />;
-  <Root classNames={classNames} />;
-  <Root classNames={classNames as ClassNames<typeof Root>["classNames"]} />;
+  <Component classNames={classNamesCheck(module_css)} />;
+
+  <App classNames={classNamesCheck(module_css)} />;
+
+  <App
+    //@ts-expect-error Property 'class2' is missing
+    classNames={
+      classNamesCheck({class1: undefined})} />;
+})
+
+it("equility if possible", () => {
+  classNamesCheck<typeof App>(module_css);
   
-  //@ts-expect-error //TODO TBD redundant props
-  <Root classNames={classNamesCheck<typeof Root>(classNames)} />;
-  //@ts-expect-error //TODO TBD not error
-  <Root3 classNames={classNamesCheck<typeof Root3>(classNames)} />;
+  classNamesCheck<typeof App>(css);
 
-  function Root3(_: ClassNames<"fc1"|"fc2"|"fc3">) {
-    return null
-  }
+  //TODO //@ts-expect-error
+  classNamesCheck<typeof Component>(module_css);
+
+  //TODO //@ts-expect-error
+  <Component classNames={classNamesCheck<typeof Component>(module_css)} /> ;
 
   expect(true).toBe(true)
-})  
+})
