@@ -1,6 +1,6 @@
 import React from "react"
 import expectToRender from "../expect-to-render"
-import type { ClassNames } from "./defs"
+import type { ClassNames, ClassValue } from "./defs"
 import classNamingBasic from "./basic"
 import classNamesCheck from "./check"
 
@@ -43,7 +43,7 @@ it("css module", () => expectToRender(
   ]
 ))
 
-it("vscode renamed", () => {
+it("vscode couldn't rename enum element", () => {
   function Root({
     "classNames": {App: App__Container}
   }: ClassNames<"App">) {
@@ -53,5 +53,44 @@ it("vscode renamed", () => {
   expectToRender(
     <Root classNames={classNamesCheck()} />,
     '<div class="App"></div>'
+  )
+})
+
+it("vscode can rename property", () => {
+  type RootProps = {
+    classNames: {
+      App__Container: ClassValue
+    }
+  }
+
+  function Root({
+    "classNames": {App__Container: App__Container}
+  }: RootProps) {
+    return <div {...classNamingBasic({App: App__Container})}/>
+  }
+
+  function Root2({
+    "classNames": {
+      // VSCode didn't rename here due to `ClassNames<>` wrapper
+      //@ts-expect-error Property 'App' does not exist
+      App: App__Container
+    }
+  }: ClassNames<RootProps>) {
+    return <div {...classNamingBasic({App: App__Container})}/>
+  }
+
+  expectToRender(
+    <>
+      <Root
+        //TODO Solve it
+        //@ts-expect-error Property 'App' is missing in type 'Record<string, 
+        classNames={
+          classNamesCheck()} />
+      <Root2 classNames={classNamesCheck()} />
+    </>,
+    [
+      '<div class="App"></div>',
+      '<div class="App"></div>'
+    ]
   )
 })
