@@ -48,9 +48,9 @@ it("propagates", () => {
 })
 
 it("equility if possible", () => {
-  classNamesCheck<typeof App>(module_css);
-  
-  classNamesCheck<typeof App>(css);
+  <App classNames={classNamesCheck<typeof App>(css)} />;
+
+  <App classNames={classNamesCheck<typeof App>(module_css)} />;
 
   //TODO //@ts-expect-error
   classNamesCheck<typeof Component>(module_css);

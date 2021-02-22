@@ -1,6 +1,6 @@
 // export type { ClassNames } from "./defs"
 import { EMPTY_OBJECT } from "./consts"
-import type { ClassNames, ReactRelated } from "./defs"
+import type { ClassNames, ReactRelated, ClassNamesMap } from "./defs"
 
 type GetClassNames<Source extends string | ReactRelated = string> = "classNames" extends keyof ClassNames<Source>
 ? ClassNames<Source>["classNames"]
@@ -23,11 +23,9 @@ function classNamesCheck<
 >(): GetClassNames<Source>
 
 /** Propagates shape */
-function classNamesCheck<T extends GetClassNames<string>>(classNames: T): T
+function classNamesCheck<T extends ClassNamesMap<string>>(classNames: T): T
 
-/**
- * Checks consistency
- */
+/** //TODO Checks consistency */
 function classNamesCheck<
   K extends string | ReactRelated = string,
   T extends GetClassNames<K> = GetClassNames<K>

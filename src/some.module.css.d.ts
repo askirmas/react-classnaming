@@ -1,4 +1,4 @@
 export = {
-  class1: string,
-  class2: string
+  class1: "hash1",
+  class2: "hash2"
 }
