@@ -25,11 +25,10 @@ function classNamesCheck<
 /** Propagates shape */
 function classNamesCheck<T extends ClassNamesMap<string>>(classNames: T): T
 
-/** //TODO Checks consistency */
+/** //TODO Checks equility */
 function classNamesCheck<
-  K extends string | ReactRelated = string,
-  T extends GetClassNames<K> = GetClassNames<K>
->(classNames: T): T
+  K extends string | ReactRelated
+>(classNames: GetClassNames<K>): typeof classNames
 
 function classNamesCheck(classNames = EMPTY_OBJECT) {
   return classNames
