@@ -70,9 +70,10 @@ import {classNamesCheck} from "react-classnaming"
 ReactDOM.render( <Root classNames={classNamesCheck()}/> )
 ReactDOM.render( <Root classNames={classNamesCheck<"class1"|"class2">()}/> )
 
-import classNames from "./modules.css"
+import css from "./module.css"
 
-ReactDOM.render( <Root classNames={classNamesCheck(classNames))}/> )
+ReactDOM.render( <Root classNames={classNamesCheck(css))} /> )
+ReactDOM.render( <Root classNames={classNamesCheck<typeof Root, typeof css>(css))} /> )
 ```
 
 ## vs [classnames](https://github.com/JedWatson/classnames#readme)

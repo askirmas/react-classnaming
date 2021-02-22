@@ -47,7 +47,7 @@ export type ClassNamer<ClassKeys extends string> = {
 
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
-export type ClassNamesProp<C extends string = string> = Ever<C, {classNames: ClassNamesMap<C>}>
+export type ClassNamesProp<C extends string> = Ever<C, {classNames: ClassNamesMap<C>}>
 
 export type ClassValue = undefined|string
 

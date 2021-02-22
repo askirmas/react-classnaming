@@ -56,17 +56,26 @@ it("equility if possible", () => {
     //@ts-expect-error is not assignable
     classNames={
       classNamesCheck<typeof Component>(css)} />;
-      
+
   <App
     //@ts-expect-error is not assignable
     classNames={
       classNamesCheck<typeof Component>(module_css)} />;
- 
+    
+  classNamesCheck<typeof Component>({class1: "undefined",
+    //@ts-expect-error Object literal may only specify known properties, but 'class2' does not exist
+    class2: "undefined"});
   //TODO //@ts-expect-error
-  classNamesCheck<typeof Component>(module_css);
+  classNamesCheck<typeof Component, typeof module_css>(module_css);
 
-  //TODO //@ts-expect-error
-  <Component classNames={classNamesCheck<typeof Component>(module_css)} /> ;
+  <App classNames={classNamesCheck<typeof App, typeof css>(css)} />;
+
+  <Component classNames={classNamesCheck<typeof App, typeof module_css>(module_css)} /> ;
+
+  //@ts-expect-error Property 'class1' is missing in type '"class2"[]'
+  <Component classNames={classNamesCheck<typeof Component, typeof module_css>(module_css)} /> ;
+  //@ts-expect-error Property 'class1' is missing in type '"class2"[]'
+  <Component classNames={classNamesCheck<typeof Component, typeof module_css>()} /> ;
 
   expect(true).toBe(true)
 })
