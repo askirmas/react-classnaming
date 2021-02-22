@@ -1,5 +1,9 @@
 {
   "collectCoverage": true,
+  "testPathIgnorePatterns": [
+    "node_modules",
+    "__recipes__"
+  ],
   "coverageThreshold": {
     "global": {
       "statements": 100,
