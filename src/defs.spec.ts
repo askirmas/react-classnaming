@@ -1,5 +1,5 @@
-import { Component, PureComponent } from "react";
-import type { ClassNames } from "./defs";
+import { Component, PureComponent, ReactElement } from "react";
+import type { ClassNames, ClassNamesMap } from "./defs";
 
 type Props = ClassNames<true, "props">
 function Functional(_: ClassNames<"functional">) { return null }
@@ -205,4 +205,51 @@ describe("ClassNamesFrom", () => {
 
     expect(suites).toBeInstanceOf(Object)
   })
+})
+
+describe("ReactRelated2", () => {
+  type ReactRelated2
+  = {
+    classnames: ClassNamesMap<string>
+    [k: string]: any
+  }
+  | (
+    (props: {
+      classnames: ClassNamesMap<string>
+      [k: string]: any  
+    }) => ReactElement<any, any> | null)
+  | (new (props: {classnames: ClassNamesMap<string>} & any) => Component<{
+    classnames: ClassNamesMap<string>
+    [k: string]: any
+  }, any>);
+  
+  type Wrong = {classnames: string}
+  type Props = {classnames: ClassNamesMap<string>, className: string}
+
+  const suites: Record<string, ReactRelated2> = {
+    //@ts-expect-error
+    "Props without": {
+      className: ""
+    },
+    "Props with wrong": {
+      //@ts-expect-error
+      classnames: ""
+    },
+    "Props with": {
+      classnames: {},
+      className: ""
+    },
+    //@ts-expect-error
+    "Func without": (_: {className: string}) => null,
+    //@ts-expect-error Types of parameters '_' and 'props' are incompatible.
+    "Func with wrong": (_: Wrong) => null,
+    //@ts-expect-error //TODO Fix it
+    "Func with": (_: Props) => null,
+    //@ts-expect-error
+    "Class without": class extends Component {},
+    //@ts-expect-error
+    "Class with wrong": class extends Component<Wrong> {},
+    "Class with": class extends Component<Props> {}
+  }
+  expect(suites).toBeInstanceOf(Object)
 })

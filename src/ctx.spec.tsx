@@ -1,7 +1,7 @@
 import React from "react"
 import { classNamesCheck, classNamingCtx } from "."
 import expectRender from "../expect-to-same-render"
-import { ClassNames } from "./defs"
+import { ClassNames, ClassValue } from "./defs"
 
 const {classnames}: ClassNames<typeof App> = {
   classnames: {
@@ -11,7 +11,8 @@ const {classnames}: ClassNames<typeof App> = {
   }
 }
 
-function Component(props: ClassNames<true, "class1"|"class2">) {
+//TODO No rename inheritance
+function Component(props: ClassNames<true, {classnames: {class1: ClassValue, class2: ClassValue}}>) {
   const classes = classNamingCtx(props)
   return <>
     <div {...classes(true, {class1: true, class2: false})}/>

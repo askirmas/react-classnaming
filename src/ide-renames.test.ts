@@ -1,3 +1,6 @@
+// import { Component } from "react"
+// import type { ClassValue, ClassNames } from "./defs"
+
 export {}
 
 type ClassnamesProp<T extends Record<string, unknown>> = {classnames: T}
@@ -147,4 +150,39 @@ it("rename keys as string(-) or same shape object(+)", () => {
   ).toBe(
     "parent1 renamed child1 child2"
   )  
+})
+
+// it("rename throw ts expressions", () => {
+//   type Props = ClassnamesProp<{
+//     prop1: ClassValue
+//     prop2: ClassValue
+//   }>
+  
+//   function Func1(_:ClassnamesProp<{
+//     fn1: ClassValue
+//     fn2: ClassValue
+//   }>) {
+//     return null  
+//   }
+
+//   class Comp1 extends Component<ClassnamesProp<{
+//     class1: ClassValue
+//     class2: ClassValue
+//   }>> {}
+
+//   const flatCollected
+//   : ClassNames<Props, typeof Func1, typeof Comp1> = {classnames: {
+//   // : (GetProps<Props> & GetProps<typeof Func1> & GetProps<typeof Comp1>)["classnames"] = {
+//     class1: undefined,
+//     class2: undefined,
+//     fn1: undefined,
+//     fn2: undefined,
+//     prop1: undefined,
+//     prop2: undefined,
+//   }}
+
+//   expect(Object.keys(flatCollected).join(" ")).toBe(
+//     "class1 class2 fn1 fn2 prop1 prop2"
+//   )
+
 })

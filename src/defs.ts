@@ -53,9 +53,9 @@ export type ClassValue = undefined|string
 
 export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 
-type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
+export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 //TODO Consider not empty object
-export type GetClassNames<T, D = EmptyObject, K = "classnames"> = [T] extends [never] ? D : K extends keyof T ? T[K] : never
+export type GetClassNames<T, D = EmptyObject> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : never
 export type GetClassKeys<C> = [GetClassNames<GetProps<C>, never>] extends [never] ? never : keyof GetClassNames<GetProps<C>>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
@@ -66,4 +66,3 @@ export type Falsy = undefined|null|false|0|""
 export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 
 // type get<T, K> = K extends keyof T ? T[K] : never
-
