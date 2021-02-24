@@ -63,7 +63,7 @@ import css from "./some.css" // {"class1": "hash1", "class2": "hash2"}
 const classNaming = classNamingCtx({className: "App", classnames: css})
 
 <div {...classes(true, {class1: true, class2: false})} /> // className="App hash1"
-<div {...classes("class2")} /> // className="hash2"
+<div {...classes({class2: true})} /> // className="hash2"
 ```
 
 ### TS generic for props 
@@ -71,12 +71,12 @@ const classNaming = classNamingCtx({className: "App", classnames: css})
 import type { ClassNames } from "react-classnaming"
 
 ClassNames<true> // requires `className`
-
+/** @deprecated */
 ClassNames<"class1"|"class2"> // requires to supply `.class1` and `.class2`
 
 ClassNames<Props1, Props2> // requires to supply `classnames` for `Props1` and `Props2` 
 
-ClassNames<true, "class1", Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `.class1`, `classnames` from `Props`, class component `Component` and function component `FunctionalComponent`
+ClassNames<true, Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `classnames` from `Props`, class component `Component` and function component `FunctionalComponent`
 ```
 
 ### Root apply
@@ -84,6 +84,7 @@ ClassNames<true, "class1", Props, typeof Component, typeof FunctionalComponent> 
 import {classNamesCheck} from "react-classnaming"
 
 ReactDOM.render( <Root classnames={classNamesCheck()}/> )
+/** @deprecated */
 ReactDOM.render( <Root classnames={classNamesCheck<"class1"|"class2">()}/> )
 
 import css from "./module.css"
@@ -95,6 +96,8 @@ ReactDOM.render( <Root classnames={classNamesCheck<typeof Root, typeof css>(css)
 ## vs [classnames](https://github.com/JedWatson/classnames#readme)
 
 See [src/versus-classnames.test.ts](./src/versus-classnames.test.ts)
+
+//TODO Copy here the most significant TS errors
 
 ### No css-modules, just simulation
 
@@ -130,12 +133,12 @@ import module_css from "./some.module.css" // {"class1": "hash1", "class2": "has
 import classnames_bind from "classnames/bind"
 const cx = classnames_bind.bind(module_css)
 // No error on redundant CSS-class
-<div className={cx("class1", "class3")} />
+<div className={cx("class1", {"class3": true})} />
 
 /** VERSUS */
 
 import {classNamingCtx} from "react-classnaming"
 const classNaming = classNamingCtx({classnames: module_css})
 //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
-<div {...classNaming("class1", "class3")} />
+<div {...classNaming({class1: true, class3: true})} />
 ```

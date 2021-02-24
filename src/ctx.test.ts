@@ -29,22 +29,10 @@ describe(classNamingCtx.name, () => {
     }).toStrictEqual({
       className: "etc"
     }))
-    
-    it("redundant in array", () => expect({
-      ...classes(
-        //@ts-expect-error Argument of type '"etc"' is not assignable
-        "etc"
-      )
-    }).toStrictEqual({
-      className: "etc"
-    }))
 
     //TODO Raise TS error
     it("propagate absent className", () => expect({
-      ...classes(
-        true,
-        {class1: true, class4: true},
-      )
+      ...classes(true, {class1: true, class4: true})
     }).toStrictEqual({
       className: "class1 hash4"
     }))
@@ -52,31 +40,21 @@ describe(classNamingCtx.name, () => {
 
   describe("className + classnames", () => {
     const classes = classNamingCtx({className, classnames})
+    
     it("only propagated", () => expect({
-      ...classes(
-        true
-      )
+      ...classes(true)
     }).toStrictEqual({
-        className
-      }))
+      className
+    }))
 
     it("without propagation", () => expect({
-      ...classes({
-        class1: true,
-        class4: true
-      })
+      ...classes({ class1: true, class4: true })
     }).toStrictEqual({
       className: "class1 hash4"
     }))
 
     it("both", () => expect({
-      ...classes(
-        true,
-        {
-          class1: true,
-          class4: true  
-        }
-      )
+      ...classes(true, { class1: true, class4: true })
     }).toStrictEqual({ 
       className: "App class1 hash4"
     }))
@@ -86,8 +64,7 @@ describe(classNamingCtx.name, () => {
     ...classNamingCtx(
       {classnames},
       {withClassNames: true}
-    )(
-    )
+    )()
   }).toStrictEqual({
     className: "",
     classnames
