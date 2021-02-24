@@ -15,7 +15,8 @@
     "spec": "cd __recipes__ && npm run test",
     "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand"
+    "jest": "jest --runInBand",
+    "prejest": "jest --clearCache"
   },
   "repository": {
     "type": "git",
