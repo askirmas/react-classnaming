@@ -36,8 +36,8 @@ function classNamingBasic(
   return _classNaming(classnames!, className)
 }
 
-function _classNaming(
-  classes: ClassNamesMap<string>,
+function _classNaming<C extends ClassNamesMap<string>>(
+  classes: C,
   propagate: undefined|string,
 ) : ClassNamingChain {
   //TODO `classes && dehash(classes)`

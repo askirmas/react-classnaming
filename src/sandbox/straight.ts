@@ -15,9 +15,7 @@ export {}
 
 function exclusion<
   E extends Record<string, ClassValue>,
-  S extends E
-  // S extends Record<string, ClassValue>,
-  // E extends {[K in keyof S]?: ClassValue}
+  S extends Record<keyof E, ClassValue>
 >(
   source: S, ex: E
 ): { [P in Exclude<keyof S, keyof E>]: S[P]; }
@@ -31,10 +29,8 @@ function exclusion<
 }
 
 const source: Record<"a"|"b"|"c"|"d", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined}
-, p1: Record<"a"|"b", ClassValue> = {a: "a", b: undefined}
-, p2: Record<"c", ClassValue> = {"c": undefined}
 
-const step1 = exclusion(source, p1)
-, step2 = exclusion(step1, p2)
+const step1 = exclusion(source, {a: "a", b: undefined})
+, step2 = exclusion(step1, {"c": undefined})
 
 export {step2}
