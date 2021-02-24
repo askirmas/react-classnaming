@@ -44,7 +44,7 @@ function _classNaming(
   const className = joinWithLead(propagate, dehash(classes))  
   , host: ClassNamingCall = classes => _classNaming(classes, className)
 
-  return wrapper(className, undefined, host)
+  return wrapper(host, className)
 }
 
 type ClassNamingChain = ClassNamingCall & {

@@ -40,12 +40,12 @@ it("css module", () => expect({
     // No error on redundant CSS-class
     "class1", "class3"
   )
-}).toStrictEqual(
-  classNamingCtx({classnames: module_css})(
+}).toStrictEqual({
+  ...classNamingCtx({classnames: module_css})(
     "class1",
     //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
     "class3"
   )
-))
+}))
 
 it.todo("Does `classnames` have chainable interface?")

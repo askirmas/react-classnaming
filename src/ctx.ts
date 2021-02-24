@@ -1,6 +1,7 @@
 import type { Falsy, ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
-import {dehash, truthyKeys, wrapper} from "./core"
+import {dehash, joinWithLead, truthyKeys, wrapper} from "./core"
 import { emptize } from "./utils"
+
 
 emptize(classNamer)
 
@@ -45,7 +46,7 @@ function classNamingCtx<
   {classnames, className}: ClassNamer<ClassKeys>,
   options?: ClassNamerOptions<withClassNames>
 ) {
-  return classNamer.bind({classnames, className, ...options}) as tClassNaming<ClassKeys, withClassNames>
+  return classNamer.bind({classnames, className, options}) as tClassNaming<ClassKeys, withClassNames>
 }
 
 type ClassNamerOptions<
@@ -59,7 +60,7 @@ function classNamer<
   ClassKeys extends string,
   withClassNames extends boolean|undefined
 >(
-  this: Partial<ClassNamer<ClassKeys> & ClassNamerOptions<withClassNames>>,
+  this: Partial<ClassNamer<ClassKeys> & {options: ClassNamerOptions<withClassNames>}>,
   arg0?: true | ToggleMap<ClassKeys> | ClassKeys,
   arg1?: ToggleMap<ClassKeys> | ClassKeys,
   ...args: (ClassKeys | Falsy)[]
@@ -67,9 +68,12 @@ function classNamer<
   const {
     className: propagated,
     classnames,
+    options
+  } = this
+  , {
     withClassNames,
     // withSelf
-  } = this
+  } = options ?? {}
   , withPropagation = arg0 === true
   , allowed: ClassKeys[] = truthyKeys(arg0 === true ? false : arg0)
   .concat(truthyKeys(arg1))
@@ -83,10 +87,16 @@ function classNamer<
   emptize(classnames)
 
   classnames && dehash(classnames, allowed)
-    
+  
+  const className = joinWithLead(withPropagation && propagated, allowed)
+  , host = classNamer.bind({classnames, className, options})
+
+  withClassNames && (
+    //@ts-expect-error
+    host["classnames"] = classnames
+  )
   return wrapper(
-    withPropagation && propagated,
-    allowed,
-    !withClassNames ? {} : {classnames}
+    host,
+    className,
   )
 }   
