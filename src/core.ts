@@ -13,9 +13,14 @@ export {
   joinWithLead
 }
 
-function wrapper<T>(className: Falsy|ClassValue, classKeys: string[], destination: T) {
+function wrapper<T>(
+  className: Parameters<typeof joinWithLead>[0],
+  classKeys: Parameters<typeof joinWithLead>[1],
+  destination: T
+) {
   //@ts-expect-error
-  destination[classNameKey] = joinWithLead(className, classKeys)
+  destination[classNameKey]
+  = joinWithLead(className, classKeys)
   
   return stringifyClassNamed(destination as T & ClassNamed)
 }
@@ -53,13 +58,13 @@ function truthyKeys<T>(source: T) {
   return filtered
 }
 
-//TODO Consider undefined
-function joinWithLead(value: Falsy|ClassValue, arr: readonly string[]) :string {
+//TODO Consider returning `undefined` on empty string
+function joinWithLead(value: Falsy|ClassValue, arr: undefined| readonly string[]) : string {
   const str1 = value || ""
-  if (!arr.length)
+  if (!(arr && arr.length))
     return str1
   
-  const str2  = arr.join(" ")
+  const str2 = arr.join(" ")
   if (!str1)
     return str2
 
