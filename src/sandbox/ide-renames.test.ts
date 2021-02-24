@@ -184,5 +184,4 @@ it("rename keys as string(-) or same shape object(+)", () => {
 //   expect(Object.keys(flatCollected).join(" ")).toBe(
 //     "class1 class2 fn1 fn2 prop1 prop2"
 //   )
-
-})
+// })
