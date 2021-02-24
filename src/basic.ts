@@ -32,6 +32,7 @@ function classNamingBasic(
   const classnames = typeof arg0 === "object" ? arg0 : arg1
   , className = typeof arg0 === "object" ? undefined : arg0
 
+  //TODO remove `!`
   return _classNaming(classnames!, className)
 }
 
@@ -39,6 +40,7 @@ function _classNaming(
   classes: ClassNamesMap<string>,
   propagate: undefined|string,
 ) : ClassNamingChain {
+  //TODO `classes && dehash(classes)`
   const className = joinWithLead(propagate, dehash(classes))  
   , host: ClassNamingCall = classes => _classNaming(classes, className)
 
