@@ -1,3 +1,5 @@
+import { ClassNamed } from "./defs"
+
 const stringifyProperty: SymbolConstructor["toPrimitive"] | "valueOf" | "toString"  = Symbol.toPrimitive
 
 const {
@@ -11,14 +13,14 @@ export {
   stringifyClassNamed,
 }
 
-function stringifyClassNamed<T extends {className: string}>(source: T) :T {
+function stringifyClassNamed<T extends ClassNamed>(source: T) :T {
   if (!source.hasOwnProperty(stringifyProperty))
     $defineProperty(source, stringifyProperty, StringifyDescriptor)
   
   return source
 }
 
-function classNamedToString(this: {className: string}) {
+function classNamedToString(this: ClassNamed) {
   return this.className
 }
 

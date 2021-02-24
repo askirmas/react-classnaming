@@ -1,5 +1,5 @@
 import { EMPTY_ARRAY } from "./consts"
-import type { ClassValue, Falsy } from "./defs"
+import type { ClassNamed, ClassValue, Falsy } from "./defs"
 import { stringifyClassNamed } from "./utils"
 
 const classNameKey = "className" as const
@@ -16,7 +16,7 @@ function wrapper<T>(className: Falsy|ClassValue, classKeys: string[], destinatio
   //@ts-expect-error
   destination[classNameKey] = joinWithLead(className, classKeys)
   
-  return stringifyClassNamed(destination as T & {className: string})
+  return stringifyClassNamed(destination as T & ClassNamed)
 }
 
 function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $keys(source)) :string[] {

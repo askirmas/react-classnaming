@@ -37,7 +37,6 @@ export type ClassNames<
 
 export type ClassNamed = {
   className: string
-  toString: () => string
 }
 
 export type ClassNamer<ClassKeys extends string> = {
