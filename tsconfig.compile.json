@@ -4,6 +4,7 @@
     "noEmit": false
   },
   "exclude": [
+    "**/sandbox/**.*",
     "**/*.test.ts",
     "**/*.spec.ts",
     "**/*.test.tsx",

@@ -1,8 +1,8 @@
 export type { ClassNames } from "./defs"
+import { dehash } from "./core"
 import type { ClassNamesMap, ClassNamed, GetClassKeys } from "./defs"
 
 const {
-  keys: $keys,
   defineProperty: $defineProperty,
   assign: $assign
 } = Object
@@ -44,18 +44,8 @@ function _classNaming<T extends Partial<ClassNamed>>(
   className: undefined|string,
   destination: T
 ): T & ClassNamed {
-  const keys = $keys(classnames)
-  , {length} = keys
-
-  for (let i = length; i--;) {
-    const key = keys[i]
-    , value = classnames[key]
-
-    if (typeof value === "string")
-      keys[i] = value
-  }
-
-  const classString = `${
+  const keys = dehash(classnames)
+  , classString = `${
     !className
     ? ""
     : `${className} `

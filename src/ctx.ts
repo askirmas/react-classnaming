@@ -1,5 +1,6 @@
-import type { Falsy, ToggleMap, ClassValue, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
-import { emptize, stringifyClassNamed, truthyKeys } from "./utils"
+import type { Falsy, ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
+import {dehash, truthyKeys} from "./core"
+import { emptize, stringifyClassNamed } from "./utils"
 
 emptize(classNamer)
 
@@ -81,14 +82,7 @@ function classNamer<
   
   emptize(classnames)
 
-  for (let i = allowed.length; i--;) {
-    const key = allowed[i]
-    , hash: ClassValue = classnames?.[key]
-    
-    if (hash !== undefined)
-      //@ts-expect-error
-      allowed[i] = hash
-  }
+  classnames && dehash(classnames, allowed)
   
   const allowedString = allowed.join(" ")
   , propagated = withPropagation && _propagated || ""
