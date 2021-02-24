@@ -17,7 +17,7 @@ function Root({
       classnames
     }}/>
     <div
-      className={classNamingBasic<string>({App__Footer})}
+      className={`${classNamingBasic({App__Footer})}`}
       data-classname={`${classNamingBasic({App__Footer})}`}
     />
   </>
@@ -112,5 +112,30 @@ it("additional type check after rename", () => {
   ).toSame(
     <div className="class1"/>,
     <div className="class2"/>    
+  )
+})
+
+it("chaining", () => {
+  const props = {className: "Cell", classnames: classNamesCheck()}
+
+  const {className, classnames: {
+    Column_1, Column_2,
+    Row_1, Row_2
+  }} = props
+  , cn1 = classNamingBasic(className, {Column_1})
+  , cn2 = classNamingBasic(className, {Column_2})
+
+  expectRender(
+    <div {...cn1({ Row_1 })} />,
+    <div {...cn1({ Row_2 })} />,
+    <div {...cn2({ Row_1 })} />,
+    <div {...cn2({ Row_2 })} />,
+    <div {...classNamingBasic({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
+  ).toSame(
+    <div className="Cell Column_1 Row_1" />,
+    <div className="Cell Column_1 Row_2" />,
+    <div className="Cell Column_2 Row_1" />,
+    <div className="Cell Column_2 Row_2" />,
+    <div className="Column_1 Column_2 Row_1 Row_2" />
   )
 })

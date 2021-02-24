@@ -32,9 +32,25 @@ import classNamingBasic from "react-classnaming/basic"
 
 const {className, classnames: {class2, class3, class4, class5}} = props
 
-<div {...classNamingBasic("class1", {class2, class3})}>
-<div className={`${classNamingBasic({class4})}`}>
-<div className={classNamingBasic<string>({class5})}>
+<div {...classNamingBasic("class1", {class2, class3})} />
+<div className={`${classNamingBasic({class4})}`} />
+```
+
+#### Chained
+
+```tsx
+const {className, classnames: {
+  Column_1, Column_2,
+  Row_1, Row_2
+}} = props
+, cn1 = classNamingBasic(className, {Column_1})
+, cn2 = classNamingBasic(className, {Column_2})
+
+<div {...cn1({ Row_1 })} />,
+<div {...cn1({ Row_2 })} />,
+<div {...cn2({ Row_1 })} />,
+<div {...cn2({ Row_2 })} />,
+<div {...classNamingBasic({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
 ```
 
 ### From css-module or simulation
@@ -46,8 +62,8 @@ import css from "./some.css" // {"class1": "hash1", "class2": "hash2"}
 
 const classNaming = classNamingCtx({className: "App", classnames: css})
 
-<div {...classes(true, {class1: true, class2: false})}/> // className="App hash1"
-<div {...classes("class2")}/> // className="hash2"
+<div {...classes(true, {class1: true, class2: false})} /> // className="App hash1"
+<div {...classes("class2")} /> // className="hash2"
 ```
 
 ### TS generic for props 
@@ -103,7 +119,7 @@ const props: ClassNames<"class2"> = {"classnames": css}
 const {class2} = props.classnames
 
 <div {...classNamingBasic({class1, class2})} />
-<div id={classNamingBasic<string>({class1, class2})} />
+<div id={`${classNamingBasic({class1, class2})}`} />
 ```
 
 ### CSS module

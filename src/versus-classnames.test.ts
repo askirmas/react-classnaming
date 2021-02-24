@@ -25,9 +25,9 @@ it("usage interface", () => {
   
   const {classnames: {class2}} = props
 
-  expect(
-    classNamingBasic({class1, class2})
-  ).toStrictEqual({
+  expect({
+    ...classNamingBasic({class1, class2})
+  }).toStrictEqual({
     //@ts-expect-error `classnames` has no possibility for type hints
     className:  classnames_default<"whatever">("class1", "class2")
   })
@@ -48,3 +48,4 @@ it("css module", () => expect({
   )
 ))
 
+it.todo("Does `classnames` have chainable interface?")

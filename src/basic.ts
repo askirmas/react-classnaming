@@ -1,27 +1,29 @@
 export type { ClassNames } from "./defs"
-import { dehash, wrapper } from "./core"
-import type { ClassNamesMap, ClassNamed, GetClassKeys } from "./defs"
+import { dehash, wrapper, joinWithLead } from "./core"
+import type { ClassNamesMap, ClassNamed, GetClassKeys, ClassValue, ReactRelated } from "./defs"
 
 export default classNamingBasic
 
 /**
  * Makes `className` string from imported CSS
- * @example <div className={classNaming<string>({ClassName})} />
- * @example <div {...classNaming({ClassName})} />
+ * @example <div className={`${classNamingBasic({ClassName})}`} />
+ * @example <div {...classNamingBasic({ClassName})} />
+ * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
  */
-function classNamingBasic<Return, ClassKeys extends string = string>(
-  classnames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
-): Return extends string ? string : ClassNamed
+function classNamingBasic<Source extends ReactRelated>(
+  classnames: ClassNamesMap<GetClassKeys<Source>>
+): ClassNamingChain
 
 /**
  * Makes `className` string from imported CSS
- * @example <div className={classNaming<string>({ClassName})} />
- * @example <div {...classNaming({ClassName})} />
+ * @example <div className={`${classNamingBasic({ClassName})}`} />
+ * @example <div {...classNamingBasic({ClassName})} />
+ * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
  */
-function classNamingBasic<Return, ClassKeys extends string = string>(
+function classNamingBasic<Source extends ReactRelated>(
   propagatedClassName: undefined|string,
-  classnames: ClassNamesMap<string extends Return ? ClassKeys : GetClassKeys<Return>>
-): Return extends string ? string : ClassNamed
+  classnames: ClassNamesMap<GetClassKeys<Source>>
+): ClassNamingChain
 
 function classNamingBasic(
   arg0: undefined|string|ClassNamesMap<string>,
@@ -30,24 +32,20 @@ function classNamingBasic(
   const classnames = typeof arg0 === "object" ? arg0 : arg1
   , className = typeof arg0 === "object" ? undefined : arg0
 
-  return _classNaming(classnames!, className, {})
+  return _classNaming(classnames!, className)
 }
 
-function _classNaming<T extends Partial<ClassNamed>>(
-  classnames: ClassNamesMap<string>,
-  className: undefined|string,
-  destination: T
-): T & ClassNamed {
-  
-  // TODO For propagation
-  // $defineProperty(
-  //   classnames,
-  //   "toString",
-  //   {
-  //     value: undefined
-  //   }
-  // )
-  // $assign(destination, {classnames})
+function _classNaming(
+  classes: ClassNamesMap<string>,
+  propagate: undefined|string,
+) : ClassNamingChain {
+  const className = joinWithLead(propagate, dehash(classes))  
+  , host: ClassNamingCall = classes => _classNaming(classes, className)
 
-  return wrapper(className, dehash(classnames), destination)
+  return wrapper(className, [], host)
 }
+
+type ClassNamingChain = ClassNamingCall & {
+  className: string
+}
+type ClassNamingCall = (classes: Record<string, ClassValue>) => ClassNamingChain
