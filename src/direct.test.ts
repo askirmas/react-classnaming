@@ -16,25 +16,40 @@ describe(direct.name, () => {
   ).toBe(
     className
   ))
-  it("called", () => expect({
-    ...output({
+
+  describe("chained", () => {
+    const chained = output({
       class3: undefined, class4: "hash4"
     })
-  }).toStrictEqual({
-    "className": `${className} class3 hash4`
-  }))
-  it("called is strigable", () => expect(
-    `${output({
-      class3: undefined, class4: "hash4"
-    })}`
-  ).toBe(
-    `${className} class3 hash4`
-  ))
+    , nextClassName = `${className} class3 hash4`
+  
+    it("called", () => expect({
+      ...chained
+    }).toStrictEqual({
+      className: nextClassName
+    }))
+    it("called is strigable", () => expect(
+      `${chained}`
+    ).toBe(
+      nextClassName
+    ))
+    it("TBD call is not allow by TS on key duplication", () => expect(
+      //TODO //@ts-expect-error`
+      `${chained({class1: undefined})}`
+    ).toBe(
+      `${nextClassName} class1`
+    ))
+  })
 })
+
+type ClassNamingChain = {
+  className: string
+  (classes: Record<string, ClassValue>): ClassNamingChain
+}
 
 function direct<T extends Record<string, ClassValue>>(classes: T, propagate?: string) {
   const className = joinWithLead(propagate, dehash(classes))  
-  , host = (classes: Record<string, ClassValue>) => direct(classes, className)
+  , host: ClassNamingChain = classes => direct(classes, className)
 
   host["className"] = className
   stringifyClassNamed(host)
