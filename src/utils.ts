@@ -21,6 +21,7 @@ function stringifyClassNamed<T extends ClassNamed>(source: T) :T {
 }
 
 function classNamedToString(this: ClassNamed) {
+  //TODO `?? ""`
   return this.className
 }
 

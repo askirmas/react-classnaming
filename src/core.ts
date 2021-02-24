@@ -9,7 +9,8 @@ const {keys: $keys} = Object
 export {
   wrapper,
   truthyKeys,
-  dehash
+  dehash,
+  joinWithLead
 }
 
 function wrapper<T>(className: Falsy|ClassValue, classKeys: string[], destination: T) {
