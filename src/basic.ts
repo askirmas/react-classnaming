@@ -1,5 +1,5 @@
 export type { ClassNames } from "./defs"
-import { dehash } from "./core"
+import { dehash, joinWithLead } from "./core"
 import type { ClassNamesMap, ClassNamed, GetClassKeys } from "./defs"
 
 const {
@@ -45,14 +45,7 @@ function _classNaming<T extends Partial<ClassNamed>>(
   destination: T
 ): T & ClassNamed {
   const keys = dehash(classnames)
-  , classString = `${
-    !className
-    ? ""
-    : `${className} `
-  }${
-    keys
-    .join(" ")
-  }`
+  , classString = joinWithLead(className, keys)
 
   // TODO For propagation
   // $defineProperty(

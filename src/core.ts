@@ -1,11 +1,12 @@
 import { EMPTY_ARRAY } from "./consts"
-import type { Falsy } from "./defs"
+import type { ClassValue, Falsy } from "./defs"
 
 const {keys: $keys} = Object
 
 export {
   truthyKeys,
-  dehash
+  dehash,
+  joinWithLead
 }
 
 function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $keys(source)) :string[] {
@@ -22,7 +23,7 @@ function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $
 
 //TODO TS is not working interesting
 function truthyKeys<T>(source: Falsy) :T[];
-function truthyKeys<T extends Record<string, unknown>>(source: T): (
+function truthyKeys<T extends Record<string, unknown>>(source: Readonly<T>): (
   {[K in keyof typeof source]: typeof source[K] extends Falsy ? never : K}[keyof typeof source]
 )[];
 function truthyKeys<T>(source: T): [T];
@@ -32,6 +33,24 @@ function truthyKeys<T>(source: T) {
     ? [source]
     : EMPTY_ARRAY
     
-  return ($keys(source) as (keyof T)[])
+  const filtered = (
+    $keys(source) as (keyof T)[]
+  )
+  //TODO consider `delete` and further `flat` in case of perf
   .filter(key => source[key])
+
+  return filtered
+}
+
+//TODO Consider undefined
+function joinWithLead(value: Falsy|ClassValue, arr: readonly string[]) :string {
+  const str1 = value || ""
+  if (!arr.length)
+    return str1
+  
+  const str2  = arr.join(" ")
+  if (!str1)
+    return str2
+
+  return `${str1} ${str2}`
 }

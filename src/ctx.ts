@@ -1,5 +1,5 @@
 import type { Falsy, ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
-import {dehash, truthyKeys} from "./core"
+import {dehash, joinWithLead, truthyKeys} from "./core"
 import { emptize, stringifyClassNamed } from "./utils"
 
 emptize(classNamer)
@@ -65,7 +65,7 @@ function classNamer<
   ...args: (ClassKeys | Falsy)[]
 ): ClassNamed & Partial<Pick<typeof this, "classnames">> {
   const {
-    className: _propagated,
+    className: propagated,
     classnames,
     withClassNames,
     // withSelf
@@ -84,19 +84,8 @@ function classNamer<
 
   classnames && dehash(classnames, allowed)
   
-  const allowedString = allowed.join(" ")
-  , propagated = withPropagation && _propagated || ""
-  
   //TODO Consider undefined|empty|never for type error
-  , className = `${
-    propagated
-  }${
-    propagated && allowedString
-    ? " "
-    : ""
-  }${
-    allowedString
-  }`
+  const className = joinWithLead(withPropagation && propagated, allowed)
   
   if (!withClassNames) {
     return stringifyClassNamed({
