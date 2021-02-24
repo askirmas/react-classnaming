@@ -1,6 +1,6 @@
 import type { Falsy, ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
-import {dehash, joinWithLead, truthyKeys} from "./core"
-import { emptize, stringifyClassNamed } from "./utils"
+import {dehash, truthyKeys, wrapper} from "./core"
+import { emptize } from "./utils"
 
 emptize(classNamer)
 
@@ -83,18 +83,10 @@ function classNamer<
   emptize(classnames)
 
   classnames && dehash(classnames, allowed)
-  
-  //TODO Consider undefined|empty|never for type error
-  const className = joinWithLead(withPropagation && propagated, allowed)
-  
-  if (!withClassNames) {
-    return stringifyClassNamed({
-      className
-    })
-  } else {
-    return stringifyClassNamed({
-      className,
-      classnames
-    })
-  }
+    
+  return wrapper(
+    withPropagation && propagated,
+    allowed,
+    !withClassNames ? {} : {classnames}
+  )
 }   

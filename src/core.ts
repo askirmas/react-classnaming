@@ -1,12 +1,22 @@
 import { EMPTY_ARRAY } from "./consts"
 import type { ClassValue, Falsy } from "./defs"
+import { stringifyClassNamed } from "./utils"
+
+const classNameKey = "className" as const
 
 const {keys: $keys} = Object
 
 export {
+  wrapper,
   truthyKeys,
-  dehash,
-  joinWithLead
+  dehash
+}
+
+function wrapper<T>(className: Falsy|ClassValue, classKeys: string[], destination: T) {
+  //@ts-expect-error
+  destination[classNameKey] = joinWithLead(className, classKeys)
+  
+  return stringifyClassNamed(destination as T & {className: string})
 }
 
 function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $keys(source)) :string[] {

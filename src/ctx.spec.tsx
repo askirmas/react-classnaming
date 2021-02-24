@@ -91,9 +91,10 @@ describe(classNamingCtx.name, () => {
     expectRender(
       <Component classnames={classnames}/>
     ).toSame(
-      <div className="hash1"
+      <div
         //@ts-expect-error  Property 'classnames' does not exist
-        classnames="" />
+        classnames=""
+        className="hash1" />
     )
   })
 })

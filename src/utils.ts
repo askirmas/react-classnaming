@@ -3,14 +3,17 @@ const stringifyProperty: SymbolConstructor["toPrimitive"] | "valueOf" | "toStrin
 const {
   defineProperty: $defineProperty
 } = Object
+, EmptyDescriptor = {value: emptyLambda}
+, StringifyDescriptor = {value: classNamedToString}
 
 export {
- stringifyClassNamed, emptize
+  emptize,
+  stringifyClassNamed,
 }
 
 function stringifyClassNamed<T extends {className: string}>(source: T) :T {
   if (!source.hasOwnProperty(stringifyProperty))
-    $defineProperty(source, stringifyProperty, {value: classNamedToString})
+    $defineProperty(source, stringifyProperty, StringifyDescriptor)
   
   return source
 }
@@ -24,7 +27,8 @@ function emptize(source: undefined|Record<string, any>) {
     source
     && !source.hasOwnProperty(stringifyProperty)
   )
-    $defineProperty(source, stringifyProperty, {value: emptyLambda})
+    $defineProperty(source, stringifyProperty, EmptyDescriptor)
+
   return source
 }
 

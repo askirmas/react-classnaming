@@ -1,12 +1,6 @@
 export type { ClassNames } from "./defs"
-import { dehash, joinWithLead } from "./core"
+import { dehash, wrapper } from "./core"
 import type { ClassNamesMap, ClassNamed, GetClassKeys } from "./defs"
-
-const {
-  defineProperty: $defineProperty,
-  assign: $assign
-} = Object
-, classNameKey = "className" as const
 
 export default classNamingBasic
 
@@ -44,9 +38,7 @@ function _classNaming<T extends Partial<ClassNamed>>(
   className: undefined|string,
   destination: T
 ): T & ClassNamed {
-  const keys = dehash(classnames)
-  , classString = joinWithLead(className, keys)
-
+  
   // TODO For propagation
   // $defineProperty(
   //   classnames,
@@ -57,15 +49,5 @@ function _classNaming<T extends Partial<ClassNamed>>(
   // )
   // $assign(destination, {classnames})
 
-  $assign(destination, {[classNameKey]: classString})
-
-  $defineProperty(
-    destination,
-    "toString",
-    {
-      value: () => classString
-    }
-  )
-
-  return destination as T & ClassNamed
+  return wrapper(className, dehash(classnames), destination)
 }
