@@ -8,7 +8,7 @@ const Header = ({className, children}: PropsWithChildren<ClassNames<true>>) =>
 
 const Logo = (props: ClassNames<true, "App-logo">) => {
   const classNaming = classNamingCtx(props)
-  return <img src={logo} {...classNaming(false, {"App-logo": true})} alt="logo" />
+  return <img src={logo} {...classNaming({"App-logo": true})} alt="logo" />
 }
 
 const Body = () => <p>Edit <code>src/App.tsx</code> and save to reload.</p>
@@ -18,7 +18,7 @@ function AppComponent({classnames, classnames: {App}}: AppProps) {
   const classNaming = classNamingCtx({classnames}, {withClassNames: true})
   return (
     <div {...classNamingBasic({App})}>
-      <Header {...classNaming("App_header")}>
+      <Header {...classNaming({App_header: true})}>
         <Logo {...classNaming()}/>
         <Body/>
         <Link {...classNaming()}/>

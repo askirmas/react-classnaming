@@ -21,30 +21,6 @@ describe(classNamingCtx.name, () => {
       className: "class1 hash4"
     }))
 
-    it("array", () => expect({
-      ...classes(
-        true && "class1",
-        false && "class2",
-        "" && "class3",
-        1 && "class4"
-      )
-    }).toStrictEqual({
-      className: "class1 hash4"
-    }))
-
-    it("map + array", () => expect({
-      ...classes(
-        {
-          class1: false,
-          class4: true
-        },
-        "class1",
-        false && "class4"
-      )
-    }).toStrictEqual({
-      className: "hash4 class1"
-    }))
-
     it("redundant in map", () => expect({
       ...classes({
         //@ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
@@ -67,8 +43,7 @@ describe(classNamingCtx.name, () => {
     it("propagate absent className", () => expect({
       ...classes(
         true,
-        {class1: true},
-        "class4"
+        {class1: true, class4: true},
       )
     }).toStrictEqual({
       className: "class1 hash4"
@@ -86,10 +61,10 @@ describe(classNamingCtx.name, () => {
       }))
 
     it("without propagation", () => expect({
-      ...classes(
-        "class1",
-        "class4"
-      )
+      ...classes({
+        class1: true,
+        class4: true
+      })
     }).toStrictEqual({
       className: "class1 hash4"
     }))
@@ -97,8 +72,10 @@ describe(classNamingCtx.name, () => {
     it("both", () => expect({
       ...classes(
         true,
-        "class1",
-        "class4"
+        {
+          class1: true,
+          class4: true  
+        }
       )
     }).toStrictEqual({ 
       className: "App class1 hash4"

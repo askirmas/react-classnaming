@@ -1,7 +1,6 @@
-import type { Falsy, ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
+import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
 import {dehash, joinWithLead, truthyKeys, wrapper} from "./core"
 import { emptize } from "./utils"
-
 
 emptize(classNamer)
 
@@ -13,18 +12,14 @@ interface tClassNaming<
   /**
    * @example classes(true) === props.className
    * @example classes({class1: true, class2: false}) === "class1"
-   * @example classes("class3", false && "class4") === "class3"
-   * @example classes(true, {class1: true, class2: false}, "class3", false && "class4") === `${props.className} class1 class3`
+   * @example classes(true, {class1: true, class2: false})
   */
  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   (
-    propagate_or_map_or_expression?: true | ToggleMap<ClassKeys> | ClassKeys | Falsy,
-    map_or_expression?: (
-      [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
-      ? never
-      : ToggleMap<ClassKeys>
-    ) | ClassKeys | Falsy,
-    ...expressions: (ClassKeys | Falsy)[]
+    propagate_or_map_or_expression?: true | ToggleMap<ClassKeys>,
+    map_or_expression?: [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
+    ? never
+    : ToggleMap<ClassKeys>
   ) : ClassNamed & (
     withClassNames extends true
     ? {classnames: ClassNamesMap<ClassKeys>}
@@ -61,9 +56,8 @@ function classNamer<
   withClassNames extends boolean|undefined
 >(
   this: Partial<ClassNamer<ClassKeys> & {options: ClassNamerOptions<withClassNames>}>,
-  arg0?: true | ToggleMap<ClassKeys> | ClassKeys,
-  arg1?: ToggleMap<ClassKeys> | ClassKeys,
-  ...args: (ClassKeys | Falsy)[]
+  arg0?: true | ToggleMap<ClassKeys>,
+  arg1?: typeof arg0 extends true ? ToggleMap<ClassKeys> : never,
 ): ClassNamed & Partial<Pick<typeof this, "classnames">> {
   const {
     className: propagated,
@@ -75,12 +69,9 @@ function classNamer<
     // withSelf
   } = options ?? {}
   , withPropagation = arg0 === true
-  , allowed: ClassKeys[] = truthyKeys(arg0 === true ? false : arg0)
-  .concat(truthyKeys(arg1))
+  , allowed: ClassKeys[] = truthyKeys(arg0 === true ? arg1 : arg0)
   //@ts-expect-error
-  .concat(args)
   .filter<ClassKeys>(
-    //@ts-expect-error
     Boolean
   )
   

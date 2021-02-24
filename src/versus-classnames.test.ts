@@ -38,14 +38,15 @@ it("usage interface", () => {
 it("css module", () => expect({
   className: classnames_bind.bind(module_css)(
     // No error on redundant CSS-class
-    "class1", "class3"
-  )
-}).toStrictEqual({
-  ...classNamingCtx({classnames: module_css})(
-    "class1",
-    //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
+    {"class1": true},
     "class3"
   )
+}).toStrictEqual({
+  ...classNamingCtx({classnames: module_css})({
+    class1: true,
+    //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
+    class3: true
+  })
 }))
 
 it.todo("Does `classnames` have chainable interface?")

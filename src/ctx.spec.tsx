@@ -16,7 +16,7 @@ function Component(props: ClassNames<true, {classnames: {class1: ClassValue, cla
   const classes = classNamingCtx(props)
   return <>
     <div {...classes(true, {class1: true, class2: false})}/>
-    <div {...classes("class2")}/>
+    <div {...classes({class2: true})}/>
   </>
 }
 
@@ -25,7 +25,7 @@ function App({classnames, className}: ClassNames<true, "App__Item", typeof Compo
     ...classNamingCtx({
       classnames, className
     })(
-      true, "App__Item"
+      true, {App__Item: true}
     ),
     classnames
   }}/>
@@ -53,7 +53,7 @@ describe(classNamingCtx.name, () => {
           {classnames, className},
           {withClassNames: true}
         )(
-          true, "App__Item"
+          true, {App__Item: true}
       )}/>
     
     expectRender(
@@ -71,7 +71,7 @@ describe(classNamingCtx.name, () => {
         ...classNamingCtx({
           classnames, className
         })(
-          true, "App__Item"
+          true, {App__Item: true}
       )}/>
     
     expectRender(
@@ -85,7 +85,7 @@ describe(classNamingCtx.name, () => {
   it("propagate wrongly to leaf element", () => {
     const Component = ({classnames}: ClassNames<"class1">) =>
       <div {
-        ...classNamingCtx({classnames}, {withClassNames: true})("class1")
+        ...classNamingCtx({classnames}, {withClassNames: true})({class1: true})
       }/>
 
     expectRender(
