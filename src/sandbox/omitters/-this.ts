@@ -9,6 +9,7 @@ export {key}
 
 function k<K extends string, T extends Record<K, ClassValue>>(
   this: T
+// or `K` - whatever
 ): (keyof T)[] {
   //@ts-expect-error
   return Object.keys(this)
