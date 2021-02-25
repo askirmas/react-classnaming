@@ -1,5 +1,5 @@
 import React from "react"
-import expectRender from "../expect-to-same-render"
+import expectRender from "../../expect-to-same-render"
 
 it("falsy props", () => expectRender(
   <div {...{
@@ -31,7 +31,7 @@ it("object props", () => expectRender(
   />
 ))
 
-//TODO emits no warning!!! Against `classnames`
+//TODO #3 emits no warning!!! Recover `classNames`
 it("props to dom attribute", () => expectRender(
   //@ts-expect-error
   <div classnames={{toString: () => ""}} />
