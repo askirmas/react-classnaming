@@ -46,7 +46,7 @@ export type ClassNamer<ClassKeys extends string> = {
   className?: undefined|string
   classnames: ClassNamesMap<ClassKeys>
 }
-
+//TODO Any object puzzles a lot
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
 export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: C}>>
@@ -71,4 +71,4 @@ export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 
 // type get<T, K> = K extends keyof T ? T[K] : never
 
-type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
+export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>

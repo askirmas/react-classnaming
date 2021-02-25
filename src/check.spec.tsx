@@ -63,7 +63,7 @@ it("equility if possible", () => {
       classNamesCheck<typeof Component>(module_css)} />;
     
   classNamesCheck<typeof Component>({class1: "undefined",
-    //@ts-expect-error Object literal may only specify known properties, but 'class2' does not exist
+    //TODO @ts-expect-error Object literal may only specify known properties, but 'class2' does not exist
     class2: "undefined"});
   //TODO //@ts-expect-error
   classNamesCheck<typeof Component, typeof module_css>(module_css);
