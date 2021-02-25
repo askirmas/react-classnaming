@@ -11,15 +11,6 @@ const {classnames}: ClassNames<typeof App> = {
   }
 }
 
-//TODO No rename inheritance
-function Component(props: ClassNames<true, {classnames: {class1: ClassValue, class2: ClassValue}}>) {
-  const classes = classNamingCtx(props)
-  return <>
-    <div {...classes(true, {class1: true, class2: false})}/>
-    <div {...classes({class2: true})}/>
-  </>
-}
-
 function App({classnames, className}: ClassNames<true, "App__Item", typeof Component>) {
   return <Component {...{
     ...classNamingCtx({
@@ -29,6 +20,15 @@ function App({classnames, className}: ClassNames<true, "App__Item", typeof Compo
     ),
     classnames
   }}/>
+}
+
+//TODO No rename inheritance
+function Component(props: ClassNames<true, {classnames: {class1: ClassValue, class2: ClassValue}}>) {
+  const classes = classNamingCtx(props)
+  return <>
+    <div {...classes(true, {class1: true, class2: false})}/>
+    <div {...classes({class2: true})}/>
+  </>
 }
 
 describe(classNamingCtx.name, () => {
@@ -82,9 +82,10 @@ describe(classNamingCtx.name, () => {
     )
   })
 
-  it("propagate wrongly to leaf element", () => {
+  it("propagate `classnames` to DOM element - TBD TS error", () => {
     const Component = ({classnames}: ClassNames<"class1">) =>
       <div {
+        //TODO //@ts-expect-error  Property 'classnames' does not exist
         ...classNamingCtx({classnames}, {withClassNames: true})({class1: true})
       }/>
 
