@@ -13,6 +13,7 @@ function App(_: ClassNames<ClassNamesProperty<{class1: ClassValue; class2: Class
 function Component(_: ClassNames<ClassNamesProperty<{class1: ClassValue}>>) { return null }
 
 it("without", () => {
+  //@ts-expect-error
   <App classnames={css} />;
   <App classnames={module_css} />;
   <Component classnames={module_css} />;
@@ -35,6 +36,7 @@ it("declares", () => {
 })
 
 it("propagates", () => {
+  //@ts-expect-error
   <App classnames={classNamesCheck(css)} />;
 
   <Component classnames={classNamesCheck(module_css)} />;
@@ -68,6 +70,7 @@ it("equility if possible", () => {
   //TODO //@ts-expect-error
   classNamesCheck<typeof Component, typeof module_css>(module_css);
 
+  //@ts-expect-error
   <App classnames={classNamesCheck<typeof App, typeof css>(css)} />;
 
   <Component classnames={classNamesCheck<typeof App, typeof module_css>(module_css)} /> ;

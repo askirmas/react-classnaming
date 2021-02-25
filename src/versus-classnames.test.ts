@@ -22,7 +22,10 @@ it("usage interface", () => {
     whatever
   } = classNamesCheck<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>(css)
   
-  const props: ClassNames<ClassNamesProperty<{class2: ClassValue}>> = {"classnames": css}
+  const props: ClassNames<ClassNamesProperty<{class2: ClassValue}>> = {
+    //@ts-expect-error
+    "classnames": css
+  }
   
   const {classnames: {class2}} = props
 
