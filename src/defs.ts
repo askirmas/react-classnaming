@@ -22,18 +22,20 @@ export type ClassNames<
 >
 = Ever<Extract<C0, true>, {className: string}>
 & ClassNamesProp<
-  Extract<C0, string>
   | GetClassKeys<Extract<C0, ReactRelated>>
-  | GetClassKeys<C1>
-  | GetClassKeys<C2>
-  | GetClassKeys<C3>
-  | GetClassKeys<C4>
-  | GetClassKeys<C5>
-  | GetClassKeys<C6>
-  | GetClassKeys<C7>
-  | GetClassKeys<C8>
-  | GetClassKeys<C9>
-  | GetClassKeys<C10>  
+>
+& ClassNamesProperty<
+  // & Ever<Extract<C0, ReactRelated>, ClassNamesFrom<Extract<C0, ReactRelated>>>
+  & Ever<C1, ClassNamesFrom<C1>>
+  & Ever<C2, ClassNamesFrom<C2>>
+  & Ever<C3, ClassNamesFrom<C3>>
+  & Ever<C4, ClassNamesFrom<C4>>
+  & Ever<C5, ClassNamesFrom<C5>>
+  & Ever<C6, ClassNamesFrom<C6>>
+  & Ever<C7, ClassNamesFrom<C7>>
+  & Ever<C8, ClassNamesFrom<C8>>
+  & Ever<C9, ClassNamesFrom<C9>>
+  & Ever<C10, ClassNamesFrom<C10>>
 >
 
 export type ClassNamed = {
@@ -47,7 +49,7 @@ export type ClassNamer<ClassKeys extends string> = {
 
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
 
-export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<keyof C, {classnames: C}>
+export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: C}>>
 
 export type ClassNamesProp<C extends string> = Ever<C, {classnames: ClassNamesMap<C>}>
 
@@ -57,8 +59,8 @@ export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 
 export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 //TODO Consider not empty object
-export type GetClassNames<T, D = EmptyObject> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : never
-export type GetClassKeys<C> = [GetClassNames<GetProps<C>, never>] extends [never] ? never : keyof GetClassNames<GetProps<C>>
+export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
+type GetClassKeys<C> = [GetClassNames<GetProps<C>, never>] extends [never] ? never : keyof GetClassNames<GetProps<C>>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 export type EmptyObject = Record<never, never>
@@ -68,3 +70,5 @@ export type Falsy = undefined|null|false|0|""
 export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
 
 // type get<T, K> = K extends keyof T ? T[K] : never
+
+type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>

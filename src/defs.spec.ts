@@ -79,27 +79,6 @@ describe("ClassNames", () => {
     expect(suites).toBeInstanceOf(Object)
   })
 })
-describe("Miss-use", () => {
-  it("<'class1', true>", () => {
-    const suite1
-    //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
-    : ClassNames<"class1", true>
-    = {classnames: {"class1": undefined}}
-
-    expect(suite1).toBeInstanceOf(Object)
-  })
-
-  it("<true, true>", () => {
-    const suite1
-    : ClassNames<true,
-      //@ts-expect-error Type 'boolean' does not satisfy the constraint 'never'
-      true
-    > = {
-      className: ""}
-
-    expect(suite1).toBeInstanceOf(Object)
-  })
-})
 
 describe("ClassNamesFrom", () => {
 
