@@ -2,6 +2,11 @@ export type { ClassNames } from "./defs"
 import { dehash, wrapper, joinWithLead } from "./core"
 import type { ClassNamesMap, ClassNamed, GetClassKeys, ClassValue, ReactRelated } from "./defs"
 
+type ClassNamingChain = ClassNamingCall & {
+  className: string
+}
+type ClassNamingCall = (classes: Record<string, ClassValue>) => ClassNamingChain
+
 export default classNamingBasic
 
 /**
@@ -46,8 +51,3 @@ function _classNaming<C extends ClassNamesMap<string>>(
 
   return wrapper(host, className)
 }
-
-type ClassNamingChain = ClassNamingCall & {
-  className: string
-}
-type ClassNamingCall = (classes: Record<string, ClassValue>) => ClassNamingChain
