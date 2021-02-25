@@ -1,10 +1,10 @@
 import { Component, PureComponent, ReactElement } from "react";
-import type { ClassNames, ClassNamesMap } from "./defs";
+import type { ClassNames, ClassNamesMap, ClassNamesProperty, ClassValue } from "./defs";
 
-type Props = ClassNames<true, "props">
-function Functional(_: ClassNames<"functional">) { return null }
-class ClassComponent extends Component<ClassNames<"component"|"comp0">> {}
-class ClassPureComponent extends PureComponent<ClassNames<"pureComponent">> {}
+type Props = ClassNames<true, ClassNamesProperty<{props: ClassValue}>>
+function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassValue}>>) { return null }
+class ClassComponent extends Component<ClassNames<ClassNamesProperty<{component: ClassValue; comp0: ClassValue}>>> {}
+class ClassPureComponent extends PureComponent<ClassNames<ClassNamesProperty<{pureComponent: ClassValue}>>> {}
 
 describe("ClassNames", () => {
   it("<true>", () => {
@@ -27,7 +27,7 @@ describe("ClassNames", () => {
   })
 
   it("<'class1'|'class2'>", () => {
-    const suites: Record<string, ClassNames<"class1"|"class2">> = {
+    const suites: Record<string, ClassNames<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
       "omitted": {
         //@ts-expect-error ReactRelated
         classnames: {
@@ -54,7 +54,7 @@ describe("ClassNames", () => {
   })
 
   it("<true, 'class1'|'class2'>", () => {
-    const suites: Record<string, ClassNames<true, "class1"|"class2">> = {
+    const suites: Record<string, ClassNames<true, ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
       "className and classnames": {
         className: "",
         classnames: {class1: undefined, class2: undefined}
@@ -99,25 +99,13 @@ describe("Miss-use", () => {
 
     expect(suite1).toBeInstanceOf(Object)
   })
-
-  it("<'class1', 'class2'>", () => {
-    const suite1
-    : ClassNames<"class1",
-      //@ts-expect-error Type 'string' does not satisfy the constraint 'never'
-      "class2"
-    >
-    = {classnames: {"class1": undefined, class2: undefined}}
-
-    expect(suite1).toBeInstanceOf(Object)
-  })
-
 })
 
 describe("ClassNamesFrom", () => {
 
   it("manually merge", () => {
     type AppClassNames = (
-      ClassNames<"App">
+      ClassNamesProperty<{App: ClassValue}>
       & ClassNames<typeof ClassComponent>
       & ClassNames<typeof ClassPureComponent>
       & ClassNames<typeof Functional>
@@ -185,7 +173,7 @@ describe("ClassNamesFrom", () => {
   it("multiple apply", () => {
     type AppClassNames = ClassNames<
         true,
-        "App",
+        ClassNamesProperty<{App: ClassValue}>,
         typeof ClassComponent,
         typeof ClassPureComponent,
         typeof Functional,

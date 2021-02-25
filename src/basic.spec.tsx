@@ -1,16 +1,16 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import type { ClassNames, ClassValue } from "./defs"
+import type { ClassNames, ClassNamesProperty, ClassValue } from "./defs"
 import classNamingBasic from "./basic"
 import classNamesCheck from "./check"
 
-function Button({className, "classnames": { Btn }}: ClassNames<true, "Btn">) {
+function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassValue}>>) {
   return <button {...classNamingBasic(className, { Btn })}/>
 }
 
 function Root({
   classnames, "classnames": { App__Item, App__Footer }
-}: ClassNames<"App__Item"|"App__Footer", typeof Button>) {
+}: ClassNames<ClassNamesProperty<{App__Item: ClassValue; App__Footer: ClassValue}>, typeof Button>) {
   return <>
     <Button {...{
       ...classNamingBasic({ App__Item }),
@@ -44,7 +44,7 @@ it("css module", () => expectRender(
 it("vscode couldn't rename enum element", () => {
   function Root({
     "classnames": {App: App__Container}
-  }: ClassNames<"App">) {
+  }: ClassNames<ClassNamesProperty<{App: ClassValue}>>) {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
@@ -80,8 +80,6 @@ it("vscode can rename property", () => {
 
   expectRender(
     <Root
-      //TODO Solve it
-      //@ts-expect-error Property 'App' is missing in type 'Record<string, 
       classnames={
         classNamesCheck()} />,
     <Root2 classnames={classNamesCheck()} />

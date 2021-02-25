@@ -1,7 +1,7 @@
 import { EMPTY_OBJECT } from "./consts"
 import type { ClassNames, ReactRelated, ClassNamesMap } from "./defs"
 
-type GetClassNames<Source extends string | ReactRelated = string> = "classnames" extends keyof ClassNames<Source>
+type GetClassNames<Source extends ReactRelated = never> = "classnames" extends keyof ClassNames<Source>
 ? ClassNames<Source>["classnames"]
 : never
 
@@ -13,7 +13,7 @@ export default classNamesCheck
  * @example classNamesCheck<typeof Component>() // classKeys of `Component`
  */
 function classNamesCheck<
-  Source extends string | ReactRelated = string
+  Source extends ReactRelated = never
 >(): GetClassNames<Source>
 
 /**
@@ -29,7 +29,7 @@ function classNamesCheck<T extends ClassNamesMap<string>>(classnames: T): T
  * @example classNamesCheck<typeof App>(require("./module.css"))
 */
 function classNamesCheck<
-  K extends string | ReactRelated,
+  K extends ReactRelated,
   T extends GetClassNames<K> = GetClassNames<K>
 >(classnames?: T): string extends keyof T ? GetClassNames<K>
 : keyof T extends keyof GetClassNames<K> ? T

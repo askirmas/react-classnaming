@@ -1,7 +1,7 @@
 import React from "react"
 import { classNamesCheck, classNamingCtx } from "."
 import expectRender from "../expect-to-same-render"
-import { ClassNames, ClassValue } from "./defs"
+import { ClassNames, ClassNamesProperty, ClassValue } from "./defs"
 
 const {classnames}: ClassNames<typeof App> = {
   classnames: {
@@ -11,7 +11,11 @@ const {classnames}: ClassNames<typeof App> = {
   }
 }
 
-function App({classnames, className}: ClassNames<true, "App__Item", typeof Component>) {
+function App({classnames, className}: ClassNames<
+  true,
+  ClassNamesProperty<{App__Item: ClassValue}>,
+  typeof Component
+  >) {
   return <Component {...{
     ...classNamingCtx({
       classnames, className
@@ -47,7 +51,11 @@ describe(classNamingCtx.name, () => {
   ))
 
   it("propagate classnames by option", () => {
-    const App = ({classnames, className}: ClassNames<true, "App__Item", typeof Component>) =>
+    const App = ({classnames, className}: ClassNames<
+      true,
+      ClassNamesProperty<{App__Item: ClassValue}>,
+      typeof Component
+    >) =>
       <Component {
         ...classNamingCtx(
           {classnames, className},
@@ -65,7 +73,11 @@ describe(classNamingCtx.name, () => {
   })  
 
   it("not propagate classnames", () => {
-    const App = ({classnames, className}: ClassNames<true, "App__Item", typeof Component>) =>
+    const App = ({classnames, className}: ClassNames<
+      true,
+      ClassNamesProperty<{App__Item: ClassValue}>,
+      typeof Component>
+    ) =>
       //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable 
       <Component {
         ...classNamingCtx({
@@ -83,7 +95,7 @@ describe(classNamingCtx.name, () => {
   })
 
   it("propagate `classnames` to DOM element - TBD TS error", () => {
-    const Component = ({classnames}: ClassNames<"class1">) =>
+    const Component = ({classnames}: ClassNames<ClassNamesProperty<{class1: ClassValue}>>) =>
       <div {
         //TODO //@ts-expect-error  Property 'classnames' does not exist
         ...classNamingCtx({classnames}, {withClassNames: true})({class1: true})

@@ -1,6 +1,6 @@
 import React from "react"
 import classNamesCheck from "./check"
-import type { ClassNames } from "./defs"
+import type { ClassNames, ClassNamesProperty, ClassValue } from "./defs"
 
 import css from "./some.css"
 import module from "./some.module.css"
@@ -9,8 +9,8 @@ const module_css: typeof module = {
   "class2": "hash2"
 }
 
-function App(_: ClassNames<"class1"|"class2">) { return null }
-function Component(_: ClassNames<"class1">) { return null }
+function App(_: ClassNames<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>) { return null }
+function Component(_: ClassNames<ClassNamesProperty<{class1: ClassValue}>>) { return null }
 
 it("without", () => {
   <App classnames={css} />;
@@ -24,7 +24,7 @@ it("declares", () => {
   <App
       //@ts-expect-error Property 'class2' is missing
       classnames={
-        classNamesCheck<"class1">() } />;
+        classNamesCheck<ClassNamesProperty<{Class1: ClassValue}>>() } />;
 
     <App
       //@ts-expect-error Property 'class2' is missing

@@ -8,8 +8,8 @@ import type { JSXElementConstructor } from "react"
  */
 //TODO Consider string | ClassNamesMap
 export type ClassNames<
-  C0 extends true | string| ReactRelated,
-  C1 extends (C0 extends true ? string : never) | ReactRelated = never,
+  C0 extends true | ReactRelated,
+  C1 extends ReactRelated = never,
   C2 extends ReactRelated = never,
   C3 extends ReactRelated = never,
   C4 extends ReactRelated = never,
@@ -22,8 +22,9 @@ export type ClassNames<
 >
 = Ever<Extract<C0, true>, {className: string}>
 & ClassNamesProp<
-  Extract<C0 | C1, string>
-  | GetClassKeys<Extract<C0 | C1, ReactRelated>>
+  Extract<C0, string>
+  | GetClassKeys<Extract<C0, ReactRelated>>
+  | GetClassKeys<C1>
   | GetClassKeys<C2>
   | GetClassKeys<C3>
   | GetClassKeys<C4>
@@ -45,6 +46,8 @@ export type ClassNamer<ClassKeys extends string> = {
 }
 
 export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
+
+export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<keyof C, {classnames: C}>
 
 export type ClassNamesProp<C extends string> = Ever<C, {classnames: ClassNamesMap<C>}>
 
