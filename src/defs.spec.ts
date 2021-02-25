@@ -1,5 +1,5 @@
-import { Component, PureComponent, ReactElement } from "react";
-import type { ClassNames, ClassNamesMap, ClassNamesProperty, ClassValue } from "./defs";
+import { Component, PureComponent } from "react";
+import type { ClassNames, ClassNamesProperty, ClassValue } from "./defs";
 
 type Props = ClassNames<true, ClassNamesProperty<{props: ClassValue}>>
 function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassValue}>>) { return null }
@@ -26,7 +26,7 @@ describe("ClassNames", () => {
     expect(suites).toBeInstanceOf(Object)
   })
 
-  it("<'class1'|'class2'>", () => {
+  it("<{class1, class2}>", () => {
     const suites: Record<string, ClassNames<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
       "omitted": {
         //@ts-expect-error ReactRelated
@@ -53,7 +53,7 @@ describe("ClassNames", () => {
     expect(suites).toBeInstanceOf(Object)
   })
 
-  it("<true, 'class1'|'class2'>", () => {
+  it("<true, {class1, class2}>", () => {
     const suites: Record<string, ClassNames<true, ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
       "className and classnames": {
         className: "",
@@ -73,15 +73,17 @@ describe("ClassNames", () => {
 
   it("nothing to pick", () => {
     type NoClassNames = ClassNames<true>
-    const suites: Record<string, ClassNames<NoClassNames>> = {
+    const suites: Record<string, ClassNames<
+      //@ts-expect-error
+      NoClassNames
+    >> = {
       "nothing": {classnames: {}}
     }
     expect(suites).toBeInstanceOf(Object)
   })
 })
 
-describe("ClassNamesFrom", () => {
-
+describe("ClassNames from", () => {
   it("manually merge", () => {
     type AppClassNames = (
       ClassNamesProperty<{App: ClassValue}>
@@ -172,51 +174,4 @@ describe("ClassNamesFrom", () => {
 
     expect(suites).toBeInstanceOf(Object)
   })
-})
-
-describe("ReactRelated2", () => {
-  type ReactRelated2
-  = {
-    classnames: ClassNamesMap<string>
-    [k: string]: any
-  }
-  | (
-    (props: {
-      classnames: ClassNamesMap<string>
-      [k: string]: any  
-    }) => ReactElement<any, any> | null)
-  | (new (props: {classnames: ClassNamesMap<string>} & any) => Component<{
-    classnames: ClassNamesMap<string>
-    [k: string]: any
-  }, any>);
-  
-  type Wrong = {classnames: string}
-  type Props = {classnames: ClassNamesMap<string>, className: string}
-
-  const suites: Record<string, ReactRelated2> = {
-    //@ts-expect-error
-    "Props without": {
-      className: ""
-    },
-    "Props with wrong": {
-      //@ts-expect-error
-      classnames: ""
-    },
-    "Props with": {
-      classnames: {},
-      className: ""
-    },
-    //@ts-expect-error
-    "Func without": (_: {className: string}) => null,
-    //@ts-expect-error Types of parameters '_' and 'props' are incompatible.
-    "Func with wrong": (_: Wrong) => null,
-    //@ts-expect-error //TODO Fix it
-    "Func with": (_: Props) => null,
-    //@ts-expect-error
-    "Class without": class extends Component {},
-    //@ts-expect-error
-    "Class with wrong": class extends Component<Wrong> {},
-    "Class with": class extends Component<Props> {}
-  }
-  expect(suites).toBeInstanceOf(Object)
 })

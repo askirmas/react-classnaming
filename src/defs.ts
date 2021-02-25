@@ -1,4 +1,11 @@
-import type { JSXElementConstructor } from "react"
+import type {
+  JSXElementConstructor,
+  ReactElement,
+  Component
+} from "react"
+
+type RFC = (props: any) => ReactElement<any, any> | null
+type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 
 /** Multipurpose generic
  * @example ClassNames<true> === {className: string}
@@ -35,6 +42,9 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
+// `ClassNamesMap<string>` not works at Component
+type WithClassNames = ClassNamesProperty<ClassNamesMap<string>>
+
 export type ClassNamed = {
   className: string
 }
@@ -43,14 +53,13 @@ export type ClassNamer<ClassKeys extends string> = Partial<ClassNamed> & {
   classnames: ClassNamesMap<ClassKeys>
 }
 
-export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: C}>>
+export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassValue}}>>
 
 export type ClassNamesMap<C extends string> = Record<C, ClassValue>
 
 export type ClassValue = undefined|string
 
-//TODO Any object puzzles a lot
-export type ReactRelated = Record<string, any> | JSXElementConstructor<any>
+export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
 
 export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
 //TODO Consider not empty object
@@ -62,7 +71,7 @@ export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 export type EmptyObject = Record<never, never>
-
+type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
 
 export type ToggleMap<K extends string> = Partial<Record<K, true|Falsy>>
