@@ -1,6 +1,7 @@
 import { EMPTY_OBJECT } from "./consts"
 import type { ClassNames, ReactRelated, ClassNamesMap } from "./defs"
 
+//TODO undestand against `GetClassNames` in defs
 type GetClassNames<Source extends ReactRelated = never> = "classnames" extends keyof ClassNames<Source>
 ? ClassNames<Source>["classnames"]
 : never

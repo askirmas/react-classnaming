@@ -1,6 +1,6 @@
 export type { ClassNames } from "./defs"
 import { dehash, wrapper, joinWithLead } from "./core"
-import type { ClassNamesMap, ClassNamed, GetClassKeys, ClassValue, ReactRelated } from "./defs"
+import type { ClassNamesMap, ClassNamed, ClassValue, ReactRelated, GetClassNames, GetProps } from "./defs"
 
 type ClassNamingChain = ClassNamingCall & {
   className: string
@@ -16,7 +16,7 @@ export default classNamingBasic
  * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
  */
 function classNamingBasic<Source extends ReactRelated>(
-  classnames: ClassNamesMap<GetClassKeys<Source>>
+  classnames: GetClassNames<GetProps<Source>>
 ): ClassNamingChain
 
 /**
@@ -27,7 +27,7 @@ function classNamingBasic<Source extends ReactRelated>(
  */
 function classNamingBasic<Source extends ReactRelated>(
   propagatedClassName: undefined|string,
-  classnames: ClassNamesMap<GetClassKeys<Source>>
+  classnames: GetClassNames<GetProps<Source>>
 ): ClassNamingChain
 
 function classNamingBasic(
