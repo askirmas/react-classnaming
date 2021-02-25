@@ -142,3 +142,15 @@ const classNaming = classNamingCtx({classnames: module_css})
 //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
 <div {...classNaming({class1: true, class3: true})} />
 ```
+
+## Getting Started
+
+### Component declaration: `ClassNamesProperty`, `ClassNamesValue`
+
+### Component usage: `classNamesBasic`, `classNamesCtx`
+
+### Collecting: `ClassNames`
+
+### Root supply: `classNamesCheck`
+
+### Using `*.css.d.ts`
