@@ -28,9 +28,15 @@ function exclusion<
   return $return
 }
 
-const source: Record<"a"|"b"|"c"|"d", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined}
+const source: Record<"a"|"b"|"c"|"d"|"e", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
 
 const step1 = exclusion(source, {a: "a", b: undefined})
 , step2 = exclusion(step1, {"c": undefined})
-
+//@ts-expect-error Property 'd' is missing
+, answ
+: typeof step2 = {
+  e: "",
+  //@ts-expect-error Object literal may only specify known properties, and 'z'
+  z: ""
+}
 export {step2}
