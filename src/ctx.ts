@@ -1,6 +1,7 @@
 import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
 import {dehash, joinWithLead, truthyKeys, wrapper} from "./core"
 import { emptize } from "./utils"
+import { EMPTY_OBJECT } from "./consts"
 
 emptize(classNamer)
 
@@ -39,9 +40,9 @@ function classNamingCtx<
   withClassNames extends boolean|undefined
 >(
   {classnames, className}: ClassNamer<ClassKeys>,
-  options?: ClassNamerOptions<withClassNames>
+  options: Readonly<ClassNamerOptions<withClassNames>> = EMPTY_OBJECT
 ) {
-  return classNamer.bind({classnames, className, options}) as tClassNaming<ClassKeys, withClassNames>
+  return classNamer.bind({classnames, className, options, stacked: undefined}) as tClassNaming<ClassKeys, withClassNames>
 }
 
 type ClassNamerOptions<
@@ -55,19 +56,23 @@ function classNamer<
   ClassKeys extends string,
   withClassNames extends boolean|undefined
 >(
-  this: Partial<ClassNamer<ClassKeys> & {options: ClassNamerOptions<withClassNames>}>,
+  this: ClassNamer<ClassKeys> & {
+    options: Readonly<ClassNamerOptions<withClassNames>>
+    stacked: string|undefined
+  },
   arg0?: true | ToggleMap<ClassKeys>,
   arg1?: typeof arg0 extends true ? ToggleMap<ClassKeys> : never,
 ): ClassNamed & Partial<Pick<typeof this, "classnames">> {
   const {
     className: propagated,
     classnames,
+    stacked: preStacked,
     options
   } = this
   , {
     withClassNames,
     // withSelf
-  } = options ?? {}
+  } = options
   , withPropagation = arg0 === true
   , allowed: ClassKeys[] = truthyKeys(arg0 === true ? arg1 : arg0)
   //@ts-expect-error
@@ -79,8 +84,9 @@ function classNamer<
 
   classnames && dehash(classnames, allowed)
   
-  const className = joinWithLead(withPropagation && propagated, allowed)
-  , host = classNamer.bind({classnames, className, options})
+  const stacked = joinWithLead(preStacked, allowed)
+  , className = joinWithLead(withPropagation && propagated, stacked)
+  , host = classNamer.bind({classnames, className, options, stacked})
 
   withClassNames && (
     //@ts-expect-error

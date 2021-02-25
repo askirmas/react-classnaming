@@ -78,10 +78,10 @@ describe(classNamingCtx.name, () => {
       )({class2: true}
       )({class1: false}
       )({class3: true})
-    }).not.toStrictEqual({
-      className: "class3"
+    }).toStrictEqual({
+      className: "class1 class2 hash3"
     }))
-    it("TBD", () => expect({
+    it("Proposal", () => expect({
       //@ts-expect-error
       ...classNamingCtx({classnames})(
         {class1: true}

@@ -57,12 +57,12 @@ function truthyKeys<T>(source: T) {
 }
 
 //TODO Consider returning `undefined` on empty string
-function joinWithLead(value: Falsy|ClassValue, arr: undefined | readonly string[]) : string {
+function joinWithLead(value: Falsy|ClassValue, arr: undefined | string | readonly string[]) : string {
   const str1 = value || ""
   if (!(arr && arr.length))
     return str1
   
-  const str2 = arr.join(" ")
+  const str2 = typeof arr === "string" ? arr : arr.join(" ")
   if (!str1)
     return str2
 
