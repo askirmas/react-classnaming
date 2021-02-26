@@ -24,7 +24,7 @@ export type ClassNames<
   C9 extends ReactRelated = never,
   C10 extends ReactRelated = never
 >
-= Ever<Extract<C0, true>, {className: string}>
+= Ever<Extract<C0, true>, ClassNamed>
 & ClassNamesProperty<
   & Ever<Extract<C0, ReactRelated>, ClassNamesFrom<Extract<C0, ReactRelated>>>
   & Ever<C1, ClassNamesFrom<C1>>
@@ -50,7 +50,8 @@ export type ClassNamed = {
 
 /// APPLIED TO GLOBAL INLINE
 
-export type ClassNamer<T extends ClassNamesMap> = Partial<ClassNamed> & {
+export type ClassNamingContext<T extends ClassNamesMap> = Partial<ClassNamed> & {
+  //TODO Reuse `ClassNamesProperty`?
   classnames: T
 }
 export type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}

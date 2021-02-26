@@ -1,4 +1,4 @@
-import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap } from "./defs"
+import type { ToggleMap, ClassNamingContext, ClassNamed, ClassNamesMap } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 
@@ -32,7 +32,7 @@ export default classNamingCtx
 function classNamingCtx<
   Source extends ClassNamesMap,
 >(
-  {classnames, className}: ClassNamer<Source>,
+  {classnames, className}: ClassNamingContext<Source>,
 ) {
   return classNamer.bind({classnames, className, stacked: undefined}) as ClassNaming<Source>
 }
@@ -40,7 +40,7 @@ function classNamingCtx<
 function classNamer<
   Source extends ClassNamesMap
 >(
-  this: ClassNamer<Source> & {
+  this: ClassNamingContext<Source> & {
     stacked: string|undefined
   },
   arg0?: true | ToggleMap<Source>,
