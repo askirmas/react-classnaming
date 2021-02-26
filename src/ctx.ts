@@ -4,23 +4,26 @@ import { emptize } from "./utils"
 
 emptize(classNamer)
 
-//TODO no `className` - no first `true`
-interface ClassNaming<
-  Source extends ClassNamesMap
-> extends ClassNamed {
-  /**
+interface ClassNamingCall<Source extends ClassNamesMap> {
+/**
    * @example classes(true) === props.className
    * @example classes({class1: true, class2: false}) === "class1"
    * @example classes(true, {class1: true, class2: false})
   */
- // Using overloads will make error not in certain argument but on all call - 'No overload found'
+  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   (
     propagate_or_map_or_expression?: true | ToggleMap<Source>,
     map_or_expression?: [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
     ? never
     : ToggleMap<Source>
   ): ClassNaming<Source>
+  // (propagateClassName: true): ClassNaming<Source>
+  // (expression: ToggleMap<Source>): ClassNaming<Source>
+  // (propagateClassName: true, expression: ToggleMap<Source>): ClassNaming<Source>
 }
+
+//TODO no `className` - no first `true`
+interface ClassNaming<Source extends ClassNamesMap> extends ClassNamed, ClassNamingCall<Source> {}
 
 export default classNamingCtx
 
@@ -33,8 +36,10 @@ function classNamingCtx<
   Source extends ClassNamesMap,
 >(
   {classnames, className}: ClassNamingContext<Source>,
-) {
-  return classNamer.bind({classnames, className, stacked: undefined}) as ClassNaming<Source>
+): ClassNaming<Source> {
+  const host: ClassNamingCall<Source> = classNamer.bind({classnames, className, stacked: undefined})
+
+  return wrapper(host, className)
 }
 
 function classNamer<
@@ -44,8 +49,8 @@ function classNamer<
     stacked: string|undefined
   },
   arg0?: true | ToggleMap<Source>,
-  arg1?: typeof arg0 extends true ? ToggleMap<Source> : never,
-): ClassNamed {
+  arg1?: ToggleMap<Source>,
+): ClassNaming<Source> {
   const {
     className: propagated,
     classnames,
@@ -57,7 +62,7 @@ function classNamer<
   , allowed = source && resolver(classnames, source)
   , stacked = joinWithLead(preStacked, allowed)
   , className = joinWithLead(withPropagation && propagated, stacked)
-  , host = classNamer.bind({classnames, className, stacked})
+  , host: ClassNamingCall<Source> = classNamer.bind({classnames, className, stacked})
 
   emptize(classnames)
 
