@@ -10,8 +10,6 @@ export {
   wrapper,  
   // replacer of `dehash` and `truthyKeys` 
   resolver,
-  truthyKeys,
-  dehash,
   joinWithLead
 }
 
@@ -25,18 +23,6 @@ function wrapper<T>(
   return stringifyClassNamed(destination as T & ClassNamed)
 }
 
-function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $keys(source)) :string[] {
-  for (let i = keys.length; i--;) {
-    const key = keys[i] as K
-    , value = source[key]
-
-    if (typeof value === "string")
-      keys[i] = value
-  }
-
-  return keys
-}
-
 function resolver(
   vocabulary: undefined | Record<string, ClassValue>,
   actions: Record<string, ClassValue | boolean>
@@ -47,53 +33,25 @@ function resolver(
   for (let i = keys.length; i--;) {
     const key = keys[i]
     , act = actions[key]
+    
+    //TODO clarify what behaviour to implement
 
-    switch(act) {
-      // Toggler, omit
-      case false:
-        delete keys[i]
-        break
-      // Toggler, include
-      case true:
-        const hash = vocabulary?.[key]
-        if (hash !== undefined)
-          keys[i] = hash
-        break
-      // Direct, no hash
-      case undefined:
-        break
-      default:
-        //Direct hash
-        if (typeof act === "string")
-          keys[i] = act
+    if (act !== undefined && !act) {
+      delete keys[i]
+      continue
     }
+
+    const hash = vocabulary?.[key]
+    if (hash !== undefined)
+      keys[i] = hash
+    else if (typeof act === "string")
+      keys[i] = act
   }
 
-  //TODO consider `.filter(Boolean)` or `.filter(idfn)`
-  const filtered = keys.flat()
+  //TODO Compare `.flat()`, `.filter(Boolean)` or `.filter(idfn)`
+  const filtered = keys.filter(Boolean)
 
   return filtered.length === 0 ? EMPTY_ARRAY : filtered
-}
-
-//TODO TS is not working interesting
-function truthyKeys<T>(source: Falsy) :T[];
-function truthyKeys<T extends Record<string, unknown>>(source: Readonly<T>): (
-  {[K in keyof typeof source]: typeof source[K] extends Falsy ? never : K}[keyof typeof source]
-)[];
-function truthyKeys<T>(source: T): [T];
-function truthyKeys<T>(source: T) {
-  if (source === null || typeof source !== "object")
-    return source
-    ? [source]
-    : EMPTY_ARRAY
-    
-  const filtered = (
-    $keys(source) as (keyof T)[]
-  )
-  //TODO consider `delete` and further `flat` in case of perf
-  .filter(key => source[key])
-
-  return filtered
 }
 
 //TODO Consider returning `undefined` on empty string

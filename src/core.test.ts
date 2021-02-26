@@ -1,8 +1,6 @@
 import { EMPTY_ARRAY } from "./consts";
 import {
   resolver,
-  dehash,
-  truthyKeys
 } from "./core";
 
 describe(resolver.name, () => {
@@ -21,16 +19,14 @@ describe(resolver.name, () => {
     }
   )).toStrictEqual([
     "hash", "hashless",
-    "",
-    "null",
-    "zero", "one",
+    "one",
     "true",
     "array", "object"    
   ]))
 
   it("with hash", () => expect(resolver(
     {
-      string: "HASH", hashless: "hashness",
+      string: "HASH", hashless: "HASHNESS",
       true: "TRUE"
     },
     {
@@ -45,10 +41,8 @@ describe(resolver.name, () => {
       array: [], object: {},
     }
   )).toStrictEqual([
-    "hash", "hashless",
-    "",
-    "null",
-    "zero", "one",
+    "HASH", "HASHNESS",
+    "one",
     "TRUE",
     "array", "object"    
   ]))
@@ -58,52 +52,5 @@ describe(resolver.name, () => {
     {}
   )).toBe(
     EMPTY_ARRAY
-  ))
-})
-
-describe(dehash.name, () => {
-  it("all types", () => expect(dehash({
-    string: "hash", "hashless": undefined,
-    empty: "",
-    null: null,
-    zero: 0, one: 1,
-    false: false, true: true,
-    array: [], object: {},
-  })).toStrictEqual([
-    "hash", "hashless",
-    "",
-    "null",
-    "zero", "one",
-    "false", "true",
-    "array", "object"    
-  ]))
-})
-
-
-describe(truthyKeys.name, () => {
-  it("all types", () => expect(truthyKeys({
-    string: "hash", "hashless": undefined,
-    empty: "",
-    null: null,
-    zero: 0, one: 1,
-    false: false, true: true,
-    array: [], object: {},
-  })).toStrictEqual([
-    "string",
-    "one",
-    "true",
-    "array", "object"
-  ]))
-
-  it("truthy primitive", () => expect(truthyKeys(
-    true
-  )).toStrictEqual(
-    [true]
-  ))
-
-  it("falsy primitive", () => expect(truthyKeys(
-    false
-  )).toStrictEqual(
-    []
   ))
 })

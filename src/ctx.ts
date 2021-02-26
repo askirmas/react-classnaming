@@ -1,5 +1,5 @@
 import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
-import {dehash, joinWithLead, truthyKeys, wrapper} from "./core"
+import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 import { EMPTY_OBJECT } from "./consts"
 
@@ -74,19 +74,14 @@ function classNamer<
     // withSelf
   } = options
   , withPropagation = arg0 === true
-  , allowed: ClassKeys[] = truthyKeys(arg0 === true ? arg1 : arg0)
-  //@ts-expect-error
-  .filter<ClassKeys>(
-    Boolean
-  )
   
-  emptize(classnames)
-
-  classnames && dehash(classnames, allowed)
-  
-  const stacked = joinWithLead(preStacked, allowed)
+  , source = typeof arg0 === "object" ? arg0 : arg1
+  , allowed = source && resolver(classnames, source)
+  , stacked = joinWithLead(preStacked, allowed)
   , className = joinWithLead(withPropagation && propagated, stacked)
   , host = classNamer.bind({classnames, className, options, stacked})
+
+  emptize(classnames)
 
   withClassNames && (
     //@ts-expect-error
