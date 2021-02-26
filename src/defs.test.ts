@@ -1,7 +1,12 @@
-import {Component} from "react"
-import type { ClassNamed, ClassValue, ClassNames} from "./defs"
+import {
+  Component,
+  // ReactElement
+} from "react"
+import type { ClassNamed, ClassValue, ReactRelated, GetProps} from "./defs"
 
 export {}
+
+type Getter<T extends ReactRelated> = GetProps<T>
 
 it.todo("ClassNamesFrom")
 
@@ -18,14 +23,17 @@ describe("ReactRelated", () => {
     class RProps extends Component<Props> {};
 
     //@ts-expect-error
+    type x =
+    | Getter<typeof RProps>
+    //@ts-expect-error
     type Res =
     //@ts-expect-error
-    | ClassNames<typeof RWithout>
+    | Getter<typeof RWithout>
     //@ts-expect-error
-    | ClassNames<typeof RWrong> 
+    | Getter<typeof RWrong> 
     //Consider @ts-expect-error
-    | ClassNames<typeof RSome>
-    | ClassNames<typeof RProps>
+    | Getter<typeof RSome>
+    | Getter<typeof RProps>
     
     expect(true).toBe(true)
   })
@@ -36,15 +44,21 @@ describe("ReactRelated", () => {
     function RSome(_: Some) {return null};
     function RProps(_: Props) {return null};
 
+    // type RF = (props: {classnames: any}) => ReactElement<any, any> | null
+
+    // const ch1: Props extends {classnames: any} ? true : false = true
+    // const ch2: Parameters<typeof RProps>[0] extends {classnames: any} ? true : false = true
+    // const ch3: Parameters<typeof RProps>[0] extends Parameters<RF>[0] ? true : false = true
+
     //@ts-expect-error
     type Res =
     //TODO @ts-expect-error
-    | ClassNames<typeof RWithout>
+    | Getter<typeof RWithout>
     //TODO @ts-expect-error
-    | ClassNames<typeof RWrong>
+    | Getter<typeof RWrong>
     //Consider @ts-expect-error 
-    | ClassNames<typeof RSome>
-    | ClassNames<typeof RProps>
+    | Getter<typeof RSome>
+    | Getter<typeof RProps>
     
     expect(true).toBe(true)
   })
