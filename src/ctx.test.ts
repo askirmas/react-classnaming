@@ -61,14 +61,12 @@ describe(classNamingCtx.name, () => {
     }))
   })
 
-  it("only propagate classnames", () => expect({
+  it("empty call", () => expect({
     ...classNamingCtx(
-      {classnames},
-      {withClassNames: true}
+      {classnames}
     )()
   }).toStrictEqual({
-    className: "",
-    classnames
+    className: ""
   }))
 
   describe("chained", () => {

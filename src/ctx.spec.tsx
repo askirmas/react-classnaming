@@ -50,28 +50,6 @@ describe(classNamingCtx.name, () => {
     <div className="hash2" />
   ))
 
-  it("propagate classnames by option", () => {
-    const App = ({classnames, className}: ClassNames<
-      true,
-      ClassNamesProperty<{App__Item: ClassValue}>,
-      typeof Component
-    >) =>
-      <Component {
-        ...classNamingCtx(
-          {classnames, className},
-          {withClassNames: true}
-        )(
-          true, {App__Item: true}
-      )}/>
-    
-    expectRender(
-      <App className="MyApp" classnames={classnames}/>
-    ).toSame(
-      <div className="MyApp hash hash1" />,
-      <div className="hash2" />
-    )
-  })  
-
   it("not propagate classnames", () => {
     const App = ({classnames, className}: ClassNames<
       true,
@@ -91,23 +69,6 @@ describe(classNamingCtx.name, () => {
     ).toSame(
       <div className="MyApp hash class1" />,
       <div className="class2" />  
-    )
-  })
-
-  it("propagate `classnames` to DOM element - TBD TS error", () => {
-    const Component = ({classnames}: ClassNames<ClassNamesProperty<{class1: ClassValue}>>) =>
-      <div {
-        //TODO //@ts-expect-error  Property 'classnames' does not exist
-        ...classNamingCtx({classnames}, {withClassNames: true})({class1: true})
-      }/>
-
-    expectRender(
-      <Component classnames={classnames}/>
-    ).toSame(
-      <div
-        //@ts-expect-error  Property 'classnames' does not exist
-        classnames=""
-        className="hash1" />
     )
   })
 })

@@ -1,14 +1,12 @@
-import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap, EmptyObject } from "./defs"
+import type { ToggleMap, ClassNamer, ClassNamed } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
-import { EMPTY_OBJECT } from "./consts"
 
 emptize(classNamer)
 
 //TODO no `className` - no first `true`
 interface tClassNaming<
   ClassKeys extends string,
-  withClassNames extends boolean | undefined
 > {
   /**
    * @example classes(true) === props.className
@@ -21,11 +19,7 @@ interface tClassNaming<
     map_or_expression?: [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
     ? never
     : ToggleMap<ClassKeys>
-  ) : ClassNamed & (
-    withClassNames extends true
-    ? {classnames: ClassNamesMap<ClassKeys>}
-    : EmptyObject
-  ) 
+  ) : ClassNamed
 }
 
 export default classNamingCtx
@@ -37,27 +31,16 @@ export default classNamingCtx
  */
 function classNamingCtx<
   ClassKeys extends string,
-  withClassNames extends boolean|undefined
 >(
   {classnames, className}: ClassNamer<ClassKeys>,
-  options: Readonly<ClassNamerOptions<withClassNames>> = EMPTY_OBJECT
 ) {
-  return classNamer.bind({classnames, className, options, stacked: undefined}) as tClassNaming<ClassKeys, withClassNames>
+  return classNamer.bind({classnames, className, stacked: undefined}) as tClassNaming<ClassKeys>
 }
-
-type ClassNamerOptions<
-  withClassNames extends undefined|boolean
-> = Partial<{
-  withClassNames: withClassNames
-  // withSelf: boolean
-}>
 
 function classNamer<
   ClassKeys extends string,
-  withClassNames extends boolean|undefined
 >(
   this: ClassNamer<ClassKeys> & {
-    options: Readonly<ClassNamerOptions<withClassNames>>
     stacked: string|undefined
   },
   arg0?: true | ToggleMap<ClassKeys>,
@@ -67,26 +50,17 @@ function classNamer<
     className: propagated,
     classnames,
     stacked: preStacked,
-    options
   } = this
-  , {
-    withClassNames,
-    // withSelf
-  } = options
   , withPropagation = arg0 === true
   
   , source = typeof arg0 === "object" ? arg0 : arg1
   , allowed = source && resolver(classnames, source)
   , stacked = joinWithLead(preStacked, allowed)
   , className = joinWithLead(withPropagation && propagated, stacked)
-  , host = classNamer.bind({classnames, className, options, stacked})
+  , host = classNamer.bind({classnames, className, stacked})
 
   emptize(classnames)
 
-  withClassNames && (
-    //@ts-expect-error
-    host["classnames"] = classnames
-  )
   return wrapper(
     host,
     className,

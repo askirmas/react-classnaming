@@ -19,13 +19,13 @@ type AppClassNames = ClassNamesProperty<{
 }>
 type AppProps = AppClassNames & ClassNames<typeof Logo, LinkProps, typeof Body>
 function AppComponent({classnames, classnames: {App}}: AppProps) {
-  const classNaming = classNamingCtx({classnames}, {withClassNames: true})
+  const classNaming = classNamingCtx({classnames})
   return (
     <div {...classNamingBasic({App})}>
       <Header {...classNaming({App_header: true})}>
-        <Logo {...classNaming()}/>
+        <Logo {...classNaming()} {...{classnames}}/>
         <Body/>
-        <Link {...classNaming()}/>
+        <Link {...{...classNaming(), classnames}}/>
       </Header>
     </div>
   );
