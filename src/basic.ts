@@ -29,8 +29,8 @@ function classNamingBasic<Source extends ReactRelated>(
 ): ClassNamingChain
 
 function classNamingBasic(
-  arg0: undefined|string|ClassNamesMap<string>,
-  arg1: undefined|ClassNamesMap<string> = undefined
+  arg0: undefined|string|ClassNamesMap,
+  arg1: undefined|ClassNamesMap = undefined
 ): ClassNamed {
   const classnames = typeof arg0 === "object" ? arg0 : arg1
   , className = typeof arg0 === "object" ? undefined : arg0
@@ -39,7 +39,7 @@ function classNamingBasic(
   return _classNaming(classnames!, className)
 }
 
-function _classNaming<C extends ClassNamesMap<string>>(
+function _classNaming<C extends ClassNamesMap>(
   classes: C,
   propagate: undefined|string,
 ) : ClassNamingChain {

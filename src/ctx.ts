@@ -1,13 +1,13 @@
-import type { ToggleMap, ClassNamer, ClassNamed } from "./defs"
+import type { ToggleMap, ClassNamer, ClassNamed, ClassNamesMap } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 
 emptize(classNamer)
 
 //TODO no `className` - no first `true`
-interface tClassNaming<
-  ClassKeys extends string,
-> {
+interface ClassNaming<
+  Source extends ClassNamesMap
+> extends ClassNamed {
   /**
    * @example classes(true) === props.className
    * @example classes({class1: true, class2: false}) === "class1"
@@ -15,11 +15,11 @@ interface tClassNaming<
   */
  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   (
-    propagate_or_map_or_expression?: true | ToggleMap<ClassKeys>,
+    propagate_or_map_or_expression?: true | ToggleMap<Source>,
     map_or_expression?: [Extract<typeof propagate_or_map_or_expression, true>] extends [never]
     ? never
-    : ToggleMap<ClassKeys>
-  ) : ClassNamed
+    : ToggleMap<Source>
+  ): ClassNaming<Source>
 }
 
 export default classNamingCtx
@@ -30,22 +30,22 @@ export default classNamingCtx
  * @example const classes = classNamingCtx({classnames})
  */
 function classNamingCtx<
-  ClassKeys extends string,
+  Source extends ClassNamesMap,
 >(
-  {classnames, className}: ClassNamer<ClassKeys>,
+  {classnames, className}: ClassNamer<Source>,
 ) {
-  return classNamer.bind({classnames, className, stacked: undefined}) as tClassNaming<ClassKeys>
+  return classNamer.bind({classnames, className, stacked: undefined}) as ClassNaming<Source>
 }
 
 function classNamer<
-  ClassKeys extends string,
+  Source extends ClassNamesMap
 >(
-  this: ClassNamer<ClassKeys> & {
+  this: ClassNamer<Source> & {
     stacked: string|undefined
   },
-  arg0?: true | ToggleMap<ClassKeys>,
-  arg1?: typeof arg0 extends true ? ToggleMap<ClassKeys> : never,
-): ClassNamed & Partial<Pick<typeof this, "classnames">> {
+  arg0?: true | ToggleMap<Source>,
+  arg1?: typeof arg0 extends true ? ToggleMap<Source> : never,
+): ClassNamed {
   const {
     className: propagated,
     classnames,

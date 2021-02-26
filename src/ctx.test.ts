@@ -71,7 +71,6 @@ describe(classNamingCtx.name, () => {
 
   describe("chained", () => {
     it("Cur", () => expect({
-      //@ts-expect-error
       ...classNamingCtx({classnames})(
         {class1: true}
       )({class2: true}
@@ -81,7 +80,6 @@ describe(classNamingCtx.name, () => {
       className: "class1 class2 hash3"
     }))
     it("Proposal", () => expect({
-      //@ts-expect-error
       ...classNamingCtx({classnames})(
         {class1: true}
       )({class2: true}

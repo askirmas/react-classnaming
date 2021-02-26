@@ -11,11 +11,11 @@ export default classNamesCheck
 */
 
 /** Identical function */
-function classNamesCheck<T extends ClassNamesMap<string>>(classnames: T): T
+function classNamesCheck<T extends ClassNamesMap>(classnames: T): T
 
 /* Declares class keys
  * @example classNamesCheck() // Anything
- * @example classNamesCheck<typeof Component>() // classKeys of `Component`
+ * @example classNamesCheck<typeof Component>()
  */
 function classNamesCheck(): never
 
