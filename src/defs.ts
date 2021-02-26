@@ -4,16 +4,13 @@ import type {
   Component
 } from "react"
 
-type RFC = (props: any) => ReactElement<any, any> | null
-type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
-
 /** Multipurpose generic
  * @example ClassNames<true> === {className: string}
  * @example ClassNames<"class1"|"class2"> === {classnames: {class1: undefined|string, class2: undefined|string}}
  * @example ClassNames<Props1, Props2> === {classnames: Props1["classnames"] & Props2["classnames"]}
  * @example ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
  */
-//TODO Consider string | ClassNamesMap
+
 export type ClassNames<
   C0 extends true | ReactRelated,
   C1 extends ReactRelated = never,
@@ -42,30 +39,40 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
-// `ClassNamesMap<string>` not works at Component
-type WithClassNames = ClassNamesProperty<ClassNamesMap<string>>
+//TODO Add leading `map` to check
+export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassValue}}>>
+
+export type ClassValue = undefined|string
 
 export type ClassNamed = {
   className: string
 }
 
+/// APPLIED TO GLOBAL INLINE
+
 export type ClassNamer<ClassKeys extends string> = Partial<ClassNamed> & {
   classnames: ClassNamesMap<ClassKeys>
 }
+export type ToggleMap<K extends string> = {[k in K]?: boolean}
 
-export type ClassNamesProperty<C extends ClassNamesMap<string>> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassValue}}>>
+/// iNTERNAL
+
+type WithClassNames<K extends string = string> = ClassNamesProperty<ClassNamesMap<K>>
 
 export type ClassNamesMap<C extends string> = Record<C, ClassValue>
-
-export type ClassValue = undefined|string
-
-export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
-
-export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
 //TODO Consider not empty object
 export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
+
+/// UTILITIES FOR REACT
+
+export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
 export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 
+/// REACT
+
+export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
+type RFC = (props: any) => ReactElement<any, any> | null
+type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 
 /// UTILITY TYPES
 
@@ -73,7 +80,5 @@ type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 export type EmptyObject = Record<never, never>
 type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
-
-export type ToggleMap<K extends string> = {[k in K]?: boolean}
 
 // type get<T, K> = K extends keyof T ? T[K] : never
