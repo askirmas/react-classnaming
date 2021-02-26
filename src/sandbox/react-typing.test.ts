@@ -1,8 +1,8 @@
 //@ts-nocheck
 import type { JSXElementConstructor, Component, ReactElement } from "react"
-import { ClassNamed, ClassNamesProperty, ClassValue } from "../defs"
+import { ClassNamed, ClassNamesProperty, ClassHash } from "../defs"
 
-function FWith(_: ClassNamed & ClassNamesProperty<{a: ClassValue}>) { return null }
+function FWith(_: ClassNamed & ClassNamesProperty<{a: ClassHash}>) { return null }
 function FWithout(_: ClassNamed) { return null }
 
 describe("extending", () => {

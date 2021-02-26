@@ -1,10 +1,10 @@
 import { Component, PureComponent } from "react";
-import type { ClassNames, ClassNamesProperty, ClassValue } from "./defs";
+import type { ClassNames, ClassNamesProperty, ClassHash } from "./defs";
 
-type Props = ClassNames<true, ClassNamesProperty<{props: ClassValue}>>
-function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassValue}>>) { return null }
-class ClassComponent extends Component<ClassNames<ClassNamesProperty<{component: ClassValue; comp0: ClassValue}>>> {}
-class ClassPureComponent extends PureComponent<ClassNames<ClassNamesProperty<{pureComponent: ClassValue}>>> {}
+type Props = ClassNames<true, ClassNamesProperty<{props: ClassHash}>>
+function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassHash}>>) { return null }
+class ClassComponent extends Component<ClassNames<ClassNamesProperty<{component: ClassHash; comp0: ClassHash}>>> {}
+class ClassPureComponent extends PureComponent<ClassNames<ClassNamesProperty<{pureComponent: ClassHash}>>> {}
 
 describe("ClassNames", () => {
   it("<true>", () => {
@@ -27,7 +27,7 @@ describe("ClassNames", () => {
   })
 
   it("<{class1, class2}>", () => {
-    const suites: Record<string, ClassNames<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
+    const suites: Record<string, ClassNames<ClassNamesProperty<{class1: ClassHash; class2: ClassHash}>>> = {
       "omitted": {
         //@ts-expect-error ReactRelated
         classnames: {
@@ -54,7 +54,7 @@ describe("ClassNames", () => {
   })
 
   it("<true, {class1, class2}>", () => {
-    const suites: Record<string, ClassNames<true, ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>> = {
+    const suites: Record<string, ClassNames<true, ClassNamesProperty<{class1: ClassHash; class2: ClassHash}>>> = {
       "className and classnames": {
         className: "",
         classnames: {class1: undefined, class2: undefined}
@@ -86,7 +86,7 @@ describe("ClassNames", () => {
 describe("ClassNames from", () => {
   it("manually merge", () => {
     type AppClassNames = (
-      ClassNamesProperty<{App: ClassValue}>
+      ClassNamesProperty<{App: ClassHash}>
       & ClassNames<typeof ClassComponent>
       & ClassNames<typeof ClassPureComponent>
       & ClassNames<typeof Functional>
@@ -154,7 +154,7 @@ describe("ClassNames from", () => {
   it("multiple apply", () => {
     type AppClassNames = ClassNames<
         true,
-        ClassNamesProperty<{App: ClassValue}>,
+        ClassNamesProperty<{App: ClassHash}>,
         typeof ClassComponent,
         typeof ClassPureComponent,
         typeof Functional,

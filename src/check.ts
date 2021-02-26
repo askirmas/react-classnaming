@@ -1,5 +1,5 @@
 import { EMPTY_OBJECT } from "./consts"
-import type { ReactRelated, ClassNamesFrom, ClassNamesMap, ClassValue } from "./defs"
+import type { ReactRelated, ClassNamesFrom, ClassNamesMap, ClassHash } from "./defs"
 
 export default classNamesCheck
 
@@ -23,7 +23,7 @@ function classNamesCheck(): never
  * Overrides argument's shape.
  * For checking equality add `typeof css_module` as second generic parameter
 */
-function classNamesCheck<K extends ReactRelated>(classnames: {[k: string]: ClassValue}): ClassNamesFrom<K>
+function classNamesCheck<K extends ReactRelated>(classnames: {[k: string]: ClassHash}): ClassNamesFrom<K>
 
 /**
  * Check redundant keys

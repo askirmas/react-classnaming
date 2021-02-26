@@ -1,9 +1,9 @@
 export type { ClassNames } from "./defs"
 import { wrapper, joinWithLead, resolver } from "./core"
-import type { ClassNamesMap, ClassNamed, ClassValue, ReactRelated, GetClassNames, GetProps } from "./defs"
+import type { ClassNamesMap, ClassNamed, ClassHash, ReactRelated, GetClassNames, GetProps } from "./defs"
 
 type ClassNamingChain = ClassNamingCall & ClassNamed
-type ClassNamingCall = (classes: Record<string, ClassValue>) => ClassNamingChain
+type ClassNamingCall = (classes: Record<string, ClassHash>) => ClassNamingChain
 
 export default classNamingBasic
 

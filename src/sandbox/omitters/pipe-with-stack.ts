@@ -1,26 +1,26 @@
-import { ClassValue } from "../../defs"
+import { ClassHash } from "../../defs"
 
 export {}
 
 type tExcluder2<
-  S extends Record<string, ClassValue>,
-  U extends {[K in keyof S]?: ClassValue}
+  S extends Record<string, ClassHash>,
+  U extends {[K in keyof S]?: ClassHash}
 >
 = (
-  <E extends {[K in Exclude<keyof S, U>]?: ClassValue}>(exclude: E) =>
+  <E extends {[K in Exclude<keyof S, U>]?: ClassHash}>(exclude: E) =>
   //  keyof E extends keyof S ?
-   { [P in Exclude<keyof S, keyof E | U>]: ClassValue; }
+   { [P in Exclude<keyof S, keyof E | U>]: ClassHash; }
     & tExcluder2<
       S,
-      {[K in keyof E | keyof U]: ClassValue}
+      {[K in keyof E | keyof U]: ClassHash}
     >
   // : {[P in Exclude<keyof E, keyof S>]: never;}
 );
 
 
 function exclusion<
-  S extends Record<string, ClassValue>,
-  E extends {[K in keyof S]?: ClassValue}
+  S extends Record<string, ClassHash>,
+  E extends {[K in keyof S]?: ClassHash}
 >(
   source: S, ex: E
 ) {
@@ -31,9 +31,9 @@ function exclusion<
   }
   
   const host = (
-    e: { [P in Exclude<keyof S, keyof E>]?: ClassValue; }
+    e: { [P in Exclude<keyof S, keyof E>]?: ClassHash; }
   ) => exclusion(
-    filtered as { [P in Exclude<keyof S, keyof E>]: ClassValue; },
+    filtered as { [P in Exclude<keyof S, keyof E>]: ClassHash; },
     e
   )
 
@@ -42,10 +42,10 @@ function exclusion<
     host[key]
     = filtered[key]
 
-  return host as tExcluder2<S, {[K in keyof E]: ClassValue}>
+  return host as tExcluder2<S, {[K in keyof E]: ClassHash}>
 }
 
-const source: Record<"a"|"b"|"c"|"d"|"e", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
+const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
 
 const step0 = exclusion(
   source,

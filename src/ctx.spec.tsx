@@ -1,7 +1,7 @@
 import React from "react"
 import { classNamesCheck, classNamingCtx } from "."
 import expectRender from "../expect-to-same-render"
-import { ClassNames, ClassNamesProperty, ClassValue } from "./defs"
+import { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
 
 const {classnames}: ClassNames<typeof App> = {
   classnames: {
@@ -13,7 +13,7 @@ const {classnames}: ClassNames<typeof App> = {
 
 function App({classnames, className}: ClassNames<
   true,
-  ClassNamesProperty<{App__Item: ClassValue}>,
+  ClassNamesProperty<{App__Item: ClassHash}>,
   typeof Component
   >) {
   return <Component {...{
@@ -27,7 +27,7 @@ function App({classnames, className}: ClassNames<
 }
 
 //TODO No rename inheritance
-function Component(props: ClassNames<true, {classnames: {class1: ClassValue, class2: ClassValue}}>) {
+function Component(props: ClassNames<true, {classnames: {class1: ClassHash, class2: ClassHash}}>) {
   const classes = classNamingCtx(props)
   return <>
     <div {...classes(true, {class1: true, class2: false})}/>
@@ -53,7 +53,7 @@ describe(classNamingCtx.name, () => {
   it.only("not propagate classnames", () => {
     const App = ({classnames, className}: ClassNames<
       true,
-      ClassNamesProperty<{App__Item: ClassValue}>,
+      ClassNamesProperty<{App__Item: ClassHash}>,
       typeof Component>
     ) =>
       //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable 

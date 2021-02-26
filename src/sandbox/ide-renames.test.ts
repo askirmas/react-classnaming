@@ -1,5 +1,5 @@
 // import { Component } from "react"
-// import type { ClassValue, ClassNames } from "./defs"
+// import type { ClassHash, ClassNames } from "./defs"
 
 export {}
 
@@ -154,20 +154,20 @@ it("rename keys as string(-) or same shape object(+)", () => {
 
 // it("rename throw ts expressions", () => {
 //   type Props = ClassnamesProp<{
-//     prop1: ClassValue
-//     prop2: ClassValue
+//     prop1: ClassHash
+//     prop2: ClassHash
 //   }>
   
 //   function Func1(_:ClassnamesProp<{
-//     fn1: ClassValue
-//     fn2: ClassValue
+//     fn1: ClassHash
+//     fn2: ClassHash
 //   }>) {
 //     return null  
 //   }
 
 //   class Comp1 extends Component<ClassnamesProp<{
-//     class1: ClassValue
-//     class2: ClassValue
+//     class1: ClassHash
+//     class2: ClassHash
 //   }>> {}
 
 //   const flatCollected

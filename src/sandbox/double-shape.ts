@@ -1,12 +1,12 @@
-import { ClassValue, Falsy } from "../defs"
+import { ClassHash, Falsy } from "../defs"
 
-type ClassNamesDirect<K extends string = string> = Record<K, ClassValue>
+type ClassNamesDirect<K extends string = string> = Record<K, ClassHash>
 // type ClassNamesToggle<K extends string = string> = Record<K, boolean>
 
 type ClassNamingContext<S extends string, U extends string> = {
   className?: undefined|string
   classnames: ClassNamesDirect<S>
-  applied?: Record<U, ClassValue|boolean>[]
+  applied?: Record<U, ClassHash|boolean>[]
 }
 
 export {
@@ -14,8 +14,8 @@ export {
 }
 
 function _doubleShape<
-  // A extends {[K in Exclude<S, U>]?: boolean} | {[K in Exclude<S, U>]?: ClassValue},
-  A extends {[K in Exclude<S, U>]?: ClassValue | boolean},
+  // A extends {[K in Exclude<S, U>]?: boolean} | {[K in Exclude<S, U>]?: ClassHash},
+  A extends {[K in Exclude<S, U>]?: ClassHash | boolean},
   S extends string,
   U extends string = never,
 >(
@@ -26,11 +26,11 @@ function _doubleShape<
 ) {
   const {applied, classnames, className} = ctx  
   //@ts-expect-error
-  , nextApplied = !applied ? [] : applied.push(...args.filter(Boolean)) as Record<U | keyof A, ClassValue|boolean>[] 
+  , nextApplied = !applied ? [] : applied.push(...args.filter(Boolean)) as Record<U | keyof A, ClassHash|boolean>[] 
 
   , host = <
-      // T extends {[K in Exclude<S, U | keyof A>]?: boolean} | {[K in Exclude<S, U | keyof A>]?: ClassValue}
-      T extends {[K in Exclude<S, U>]?: ClassValue | boolean},
+      // T extends {[K in Exclude<S, U | keyof A>]?: boolean} | {[K in Exclude<S, U | keyof A>]?: ClassHash}
+      T extends {[K in Exclude<S, U>]?: ClassHash | boolean},
     >(
     withClassName: boolean,
     injection: undefined|string,  

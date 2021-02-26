@@ -1,16 +1,16 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import type { ClassNames, ClassNamesProperty, ClassValue } from "./defs"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
 import classNamingBasic from "./basic"
 import classNamesCheck from "./check"
 
-function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassValue}>>) {
+function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassHash}>>) {
   return <button {...classNamingBasic(className, { Btn })}/>
 }
 
 function Root({
   classnames, "classnames": { App__Item, App__Footer }
-}: ClassNames<ClassNamesProperty<{App__Item: ClassValue; App__Footer: ClassValue}>, typeof Button>) {
+}: ClassNames<ClassNamesProperty<{App__Item: ClassHash; App__Footer: ClassHash}>, typeof Button>) {
   return <>
     <Button {...{
       ...classNamingBasic({ App__Item }),
@@ -44,7 +44,7 @@ it("css module", () => expectRender(
 it("vscode couldn't rename enum element", () => {
   function Root({
     "classnames": {App: App__Container}
-  }: ClassNames<ClassNamesProperty<{App: ClassValue}>>) {
+  }: ClassNames<ClassNamesProperty<{App: ClassHash}>>) {
     return <div {...classNamingBasic({App: App__Container})}/>
   }
 
@@ -58,7 +58,7 @@ it("vscode couldn't rename enum element", () => {
 it("vscode can rename property", () => {
   type RootProps = {
     classnames: {
-      App__Container: ClassValue
+      App__Container: ClassHash
     }
   }
 
@@ -91,10 +91,10 @@ it("vscode can rename property", () => {
 
 it("additional type check after rename", () => {
   type Props1 = {
-    classnames: { class1: ClassValue }
+    classnames: { class1: ClassHash }
   }
   type Props2 = {
-    classnames: { class2_renamed: ClassValue }
+    classnames: { class2_renamed: ClassHash }
   }
   const { class1,
     //@ts-expect-error Property 'class2' does not exist 

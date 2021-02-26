@@ -1,4 +1,4 @@
-import { ClassValue } from "../../defs";
+import { ClassHash } from "../../defs";
 
 const source = {a: "a", b: undefined}
 , called = k.call(source)
@@ -7,7 +7,7 @@ const source = {a: "a", b: undefined}
 
 export {key}
 
-function k<K extends string, T extends Record<K, ClassValue>>(
+function k<K extends string, T extends Record<K, ClassHash>>(
   this: T
 // or `K` - whatever
 ): (keyof T)[] {

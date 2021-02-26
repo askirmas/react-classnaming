@@ -1,21 +1,21 @@
-import { ClassValue } from "../../defs"
+import { ClassHash } from "../../defs"
 
 export {}
 
 // type Excluder<
-//   S extends Record<string, ClassValue>,
-//   E extends {[K in keyof S]?: ClassValue}
+//   S extends Record<string, ClassHash>,
+//   E extends {[K in keyof S]?: ClassHash}
 // > = { [P in Exclude<keyof S, keyof E>]: S[P]; }
 
 // interface Exclusion<
-//   S extends Record<string, ClassValue>
+//   S extends Record<string, ClassHash>
 // > {
-//   (source: S, ex: {[K in keyof S]?: ClassValue}): Excluder<S, typeof ex>
+//   (source: S, ex: {[K in keyof S]?: ClassHash}): Excluder<S, typeof ex>
 // }
 
 function exclusion<
-  S extends Record<string, ClassValue>,
-  E extends {[K in keyof S]?: ClassValue}
+  S extends Record<string, ClassHash>,
+  E extends {[K in keyof S]?: ClassHash}
 >(
   source: S, ex: E
 ): { [P in Exclude<keyof S, keyof E>]: S[P]; }
@@ -28,7 +28,7 @@ function exclusion<
   return $return
 }
 
-const source: Record<"a"|"b"|"c"|"d"|"e", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
+const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
 
 const step0 = exclusion(
   source,

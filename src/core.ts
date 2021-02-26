@@ -1,5 +1,5 @@
 import { EMPTY_ARRAY } from "./consts"
-import type { ClassNamed, ClassValue, Falsy } from "./defs"
+import type { ClassNamed, ClassHash, Falsy } from "./defs"
 import { stringifyClassNamed } from "./utils"
 
 const classNameKey = "className" as const
@@ -24,9 +24,9 @@ function wrapper<T>(
 }
 
 function resolver(
-  vocabulary: undefined | Record<string, ClassValue>,
-  actions: Record<string, ClassValue | boolean>
-  // actions: Record<string, ClassValue> | Record<string, boolean>
+  vocabulary: undefined | Record<string, ClassHash>,
+  actions: Record<string, ClassHash | boolean>
+  // actions: Record<string, ClassHash> | Record<string, boolean>
 ) {
   const keys = $keys(actions)
 
@@ -55,7 +55,7 @@ function resolver(
 }
 
 //TODO Consider returning `undefined` on empty string
-function joinWithLead(value: Falsy|ClassValue, arr: undefined | string | readonly string[]) : string {
+function joinWithLead(value: Falsy|ClassHash, arr: undefined | string | readonly string[]) : string {
   const str1 = value || ""
   if (!(arr && arr.length))
     return str1

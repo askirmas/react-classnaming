@@ -10,7 +10,7 @@ import classnames_bind from "classnames/bind"
 
 import css from "./some.css"
 import module from "./some.module.css"
-import { ClassNamesProperty, ClassValue } from "./defs"
+import { ClassNamesProperty, ClassHash } from "./defs"
 const module_css: typeof module = {
   "class1": "hash1",
   "class2": "hash2"
@@ -20,9 +20,9 @@ it("usage interface", () => {
   const { class1,
     //@ts-expect-error Property 'class3' does not exist
     whatever
-  } = classNamesCheck<ClassNamesProperty<{class1: ClassValue; class2: ClassValue}>>(css)
+  } = classNamesCheck<ClassNamesProperty<{class1: ClassHash; class2: ClassHash}>>(css)
   
-  const props: ClassNames<ClassNamesProperty<{class2: ClassValue}>> = {
+  const props: ClassNames<ClassNamesProperty<{class2: ClassHash}>> = {
     //@ts-expect-error
     "classnames": css
   }

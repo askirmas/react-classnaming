@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 import logo from './logo.svg';
-import type { ClassNames, ClassNamesProperty, ClassValue} from "react-classnaming"
+import type { ClassNames, ClassNamesProperty, ClassHash} from "react-classnaming"
 import { classNamingBasic, classNamingCtx } from "react-classnaming"
 
 const Header = ({className, children}: PropsWithChildren<ClassNames<true>>) =>
   <header {...{className}}>{children}</header>;
 
-const Logo = (props: ClassNames<true, ClassNamesProperty<{"App-logo": ClassValue}>>) => {
+const Logo = (props: ClassNames<true, ClassNamesProperty<{"App-logo": ClassHash}>>) => {
   const classNaming = classNamingCtx(props)
   return <img src={logo} {...classNaming({"App-logo": true})} alt="logo" />
 }
@@ -14,8 +14,8 @@ const Logo = (props: ClassNames<true, ClassNamesProperty<{"App-logo": ClassValue
 const Body = () => <p>Edit <code>src/App.tsx</code> and save to reload.</p>
 
 type AppClassNames = ClassNamesProperty<{
-  App: ClassValue
-  App_header: ClassValue
+  App: ClassHash
+  App_header: ClassHash
 }>
 type AppProps = AppClassNames & ClassNames<typeof Logo, LinkProps, typeof Body>
 function AppComponent({classnames, classnames: {App}}: AppProps) {
@@ -33,7 +33,7 @@ function AppComponent({classnames, classnames: {App}}: AppProps) {
 
 export default AppComponent;
 
-type LinkProps = ClassNamesProperty<{"App-link": ClassValue}>
+type LinkProps = ClassNamesProperty<{"App-link": ClassHash}>
 function Link({classnames: {"App-link": appLink}}: LinkProps) {
   return <a
     {...classNamingBasic<LinkProps>({"App-link": appLink})}

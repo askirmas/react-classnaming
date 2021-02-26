@@ -40,9 +40,9 @@ export type ClassNames<
 >
 
 //TODO Add leading `map` to check
-export type ClassNamesProperty<C extends ClassNamesMap> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassValue}}>>
+export type ClassNamesProperty<C extends ClassNamesMap> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 
-export type ClassValue = undefined|string
+export type ClassHash = undefined|string
 
 export type ClassNamed = {
   className: string
@@ -60,7 +60,7 @@ export type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
 type WithClassNames = ClassNamesProperty<ClassNamesMap>
 
-export type ClassNamesMap = Record<string, ClassValue>
+export type ClassNamesMap = Record<string, ClassHash>
 //TODO Consider not empty object
 export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
 

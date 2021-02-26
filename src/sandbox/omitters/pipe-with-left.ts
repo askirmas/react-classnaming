@@ -1,31 +1,31 @@
-import { ClassValue } from "../../defs"
+import { ClassHash } from "../../defs"
 
 export {}
 
 type tExcluder<
-  Source extends Record<string, ClassValue>,
-  Left extends Record<string, ClassValue> = Source,
-  Used extends Record<string, ClassValue> = Record<never, ClassValue>,
+  Source extends Record<string, ClassHash>,
+  Left extends Record<string, ClassHash> = Source,
+  Used extends Record<string, ClassHash> = Record<never, ClassHash>,
 >
 = (
   <
     // E extends 
-    E extends {[K in keyof Left]?: K extends keyof Used ? never : ClassValue}
+    E extends {[K in keyof Left]?: K extends keyof Used ? never : ClassHash}
   >(exclude: E) =>
   //  keyof E extends keyof S ?
-   { [K in Exclude<keyof Left, keyof E>]: ClassValue; }
+   { [K in Exclude<keyof Left, keyof E>]: ClassHash; }
     & tExcluder<
       Source,
-      { [P in Exclude<keyof Left, keyof E>]: P extends keyof Used ? never : ClassValue; },
-      { [P in keyof Used | keyof E]: ClassValue; }
+      { [P in Exclude<keyof Left, keyof E>]: P extends keyof Used ? never : ClassHash; },
+      { [P in keyof Used | keyof E]: ClassHash; }
     >
   // : {[P in Exclude<keyof E, keyof S>]: never;}
 );
 
 
 function exclusion<
-  S extends Record<string, ClassValue>,
-  E extends {[K in keyof S]?: ClassValue}
+  S extends Record<string, ClassHash>,
+  E extends {[K in keyof S]?: ClassHash}
 >(
   source: S, ex: E
 ) {
@@ -36,9 +36,9 @@ function exclusion<
   }
   
   const host = (
-    e: { [P in Exclude<keyof S, keyof E>]?: ClassValue; }
+    e: { [P in Exclude<keyof S, keyof E>]?: ClassHash; }
   ) => exclusion(
-    filtered as { [P in Exclude<keyof S, keyof E>]: ClassValue; },
+    filtered as { [P in Exclude<keyof S, keyof E>]: ClassHash; },
     e
   )
 
@@ -49,12 +49,12 @@ function exclusion<
 
   return host as tExcluder<
     S,
-    {[P in Exclude<keyof S, keyof E>]: ClassValue;},
+    {[P in Exclude<keyof S, keyof E>]: ClassHash;},
     E
   >
 }
 
-const source: Record<"a"|"b"|"c"|"d"|"e", ClassValue> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
+const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
 
 const step0 = exclusion(
   source,
@@ -96,7 +96,7 @@ const step2 = step1({"c": undefined})
   }
 }
 
-const unknown0 = exclusion({} as Record<string, ClassValue>, {a: "a"})
+const unknown0 = exclusion({} as Record<string, ClassHash>, {a: "a"})
 //todo @ts-error
 , unknown1 = unknown0({a: "a"})
 

@@ -2,7 +2,7 @@ import {
   Component,
   // ReactElement
 } from "react"
-import type { ClassNamed, ClassValue, ReactRelated, GetProps} from "./defs"
+import type { ClassNamed, ClassHash, ReactRelated, GetProps} from "./defs"
 
 export {}
 
@@ -13,8 +13,8 @@ it.todo("ClassNamesFrom")
 describe("ReactRelated", () => {
   type Without = ClassNamed
   type Wrong = ClassNamed & {classnames: string}
-  type Some = ClassNamed & {classnames: Record<string, ClassValue>}
-  type Props = ClassNamed & {classnames: {class1: ClassValue; class2: ClassValue;}}
+  type Some = ClassNamed & {classnames: Record<string, ClassHash>}
+  type Props = ClassNamed & {classnames: {class1: ClassHash; class2: ClassHash;}}
 
   it("Component", () => {
     class RWithout extends Component<Without> {};
