@@ -7,7 +7,9 @@ const classNameKey = "className" as const
 const {keys: $keys} = Object
 
 export {
-  wrapper,
+  wrapper,  
+  // replacer of `dehash` and `truthyKeys` 
+  resolver,
   truthyKeys,
   dehash,
   joinWithLead
@@ -33,6 +35,44 @@ function dehash<K extends string>(source: Record<K, unknown>, keys: string[] = $
   }
 
   return keys
+}
+
+function resolver(
+  vocabulary: undefined | Record<string, ClassValue>,
+  actions: Record<string, ClassValue | boolean>
+  // actions: Record<string, ClassValue> | Record<string, boolean>
+) {
+  const keys = $keys(actions)
+
+  for (let i = keys.length; i--;) {
+    const key = keys[i]
+    , act = actions[key]
+
+    switch(act) {
+      // Toggler, omit
+      case false:
+        delete keys[i]
+        break
+      // Toggler, include
+      case true:
+        const hash = vocabulary?.[key]
+        if (hash !== undefined)
+          keys[i] = hash
+        break
+      // Direct, no hash
+      case undefined:
+        break
+      default:
+        //Direct hash
+        if (typeof act === "string")
+          keys[i] = act
+    }
+  }
+
+  //TODO consider `.filter(Boolean)` or `.filter(idfn)`
+  const filtered = keys.flat()
+
+  return filtered.length === 0 ? EMPTY_ARRAY : filtered
 }
 
 //TODO TS is not working interesting

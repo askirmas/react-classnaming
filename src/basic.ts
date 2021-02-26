@@ -1,5 +1,5 @@
 export type { ClassNames } from "./defs"
-import { dehash, wrapper, joinWithLead } from "./core"
+import { wrapper, joinWithLead, resolver } from "./core"
 import type { ClassNamesMap, ClassNamed, ClassValue, ReactRelated, GetClassNames, GetProps } from "./defs"
 
 type ClassNamingChain = ClassNamingCall & ClassNamed
@@ -44,7 +44,7 @@ function _classNaming<C extends ClassNamesMap<string>>(
   propagate: undefined|string,
 ) : ClassNamingChain {
   //TODO `classes && dehash(classes)`
-  const className = joinWithLead(propagate, dehash(classes))  
+  const className = joinWithLead(propagate, resolver(undefined, classes))  
   , host: ClassNamingCall = classes => _classNaming(classes, className)
 
   return wrapper(host, className)

@@ -13,6 +13,7 @@ describe(classNamingCtx.name, () => {
       ...classes({
         class1: true,
         class2: false,
+        //@ts-expect-error
         class3: "",
         //@ts-expect-error Truthy not allowed by TS
         class4: 1,
