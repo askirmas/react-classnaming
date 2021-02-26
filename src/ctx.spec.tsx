@@ -50,7 +50,7 @@ describe(classNamingCtx.name, () => {
     <div className="hash2" />
   ))
 
-  it("not propagate classnames", () => {
+  it.only("not propagate classnames", () => {
     const App = ({classnames, className}: ClassNames<
       true,
       ClassNamesProperty<{App__Item: ClassValue}>,
@@ -62,7 +62,8 @@ describe(classNamingCtx.name, () => {
           classnames, className
         })(
           true, {App__Item: true}
-      )}/>
+        )}
+      />
     
     expectRender(
       <App className="MyApp" classnames={classnames}/>
