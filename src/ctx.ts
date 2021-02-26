@@ -2,6 +2,8 @@ import type { ToggleMap, ClassNamingContext, ClassNamed, ClassNamesMap } from ".
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 
+const stackedKey = Symbol("stacked")
+
 emptize(classNamingCtx)
 
 interface ClassNamingCall<Source extends ClassNamesMap> {
@@ -27,7 +29,7 @@ interface ClassNaming<Source extends ClassNamesMap> extends ClassNamed, ClassNam
 
 type ClassNamingThis<Source extends ClassNamesMap> = ClassNamingContext<Source> & {
   //TODO change to Symbol
-  stacked: string|undefined
+  [stackedKey]: string|undefined
 }
 
 export default classNamingCtx
@@ -52,12 +54,12 @@ function classNamingCtx<
   const thisArg = this || {}
   
   context_assign:
-  if (!("stacked" in thisArg)) {
+  if (!(stackedKey in thisArg)) {
     const {classnames, className} = arg0 as ClassNamingContext<Source>
     emptize(classnames)
     const host: ClassNamingCall<Source>
     //@ts-expect-error //TODO solve it
-    = classNamingCtx.bind({classnames, className, stacked: undefined}) 
+    = classNamingCtx.bind({classnames, className, [stackedKey]: undefined}) 
 
     return wrapper(host, className)
   }
@@ -65,7 +67,7 @@ function classNamingCtx<
   const {
     className,
     classnames,
-    stacked: preStacked,
+    [stackedKey]: preStacked,
   } = thisArg as ClassNamingThis<Source>
   , withPropagation = arg0 === true  
   , source = typeof arg0 === "object" ? arg0 as ToggleMap<Source>: arg1
@@ -74,7 +76,7 @@ function classNamingCtx<
   , result = joinWithLead(withPropagation && className, stacked)
   , host: ClassNamingCall<Source>
   //@ts-expect-error //TODO solve it
-  = classNamingCtx.bind({classnames, className, stacked})
+  = classNamingCtx.bind({classnames, className, [stackedKey]: stacked})
 
   classnames && emptize(classnames)
 
