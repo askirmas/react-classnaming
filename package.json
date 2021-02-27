@@ -1,6 +1,6 @@
 {
   "name": "react-classnaming",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
   "main": "dist",
   "scripts": {
