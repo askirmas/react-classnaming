@@ -1,8 +1,5 @@
-import type {ClassNames} from "."
-import {
-  classNamesCheck,
-  classNamingCtx
-} from "."
+import type {ClassNames} from "./ctx"
+import classNaming, { classNamesCheck } from "./ctx"
 
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
@@ -29,7 +26,7 @@ it("usage interface", () => {
   const {classnames: {class2}} = props
 
   expect({
-    ...classNamingCtx({class1, class2})
+    ...classNaming({class1, class2})
   }).toStrictEqual({
     //@ts-expect-error `classnames` has no possibility for type hints
     className:  classnames_default<"whatever">("class1", "class2")
@@ -45,7 +42,7 @@ it("css module", () => expect({
     "class3"
   )
 }).toStrictEqual({
-  ...classNamingCtx({classnames: module_css})({
+  ...classNaming({classnames: module_css})({
     class1: true,
     //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
     class3: true

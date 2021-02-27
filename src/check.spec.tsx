@@ -1,6 +1,6 @@
 import React from "react"
-import classNamesCheck from "./check"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "./ctx"
+import { classNamesCheck } from "./check"
 
 import css from "./some.css"
 import module from "./some.module.css"

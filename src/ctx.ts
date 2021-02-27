@@ -4,7 +4,11 @@ import { emptize } from "./utils"
 
 const stackedKey = Symbol("stacked")
 
-emptize(classNamingCtx)
+emptize(classNaming)
+
+export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./defs"
+export default classNaming
+export {classNamesCheck} from "./check"
 
 /**
  * Makes `className` string from imported CSS
@@ -45,15 +49,13 @@ type ActionsMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash|boolean}
 // type SubMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash}
 // type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
-export default classNamingCtx
-
 /**
  * @example const classes = classNamingCtx(this.props)
  * @example const classes = classNamingCtx({className, classnames})
  * @example const classes = classNamingCtx({classnames})
  */
 
-function classNamingCtx<
+function classNaming<
   //TODO `extends ReactRelated`
   Source extends ClassNamesMap
 >(
@@ -79,7 +81,7 @@ function classNamingCtx<
       )  
     ) {
       emptize(classnames)
-      const host: ClassNamingCall<Source> = classNamingCtx.bind({classnames, className, [stackedKey]: undefined}) 
+      const host: ClassNamingCall<Source> = classNaming.bind({classnames, className, [stackedKey]: undefined}) 
 
       return wrapper(host, className)
     }
@@ -96,7 +98,7 @@ function classNamingCtx<
   , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
   , stacked = joinWithLead(withInjection, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
-  , host: ClassNamingCall<Source> = classNamingCtx.bind({classnames, className, [stackedKey]: stacked})
+  , host: ClassNamingCall<Source> = classNaming.bind({classnames, className, [stackedKey]: stacked})
 
   classnames && emptize(classnames)
 

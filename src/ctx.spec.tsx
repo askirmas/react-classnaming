@@ -1,7 +1,7 @@
 import React from "react"
-import { classNamesCheck, classNamingCtx } from "."
+import type { ClassNames, ClassNamesProperty, ClassHash } from "./ctx"
+import classNaming, { classNamesCheck } from "./ctx"
 import expectRender from "../expect-to-same-render"
-import { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
 
 const {classnames}: ClassNames<typeof App> = {
   classnames: {
@@ -17,7 +17,7 @@ function App({classnames, className}: ClassNames<
   typeof Component
   >) {
   return <Component {...{
-    ...classNamingCtx({
+    ...classNaming({
       classnames, className
     })(
       true, {App__Item: true}
@@ -28,14 +28,14 @@ function App({classnames, className}: ClassNames<
 
 //TODO No rename inheritance
 function Component(props: ClassNames<true, {classnames: {class1: ClassHash, class2: ClassHash}}>) {
-  const classes = classNamingCtx(props)
+  const classes = classNaming(props)
   return <>
     <div {...classes(true, {class1: true, class2: false})}/>
     <div {...classes({class2: true})}/>
   </>
 }
 
-describe(classNamingCtx.name, () => {
+describe(classNaming.name, () => {
   it("not module", () => expectRender(
     <App className="MyApp" classnames={classNamesCheck()} />
   ).toSame(
@@ -58,7 +58,7 @@ describe(classNamingCtx.name, () => {
     ) =>
       //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable 
       <Component {
-        ...classNamingCtx({
+        ...classNaming({
           classnames, className
         })(
           true, {App__Item: true}

@@ -1,7 +1,9 @@
 import { EMPTY_OBJECT } from "./consts"
 import type { ReactRelated, ClassNamesFrom, ClassNamesMap, ClassHash } from "./defs"
 
-export default classNamesCheck
+export {
+  classNamesCheck
+}
 
 //TODO On assignment
 /** Checks equality

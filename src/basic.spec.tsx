@@ -1,11 +1,10 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
-import classNamingBasic from "./ctx"
-import classNamesCheck from "./check"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "./ctx"
+import classNaming, {classNamesCheck} from "./ctx"
 
 function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassHash}>>) {
-  return <button {...classNamingBasic(className, { Btn })}/>
+  return <button {...classNaming(className, { Btn })}/>
 }
 
 function Root({
@@ -13,12 +12,12 @@ function Root({
 }: ClassNames<ClassNamesProperty<{App__Item: ClassHash; App__Footer: ClassHash}>, typeof Button>) {
   return <>
     <Button {...{
-      ...classNamingBasic({ App__Item }),
+      ...classNaming({ App__Item }),
       classnames
     }}/>
     <div
-      className={`${classNamingBasic({App__Footer})}`}
-      data-classname={`${classNamingBasic({App__Footer})}`}
+      className={`${classNaming({App__Footer})}`}
+      data-classname={`${classNaming({App__Footer})}`}
     />
   </>
 }
@@ -45,7 +44,7 @@ it("vscode couldn't rename enum element", () => {
   function Root({
     "classnames": {App: App__Container}
   }: ClassNames<ClassNamesProperty<{App: ClassHash}>>) {
-    return <div {...classNamingBasic({App: App__Container})}/>
+    return <div {...classNaming({App: App__Container})}/>
   }
 
   expectRender(
@@ -65,7 +64,7 @@ it("vscode can rename property", () => {
   function Root({
     "classnames": {App__Container: App__Container}
   }: RootProps) {
-    return <div {...classNamingBasic({App: App__Container})}/>
+    return <div {...classNaming({App: App__Container})}/>
   }
 
   function Root2({
@@ -75,7 +74,7 @@ it("vscode can rename property", () => {
       App: App__Container
     }
   }: ClassNames<typeof Root>) {
-    return <div {...classNamingBasic({App: App__Container})}/>
+    return <div {...classNaming({App: App__Container})}/>
   }
 
   expectRender(
@@ -102,8 +101,8 @@ it("additional type check after rename", () => {
   } = classNamesCheck<Props1 & Props2>();
 
   expectRender(
-    <div {...classNamingBasic<Props1["classnames"]>({class1})} />,
-    <div {...classNamingBasic<Props2["classnames"]>({
+    <div {...classNaming<Props1["classnames"]>({class1})} />,
+    <div {...classNaming<Props2["classnames"]>({
       //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
       class2
     })} />
@@ -120,15 +119,15 @@ it("chaining", () => {
     Column_1, Column_2,
     Row_1, Row_2
   }} = props
-  , cn1 = classNamingBasic(className, {Column_1})
-  , cn2 = classNamingBasic(className, {Column_2})
+  , cn1 = classNaming(className, {Column_1})
+  , cn2 = classNaming(className, {Column_2})
 
   expectRender(
     <div {...cn1({ Row_1 })} />,
     <div {...cn1({ Row_2 })} />,
     <div {...cn2({ Row_1 })} />,
     <div {...cn2({ Row_2 })} />,
-    <div {...classNamingBasic({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
+    <div {...classNaming({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
   ).toSame(
     <div className="Cell Column_1 Row_1" />,
     <div className="Cell Column_1 Row_2" />,

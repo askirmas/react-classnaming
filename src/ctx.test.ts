@@ -1,4 +1,4 @@
-import classNamingCtx from "./ctx";
+import classNaming from "./ctx";
 
 const classnames = {
   "class3": "hash3",
@@ -9,7 +9,7 @@ const classnames = {
 
 describe("empty call", () => {
   it("classnames", () => expect({
-    ...classNamingCtx(
+    ...classNaming(
       {classnames}
     )()
   }).toStrictEqual({
@@ -17,7 +17,7 @@ describe("empty call", () => {
   }))
 
   it("classnames + className", () => expect({
-    ...classNamingCtx(
+    ...classNaming(
       {classnames, className}
     )()
   }).toStrictEqual({
@@ -25,7 +25,7 @@ describe("empty call", () => {
   }))
 
   it("className", () => expect({
-    ...classNamingCtx(
+    ...classNaming(
       {className}
     )()
   }).toStrictEqual({
@@ -33,7 +33,7 @@ describe("empty call", () => {
   }))
 
   it("empty", () => expect({
-    ...classNamingCtx(
+    ...classNaming(
       {}
     )()
   }).toStrictEqual({
@@ -43,7 +43,7 @@ describe("empty call", () => {
 
 describe("toggling", () => {
   describe("classnames", () => {
-    const classes = classNamingCtx({classnames})
+    const classes = classNaming({classnames})
     it("map", () => expect({
       ...classes({
         class1: true,
@@ -79,7 +79,7 @@ describe("toggling", () => {
   })
 
   describe("className + classnames", () => {
-    const classes = classNamingCtx({className, classnames})
+    const classes = classNaming({className, classnames})
     
     it("only propagated", () => expect({
       ...classes(true)
@@ -101,7 +101,7 @@ describe("toggling", () => {
   })
 
   it("chained", () => expect({
-    ...classNamingCtx({classnames})(
+    ...classNaming({classnames})(
       {class1: true}
     )({class2: true}
     )({class1: false}
@@ -113,7 +113,7 @@ describe("toggling", () => {
 
 it("TBD no duplication on TS level", () => {
   const {class1, class2} = classnames
-  , cn = classNamingCtx({classnames})
+  , cn = classNaming({classnames})
   , call1 = cn({class1})
   , call2 = call1({class2})
   //TODO //@ts-expect-error

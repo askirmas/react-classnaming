@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import renderer from 'react-test-renderer';
-import { classNamesCheck } from '../../../dist';
+import { classNamesCheck } from 'react-classnaming';
 
 test('snapshot', () => {
   expect(renderer.create(<App classnames={classNamesCheck<typeof App>({
