@@ -25,7 +25,7 @@ export type ClassNames<
   C10 extends ReactRelated = never
 >
 = Ever<Extract<C0, true>, ClassNamed>
-& ClassNamesProperty<
+& ClassNamesCombiner<
   & Ever<Extract<C0, ReactRelated>, ClassNamesFrom<Extract<C0, ReactRelated>>>
   & Ever<C1, ClassNamesFrom<C1>>
   & Ever<C2, ClassNamesFrom<C2>>
@@ -39,8 +39,10 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
-//TODO #9 Add leading `map` to check
-export type ClassNamesProperty<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
+export type ClassNamesProperty<
+C extends CssModule, T extends {[K in keyof C]?: ClassHash} = C
+> = {classnames: {[K in keyof T & keyof C]: ClassHash}}
+type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 
 export type ClassHash = undefined|string
 
@@ -56,8 +58,7 @@ export type ClassNamingContext<T extends CssModule> = Partial<ClassNamed> & {
 }
 
 /// iNTERNAL
-
-type WithClassNames = ClassNamesProperty<CssModule>
+type WithClassNames = {classnames: CssModule}
 
 export type CssModule = Record<string, ClassHash>
 //TODO Consider not empty object

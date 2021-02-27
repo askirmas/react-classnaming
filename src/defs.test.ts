@@ -2,15 +2,75 @@ import {
   Component,
   // ReactElement
 } from "react"
-import type { ClassNamed, ClassHash, ReactRelated, GetProps} from "./defs"
+import type {
+  ClassNamed,
+  ClassHash,
+  ReactRelated,
+  GetProps,
+  ClassNamesProperty
+} from "./defs"
 
-export {}
+describe("ClassNamesProperty", () => {
+  it("Free declaration", () => {
+    type Props = ClassNamesProperty<{
+      class1: ClassHash, class2: ClassHash
+    }>
+    const suites: Record<string, Props["classnames"]> = {
+      "all setted": {
+        class1: "class1",
+        class2: undefined
+      },
+      "redundant": {
+        class1: "class1",
+        class2: undefined,
+        //@ts-expect-error
+        redundant: "redundant"
+      },
+      //@ts-expect-error
+      "missed": {
+        class1: "class1"
+      },
+      "wrong type": {
+        class1: "class1",
+        //@ts-expect-error
+        class2: false
+      }
+    }
+    expect(suites).toBeInstanceOf(Object)
+  })
+  it("Module based", () => {
+    type CssModule = {
+      App: ClassHash
+      class1: ClassHash, class2: ClassHash
+    }
 
-type Getter<T extends ReactRelated> = GetProps<T>
+    type Props = ClassNamesProperty<CssModule, {
+      class1: ClassHash
+      class2: ClassHash
+      //TODO #12 Why no suggestion?
+    }>
+
+    type PropsWithWrong = ClassNamesProperty<CssModule,
+      //@ts-expect-error
+      {class3: ClassHash}
+    >
+    
+    const suite4wrong: PropsWithWrong["classnames"] = {
+        class3: undefined,
+    },
+    suite: Props["classnames"] = {
+      class1: "class1",
+      class2: undefined
+    }
+    expect({suite4wrong, suite}).toBeInstanceOf(Object)
+  })
+})
 
 it.todo("ClassNamesFrom")
 
 describe("ReactRelated", () => {
+  type Getter<T extends ReactRelated> = GetProps<T>
+
   type Without = ClassNamed
   type Wrong = ClassNamed & {classnames: string}
   type Some = ClassNamed & {classnames: Record<string, ClassHash>}
