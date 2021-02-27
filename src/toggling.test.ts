@@ -6,7 +6,6 @@ const classnames = {
 } as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
 , className = "App"
 
-
 describe("empty call", () => {
   it("classnames", () => expect({
     ...classNaming(
@@ -24,7 +23,7 @@ describe("empty call", () => {
     className: ""
   }))
 
-  it("className", () => expect({
+  it("className - wrong usage", () => expect({
     ...classNaming(
       {className}
     )()
@@ -32,7 +31,7 @@ describe("empty call", () => {
     className
   }))
 
-  it("empty", () => expect({
+  it("empty - wrong usage", () => expect({
     ...classNaming(
       {}
     )()

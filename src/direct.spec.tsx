@@ -1,24 +1,26 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "."
+import type { ClassNames, ClassNamesProperty, ClassNamed, ClassHash } from "."
 import classNaming, {classNamesCheck} from "."
 
-function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassHash}>>) {
-  return <button {...classNaming(className, { Btn })}/>
-}
+const Button = ({className, "classnames": { Btn }}
+  : ClassNamed & ClassNamesProperty<{Btn: ClassHash}>
+) => <button {...classNaming(className, { Btn })}/>
 
-function Root({
-  classnames, "classnames": { App__Item, App__Footer }
-}: ClassNames<ClassNamesProperty<{App__Item: ClassHash; App__Footer: ClassHash}>, typeof Button>) {
+type RootClassNames = ClassNamesProperty<{
+  App__Item: ClassHash
+  App__Footer: ClassHash
+}>
+type RootProps = RootClassNames & ClassNames<typeof Button>
+function Root({classnames, "classnames": { App__Item, App__Footer }}: RootProps) {
+  const classFooter = classNaming({App__Footer})
+
   return <>
     <Button {...{
       ...classNaming({ App__Item }),
       classnames
     }}/>
-    <div
-      className={`${classNaming({App__Footer})}`}
-      data-classname={`${classNaming({App__Footer})}`}
-    />
+    <div {...classFooter} data-classname={`${classFooter}`} />
   </>
 }
 
@@ -40,26 +42,10 @@ it("css module", () => expectRender(
   <div className="footer-hash" data-classname="footer-hash"></div>
 ))
 
-it("vscode couldn't rename enum element", () => {
-  function Root({
-    "classnames": {App: App__Container}
-  }: ClassNames<ClassNamesProperty<{App: ClassHash}>>) {
-    return <div {...classNaming({App: App__Container})}/>
-  }
-
-  expectRender(
-    <Root classnames={classNamesCheck()} />
-  ).toSame(
-    <div className="App"></div>
-  )
-})
-
-it("vscode can rename property", () => {
-  type RootProps = {
-    classnames: {
-      App__Container: ClassHash
-    }
-  }
+it("VSCode can rename property", () => {
+  type RootProps = ClassNamesProperty<{
+    App__Container: ClassHash
+  }>
 
   function Root({
     "classnames": {App__Container: App__Container}
@@ -89,9 +75,7 @@ it("vscode can rename property", () => {
 })
 
 it("additional type check after rename", () => {
-  type Props1 = {
-    classnames: { class1: ClassHash }
-  }
+  type Props1 = ClassNamesProperty<{ class1: ClassHash }>
   type Props2 = {
     classnames: { class2_renamed: ClassHash }
   }
@@ -115,18 +99,19 @@ it("additional type check after rename", () => {
 it("chaining", () => {
   const props = {className: "Cell", classnames: classNamesCheck()}
 
-  const {className, classnames: {
+  const {className, "classnames": {
     Column_1, Column_2,
     Row_1, Row_2
   }} = props
-  , cn1 = classNaming(className, {Column_1})
-  , cn2 = classNaming(className, {Column_2})
+  , c = classNaming(className)
+  , col1 = c({Column_1})
+  , col2 = c({Column_2})
 
   expectRender(
-    <div {...cn1({ Row_1 })} />,
-    <div {...cn1({ Row_2 })} />,
-    <div {...cn2({ Row_1 })} />,
-    <div {...cn2({ Row_2 })} />,
+    <div {...col1({ Row_1 })} />,
+    <div {...col1({ Row_2 })} />,
+    <div {...col2({ Row_1 })} />,
+    <div {...col2({ Row_2 })} />,
     <div {...classNaming({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
   ).toSame(
     <div className="Cell Column_1 Row_1" />,
