@@ -4,7 +4,7 @@ import type {
   Component
 } from "react"
 
-/** Multipurpose generic
+/** Collect required `classnames` from used sub-Components
  * @example
  * ClassNames<true> // {className: string}
  * ClassNames<Props1> // {classnames: Props1["classnames"] & Props2["classnames"]}
@@ -39,7 +39,7 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
-/** Declaration of self Component's classNames
+/** Declaration of self Component's `classnames`
  * @example
  * ClassNames<{class1: ClassHash, class2: ClassHash}>
  * ClassNames<typeof some_module_css, {class1: ClassHash, class2: ClassHash}>

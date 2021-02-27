@@ -10,23 +10,30 @@ export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./de
 export default classNaming
 export {classNamesCheck} from "./check"
 
-/**
- * Makes `className` string from imported CSS
- * @example
- * <div className={`${classNamingBasic({ClassName})}`} />
- * <div {...classNamingBasic({ClassName})} />
- * const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
- */
 interface ClassNamingCall<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
 > {
 /**
-   * @example
-   * classes(true) === props.className
-   * classes({class1: true, class2: false}) === "class1"
-   * classes(true, {class1: true, class2: false})
-  */
+  * Makes `className` string
+  * @example
+  *   // Using in Components
+  *   <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+  *   <Component {...{
+  *     ...classNaming(...)},
+  *     ...classnames
+  *   }/>
+  * 
+  *   // With destructed `classnames`
+  *   classNaming(className?, {App__Container, App__Item})} />
+  *   
+  *   // Toggler
+  *   classNaming(true?, {Btn_Float: true, Btn___disabled: false})
+  
+  *   // Pipe-able
+  *   const Cell = classNaming(className), Col1 = Cell({Column_1})
+  *   <div {...Col1({Row_1})} />
+*/
   (
     arg0?: ClassNamingContext<Source> | true | string | ActionsMap<Source>,
     arg1?: [Extract<typeof arg0, true|string>] extends [never]
@@ -51,13 +58,28 @@ type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
 // type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
 /**
- * 
+ * Makes `className` string or settle context
  * @example
- * const classes = classNaming(this.props)
- * const classes = classNaming({classnames, className})
- * const classes = classNaming({classnames})
- */
+ *   // To set context
+ *   const classes = classNaming({classnames, className})
+ * 
+ *   // Using in Components
+ *   <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+ *   <Component {...{
+ *     ...classNaming(...)},
+ *     ...classnames
+ *   }/>
+ * 
+ *   // With destructed `classnames`
+ *   classNaming(className?, {App__Container, App__Item})} />
+ *   
+ *   // Toggler
+ *   classNaming(true?, {Btn_Float: true, Btn___disabled: false})
 
+ *   // Pipe-able
+ *   const Cell = classNaming(className), Col1 = Cell({Column_1})
+ *   <div {...Col1({Row_1})} />
+ */
 function classNaming<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
