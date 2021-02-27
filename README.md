@@ -20,82 +20,15 @@
 npm install --save react-classnaming
 ```
 
-## Key features
+## Key valued features
 
-#### Declarative style programming
-
-```tsx
-import classNaming from "react-classnaming"
-const {
-  "classnames": {App, App__Item}
-} = props
-<div {...classNaming({App, App__Item})} />
-```
-```tsx
-import type {ClassNamesProperty, ClassHash} from "react-classnaming"
-type ComponentClassNames = ClassNamesProperty<{
-  App: ClassHash
-  App__Item: ClassHash
-}>
-```
-
-```tsx
-import type {ClassNames} from "react-classnaming"
-type AppProps = {
-  isMyAppGreat: boolean
-} & ClassNames<
-  true, // props.className: string
-  AppClassNames,
-  ComponentProps,
-  typeof ClassComponent,
-  typeof FunctionalComponent
->
-```
-
-#### Returning *stringable* object
-
-```typescript
-<div {...classNaming({App})} data-block={`${classNaming({App})}`} />
-```
-
-#### Reusability by pipe calls
-
-```tsx
-const c = classNaming(className) // className: "Cell"
-, Col1 = c({ Column_1 })
-, Col2 = c({ Column_2 })
-
-<div {...Col1({ Row_1 })} />; // className="Cell Column_1 Row_1"
-<div {...Col1({ Row_2 })} />; // className="Cell Column_1 Row_2"
-<div {...Col2({ Row_1 })} />; // className="Cell Column_2 Row_1"
-<div {...Col2({ Row_2 })} />; // className="Cell Column_2 Row_2"
-```
-
-#### Single interface
-
-```typescript
-classNaming({classnames, className}) // Start with context
-classNaming({App, App__Item}) // Destructed
-classNaming({App: true, App__Item: false}) // Toggling
-```
-
-#### Class names control by type check of keys
-
-*//TODO add example*
-
-#### Playing together with IDE renames
-
-*//TODO add example*
-
-#### With and without CSS modules
-
-```tsx
-import css from "./css" // css === {}
-import module_css from "./module_css" // module_css === {"class1": "hash1", ...}
-
-<App classnames={css} />;
-<App classnames={module} />;
-```
+- Declarative style programming
+- Returning *stringable* object
+- Reusability by pipe calls
+- Single interface
+- Class names control by type check of keys
+- Playing together with IDE renames
+- With and without CSS modules
 
 ## Examples of usage
 
@@ -192,6 +125,84 @@ import css from "./module.css"
 
 ReactDOM.render( <Root classnames={classNamesCheck(css))} /> )
 ReactDOM.render( <Root classnames={classNamesCheck<typeof Root, typeof css>(css))} /> )
+```
+
+## Explaining and recipes
+
+### Declarative style programming
+
+```tsx
+import classNaming from "react-classnaming"
+const {
+  "classnames": {App, App__Item}
+} = props
+<div {...classNaming({App, App__Item})} />
+```
+
+```tsx
+import type {ClassNamesProperty, ClassHash} from "react-classnaming"
+type ComponentClassNames = ClassNamesProperty<{
+  App: ClassHash
+  App__Item: ClassHash
+}>
+```
+
+```tsx
+import type {ClassNames} from "react-classnaming"
+type AppProps = {
+  isMyAppGreat: boolean
+} & ClassNames<
+  true, // props.className: string
+  AppClassNames,
+  ComponentProps,
+  typeof ClassComponent,
+  typeof FunctionalComponent
+>
+```
+
+### Returning *stringable* object
+
+```typescript
+<div {...classNaming({App})} data-block={`${classNaming({App})}`} />
+```
+
+### Reusability by pipe calls
+
+```tsx
+const c = classNaming(className) // className: "Cell"
+, Col1 = c({ Column_1 })
+, Col2 = c({ Column_2 })
+
+<div {...Col1({ Row_1 })} />; // className="Cell Column_1 Row_1"
+<div {...Col1({ Row_2 })} />; // className="Cell Column_1 Row_2"
+<div {...Col2({ Row_1 })} />; // className="Cell Column_2 Row_1"
+<div {...Col2({ Row_2 })} />; // className="Cell Column_2 Row_2"
+```
+
+### Single interface
+
+```typescript
+classNaming({classnames, className}) // Start with context
+classNaming({App, App__Item}) // Destructed
+classNaming({App: true, App__Item: false}) // Toggling
+```
+
+### Class names control by type check of keys
+
+*//TODO add example*
+
+### Playing together with IDE renames
+
+*//TODO add example*
+
+### With and without CSS modules
+
+```tsx
+import css from "./css" // css === {}
+import module_css from "./module_css" // module_css === {"class1": "hash1", ...}
+
+<App classnames={css} />;
+<App classnames={module} />;
 ```
 
 ## Versus [`classnames`](https://github.com/JedWatson/classnames#readme) package
