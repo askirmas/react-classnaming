@@ -8,7 +8,6 @@ const {keys: $keys} = Object
 
 export {
   wrapper,  
-  // replacer of `dehash` and `truthyKeys` 
   resolver,
   joinWithLead
 }
