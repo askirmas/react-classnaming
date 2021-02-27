@@ -48,8 +48,8 @@ function resolver(
       keys[i] = act
   }
 
-  //TODO Compare `.flat()`, `.filter(Boolean)` or `.filter(idfn)`
-  const filtered = keys.filter(Boolean)
+  //TODO https://measurethat.net/Benchmarks/Show/11866/1/arrayfilter
+  const filtered = keys.filter(x => x)
 
   return filtered.length === 0 ? EMPTY_ARRAY : filtered
 }

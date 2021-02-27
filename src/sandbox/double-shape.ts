@@ -26,7 +26,7 @@ function _doubleShape<
 ) {
   const {applied, classnames, className} = ctx  
   //@ts-expect-error
-  , nextApplied = !applied ? [] : applied.push(...args.filter(Boolean)) as Record<U | keyof A, ClassHash|boolean>[] 
+  , nextApplied = !applied ? [] : applied.push(...args.filter(x => x)) as Record<U | keyof A, ClassHash|boolean>[] 
 
   , host = <
       // T extends {[K in Exclude<S, U | keyof A>]?: boolean} | {[K in Exclude<S, U | keyof A>]?: ClassHash}
@@ -83,7 +83,7 @@ function _doubleShape<
     withClassName && className,
     injection,
     args.flat().join(" ")
-  ].filter(Boolean)
+  ].filter(x => x)
   .join(" ")
 
   host["className"] = calced
