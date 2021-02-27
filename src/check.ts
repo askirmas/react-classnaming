@@ -1,5 +1,5 @@
 import { EMPTY_OBJECT } from "./consts"
-import type { ReactRelated, ClassNamesFrom, ClassNamesMap, ClassHash } from "./defs"
+import type { ReactRelated, ClassNamesFrom, CssModule, ClassHash } from "./defs"
 
 export {
   classNamesCheck
@@ -13,7 +13,7 @@ export {
 */
 
 /** Identical function */
-function classNamesCheck<T extends ClassNamesMap>(classnames: T): T
+function classNamesCheck<T extends CssModule>(classnames: T): T
 
 /* Declares class keys
  * @example classNamesCheck() // Anything

@@ -40,7 +40,7 @@ export type ClassNames<
 >
 
 //TODO #9 Add leading `map` to check
-export type ClassNamesProperty<C extends ClassNamesMap> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
+export type ClassNamesProperty<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 
 export type ClassHash = undefined|string
 
@@ -50,16 +50,16 @@ export type ClassNamed = {
 
 /// APPLIED TO GLOBAL INLINE
 
-export type ClassNamingContext<T extends ClassNamesMap> = Partial<ClassNamed> & {
+export type ClassNamingContext<T extends CssModule> = Partial<ClassNamed> & {
   //TODO Reuse `ClassNamesProperty`?
   classnames: T
 }
 
 /// iNTERNAL
 
-type WithClassNames = ClassNamesProperty<ClassNamesMap>
+type WithClassNames = ClassNamesProperty<CssModule>
 
-export type ClassNamesMap = Record<string, ClassHash>
+export type CssModule = Record<string, ClassHash>
 //TODO Consider not empty object
 export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
 

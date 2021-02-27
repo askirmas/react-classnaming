@@ -1,4 +1,4 @@
-import type { ClassNamingContext, ClassNamed, ClassNamesMap, ClassHash } from "./defs"
+import type { ClassNamingContext, ClassNamed, CssModule, ClassHash } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 
@@ -18,7 +18,7 @@ export {classNamesCheck} from "./check"
  */
 interface ClassNamingCall<
   //TODO #8 `extends ReactRelated`
-  Source extends ClassNamesMap
+  Source extends CssModule
 > {
 /**
    * @example classes(true) === props.className
@@ -38,13 +38,13 @@ interface ClassNamingCall<
 }
 
 //TODO #11 no `className` - no first `true`
-interface ClassNaming<Source extends ClassNamesMap> extends ClassNamed, ClassNamingCall<Source> {}
+interface ClassNaming<Source extends CssModule> extends ClassNamed, ClassNamingCall<Source> {}
 
-type ClassNamingThis<Source extends ClassNamesMap> = ClassNamingContext<Source> & {
+type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
   [stackedKey]: string|undefined
 }
 
-type ActionsMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash|boolean}
+type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
 // type SubMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash}
 // type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
@@ -56,7 +56,7 @@ type ActionsMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash|boolean}
 
 function classNaming<
   //TODO #8 `extends ReactRelated`
-  Source extends ClassNamesMap
+  Source extends CssModule
 >(
   this: void | ClassNamingThis<Source>,
   // arg0?: typeof this extends void ? ClassNamingContext<Source> : (true | ToggleMap<Source>),

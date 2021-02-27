@@ -103,15 +103,15 @@ it("chaining", () => {
     Column_1, Column_2,
     Row_1, Row_2
   }} = props
-  , c = classNaming(className)
-  , col1 = c({Column_1})
-  , col2 = c({Column_2})
+  , Cell = classNaming(className)
+  , Col1 = Cell({Column_1})
+  , Col2 = Cell({Column_2})
 
   expectRender(
-    <div {...col1({ Row_1 })} />,
-    <div {...col1({ Row_2 })} />,
-    <div {...col2({ Row_1 })} />,
-    <div {...col2({ Row_2 })} />,
+    <div {...Col1({ Row_1 })} />,
+    <div {...Col1({ Row_2 })} />,
+    <div {...Col2({ Row_1 })} />,
+    <div {...Col2({ Row_2 })} />,
     <div {...classNaming({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
   ).toSame(
     <div className="Cell Column_1 Row_1" />,
