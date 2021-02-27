@@ -5,12 +5,12 @@ import type {
 } from "react"
 
 /** Multipurpose generic
- * @example ClassNames<true> === {className: string}
- * @example ClassNames<"class1"|"class2"> === {classnames: {class1: undefined|string, class2: undefined|string}}
- * @example ClassNames<Props1, Props2> === {classnames: Props1["classnames"] & Props2["classnames"]}
- * @example ClassNames<true, "class1", Props, typeof Component1, typeof FunctionalComponent>
+ * @example
+ * ClassNames<true> // {className: string}
+ * ClassNames<Props1> // {classnames: Props1["classnames"] & Props2["classnames"]}
+ * ClassNames<typeof Component>
+ * ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
  */
-
 export type ClassNames<
   C0 extends true | ReactRelated,
   C1 extends ReactRelated = never,
@@ -39,13 +39,19 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
+/** Declaration of self Component's classNames
+ * @example
+ * ClassNames<{class1: ClassHash, class2: ClassHash}>
+ * ClassNames<typeof some_module_css, {class1: ClassHash, class2: ClassHash}>
+*/
 export type ClassNamesProperty<
 C extends CssModule, T extends {[K in keyof C]?: ClassHash} = C
 > = {classnames: {[K in keyof T & keyof C]: ClassHash}}
-type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 
+/** Primitive for global CSS and CSS module */
 export type ClassHash = undefined|string
 
+/** Shortcut to require property `className` */
 export type ClassNamed = {
   className: string
 }
@@ -58,6 +64,7 @@ export type ClassNamingContext<T extends CssModule> = Partial<ClassNamed> & {
 }
 
 /// iNTERNAL
+type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 type WithClassNames = {classnames: CssModule}
 
 export type CssModule = Record<string, ClassHash>
@@ -72,6 +79,7 @@ export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 /// REACT
 
 export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
+//TODO Is there any way to require `classnames` in `props`?
 type RFC = (props: any) => ReactElement<any, any> | null
 type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 

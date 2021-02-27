@@ -12,18 +12,20 @@ export {classNamesCheck} from "./check"
 
 /**
  * Makes `className` string from imported CSS
- * @example <div className={`${classNamingBasic({ClassName})}`} />
- * @example <div {...classNamingBasic({ClassName})} />
- * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
+ * @example
+ * <div className={`${classNamingBasic({ClassName})}`} />
+ * <div {...classNamingBasic({ClassName})} />
+ * const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
  */
 interface ClassNamingCall<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
 > {
 /**
-   * @example classes(true) === props.className
-   * @example classes({class1: true, class2: false}) === "class1"
-   * @example classes(true, {class1: true, class2: false})
+   * @example
+   * classes(true) === props.className
+   * classes({class1: true, class2: false}) === "class1"
+   * classes(true, {class1: true, class2: false})
   */
   (
     arg0?: ClassNamingContext<Source> | true | string | ActionsMap<Source>,
@@ -49,9 +51,11 @@ type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
 // type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
 /**
- * @example const classes = classNamingCtx(this.props)
- * @example const classes = classNamingCtx({className, classnames})
- * @example const classes = classNamingCtx({classnames})
+ * 
+ * @example
+ * const classes = classNaming(this.props)
+ * const classes = classNaming({classnames, className})
+ * const classes = classNaming({classnames})
  */
 
 function classNaming<

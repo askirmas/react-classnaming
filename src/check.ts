@@ -15,9 +15,10 @@ export {
 /** Identical function */
 function classNamesCheck<T extends CssModule>(classnames: T): T
 
-/* Declares class keys
- * @example classNamesCheck() // Anything
- * @example classNamesCheck<typeof Component>()
+/** Declares class keys
+ * @example
+ * classNamesCheck() // Anything
+ * classNamesCheck<typeof Component>()
  */
 function classNamesCheck(): never
 
