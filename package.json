@@ -2,7 +2,7 @@
   "name": "react-classnaming",
   "version": "0.10.0",
   "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
-  "main": "dist/ctx.js",
+  "main": "dist",
   "scripts": {
     "dev": "npm run test -- --watch --coverage=false",
     "test": "npm run jest --",

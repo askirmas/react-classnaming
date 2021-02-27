@@ -1,5 +1,5 @@
 import React from "react"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "./ctx"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "."
 import { classNamesCheck } from "./check"
 
 import css from "./some.css"

@@ -1,4 +1,4 @@
-import classNaming from "./ctx";
+import classNaming from ".";
 
 const classnames = {
   "class3": "hash3",

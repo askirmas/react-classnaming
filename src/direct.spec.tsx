@@ -1,7 +1,7 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "./ctx"
-import classNaming, {classNamesCheck} from "./ctx"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "."
+import classNaming, {classNamesCheck} from "."
 
 function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassHash}>>) {
   return <button {...classNaming(className, { Btn })}/>

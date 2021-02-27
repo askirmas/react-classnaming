@@ -1,5 +1,5 @@
-import type {ClassNames} from "./ctx"
-import classNaming, { classNamesCheck } from "./ctx"
+import type {ClassNames} from "."
+import classNaming, { classNamesCheck } from "."
 
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
