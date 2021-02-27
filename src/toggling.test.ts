@@ -69,7 +69,7 @@ describe("toggling", () => {
     
     it("propagate absent className", () => expect({
       ...classes(
-        //TODO Raise TS error
+        //TODO #11 Raise TS error
         true,
         {class1: true, class4: true}
       )
@@ -116,7 +116,7 @@ it("TBD no duplication on TS level", () => {
   , cn = classNaming({classnames})
   , call1 = cn({class1})
   , call2 = call1({class2})
-  //TODO //@ts-expect-error
+  //TODO #6 //@ts-expect-error
   , call3 = call2({class1})
 
   expect({

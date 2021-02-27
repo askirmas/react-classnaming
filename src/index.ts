@@ -17,7 +17,7 @@ export {classNamesCheck} from "./check"
  * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
  */
 interface ClassNamingCall<
-  //TODO `extends ReactRelated`
+  //TODO #8 `extends ReactRelated`
   Source extends ClassNamesMap
 > {
 /**
@@ -37,11 +37,10 @@ interface ClassNamingCall<
   // (propagateClassName: true, expression: ToggleMap<Source>): ClassNaming<Source>
 }
 
-//TODO no `className` - no first `true`
+//TODO #11 no `className` - no first `true`
 interface ClassNaming<Source extends ClassNamesMap> extends ClassNamed, ClassNamingCall<Source> {}
 
 type ClassNamingThis<Source extends ClassNamesMap> = ClassNamingContext<Source> & {
-  //TODO change to Symbol
   [stackedKey]: string|undefined
 }
 
@@ -56,7 +55,7 @@ type ActionsMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash|boolean}
  */
 
 function classNaming<
-  //TODO `extends ReactRelated`
+  //TODO #8 `extends ReactRelated`
   Source extends ClassNamesMap
 >(
   this: void | ClassNamingThis<Source>,

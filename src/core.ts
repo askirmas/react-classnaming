@@ -34,7 +34,7 @@ function resolver(
     const key = keys[i]
     , act = actions[key]
     
-    //TODO clarify what behaviour to implement
+    //TODO #10 Clarify what behaviour to implement
 
     if (act !== undefined && !act) {
       delete keys[i]

@@ -39,7 +39,7 @@ export type ClassNames<
   & Ever<C10, ClassNamesFrom<C10>>
 >
 
-//TODO Add leading `map` to check
+//TODO #9 Add leading `map` to check
 export type ClassNamesProperty<C extends ClassNamesMap> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 
 export type ClassHash = undefined|string
