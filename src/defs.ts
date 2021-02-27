@@ -54,7 +54,6 @@ export type ClassNamingContext<T extends ClassNamesMap> = Partial<ClassNamed> & 
   //TODO Reuse `ClassNamesProperty`?
   classnames: T
 }
-export type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
 
 /// iNTERNAL
 

@@ -1,7 +1,6 @@
 import type {ClassNames} from "."
 import {
   classNamesCheck,
-  classNamingBasic,
   classNamingCtx
 } from "."
 
@@ -30,7 +29,7 @@ it("usage interface", () => {
   const {classnames: {class2}} = props
 
   expect({
-    ...classNamingBasic({class1, class2})
+    ...classNamingCtx({class1, class2})
   }).toStrictEqual({
     //@ts-expect-error `classnames` has no possibility for type hints
     className:  classnames_default<"whatever">("class1", "class2")

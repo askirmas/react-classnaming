@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import logo from './logo.svg';
 import type { ClassNames, ClassNamesProperty, ClassHash} from "react-classnaming"
-import { classNamingBasic, classNamingCtx } from "react-classnaming"
+import { classNamingCtx } from "react-classnaming"
 
 const Header = ({className, children}: PropsWithChildren<ClassNames<true>>) =>
   <header {...{className}}>{children}</header>;
@@ -21,7 +21,7 @@ type AppProps = AppClassNames & ClassNames<typeof Logo, LinkProps, typeof Body>
 function AppComponent({classnames, classnames: {App}}: AppProps) {
   const classNaming = classNamingCtx({classnames})
   return (
-    <div {...classNamingBasic({App})}>
+    <div {...classNamingCtx({App})}>
       <Header {...classNaming({App_header: true})}>
         <Logo {...classNaming()} {...{classnames}}/>
         <Body/>
@@ -36,7 +36,7 @@ export default AppComponent;
 type LinkProps = ClassNamesProperty<{"App-link": ClassHash}>
 function Link({classnames: {"App-link": appLink}}: LinkProps) {
   return <a
-    {...classNamingBasic<LinkProps>({"App-link": appLink})}
+    {...classNamingCtx<LinkProps["classnames"]>({"App-link": appLink})}
     href="https://reactjs.org"
     target="_blank"
     rel="noopener noreferrer"

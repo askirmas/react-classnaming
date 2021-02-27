@@ -1,7 +1,7 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
 import type { ClassNames, ClassNamesProperty, ClassHash } from "./defs"
-import classNamingBasic from "./basic"
+import classNamingBasic from "./ctx"
 import classNamesCheck from "./check"
 
 function Button({className, "classnames": { Btn }}: ClassNames<true, ClassNamesProperty<{Btn: ClassHash}>>) {
@@ -102,8 +102,8 @@ it("additional type check after rename", () => {
   } = classNamesCheck<Props1 & Props2>();
 
   expectRender(
-    <div {...classNamingBasic<Props1>({class1})} />,
-    <div {...classNamingBasic<Props2>({
+    <div {...classNamingBasic<Props1["classnames"]>({class1})} />,
+    <div {...classNamingBasic<Props2["classnames"]>({
       //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
       class2
     })} />

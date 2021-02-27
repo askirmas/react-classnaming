@@ -1,4 +1,4 @@
-import type { ToggleMap, ClassNamingContext, ClassNamed, ClassNamesMap } from "./defs"
+import type { ClassNamingContext, ClassNamed, ClassNamesMap, ClassHash } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 
@@ -6,19 +6,28 @@ const stackedKey = Symbol("stacked")
 
 emptize(classNamingCtx)
 
-interface ClassNamingCall<Source extends ClassNamesMap> {
+/**
+ * Makes `className` string from imported CSS
+ * @example <div className={`${classNamingBasic({ClassName})}`} />
+ * @example <div {...classNamingBasic({ClassName})} />
+ * @example const cn = classNamingBasic({C1})({C2}); <div {...cn({C3})({C4})} />
+ */
+interface ClassNamingCall<
+  //TODO `extends ReactRelated`
+  Source extends ClassNamesMap
+> {
 /**
    * @example classes(true) === props.className
    * @example classes({class1: true, class2: false}) === "class1"
    * @example classes(true, {class1: true, class2: false})
   */
-  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   (
-    ctx_or_propagate_or_map_or_expression?: ClassNamingContext<Source> | true | ToggleMap<Source>,
-    map_or_expression?: [Extract<typeof ctx_or_propagate_or_map_or_expression, true>] extends [never]
-    ? never
-    : ToggleMap<Source>
+    arg0?: ClassNamingContext<Source> | true | string | ActionsMap<Source>,
+    arg1?: [Extract<typeof arg0, true|string>] extends [never]
+    ? never 
+    : ActionsMap<Source>
   ): ClassNaming<Source>
+  // Using overloads will make error not in certain argument but on all call - 'No overload found'
   // (propagateClassName: true): ClassNaming<Source>
   // (expression: ToggleMap<Source>): ClassNaming<Source>
   // (propagateClassName: true, expression: ToggleMap<Source>): ClassNaming<Source>
@@ -32,6 +41,10 @@ type ClassNamingThis<Source extends ClassNamesMap> = ClassNamingContext<Source> 
   [stackedKey]: string|undefined
 }
 
+type ActionsMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash|boolean}
+// type SubMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash}
+// type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}
+
 export default classNamingCtx
 
 /**
@@ -41,27 +54,35 @@ export default classNamingCtx
  */
 
 function classNamingCtx<
+  //TODO `extends ReactRelated`
   Source extends ClassNamesMap
 >(
   this: void | ClassNamingThis<Source>,
   // arg0?: typeof this extends void ? ClassNamingContext<Source> : (true | ToggleMap<Source>),
   // arg1?: typeof this extends void ? never : typeof arg0 extends true ? ToggleMap<Source> : never,
-  arg0?: ClassNamingContext<Source> | (true | ToggleMap<Source>),
-  arg1?: typeof arg0 extends true ? ToggleMap<Source> : never,
-
-  ): ClassNaming<Source> {
+  arg0?: ClassNamingContext<Source> | (string | true | ActionsMap<Source>),
+  arg1?: [Extract<typeof arg0, true|string>] extends [never] ? never : ActionsMap<Source>
+): ClassNaming<Source> {
   // istanbul ignore next //TODO Solve TS tricks with context
   const thisArg = this || {}
   
   context_assign:
-  if (!(stackedKey in thisArg)) {
-    const {classnames, className} = arg0 as ClassNamingContext<Source>
-    emptize(classnames)
-    const host: ClassNamingCall<Source>
-    //@ts-expect-error //TODO solve it
-    = classNamingCtx.bind({classnames, className, [stackedKey]: undefined}) 
+  if (
+    !(stackedKey in thisArg)
+    && typeof arg0 === "object"
+  ) {
+    const {classnames, className} = arg0 // as ClassNamingContext<Source>
+    if (
+      classnames !== null && typeof classnames === "object"
+      && (
+        className === undefined  || typeof className === "string" 
+      )  
+    ) {
+      emptize(classnames)
+      const host: ClassNamingCall<Source> = classNamingCtx.bind({classnames, className, [stackedKey]: undefined}) 
 
-    return wrapper(host, className)
+      return wrapper(host, className)
+    }
   }
 
   const {
@@ -70,13 +91,12 @@ function classNamingCtx<
     [stackedKey]: preStacked,
   } = thisArg as ClassNamingThis<Source>
   , withPropagation = arg0 === true  
-  , source = typeof arg0 === "object" ? arg0 as ToggleMap<Source>: arg1
+  , source = typeof arg0 === "object" ? arg0 as ActionsMap<Source>: arg1
   , allowed = source && resolver(classnames, source)
-  , stacked = joinWithLead(preStacked, allowed)
+  , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
+  , stacked = joinWithLead(withInjection, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
-  , host: ClassNamingCall<Source>
-  //@ts-expect-error //TODO solve it
-  = classNamingCtx.bind({classnames, className, [stackedKey]: stacked})
+  , host: ClassNamingCall<Source> = classNamingCtx.bind({classnames, className, [stackedKey]: stacked})
 
   classnames && emptize(classnames)
 
@@ -85,3 +105,4 @@ function classNamingCtx<
     result,
   )
 }   
+

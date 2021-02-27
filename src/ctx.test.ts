@@ -1,19 +1,54 @@
 import classNamingCtx from "./ctx";
 
-describe(classNamingCtx.name, () => {
-  const classnames = {
-    "class3": "hash3",
-    "class4": "hash4",
-  } as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
-  , className = "App"
+const classnames = {
+  "class3": "hash3",
+  "class4": "hash4",
+} as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
+, className = "App"
 
+
+describe("empty call", () => {
+  it("classnames", () => expect({
+    ...classNamingCtx(
+      {classnames}
+    )()
+  }).toStrictEqual({
+    className: ""
+  }))
+
+  it("classnames + className", () => expect({
+    ...classNamingCtx(
+      {classnames, className}
+    )()
+  }).toStrictEqual({
+    className: ""
+  }))
+
+  it("className", () => expect({
+    ...classNamingCtx(
+      {className}
+    )()
+  }).toStrictEqual({
+    className
+  }))
+
+  it("empty", () => expect({
+    ...classNamingCtx(
+      {}
+    )()
+  }).toStrictEqual({
+    className: ""
+  }))
+})
+
+describe("toggling", () => {
   describe("classnames", () => {
     const classes = classNamingCtx({classnames})
     it("map", () => expect({
       ...classes({
         class1: true,
         class2: false,
-        //@ts-expect-error
+        //TODO //@ts-expect-error
         class3: "",
         //@ts-expect-error Truthy not allowed by TS
         class4: 1,
@@ -31,9 +66,13 @@ describe(classNamingCtx.name, () => {
       className: "etc"
     }))
 
-    //TODO Raise TS error
+    
     it("propagate absent className", () => expect({
-      ...classes(true, {class1: true, class4: true})
+      ...classes(
+        //TODO Raise TS error
+        true,
+        {class1: true, class4: true}
+      )
     }).toStrictEqual({
       className: "class1 hash4"
     }))
@@ -61,32 +100,28 @@ describe(classNamingCtx.name, () => {
     }))
   })
 
-  it("empty call", () => expect({
-    ...classNamingCtx(
-      {classnames}
-    )()
+  it("chained", () => expect({
+    ...classNamingCtx({classnames})(
+      {class1: true}
+    )({class2: true}
+    )({class1: false}
+    )({class3: true})
   }).toStrictEqual({
-    className: ""
+    className: "class1 class2 hash3"
   }))
+})
 
-  describe("chained", () => {
-    it("Cur", () => expect({
-      ...classNamingCtx({classnames})(
-        {class1: true}
-      )({class2: true}
-      )({class1: false}
-      )({class3: true})
-    }).toStrictEqual({
-      className: "class1 class2 hash3"
-    }))
-    it("Proposal", () => expect({
-      ...classNamingCtx({classnames})(
-        {class1: true}
-      )({class2: true}
-      )({class1: false}
-      )({class3: true})
-    }).not.toStrictEqual({
-      className: "class2 class3"
-    }))
+it("TBD no duplication on TS level", () => {
+  const {class1, class2} = classnames
+  , cn = classNamingCtx({classnames})
+  , call1 = cn({class1})
+  , call2 = call1({class2})
+  //TODO //@ts-expect-error
+  , call3 = call2({class1})
+
+  expect({
+    ...call3
+  }).toStrictEqual({
+    className: "class1 class2 class1"
   })
 })
