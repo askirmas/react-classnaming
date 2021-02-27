@@ -85,12 +85,12 @@ function classNaming<
   Source extends CssModule
 >(
   this: void | ClassNamingThis<Source>,
-  // arg0?: typeof this extends void ? ClassNamingContext<Source> : (true | ToggleMap<Source>),
-  // arg1?: typeof this extends void ? never : typeof arg0 extends true ? ToggleMap<Source> : never,
+  // TODO #13 arg0?: typeof this extends void ? ClassNamingContext<Source> : (true | ToggleMap<Source>),
+  // TODO #13 arg1?: typeof this extends void ? never : typeof arg0 extends true ? ToggleMap<Source> : never,
   arg0?: ClassNamingContext<Source> | (string | true | ActionsMap<Source>),
   arg1?: [Extract<typeof arg0, true|string>] extends [never] ? never : ActionsMap<Source>
 ): ClassNaming<Source> {
-  // istanbul ignore next //TODO Solve TS tricks with context
+  // istanbul ignore next //TODO #13 Solve TS tricks with context
   const thisArg = this || {}
   
   context_assign:
