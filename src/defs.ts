@@ -56,12 +56,6 @@ export type ClassNamed = {
   className: string
 }
 
-/// APPLIED TO GLOBAL INLINE
-
-export type ClassNamingContext<T extends CssModule> = Partial<ClassNamed> & {
-  //TODO Reuse `ClassNamesProperty`?
-  classnames: T
-}
 
 /// iNTERNAL
 type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
@@ -86,7 +80,7 @@ type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 /// UTILITY TYPES
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
-export type EmptyObject = Record<never, never>
+type EmptyObject = Record<never, never>
 type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
 

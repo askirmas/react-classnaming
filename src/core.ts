@@ -2,8 +2,6 @@ import { EMPTY_ARRAY } from "./consts"
 import type { ClassNamed, ClassHash, Falsy } from "./defs"
 import { stringifyClassNamed } from "./utils"
 
-const classNameKey = "className" as const
-
 const {keys: $keys} = Object
 
 export {
@@ -17,7 +15,7 @@ function wrapper<T>(
   className: undefined | string
 ) {
   //@ts-expect-error
-  destination[classNameKey] = className
+  destination["className"] = className
   
   return stringifyClassNamed(destination as T & ClassNamed)
 }
@@ -25,7 +23,6 @@ function wrapper<T>(
 function resolver(
   vocabulary: undefined | Record<string, ClassHash>,
   actions: Record<string, ClassHash | boolean>
-  // actions: Record<string, ClassHash> | Record<string, boolean>
 ) {
   const keys = $keys(actions)
 
@@ -36,6 +33,7 @@ function resolver(
     //TODO #10 Clarify what behaviour to implement
 
     if (act !== undefined && !act) {
+      //TODO Consider assign to false
       delete keys[i]
       continue
     }
