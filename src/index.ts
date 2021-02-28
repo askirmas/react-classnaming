@@ -86,8 +86,7 @@ function classNaming<Source extends CssModule>(injection: true|string, actions: 
  */
 function classNaming<Source extends CssModule>(context: ClassNamingContext<Source>): ClassNaming<Source>;
 
-/// CONTEXTED
-
+/// CONTEXTING
 
 /// Implementation
 function classNaming<
@@ -123,10 +122,6 @@ function classNaming<
 
 /// CONTEXTED
 
-function _classNaming<Source extends CssModule>(actions: ActionsMap<Source>): ClassNaming<Source>;
-function _classNaming<Source extends CssModule>(injection: true|string): ClassNaming<Source>;
-function _classNaming<Source extends CssModule>(injection: true|string, actions: ActionsMap<Source>): ClassNaming<Source>;
-function _classNaming<Source extends CssModule>(): ClassNaming<Source>;
 function _classNaming<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule

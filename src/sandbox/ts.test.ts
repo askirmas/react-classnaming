@@ -1,4 +1,6 @@
-export {}
+import { ClassHash as V, CssModule } from "../defs"
+
+const {keys: $keys} = Object
 
 it("`in string` vs `:string`", () => {
   type In = {[k in string]: boolean}
@@ -167,5 +169,63 @@ describe("this", () => {
     }
     
     expect({suiteCheck}).toBeInstanceOf(Object)
+  })
+})
+
+describe("UX of TS choice", () => {
+  type T1 = {
+    class1: string,
+    class2: undefined
+  }
+
+  // it("union", () => {
+  //   type tUnion<S extends CssModule> = (
+  //     <A extends {[K in keyof S]?: V}>(source: A) => string
+  //   ) | (
+  //     <A extends {[K in keyof S]?: V}>(inject: string, source: A) => string
+  //   );
+    
+  //   // const str = <S extends CssModule>(arg1: strS) => $keys(source).join(" ")
+  // })
+
+  // it("expression 1", () => {
+  //   type tExpression1<S extends CssModule> = (
+  //     <A extends {[K in keyof S]?: V}>(arg0: string|A, arg1?: typeof arg0 extends string ? A : never) => string
+  //   );  
+  // })
+
+  // it("overload interface", () => {
+  //   interface iOverload<S extends CssModule> {
+  //     <A extends {[K in keyof S]?: V}>(arg0: string): string
+  //     <A extends {[K in keyof S]?: V}>(arg0: string, arg1: A): string
+  //   }  
+  // })
+
+  it("overload function", () => {
+    function joiner<S extends CssModule>(source: {[K in keyof S]?: V}) :string
+    function joiner<S extends CssModule>(inj: string, source: {[K in keyof S]?: V}) :string
+    function joiner<S extends CssModule, F1 extends {[K in keyof S]?: V} | string>(
+      arg0: F1,
+      // arg1?: typeof arg0 extends string ? {[K in keyof S]?: V} : never 
+      arg1?: F1 extends string ? Exclude<F1, string> : never
+    ) {
+      return `${
+        typeof arg0 === "string" ? arg0 : $keys(arg0) 
+      } ${
+        arg1 === undefined ? "" : $keys(arg1).join(" ")
+      }`.trim()
+    }
+
+    const bothObjects = joiner<T1>(
+      //@ts-expect-error Argument of type '{ class1: string; }' is not assignable to parameter of type 'string'
+      {class1: ""},
+      {class2: ""}
+    )
+    , redundantKey = joiner<T1>(
+      //@ts-expect-error Argument of type '{ class3: string; }' is not assignable
+      {class3: ""}
+    )
+    
+    expect({bothObjects, redundantKey}).toBeInstanceOf(Object)
   })
 })
