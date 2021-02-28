@@ -8,12 +8,36 @@ const global_css: CssModule = {}
 } as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
 
 describe("ctx", () => {
+  it("context-less call", () => expect({
+    //@ts-expect-error
+    ...classNaming()
+  }).toStrictEqual({
+    className: ""
+  }))
+
   it("classnames === null", () => expect({
     //@ts-expect-error
     ...classNaming({classnames: null})({classnames: true})
   }).toStrictEqual({
     className: "classnames"
   }))  
+
+  it("ctx + actions", () => expect({
+    //@ts-expect-error
+    ...classNaming({classnames: module_css}, {class1: true})
+  }).toStrictEqual({
+    className: undefined
+  }))
+
+  it("second ctx assign", () => expect({
+    //@ts-expect-error //TODO #11 Make error motr pure 
+    ...classNaming({classnames: global_css})({
+      //TODO #11 @ts-expect-error Type 'Record<string, ClassHash>' is not assignable to type 'string | boolean | undefined'
+      classnames: global_css
+    })
+  }).toStrictEqual({
+    className: "classnames"
+  }))
 })
 
 describe("mixed args", () => {
@@ -40,15 +64,17 @@ describe("mixed args", () => {
 
 describe("multi-arg call", () => {
   it("ctx", () => expect({
-    //TODO @ts-expect-error
+    //@ts-expect-error
     ...classNaming({class1: true}, {class2: "hash2"})
   }).toStrictEqual({
     className: "class1"
   }))
 
   it("piped", () => expect({
-    //TODO @ts-expect-error
-    ...classNaming({classnames: global_css})({class1: true}, {class2: "hash2"})
+    ...classNaming({classnames: global_css})(
+      //@ts-expect-error
+      {class1: true}, {class2: "hash2"}
+    )
   }).toStrictEqual({
     className: "class1"
   }))

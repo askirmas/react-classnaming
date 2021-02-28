@@ -1,11 +1,8 @@
-import type { CssModule } from "./defs"
 import type {
-  ActionsMap,
-  ClassNamingThis,
-  ClassNamingCall,
-  ClassNaming,
-  ClassNamingContext
-} from "./index.types"
+  CssModule,
+  ClassHash,
+  ClassNamed
+} from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
 import { stackedKey, defaultCtx } from "./consts"
@@ -41,6 +38,58 @@ export {classNamesCheck} from "./check"
  *   <div {...Col1({Row_1})} />
  */
 
+/** Makes `className` string
+ * @example
+ *     classNaming({class1, class2})
+ *     classNaming({class1: true, class2: false})
+ * @example
+ *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+ *     <Component {...{
+ *       ...classNaming(...)},
+ *       ...classnames
+ *     }/>
+ */
+function classNaming<Source extends CssModule>(actions: ActionsMap<Source>): ClassNaming<Source>;
+
+/** Duplication for TS error o_O */
+function classNaming<Source extends CssModule>(actions: ActionsMap<Source>): ClassNaming<Source>;
+
+/** Makes `className` string
+ * @example
+ *     classNaming(className)
+ *     classNaming(true)
+ * @example
+ *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+ *     <Component {...{
+ *       ...classNaming(...)},
+ *       ...classnames
+ *     }/>
+ */
+function classNaming<Source extends CssModule>(injection: true|string): ClassNaming<Source>;
+
+/** Makes `className` string
+ * @example
+ *     classNaming(className, {class1, class2})
+ *     classNaming(true, {class1: true, class2: false})
+ * @example
+ *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+ *     <Component {...{
+ *       ...classNaming(...)},
+ *       ...classnames
+ *     }/>
+ */
+function classNaming<Source extends CssModule>(injection: true|string, actions: ActionsMap<Source>): ClassNaming<Source>;
+
+/** Set context
+ * @example
+ *     const classes = classNaming({classnames, className?})
+ */
+function classNaming<Source extends CssModule>(context: ClassNamingContext<Source>): ClassNaming<Source>;
+
+/// CONTEXTED
+
+
+/// Implementation
 function classNaming<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
@@ -72,6 +121,12 @@ function classNaming<
   )
 }
 
+/// CONTEXTED
+
+function _classNaming<Source extends CssModule>(actions: ActionsMap<Source>): ClassNaming<Source>;
+function _classNaming<Source extends CssModule>(injection: true|string): ClassNaming<Source>;
+function _classNaming<Source extends CssModule>(injection: true|string, actions: ActionsMap<Source>): ClassNaming<Source>;
+function _classNaming<Source extends CssModule>(): ClassNaming<Source>;
 function _classNaming<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
@@ -101,3 +156,71 @@ function _classNaming<
   )
 }   
 
+interface ClassNamingCall<Source extends CssModule> {
+  /** Makes `className` string
+   * @example
+   *     classNaming({class1, class2})
+   *     classNaming({class1: true, class2: false})
+   * @example
+   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+   *     <Component {...{
+   *       ...classNaming(...)},
+   *       ...classnames
+   *     }/>
+   */
+  (actions: ActionsMap<Source>): ClassNaming<Source>;
+
+  /** Makes `className` string
+   * @example
+   *     classNaming(className)
+   *     classNaming(true)
+   * @example
+   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+   *     <Component {...{
+   *       ...classNaming(...)},
+   *       ...classnames
+   *     }/>
+   */
+  (injection: true|string): ClassNaming<Source>;
+
+  /** Makes `className` string
+   * @example
+   *     classNaming(className, {class1, class2})
+   *     classNaming(true, {class1: true, class2: false})
+   * @example
+   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+   *     <Component {...{
+   *       ...classNaming(...)},
+   *       ...classnames
+   *     }/>
+   */
+  (injection: true|string, actions: ActionsMap<Source>): ClassNaming<Source>;
+
+  /** Makes `className` string
+   * @example
+   *     classNaming()
+   * @example
+   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+   *     <Component {...{
+   *       ...classNaming(...)},
+   *       ...classnames
+   *     }/>
+   */
+  <Source extends CssModule>(): ClassNaming<Source>;
+}
+
+//TODO #11 no `className` - no first `true`
+interface ClassNaming<Source extends CssModule> extends ClassNamed, ClassNamingCall<Source> {}
+
+type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
+  [stackedKey]: string|undefined
+}
+
+type ClassNamingContext<T extends CssModule> = Partial<ClassNamed> & {
+  //TODO Reuse `ClassNamesProperty`?
+  classnames: T
+}
+
+type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
+// type SubMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash}
+// type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}

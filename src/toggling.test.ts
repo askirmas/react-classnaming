@@ -44,12 +44,13 @@ describe("toggling", () => {
   describe("classnames", () => {
     const classes = classNaming({classnames})
     it("map", () => expect({
+      //@ts-expect-error //TODO #11 Error on overload, not on object
       ...classes({
         class1: true,
         class2: false,
         //TODO //@ts-expect-error
         class3: "",
-        //@ts-expect-error Truthy not allowed by TS
+        //TODO #11 Recover @ts-expect-error Truthy not allowed by TS
         class4: 1,
       })
     }).toStrictEqual({
@@ -57,8 +58,9 @@ describe("toggling", () => {
     }))
 
     it("redundant in map", () => expect({
+      //@ts-expect-error //TODO #11 Error on overload, not on object
       ...classes({
-        //@ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
+        //TODO #11 Recover @ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
         etc: true
       })
     }).toStrictEqual({

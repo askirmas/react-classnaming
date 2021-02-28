@@ -42,9 +42,10 @@ it("css module", () => expect({
     "class3"
   )
 }).toStrictEqual({
+  //@ts-expect-error //TODO #11 Error on overload, not on object
   ...classNaming({classnames: module_css})({
     class1: true,
-    //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
+    //TODO #11 Recover @ts-expect-error Argument of type '"class3"' is not assignable to parameter
     class3: true
   })
 }))
