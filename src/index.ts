@@ -54,9 +54,7 @@ function classNaming<
       emptize(classnames)
       
       const className = typeof cn === "string" ? cn : undefined
-      , host: ClassNamingCall<Source>
-      //@ts-expect-error //TODO weird TS error
-      = _classNaming.bind({
+      , host: ClassNamingCall<Source> = _classNaming.bind({
         classnames,
         className,
         [stackedKey]: undefined
@@ -66,14 +64,12 @@ function classNaming<
     } 
   } 
 
-  // TS forgets about previous `if`
-  const arg = arg0 as Exclude<typeof arg0, ClassNamingContext<Source>>;
-
-  //@ts-expect-error //TODO weird TS error
   return _classNaming.call(
-    defaultCtx, arg, arg1
+    defaultCtx,
+    //@ts-expect-error TS forgets about previous `if`
+    arg0, // as Exclude<typeof arg0, ClassNamingContext<Source>>,
+    arg1
   )
-
 }
 
 function _classNaming<
@@ -88,16 +84,14 @@ function _classNaming<
     className,
     classnames,
     [stackedKey]: preStacked,
-  } = this as ClassNamingThis<Source>
+  } = this
   , withPropagation = arg0 === true  
   , source = typeof arg0 === "object" ? arg0 as ActionsMap<Source>: arg1
   , allowed = source && resolver(classnames, source)
   , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
   , stacked = joinWithLead(withInjection, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
-  , host: ClassNamingCall<Source>
-  //@ts-expect-error
-  = _classNaming.bind({classnames, className, [stackedKey]: stacked})
+  , host: ClassNamingCall<Source> = _classNaming.bind({classnames, className, [stackedKey]: stacked})
 
   emptize(classnames)
 

@@ -26,7 +26,7 @@ export interface ClassNamingCall<
   *   <div {...Col1({Row_1})} />
 */
   (
-    arg0?: ClassNamingContext<Source> | true | string | ActionsMap<Source>,
+    arg0?: true | string | ActionsMap<Source>,
     arg1?: [Extract<typeof arg0, true|string>] extends [never]
     ? never 
     : ActionsMap<Source>
