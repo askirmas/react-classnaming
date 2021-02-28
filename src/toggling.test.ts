@@ -63,18 +63,7 @@ describe("toggling", () => {
       })
     }).toStrictEqual({
       className: "etc"
-    }))
-
-    
-    it("propagate absent className", () => expect({
-      ...classes(
-        //TODO #11 Raise TS error
-        true,
-        {class1: true, class4: true}
-      )
-    }).toStrictEqual({
-      className: "class1 hash4"
-    }))
+    }))    
   })
 
   describe("className + classnames", () => {
@@ -108,19 +97,4 @@ describe("toggling", () => {
   }).toStrictEqual({
     className: "class1 class2 hash3"
   }))
-})
-
-it("TBD no duplication on TS level", () => {
-  const {class1, class2} = classnames
-  , cn = classNaming({classnames})
-  , call1 = cn({class1})
-  , call2 = call1({class2})
-  //TODO #6 //@ts-expect-error
-  , call3 = call2({class1})
-
-  expect({
-    ...call3
-  }).toStrictEqual({
-    className: "class1 class2 class1"
-  })
 })

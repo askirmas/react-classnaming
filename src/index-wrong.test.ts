@@ -1,8 +1,87 @@
 import classNaming from "."
+import { CssModule } from "./defs"
 
-it("classnames === null", () => expect({
-  //@ts-expect-error
-  ...classNaming({classnames: null})({classnames: true})
+const global_css: CssModule = {}
+, module_css = {
+  "class3": "hash3",
+  "class4": "hash4",
+} as unknown as Record<"class1"|"class2"|"class3"|"class4", string|undefined>
+
+describe("ctx", () => {
+  it("classnames === null", () => expect({
+    //@ts-expect-error
+    ...classNaming({classnames: null})({classnames: true})
+  }).toStrictEqual({
+    className: "classnames"
+  }))  
+})
+
+describe("mixed args", () => {
+  it("ctx", () => expect({
+    ...classNaming({
+      class1: true,
+      //TODO @ts-expect-error
+      class2: undefined
+    })
+  }).toStrictEqual({
+    className: "class1 class2"
+  }))
+
+  it("piped", () => expect({
+    ...classNaming({classnames: global_css})({
+      class1: true,
+      //TODO @ts-expect-error
+      class2: undefined
+    })
+  }).toStrictEqual({
+    className: "class1 class2"
+  }))
+})
+
+describe("multi-arg call", () => {
+  it("ctx", () => expect({
+    //TODO @ts-expect-error
+    ...classNaming({class1: true}, {class2: "hash2"})
+  }).toStrictEqual({
+    className: "class1"
+  }))
+
+  it("piped", () => expect({
+    //TODO @ts-expect-error
+    ...classNaming({classnames: global_css})({class1: true}, {class2: "hash2"})
+  }).toStrictEqual({
+    className: "class1"
+  }))
+})
+
+it("not equal hashes", () => expect({
+  ...classNaming({classnames: {class1: "HASH1"}})({class1: "hash1"})
 }).toStrictEqual({
-  className: "classnames"
+  className: "HASH1"
+}))
+
+
+it("TBD no duplication on TS level", () => {
+  const {class1, class2} = global_css
+  , cn = classNaming({classnames: global_css})
+  , call1 = cn({class1})
+  , call2 = call1({class2})
+  //TODO #6 //@ts-expect-error
+  , call3 = call2({class1})
+
+  expect({
+    ...call3
+  }).toStrictEqual({
+    className: "class1 class2 class1"
+  })
+})
+
+it("propagate absent className", () => expect({
+  ...classNaming({classnames: module_css})(
+    //TODO #11 Raise TS error
+    true,
+    {class1: true, class4: true}
+  )
+}).toStrictEqual({
+  className: "class1 hash4"
 }))

@@ -73,7 +73,7 @@ export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
 /// REACT
 
 export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
-//TODO Is there any way to require `classnames` in `props`?
+//TODO Is there any way to require `classnames` in FC `props`?
 type RFC = (props: any) => ReactElement<any, any> | null
 type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 

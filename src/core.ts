@@ -45,7 +45,7 @@ function resolver(
       keys[i] = act
   }
 
-  //TODO https://measurethat.net/Benchmarks/Show/11866/1/arrayfilter
+  // https://measurethat.net/Benchmarks/Show/11866/1/arrayfilter
   const filtered = keys.filter(x => x)
 
   return filtered.length === 0 ? EMPTY_ARRAY : filtered
