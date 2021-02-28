@@ -4,8 +4,9 @@
   "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
   "main": "dist",
   "scripts": {
-    "dev": "npm run test -- --watch --coverage=false",
+    "dev": "npm run jest -- --watch --collectCoverageFrom=[] --onlyFailures",
     "test": "npm run jest --",
+    "pretest": "jest --clearCache",
     "build": "npm run compile",
     "prebuild": "npm run test",
     "postbuild": "npm run spec",
@@ -15,8 +16,7 @@
     "spec": "cd __recipes__ && npm run test",
     "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand",
-    "prejest": "jest --clearCache"
+    "jest": "jest --runInBand"
   },
   "repository": {
     "type": "git",
