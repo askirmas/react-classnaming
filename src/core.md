@@ -6,96 +6,67 @@
 
 |                        | `null` | `{classnames}` | `{classnames, className}` | ~~`{className}`~~ |
 | ---------------------- | ------ | -------------- | ------------------------- | ----------------- |
-| `(string)`             | +      | -?             | -?                        | ~~-?~~            |
-| `(ClassMap)`           | +      | +?             | +?                        | ~~+~~             |
+| `(string)`             | +      | -              | -                         | ~~-?~~            |
+| `(ClassMap)`           | +      | +              | +                         | ~~+~~             |
 | `(true)`               | -      | -              | +                         | ~~+~~             |
 | `(Toggle)`             | -      | +              | +                         | ~~-~~             |
 |                        |        |                |                           |                   |
-| `(string, ClassMap)`   | +      | ?              | ?                         | ~~?~~             |
-| `(true, ClassMap)`     | -      | -              | +?                        | ~~+~~             |
+| `(string, ClassMap)`   | +      | -              | -                         | ~~?~~             |
+| `(true, ClassMap)`     | -      | -              | +                         | ~~+~~             |
 | `(true, Toggle)`       | -      | -              | +                         | ~~-~~             |
 |                        |        |                |                           |                   |
 | ~~`(string, Toggle)`~~ |        |                |                           |                   |
 | ~~`(true, string)`~~   |        |                |                           |                   |
 
 ```mermaid
-graph LR
-%% context_null -.-> call_className -.-> context_className
-context_null --> call_classnames --> context_classnames
-context_null --> call_ctx --> context_full
+stateDiagram-v2
 
-context_null --> call_inject
-context_null --> call_map
-context_null --> call_inject_map
+[*] : No context
+context_css : {classnames}
+context_props : {classnames, className}
 
-%% context_className -.-> call_true
-%% context_className -.-> call_map
-%% context_className -.-> call_true_map
+state "(map) =>" as map1
+state "(map) =>" as map2
 
-context_classnames --> call_toggle
-context_classnames --> call_map
-context_classnames --> call_inject
-context_classnames --> call_inject_map
+state "(string, map?) =>" as string
 
-context_full --> call_true
-context_full --> call_map
-context_full --> call_toggle
-context_full --> call_true_map
-context_full --> call_true_toggle
+state "(map?, toggle?)" as key1
+state "(true, map?, toggle?)" as true
+state "(map?, toggle?)" as key2
 
-call_true --> classNameWasUsed
-call_true_map --> classNameWasUsed
-call_true_toggle --> classNameWasUsed
+[*] --> context_css
+[*] --> context_props
 
-classNameWasUsed --> call_toggle
-classNameWasUsed --> call_map
+state Stringable <<fork>>
+note right of Stringable : String available
 
-context_null["{}"]
-context_classnames["{classnames}"]
-%% context_className["{className}"]
-context_full["{classnames, className}"]
+[*] --> Stringable
+map1 --> Stringable
+Stringable --> map1
+Stringable --> string
 
-classNameWasUsed
+state Stringed <<join>>
+note right of Stringed : String impossible
 
-%% call_className{{"({className}) =>"}}
-call_classnames{{"({classnames}) =>"}}
-call_ctx{{"({classnames, className}) =>"}}
+string --> Stringed
+Stringed --> map2
+map2 --> Stringed
 
-call_true{{"(true) =>"}}
-call_inject{{"(string) =>"}}
-call_map{{"(ClassMap) =>"}}
-call_toggle{{"(Toggle) =>"}}
+state Classing <<fork>>
+note right of Classing : Classname available
+context_props --> Classing
+Classing --> key1
+key1 --> Classing
 
-call_true_toggle{{"(true, Toggle) =>"}}
-call_inject_map{{"(string, ClassMap) =>"}}
-call_true_map{{"(true, ClassMap) =>"}}
-%% call_inject_toggle{{"(string, Toggle) =>"}}
+Classing --> true
 
-subgraph ctx
-context_null
-context_classnames
-%% context_className
-context_full
-%% call_className
-call_ctx
-call_classnames
-end
+state Classed <<join>>
+note right of Classed : Classname impossible
+true --> Classed
+Classed --> key2
+key2 --> Classed
 
-%% subgraph calls_classnamesless
-%% call_map
-%% call_toggle
-%% end
-
-subgraph calls_classnamed
-call_true
-call_true_toggle
-call_true_map
-end
-
-subgraph calls_inject
-call_inject
-call_inject_map
-end
+context_css --> Classed
 ```
 
 
