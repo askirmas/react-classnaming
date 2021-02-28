@@ -14,29 +14,29 @@ export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./de
 export default classNaming
 export {classNamesCheck} from "./check"
 
-/**
- * Makes `className` string or settle context
- * @example
- *   // To set context
- *   const classes = classNaming({classnames, className})
- * 
- *   // Using in Components
- *   <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
- *   <Component {...{
- *     ...classNaming(...)},
- *     ...classnames
- *   }/>
- * 
- *   // With destructed `classnames`
- *   classNaming(className?, {App__Container, App__Item})} />
- *   
- *   // Toggler
- *   classNaming(true?, {Btn_Float: true, Btn___disabled: false})
+// /**
+//  * Makes `className` string or settle context
+//  * @example
+//  *   // To set context
+//  *   const classes = classNaming({classnames, className})
+//  * 
+//  *   // Using in Components
+//  *   <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
+//  *   <Component {...{
+//  *     ...classNaming(...)},
+//  *     ...classnames
+//  *   }/>
+//  * 
+//  *   // With destructed `classnames`
+//  *   classNaming(className?, {App__Container, App__Item})} />
+//  *   
+//  *   // Toggler
+//  *   classNaming(true?, {Btn_Float: true, Btn___disabled: false})
 
- *   // Pipe-able
- *   const Cell = classNaming(className), Col1 = Cell({Column_1})
- *   <div {...Col1({Row_1})} />
- */
+//  *   // Pipe-able
+//  *   const Cell = classNaming(className), Col1 = Cell({Column_1})
+//  *   <div {...Col1({Row_1})} />
+//  */
 
 /** Makes `className` string
  * @example
@@ -45,7 +45,7 @@ export {classNamesCheck} from "./check"
  * @example
  *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
  *     <Component {...{
- *       ...classNaming(...)},
+ *       ...classNaming(...)(...)(...)},
  *       ...classnames
  *     }/>
  */
@@ -61,7 +61,7 @@ function classNaming<Source extends CssModule>(actions: ActionsMap<Source>): Cla
  * @example
  *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
  *     <Component {...{
- *       ...classNaming(...)},
+ *       ...classNaming(...)(...)(...)},
  *       ...classnames
  *     }/>
  */
@@ -74,7 +74,7 @@ function classNaming<Source extends CssModule>(injection: true|string): ClassNam
  * @example
  *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
  *     <Component {...{
- *       ...classNaming(...)},
+ *       ...classNaming(...)(...)(...)},
  *       ...classnames
  *     }/>
  */
@@ -159,7 +159,7 @@ interface ClassNamingCall<Source extends CssModule> {
    * @example
    *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
    *     <Component {...{
-   *       ...classNaming(...)},
+   *       ...classNaming(...)(...)(...)},
    *       ...classnames
    *     }/>
    */
@@ -172,7 +172,7 @@ interface ClassNamingCall<Source extends CssModule> {
    * @example
    *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
    *     <Component {...{
-   *       ...classNaming(...)},
+   *       ...classNaming(...)(...)(...)},
    *       ...classnames
    *     }/>
    */
@@ -185,7 +185,7 @@ interface ClassNamingCall<Source extends CssModule> {
    * @example
    *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
    *     <Component {...{
-   *       ...classNaming(...)},
+   *       ...classNaming(...)(...)(...)},
    *       ...classnames
    *     }/>
    */
@@ -197,7 +197,7 @@ interface ClassNamingCall<Source extends CssModule> {
    * @example
    *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
    *     <Component {...{
-   *       ...classNaming(...)},
+   *       ...classNaming(...)(...)(...)},
    *       ...classnames
    *     }/>
    */
