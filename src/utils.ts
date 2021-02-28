@@ -25,6 +25,7 @@ function classNamedToString(this: ClassNamed) {
   return this.className
 }
 
+// TODO not `undefined`
 function emptize(source: undefined|Record<string, any>) {
   if (
     source

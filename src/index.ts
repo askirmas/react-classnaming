@@ -1,10 +1,17 @@
 import type { ClassNamingContext, ClassNamed, CssModule, ClassHash } from "./defs"
 import {joinWithLead, resolver, wrapper} from "./core"
 import { emptize } from "./utils"
+import { EMPTY_OBJECT } from "./consts"
 
 const stackedKey = Symbol("stacked")
+, defaultThis: ClassNamingThis<CssModule> = {
+  classnames: EMPTY_OBJECT,
+  // className: undefined,
+  [stackedKey]: undefined
+}
 
 emptize(classNaming)
+emptize(_classNaming)
 
 export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./defs"
 export default classNaming
@@ -80,52 +87,64 @@ type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
  *   const Cell = classNaming(className), Col1 = Cell({Column_1})
  *   <div {...Col1({Row_1})} />
  */
+
 function classNaming<
   //TODO #8 `extends ReactRelated`
   Source extends CssModule
 >(
-  this: void | ClassNamingThis<Source>,
-  // TODO #13 arg0?: typeof this extends void ? ClassNamingContext<Source> : (true | ToggleMap<Source>),
-  // TODO #13 arg1?: typeof this extends void ? never : typeof arg0 extends true ? ToggleMap<Source> : never,
-  arg0?: ClassNamingContext<Source> | (string | true | ActionsMap<Source>),
-  arg1?: [Extract<typeof arg0, true|string>] extends [never] ? never : ActionsMap<Source>
-): ClassNaming<Source> {
-  // istanbul ignore next //TODO #13 Solve TS tricks with context
-  const thisArg = this || {}
-  
-  context_assign:
-  if (
-    !(stackedKey in thisArg)
-    && typeof arg0 === "object"
-  ) {
-    const {classnames, className} = arg0 // as ClassNamingContext<Source>
-    if (
-      classnames !== null && typeof classnames === "object"
-      && (
-        className === undefined  || typeof className === "string" 
-      )  
-    ) {
+  arg0: ClassNamingContext<Source> | (string | true | ActionsMap<Source>), 
+  arg1?: [Extract<typeof arg0, true | string>] extends [never] ? never : ActionsMap<Source>
+) {
+  if (arg0 !== null && typeof arg0 === "object" && "classnames" in arg0) {
+    const {classnames, className: cn} = arg0
+    if (classnames !== null && typeof classnames === "object") {
       emptize(classnames)
-      const host: ClassNamingCall<Source> = classNaming.bind({classnames, className, [stackedKey]: undefined}) 
+      
+      const className = typeof cn === "string" ? cn : undefined
+      , host: ClassNamingCall<Source>
+      //@ts-expect-error //TODO weird TS error
+      = _classNaming.bind({
+        classnames,
+        className,
+        [stackedKey]: undefined
+      })
 
       return wrapper(host, className)
-    }
-  }
+    } 
+  } 
 
+  // TS forgets about previous `if`
+  const arg = arg0 as Exclude<typeof arg0, ClassNamingContext<Source>>;
+
+  //@ts-expect-error //TODO weird TS error
+  return _classNaming.call(defaultThis, arg, arg1)
+
+}
+
+function _classNaming<
+  //TODO #8 `extends ReactRelated`
+  Source extends CssModule
+>(
+  this: ClassNamingThis<Source>,
+  arg0?: string | true | ActionsMap<Source>,
+  arg1?: [Extract<typeof arg0, true|string>] extends [never] ? never : ActionsMap<Source>
+): ClassNaming<Source> {
   const {
     className,
     classnames,
     [stackedKey]: preStacked,
-  } = thisArg as ClassNamingThis<Source>
+  } = this as ClassNamingThis<Source>
   , withPropagation = arg0 === true  
   , source = typeof arg0 === "object" ? arg0 as ActionsMap<Source>: arg1
   , allowed = source && resolver(classnames, source)
   , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
   , stacked = joinWithLead(withInjection, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
-  , host: ClassNamingCall<Source> = classNaming.bind({classnames, className, [stackedKey]: stacked})
+  , host: ClassNamingCall<Source>
+  //@ts-expect-error
+  = _classNaming.bind({classnames, className, [stackedKey]: stacked})
 
-  classnames && emptize(classnames)
+  emptize(classnames)
 
   return wrapper(
     host,
