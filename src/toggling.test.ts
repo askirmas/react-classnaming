@@ -28,7 +28,7 @@ describe("empty call", () => {
       {className}
     )()
   }).toStrictEqual({
-    className
+    className: ""
   }))
 
   it("empty - wrong usage", () => expect({

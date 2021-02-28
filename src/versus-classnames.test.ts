@@ -26,7 +26,7 @@ it("usage interface", () => {
   const {classnames: {class2}} = props
 
   expect({
-    ...classNaming({class1, class2})
+    ...classNaming()({class1, class2})
   }).toStrictEqual({
     //@ts-expect-error `classnames` has no possibility for type hints
     className:  classnames_default<"whatever">("class1", "class2")

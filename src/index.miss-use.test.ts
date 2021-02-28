@@ -9,7 +9,7 @@ const global_css: CssModule = {}
 
 describe("ctx", () => {
   it("context-less call", () => expect({
-    //@ts-expect-error
+    //TODO Recover //@ts-expect-error
     ...classNaming()
   }).toStrictEqual({
     className: ""
@@ -26,7 +26,7 @@ describe("ctx", () => {
     //@ts-expect-error
     ...classNaming({classnames: module_css}, {class1: true})
   }).toStrictEqual({
-    className: undefined
+    className: ""
   }))
 
   it("second ctx assign", () => expect({
@@ -42,7 +42,7 @@ describe("ctx", () => {
 
 describe("mixed args", () => {
   it("ctx", () => expect({
-    ...classNaming({
+    ...classNaming()({
       class1: true,
       //TODO @ts-expect-error
       class2: undefined
@@ -65,7 +65,7 @@ describe("mixed args", () => {
 describe("multi-arg call", () => {
   it("ctx", () => expect({
     //@ts-expect-error
-    ...classNaming({class1: true}, {class2: "hash2"})
+    ...classNaming()({class1: true}, {class2: "hash2"})
   }).toStrictEqual({
     className: "class1"
   }))

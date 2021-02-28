@@ -5,7 +5,7 @@ import classNaming, {classNamesCheck} from "."
 
 const Button = ({className, "classnames": { Btn }}
   : ClassNamed & ClassNamesProperty<{Btn: ClassHash}>
-) => <button {...classNaming(className, { Btn })}/>
+) => <button {...classNaming()(className, { Btn })}/>
 
 type RootClassNames = ClassNamesProperty<{
   App__Item: ClassHash
@@ -13,11 +13,12 @@ type RootClassNames = ClassNamesProperty<{
 }>
 type RootProps = RootClassNames & ClassNames<typeof Button>
 function Root({classnames, "classnames": { App__Item, App__Footer }}: RootProps) {
-  const classFooter = classNaming({App__Footer})
+  const classes = classNaming({classnames})
+  , classFooter = classes({App__Footer})
 
   return <>
     <Button {...{
-      ...classNaming({ App__Item }),
+      ...classes({ App__Item }),
       classnames
     }}/>
     <div {...classFooter} data-classname={`${classFooter}`} />
@@ -50,7 +51,7 @@ it("VSCode can rename property", () => {
   function Root({
     "classnames": {App__Container: App__Container}
   }: RootProps) {
-    return <div {...classNaming({App: App__Container})}/>
+    return <div {...classNaming()({App: App__Container})}/>
   }
 
   function Root2({
@@ -60,7 +61,7 @@ it("VSCode can rename property", () => {
       App: App__Container
     }
   }: ClassNames<typeof Root>) {
-    return <div {...classNaming({App: App__Container})}/>
+    return <div {...classNaming()({App: App__Container})}/>
   }
 
   expectRender(
@@ -85,11 +86,14 @@ it("additional type check after rename", () => {
   } = classNamesCheck<Props1 & Props2>();
 
   expectRender(
-    <div {...classNaming<Props1["classnames"]>({class1})} />,
-    <div {...classNaming<Props2["classnames"]>({
-      //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
-      class2
-    })} />
+    <div {...classNaming<Props1["classnames"]>()({class1})} />,
+    <div {
+      //@ts-expect-error No overload
+      ...classNaming<Props2["classnames"]>()({
+        //TODO //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
+        class2
+      })
+    } />
   ).toSame(
     <div className="class1"/>,
     <div className="class2"/>    
@@ -103,7 +107,7 @@ it("chaining", () => {
     Column_1, Column_2,
     Row_1, Row_2
   }} = props
-  , Cell = classNaming(className)
+  , Cell = classNaming()(className)
   , Col1 = Cell({Column_1})
   , Col2 = Cell({Column_2})
 
@@ -112,7 +116,7 @@ it("chaining", () => {
     <div {...Col1({ Row_2 })} />,
     <div {...Col2({ Row_1 })} />,
     <div {...Col2({ Row_2 })} />,
-    <div {...classNaming({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
+    <div {...classNaming()({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
   ).toSame(
     <div className="Cell Column_1 Row_1" />,
     <div className="Cell Column_1 Row_2" />,

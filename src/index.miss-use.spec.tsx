@@ -53,7 +53,6 @@ it("not propagate classnames", () => {
     <App className="MyApp" classnames={classnames}/>
   ).toSame(
     <div className="MyApp hash class1" />,
-    //TODO #10 `MyApp hash` redundant
-    <div className="MyApp hash class2" />  
+    <div className="class2" />  
   )
 })
