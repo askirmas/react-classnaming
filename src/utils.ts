@@ -25,12 +25,8 @@ function classNamedToString(this: ClassNamed) {
   return this.className
 }
 
-// TODO not `undefined`
-function emptize(source: undefined|Record<string, any>) {
-  if (
-    source
-    && !source.hasOwnProperty(stringifyProperty)
-  )
+function emptize(source: Record<string, any>) {
+  if (!source.hasOwnProperty(stringifyProperty))
     $defineProperty(source, stringifyProperty, EmptyDescriptor)
 
   return source

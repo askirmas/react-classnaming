@@ -35,7 +35,7 @@ function classNaming<
   context: Ctx = EMPTY_OBJECT as Ctx
 ) {
   const {classnames, className = ""} = context
-  emptize(classnames)
+  classnames && emptize(classnames)
   
   const host: ClassNamingCall<Source, {}> = _classNaming.bind({
     classnames,
@@ -73,7 +73,7 @@ function _classNaming<
   >
   = _classNaming.bind({classnames, className, [stackedKey]: stacked})
 
-  emptize(classnames)
+  classnames && emptize(classnames)
 
   return wrapper(
     host,
