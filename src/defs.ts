@@ -45,7 +45,8 @@ export type ClassNames<
  * ClassNames<typeof some_module_css, {class1: ClassHash, class2: ClassHash}>
 */
 export type ClassNamesProperty<
-C extends CssModule, T extends {[K in keyof C]?: ClassHash} = C
+  C extends CssModule,
+  T extends {[K in keyof C]?: ClassHash} & {[K in Exclude<keyof T, keyof C>]: never} = {[K in keyof C]?: ClassHash} & {[K in never]: never},
 > = {classnames: {[K in keyof T & keyof C]: ClassHash}}
 
 /** Primitive for global CSS and CSS module */

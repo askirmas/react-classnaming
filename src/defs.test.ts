@@ -52,10 +52,14 @@ describe("ClassNamesProperty", () => {
 
     type PropsWithWrong = ClassNamesProperty<CssModule,
       //@ts-expect-error
-      {class3: ClassHash}
+      {
+        class1: ClassHash
+        class3: ClassHash
+      }
     >
     
     const suite4wrong: PropsWithWrong["classnames"] = {
+        //@ts-expect-error Object literal may only specify known properties, but 'class3' does not exist
         class3: undefined,
     },
     suite: Props["classnames"] = {
