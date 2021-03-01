@@ -21,7 +21,7 @@
 ```mermaid
 stateDiagram-v2
 
-[*] : No context
+[*] : {}
 context_css : {classnames}
 context_props : {classnames, className}
 
@@ -30,9 +30,9 @@ state "(map) =>" as map2
 
 state "(string, map?) =>" as string
 
-state "(map?, toggle?)" as key1
-state "(true, map?, toggle?)" as true
-state "(map?, toggle?)" as key2
+state "(map?, toggle?) =>" as key1
+state "(true, map?, toggle?) =>" as true
+state "(map?, toggle?) =>" as key2
 
 [*] --> context_css
 [*] --> context_props

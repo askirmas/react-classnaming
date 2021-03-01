@@ -88,9 +88,8 @@ it("additional type check after rename", () => {
   expectRender(
     <div {...classNaming<Props1["classnames"]>()({class1})} />,
     <div {
-      //@ts-expect-error No overload
       ...classNaming<Props2["classnames"]>()({
-        //TODO //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
+        //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
         class2
       })
     } />

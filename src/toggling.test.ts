@@ -44,13 +44,12 @@ describe("toggling", () => {
   describe("classnames", () => {
     const classes = classNaming({classnames})
     it("map", () => expect({
-      //@ts-expect-error //TODO #11 Error on overload, not on object
       ...classes({
         class1: true,
         class2: false,
         //TODO //@ts-expect-error
         class3: "",
-        //TODO #11 Recover @ts-expect-error Truthy not allowed by TS
+        //@ts-expect-error Truthy not allowed by TS
         class4: 1,
       })
     }).toStrictEqual({
@@ -58,13 +57,13 @@ describe("toggling", () => {
     }))
 
     it("redundant in map", () => expect({
-      //@ts-expect-error //TODO #11 Error on overload, not on object
       ...classes({
-        //TODO #11 Recover @ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
+        class1: true,
+        //@ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
         etc: true
       })
     }).toStrictEqual({
-      className: "etc"
+      className: "class1 etc"
     }))    
   })
 
@@ -90,13 +89,15 @@ describe("toggling", () => {
     }))
   })
 
-  it("chained", () => expect({
-    ...classNaming({classnames})(
-      {class1: true}
-    )({class2: true}
-    )({class1: false}
-    )({class3: true})
-  }).toStrictEqual({
-    className: "class1 class2 hash3"
-  }))
+  it("chained", () => {
+    const classes = classNaming({classnames})
+    , call1 = classes({class1: true})
+    , call2 = call1({class2: true})
+    //@ts-expect-error
+    , call3 = call2({class1: false})
+
+    expect({...call3({class3: true})}).toStrictEqual({
+      className: "class1 class2 hash3"
+    })
+  })
 })

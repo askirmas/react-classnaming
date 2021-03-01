@@ -51,6 +51,8 @@ C extends CssModule, T extends {[K in keyof C]?: ClassHash} = C
 /** Primitive for global CSS and CSS module */
 export type ClassHash = undefined|string
 
+export type Action = ClassHash|boolean
+
 /** Shortcut to require property `className` */
 export type ClassNamed = {
   className: string
@@ -85,3 +87,6 @@ type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
 // export type Part<T> = {[K in keyof T]: T[K] | undefined}
 // type get<T, K> = K extends keyof T ? T[K] : never
+export type RequiredKeys<T> = { [K in keyof T]-?:
+  ({} extends { [P in K]: T[K] } ? never : K)
+}[keyof T]

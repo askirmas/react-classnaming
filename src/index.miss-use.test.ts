@@ -30,9 +30,8 @@ describe("ctx", () => {
   }))
 
   it("second ctx assign", () => expect({
-    //@ts-expect-error //TODO #11 Make error motr pure 
     ...classNaming({classnames: global_css})({
-      //TODO #11 @ts-expect-error Type 'Record<string, ClassHash>' is not assignable to type 'string | boolean | undefined'
+      //@ts-expect-error Type 'Record<string, ClassHash>' is not assignable to type 'string | boolean | undefined'
       classnames: global_css
     })
   }).toStrictEqual({
@@ -63,21 +62,14 @@ describe("mixed args", () => {
 })
 
 describe("multi-arg call", () => {
-  it("ctx", () => expect({
+  it("ctx", () => expect({...classNaming()(
+    {class1: true},
     //@ts-expect-error
-    ...classNaming()({class1: true}, {class2: "hash2"})
-  }).toStrictEqual({
+    {class2: "hash2"}
+  )}).toStrictEqual({
     className: "class1"
   }))
 
-  it("piped", () => expect({
-    ...classNaming({classnames: global_css})(
-      //@ts-expect-error
-      {class1: true}, {class2: "hash2"}
-    )
-  }).toStrictEqual({
-    className: "class1"
-  }))
 })
 
 it("not equal hashes", () => expect({

@@ -1,7 +1,9 @@
 import type {
   CssModule,
   ClassHash,
-  ClassNamed
+  ClassNamed,
+  Action,
+  RequiredKeys
 } from "./defs"
 import {
   joinWithLead,
@@ -18,33 +20,11 @@ export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./de
 export default classNaming
 export {classNamesCheck} from "./check"
 
-// /**
-//  * Makes `className` string or settle context
-//  * @example
-//  *   // To set context
-//  *   const classes = classNaming({classnames, className})
-//  * 
-//  *   // Using in Components
-//  *   <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
-//  *   <Component {...{
-//  *     ...classNaming(...)},
-//  *     ...classnames
-//  *   }/>
-//  * 
-//  *   // With destructed `classnames`
-//  *   classNaming(className?, {App__Container, App__Item})} />
-//  *   
-//  *   // Toggler
-//  *   classNaming(true?, {Btn_Float: true, Btn___disabled: false})
-
-//  *   // Pipe-able
-//  *   const Cell = classNaming(className), Col1 = Cell({Column_1})
-//  *   <div {...Col1({Row_1})} />
-//  */
-
 /** Set context
- * @example
+ * @example ```typescript
  *     const classes = classNaming({classnames?, className?})
+ *     const classes = classNaming<Props["classnames"]>()
+ * ```
  */
 function classNaming<
   //TODO #8 `extends ReactRelated`
@@ -68,11 +48,12 @@ function classNaming<
 
 function _classNaming<
   //TODO #8 `extends ReactRelated`
-  Source extends CssModule
+  Source extends CssModule,
+  Actions extends undefined | {[K in keyof Source]?: Action}
 >(
   this: ClassNamingThis<Source>,
-  arg0?: string | true | ActionsMap<Source>,
-  arg1?: [Extract<typeof arg0, true|string>] extends [never] ? never : ActionsMap<Source>
+  arg0?: string | true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
+  arg1?: [Extract<typeof arg0, undefined|true|string>] extends [never] ? never : Actions
 ): ClassNaming<Source> {
   const {
     className,
@@ -80,12 +61,13 @@ function _classNaming<
     [stackedKey]: preStacked,
   } = this
   , withPropagation = arg0 === true  
-  , source = typeof arg0 === "object" ? arg0 as ActionsMap<Source>: arg1
-  , allowed = source && resolver(classnames, source)
+  , source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
+  , allowed = source && resolver(classnames, source!)
   , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
   , stacked = joinWithLead(withInjection, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
-  , host: ClassNamingCall<Source> = _classNaming.bind({classnames, className, [stackedKey]: stacked})
+  , host: ClassNamingCall<{[K in Exclude<keyof Source, keyof Actions>]: ClassHash}>
+  = _classNaming.bind({classnames, className, [stackedKey]: stacked})
 
   emptize(classnames)
 
@@ -95,58 +77,36 @@ function _classNaming<
   )
 }   
 
-interface ClassNamingCall<Source extends CssModule> {
-  /** Makes `className` string
-   * @example
-   *     classNaming({class1, class2})
-   *     classNaming({class1: true, class2: false})
-   * @example
-   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
-   *     <Component {...{
-   *       ...classNaming(...)(...)(...)},
-   *       ...classnames
-   *     }/>
-   */
-  (actions: ActionsMap<Source>): ClassNaming<Source>;
-
-  /** Makes `className` string
-   * @example
-   *     classNaming(className)
-   *     classNaming(true)
-   * @example
-   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
-   *     <Component {...{
-   *       ...classNaming(...)(...)(...)},
-   *       ...classnames
-   *     }/>
-   */
-  (injection: true|string): ClassNaming<Source>;
-
-  /** Makes `className` string
-   * @example
-   *     classNaming(className, {class1, class2})
-   *     classNaming(true, {class1: true, class2: false})
-   * @example
-   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
-   *     <Component {...{
-   *       ...classNaming(...)(...)(...)},
-   *       ...classnames
-   *     }/>
-   */
-  (injection: true|string, actions: ActionsMap<Source>): ClassNaming<Source>;
-
-  /** Makes `className` string
-   * @example
-   *     classNaming()
-   * @example
-   *     <div {...classNaming(...)} data-block={`${classNaming(...)}`} />
-   *     <Component {...{
-   *       ...classNaming(...)(...)(...)},
-   *       ...classnames
-   *     }/>
-   */
-  <Source extends CssModule>(): ClassNaming<Source>;
-}
+// Making as interface breaks stuff
+type ClassNamingCall<Source extends CssModule> =
+/** More
+ * @example
+ *   classes();
+ *   classes(true); classes("App");
+ *   classes({App}); classes({App: true, "App--bad": false});
+ * 
+ *   const btn = classes(className, {Btn})
+ *   btn({Btn__disabled: true});
+ * @example
+ * ```tsx
+ *   <div {...classes(...)} />
+ *   <div data-block={`${classes(...)}`} />
+ *   <Component {...{
+ *     ...classes(...)(...)(...)},
+ *     ...classnames
+ *   }/>
+ * ```
+ */
+ <
+  Actions0 extends {[K in keyof Source]?: Action},
+  Actions1 extends {[K in keyof Source]?: Action}
+ >(
+    arg0?: true | string | Actions0 & {[K in keyof Actions0]: K extends keyof Source ? Action : never},
+    arg1?: {[K in keyof Source]?: Action} extends Actions0 ? Actions1 & {[K in keyof Actions1]: K extends keyof Source ? Action : never} : never
+  ) => ClassNaming<{[K in Exclude<keyof Source,
+      RequiredKeys<Actions0> | RequiredKeys<Actions1>
+  >]: ClassHash}>
+;
 
 //TODO #11 no `className` - no first `true`
 type ClassNaming<Source extends CssModule> = ClassNamed & ClassNamingCall<Source>
@@ -158,7 +118,3 @@ type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
 type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
   classnames: T
 }>
-
-type ActionsMap<K extends CssModule> = {[k in keyof K]?: ClassHash|boolean}
-// type SubMap<K extends ClassNamesMap> = {[k in keyof K]?: ClassHash}
-// type ToggleMap<K extends ClassNamesMap> = {[k in keyof K]?: boolean}

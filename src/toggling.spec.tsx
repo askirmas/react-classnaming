@@ -15,11 +15,13 @@ function App({classnames, className}: ClassNames<
   true,
   ClassNamesProperty<{App__Item: ClassHash}>,
   typeof Component
-  >) {
+>) {
+  const classes = classNaming({
+    classnames, className
+  })
+
   return <Component {...{
-    ...classNaming({
-      classnames, className
-    })(
+    ...classes(
       true, {App__Item: true}
     ),
     classnames
