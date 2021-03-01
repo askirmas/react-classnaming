@@ -22,15 +22,17 @@ export {classNamesCheck} from "./check"
 
 /** Set context
  * @example ```typescript
- *     const classes = classNaming({classnames?, className?})
- *     const classes = classNaming<Props["classnames"]>()
+ *   const classes = classNaming(this.props)
+ *   const classes = classNaming({classnames: require("./some.css"), className?})
+ *   const classes = classNaming<Props>()
+ *   const classes = classNaming<MyClassNames>()
  * ```
  */
 function classNaming<
-  //TODO #8 `extends ReactRelated`
-  Source extends CssModule
+  Ctx extends {classnames: Source, className?: string},
+  Source extends CssModule = Ctx["classnames"]
 >(
-  context: ClassNamingContext<Source> = EMPTY_OBJECT
+  context: Ctx = EMPTY_OBJECT as Ctx
 ) {
   const {classnames, className = ""} = context
   emptize(classnames)
@@ -44,10 +46,9 @@ function classNaming<
   return wrapper(host, className)
 }
 
-/// CONTEXTED
+/// CONTEXTED. TS-notation not matters
 
 function _classNaming<
-  //TODO #8 `extends ReactRelated`
   Source extends CssModule,
   Actions extends undefined | {[K in keyof Source]?: Action}
 >(

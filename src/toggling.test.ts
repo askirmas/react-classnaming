@@ -25,6 +25,7 @@ describe("empty call", () => {
 
   it("className - wrong usage", () => expect({
     ...classNaming(
+      //@ts-expect-error
       {className}
     )()
   }).toStrictEqual({
@@ -33,6 +34,7 @@ describe("empty call", () => {
 
   it("empty - wrong usage", () => expect({
     ...classNaming(
+      //@ts-expect-error
       {}
     )()
   }).toStrictEqual({

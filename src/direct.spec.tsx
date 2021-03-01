@@ -86,9 +86,9 @@ it("additional type check after rename", () => {
   } = classNamesCheck<Props1 & Props2>();
 
   expectRender(
-    <div {...classNaming<Props1["classnames"]>()({class1})} />,
+    <div {...classNaming<Props1>()({class1})} />,
     <div {
-      ...classNaming<Props2["classnames"]>()({
+      ...classNaming<Props2>()({
         //@ts-expect-error Object literal may only specify known properties, and 'class2' does not exist
         class2
       })

@@ -36,7 +36,7 @@ export default AppComponent;
 type LinkProps = ClassNamesProperty<{"App-link": ClassHash}>
 function Link({classnames: {"App-link": appLink}}: LinkProps) {
   return <a
-    {...classNaming<LinkProps["classnames"]>()({"App-link": appLink})}
+    {...classNaming<LinkProps>()({"App-link": appLink})}
     href="https://reactjs.org"
     target="_blank"
     rel="noopener noreferrer"
