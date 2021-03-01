@@ -84,8 +84,8 @@ it("TBD no duplication on TS level", () => {
   , cn = classNaming({classnames: global_css})
   , call1 = cn({class1})
   , call2 = call1({class2})
-  //TODO #6 //@ts-expect-error
-  , call3 = call2({class1})
+  //@ts-expect-error Type 'undefined' is not assignable to type 'never'
+  , call3 = call2({class1: undefined})
 
   expect({
     ...call3
