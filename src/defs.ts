@@ -46,7 +46,7 @@ export type ClassNames<
 */
 export type ClassNamesProperty<
   C extends CssModule,
-  T extends {[K in keyof C]?: ClassHash} & {[K in Exclude<keyof T, keyof C>]: never} = {[K in keyof C]?: ClassHash} & {[K in never]: never},
+  T extends {[K in keyof C]?: ClassHash} & {[K in Exclude<keyof T, keyof C>]: never} = C & EmptyObject,
 > = {classnames: {[K in keyof T & keyof C]: ClassHash}}
 
 /** Primitive for global CSS and CSS module */
