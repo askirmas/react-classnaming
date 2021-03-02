@@ -14,7 +14,7 @@ import { emptize } from "./utils"
 import { EMPTY_OBJECT, stackedKey } from "./consts"
 
 emptize(classNaming)
-emptize(_classNaming)
+emptize(classes)
 
 export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./defs"
 export default classNaming
@@ -38,7 +38,7 @@ function classNaming<
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
-  const host: ClassNamingCall<Source, {}> = _classNaming.bind({
+  const host: ClassNamingCall<Source, {}> = classes.bind({
     classnames,
     className,
     [stackedKey]: undefined
@@ -49,7 +49,7 @@ function classNaming<
 
 /// CONTEXTED. TS-notation not matters
 
-function _classNaming<
+function classes<
   Source extends CssModule,
   Actions extends undefined | {[K in keyof Source]?: Action}
 >(
@@ -72,7 +72,7 @@ function _classNaming<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
   >
-  = _classNaming.bind({classnames, className, [stackedKey]: stacked})
+  = classes.bind({classnames, className, [stackedKey]: stacked})
 
   classnames && emptize(classnames)
 

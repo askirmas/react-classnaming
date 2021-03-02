@@ -9,6 +9,13 @@ const {keys: $keys} = Object
 
 export default classNamesMap
 
+/**
+ * Set up mapping classnames function
+ * @example
+ * ```typescript
+ * const mapping = classNamesMap(classnames)
+ * ```
+ */
 function classNamesMap<
   Source extends CssModule,
 >(classnames: Source){
@@ -17,6 +24,16 @@ function classNamesMap<
 }
 
 type ClassNamesMap<Source extends CssModule> = (
+/** Function to map one `classnames` to another
+ * @example 
+ * ```tsx
+ *  <Component {...mapping<ComponentProps>({
+ *    Container: { Root, "Theme--dark": true },
+ *    Checked___true: { "Item--active": true },
+ *    Checked___false: {}
+ *  })}/>
+ *```
+ */
   <
     Target extends ClassNamesProperty<TargetClasses>,
     TargetClasses extends CssModule = CssModule

@@ -33,48 +33,50 @@ describe("contexted", () => {
     }
   }))
 
-  it("forgot Footer", () => expect(mapping<Layout>(
-    //@ts-expect-error
-    {
+  describe("#ts-error", () => {
+    it("forgot Footer", () => expect(mapping<Layout>(
+      //@ts-expect-error
+      {
+        Body: {App__Body, "App---dark": true},
+        Header: {App__Header},
+      }
+    )).toStrictEqual({
+      classnames: {
+        Body: "body_hash App---dark",
+        Header: "header_hash"
+      }
+    }))
+  
+    it("redundant", () => expect(mapping<Layout>({
       Body: {App__Body, "App---dark": true},
       Header: {App__Header},
-    }
-  )).toStrictEqual({
-    classnames: {
-      Body: "body_hash App---dark",
-      Header: "header_hash"
-    }
-  }))
-
-  it("redundant", () => expect(mapping<Layout>({
-    Body: {App__Body, "App---dark": true},
-    Header: {App__Header},
-    Footer: {},
-    //@ts-expect-error
-    "redundant": {}
-  })).toStrictEqual({
-    classnames: {
-      Body: "body_hash App---dark",
-      Header: "header_hash",
-      Footer: "",
-      redundant: ""
-    }
-  }))
-
-  it("unknown @ source", () => expect(mapping<Layout>({
-    Body: {App__Body, "App---dark": true},
-    Header: {App__Header},
-    Footer: {
+      Footer: {},
       //@ts-expect-error
-      unknown: true
-    },
-  })).toStrictEqual({
-    classnames: {
-      Body: "body_hash App---dark",
-      Header: "header_hash",
-      Footer: "unknown"
-    }
-  }))
+      "redundant": {}
+    })).toStrictEqual({
+      classnames: {
+        Body: "body_hash App---dark",
+        Header: "header_hash",
+        Footer: "",
+        redundant: ""
+      }
+    }))
+  
+    it("unknown @ source", () => expect(mapping<Layout>({
+      Body: {App__Body, "App---dark": true},
+      Header: {App__Header},
+      Footer: {
+        //@ts-expect-error
+        unknown: true
+      },
+    })).toStrictEqual({
+      classnames: {
+        Body: "body_hash App---dark",
+        Header: "header_hash",
+        Footer: "unknown"
+      }
+    }))
+  })
 })
 
 it("free form", () => expect(classNamesMap({} as Record<string, ClassHash>)({

@@ -30,13 +30,11 @@ const classnames = {Root: "App", "Item--active": "hash1"} as Record<"Root"|"Them
 , mapping = classNamesMap(classnames)
 
 it("demo", () => expectRender(
-  <Component checked={true} {...mapping<ComponentProps>(
-    {
-      Container: {Root, "Theme--dark": true},
-      Checked___true: {"Item--active": true},
-      Checked___false: {}
-    }
-  )}/>
+  <Component checked={true} {...mapping<ComponentProps>({
+    Container: {Root, "Theme--dark": true},
+    Checked___true: {"Item--active": true},
+    Checked___false: {}
+  })}/>
 ).toSame(
   <div className="App Theme--dark">
     <div className="hash1"/>
