@@ -4,12 +4,14 @@ import type {
   Component
 } from "react"
 
-/** Collect required `classnames` from used sub-Components
+/** Collects required `classnames` from used sub-Components
  * @example
- * ClassNames<true> // {className: string}
- * ClassNames<Props1> // {classnames: Props1["classnames"] & Props2["classnames"]}
- * ClassNames<typeof Component>
- * ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
+ * ```typescript
+ * type Props = ClassNames<true> // {className: string}
+ * type Props = ClassNames<Props> // {classnames: Props["classnames"]}
+ * type Props = ClassNames<typeof Component>
+ * type Props = ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
+ * ```
  */
 export type ClassNames<
   C0 extends true | ReactRelated,
@@ -41,8 +43,17 @@ export type ClassNames<
 
 /** Declaration of self Component's `classnames`
  * @example
- * ClassNames<{class1: ClassHash, class2: ClassHash}>
- * ClassNames<typeof some_module_css, {class1: ClassHash, class2: ClassHash}>
+ * ```typescript
+ *   type MyClasses = ClassNamesProperty<{
+ *     class1: ClassHash
+ *     class2: ClassHash
+ *   }>
+ * 
+ *   type MyProps = ClassNamesProperty<
+ *     typeof some_module_css,
+ *     {class1: ClassHash, class2: ClassHash}
+ *   >
+ * ```
 */
 export type ClassNamesProperty<
   C extends CssModule,

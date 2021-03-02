@@ -21,7 +21,8 @@ export default classNaming
 export {classNamesCheck} from "./check"
 
 /** Set context
- * @example ```typescript
+ * @example
+ * ```typescript
  *   const classes = classNaming(this.props)
  *   const classes = classNaming({classnames: require("./some.css"), className?})
  *   const classes = classNaming<Props>()
@@ -83,14 +84,16 @@ function _classNaming<
 
 // Making as interface breaks stuff
 type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
-/** More
+/** 
  * @example
+ * ```typescript
  *   classes();
  *   classes(true); classes("App");
  *   classes({App}); classes({App: true, "App--bad": false});
  * 
  *   const btn = classes(className, {Btn})
  *   btn({Btn__disabled: true});
+ * ```
  * @example
  * ```tsx
  *   <div {...classes(...)} />
