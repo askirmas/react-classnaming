@@ -3,11 +3,14 @@ import type {
   ClassNamed,
   ClassHash,
   ClassNamesProperty,
+} from "./defs"
+import {
+  BoolDict,
   RequiredKeys,
   AnyObject,
   Falsy,
   Ever
-} from "./defs"
+} from "./ts-swiss";
 
 // Making as interface breaks stuff
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
@@ -51,8 +54,6 @@ export type ClassNaming<WithClassName extends boolean, Used extends BoolDict, So
   WithClassName
 > & ClassNamed
 
-export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-
 type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends ActionsOf<Source>>
 = Extract<Actions, AnyObject> & {
   [K in keyof Actions]: K extends keyof Source
@@ -69,7 +70,7 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
   : never
 }
 
-type BoolDict = Record<string, boolean>
+export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
 
 type Act2Used<A extends Action> = A extends ClassHash ? true : A
 

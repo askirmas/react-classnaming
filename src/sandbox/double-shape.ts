@@ -1,4 +1,5 @@
-import { ClassHash, Falsy } from "../defs"
+import { Falsy } from "../ts-swiss"
+import { ClassHash } from "../defs"
 
 type ClassNamesDirect<K extends string = string> = Record<K, ClassHash>
 // type ClassNamesToggle<K extends string = string> = Record<K, boolean>

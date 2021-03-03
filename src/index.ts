@@ -1,17 +1,15 @@
 import type {
   CssModule,
   ClassHash,
-  Falsy,
 } from "./defs"
+import type { Falsy } from "./ts-swiss"
 import {
   joinWithLead,
   resolver,
   wrapper
 } from "./core"
 import { emptize } from "./utils"
-import {
-  EMPTY_OBJECT
-} from "./consts"
+import { EMPTY_OBJECT } from "./consts"
 import type {
   ClassNamingFn,
   ClassNaming,
