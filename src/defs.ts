@@ -93,7 +93,7 @@ type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 
 type Ever<T, V> = [T] extends [never] ? EmptyObject : V
 type EmptyObject = Record<never, never>
-type AnyObject = {[k: string]: any}
+export type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
 // export type Part<T> = {[K in keyof T]: T[K] | undefined}
 // type get<T, K> = K extends keyof T ? T[K] : never

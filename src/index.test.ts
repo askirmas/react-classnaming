@@ -21,11 +21,14 @@ describe("#11 className control", () => {
     const classes = classNaming({className: "class", classnames: {}})
     , call1 = classes()
     , call2 = call1(true)
-    //TODO #11 @ts-expect-error
+    //@ts-expect-error #11
     , call3 = call2(true)
 
-    expect({...call3}).toStrictEqual({
-      className: "class class"
+    expect({...call3(
+      //@ts-expect-error #11
+      true
+    )}).toStrictEqual({
+      className: "class class class"
     })
   })
 })

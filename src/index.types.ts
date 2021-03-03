@@ -3,15 +3,16 @@ import type {
   ClassNamed,
   ClassHash,
   ClassNamesProperty,
-  RequiredKeys
+  RequiredKeys,
+  AnyObject
 } from "./defs"
 import type { stackedKey } from "./consts"
 
 
 //TODO #11 no `className` - no first `true`
-export type ClassNaming<Source extends CssModule, Used extends UsedActions, WithClassNames extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassNames>
+export type ClassNaming<Source extends CssModule, Used extends UsedActions, WithClassName extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassName>
 // Making as interface breaks stuff
-export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, WithClassNames extends boolean> =
+export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, WithClassName extends boolean> =
 /** 
  * @example
  * ```typescript
@@ -34,14 +35,14 @@ export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, 
  */
  <
   Actions0 extends ActionsOf<Source>,
-  Actions1 extends ActionsOf<Source>
+  ApplyClassName extends WithClassName|false = false
  >(
-    arg0?: WithClassNames | StrictSub<Actions0, Source, Used>,
-    arg1?: ActionsOf<Source> extends Actions0 ? StrictSub<Actions1, Source, Used> : never
-  ) => ClassNamingReturn<Source, Used, Actions0 | Actions1, WithClassNames>
+    arg0?: ApplyClassName | StrictSub<Actions0, Source, Used>,
+    arg1?: ApplyClassName extends true ? StrictSub<Actions0, Source, Used> : never
+  ) => ClassNamingReturn<Source, Used, Actions0, ApplyClassName extends true ? false : WithClassName>
 ;
 
-type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>, WithClassNames extends boolean>
+type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>, WithClassName extends boolean>
 = ClassNaming<
   {[K in Exclude<keyof Source,
     RequiredKeys<Actions> 
@@ -49,12 +50,12 @@ type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actio
   {[K in keyof Used
     | RequiredKeys<Actions> 
   ]: K extends keyof Used ? Used[K] : Actions[K]},
-  WithClassNames
+  WithClassName
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
 type StrictSub<Actions extends ActionsOf<Source>, Source extends CssModule, Used extends UsedActions>
-= Actions & {
+= Extract<Actions, AnyObject> & {
   [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Actions[K] : never
 }
 
