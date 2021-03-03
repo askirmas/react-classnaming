@@ -63,8 +63,6 @@ export type ClassNamesProperty<
 /** Primitive for global CSS and CSS module */
 export type ClassHash = undefined|string
 
-export type Action = ClassHash|boolean
-
 /** Shortcut to require property `className` */
 export type ClassNamed = {
   className: string

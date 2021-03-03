@@ -1,7 +1,6 @@
 import type {
   CssModule,
   ClassHash,
-  Action,
 } from "./defs"
 import {
   joinWithLead,
@@ -54,8 +53,8 @@ function classNaming<
     className,
     [stackedKey]: undefined
   },
-    //@ts-expect-error //TODO #21
     arg0,
+    //@ts-expect-error //TODO #21
     arg1
   )
 
@@ -73,7 +72,7 @@ function classes<
     classnames,
     [stackedKey]: preStacked,
   }: ClassNamingThis<Source>,
-  arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
+  arg0?: true | ActionsOf<Source>,
   arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
 ): ClassNaming<Source, {}> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
@@ -86,8 +85,8 @@ function classes<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
   > = (arg0?, arg1?) => classes({classnames, className, [stackedKey]: result},
-    //@ts-expect-error //TODO #21
     arg0,
+    //@ts-expect-error //TODO #21
     arg1
   )
 

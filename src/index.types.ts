@@ -1,17 +1,17 @@
 import type {
   CssModule,
-  ClassHash,
   ClassNamed,
-  Action,
+  ClassHash,
+  ClassNamesProperty,
   RequiredKeys
 } from "./defs"
 import type { stackedKey } from "./consts"
 
 
 //TODO #11 no `className` - no first `true`
-export type ClassNaming<Source extends CssModule, Used extends CssModule> = ClassNamed & ClassNamingCall<Source, Used>
+export type ClassNaming<Source extends CssModule, Used extends UsedActions> = ClassNamed & ClassNamingCall<Source, Used>
 // Making as interface breaks stuff
-export type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
+export type ClassNamingCall<Source extends CssModule, Used extends UsedActions> =
 /** 
  * @example
  * ```typescript
@@ -41,20 +41,20 @@ export type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
   ) => ClassNamingReturn<Source, Used, Actions0 | Actions1>
 ;
 
-type ClassNamingReturn<Source extends CssModule, Used extends CssModule, Actions extends ActionsOf<Source>>
+type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>>
 = ClassNaming<
 {[K in Exclude<keyof Source,
   RequiredKeys<Actions> 
->]: ClassHash},
+>]: Source[K]},
 {[K in keyof Used
   | RequiredKeys<Actions> 
-]: ClassHash}
+]: K extends keyof Used ? Used[K] : Actions[K]}
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-type StrictSub<Actions extends {[K in keyof Source]?: Action}, Source extends CssModule, Used extends CssModule>
+type StrictSub<Actions extends ActionsOf<Source>, Source extends CssModule, Used extends UsedActions>
 = Actions & {
-  [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Action : never
+  [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Actions[K] : never
 }
 
 export type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
@@ -64,3 +64,30 @@ export type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Sourc
 type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
   classnames: T
 }>
+
+type UsedActions = Record<string, Action>
+// type BooleanMap = Record<string, boolean>
+
+// type ActionToBool<A extends Action> = A extends string|undefined ? true : A
+
+type Action = ClassHash|boolean
+
+export type ClassNamesMap<Source extends CssModule> = (
+/** Function to map one `classnames` to another
+ * @example 
+ * ```tsx
+ *  <Component {...mapping<ComponentProps>({
+ *    Container: { Root, "Theme--dark": true },
+ *    Checked___true: { "Item--active": true },
+ *    Checked___false: {}
+ *  })}/>
+ *```
+  */
+  <
+    Target extends ClassNamesProperty<TargetClasses>,
+    TargetClasses extends CssModule = CssModule
+  >(map: {
+    [T in keyof Target["classnames"]]:
+      {[S in keyof Source]?: Action}
+  }) => {classnames: {[T in keyof Target["classnames"]]: string}}
+);

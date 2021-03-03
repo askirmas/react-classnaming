@@ -1,9 +1,13 @@
 import {
-  Action,
   ClassNamesProperty,
   CssModule
 } from "./defs";
+import type {
+  ClassNamesMap,
+  ActionsOf,
+} from "./index.types";
 import {resolver} from "./core"
+
 
 const {keys: $keys} = Object
 
@@ -23,33 +27,12 @@ function classNamesMap<
   return mapper
 }
 
-type ClassNamesMap<Source extends CssModule> = (
-/** Function to map one `classnames` to another
- * @example 
- * ```tsx
- *  <Component {...mapping<ComponentProps>({
- *    Container: { Root, "Theme--dark": true },
- *    Checked___true: { "Item--active": true },
- *    Checked___false: {}
- *  })}/>
- *```
- */
-  <
-    Target extends ClassNamesProperty<TargetClasses>,
-    TargetClasses extends CssModule = CssModule
-  >(map: {
-    [T in keyof Target["classnames"]]:
-      {[S in keyof Source]?: Action}
-  }) => {classnames: {[T in keyof Target["classnames"]]: string}}
-)
-
 function mapping<
   Target extends ClassNamesProperty<CssModule>,
   Source extends CssModule,
->(source: Source, map: {
-  [T in keyof Target["classnames"]]:
-    {[S in keyof Source]?: Action}
-  }
+>(
+  source: Source,
+  map: {[T in keyof Target["classnames"]]: ActionsOf<Source>}
 ): {classnames: {[T in keyof Target["classnames"]]: string}} {
   const keys = $keys(map) as (keyof Target["classnames"])[]
   , classnames = {} as {[T in keyof Target["classnames"]]: string}
