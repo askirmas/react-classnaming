@@ -1,6 +1,7 @@
 import type {
   CssModule,
   ClassHash,
+  Falsy,
 } from "./defs"
 import {
   joinWithLead,
@@ -53,9 +54,7 @@ function classNaming<
     className,
     [stackedKey]: undefined
   },
-    //@ts-expect-error #19
     arg0,
-    //@ ts-expect-error //TODO #21
     arg1
   )
 
@@ -66,15 +65,15 @@ function classNaming<
 
 function classes<
   Source extends CssModule,
-  Actions extends undefined | ActionsOf<Source>
+  Actions extends ActionsOf<Source>
 >(
   {
     className,
     classnames,
     [stackedKey]: preStacked,
   }: ClassNamingThis<Source>,
-  arg0?: true | ActionsOf<Source>,
-  arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
+  arg0?: Falsy | true | Actions,
+  arg1?: Falsy | Actions
 ): ClassNaming<Source, {}, boolean> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
@@ -87,9 +86,7 @@ function classes<
     {},
     boolean
   > = (arg0?, arg1?) => classes({classnames, className, [stackedKey]: result},
-    //@ts-expect-error #19
     arg0,
-    //@ ts-expect-error //TODO #21
     arg1
   )
 

@@ -1,4 +1,8 @@
 import classNaming from "."
+const module_css = {
+  class1: "hash1",
+  class2: "hash2"
+}
 
 describe("#11 className control", () => {
   it("no className", () => {
@@ -31,4 +35,13 @@ describe("#11 className control", () => {
       className: "class class class"
     })
   })
+})
+
+describe("falsy", () => {
+  const classes = classNaming({classnames: module_css})
+  , nullish: null | boolean = null
+
+  it("null", () => expect({...classes(nullish && {class1: true})}).toStrictEqual({
+    className: ""
+  }))
 })

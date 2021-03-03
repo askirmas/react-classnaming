@@ -4,7 +4,8 @@ import type {
   ClassHash,
   ClassNamesProperty,
   RequiredKeys,
-  AnyObject
+  AnyObject,
+  Falsy
 } from "./defs"
 import type { stackedKey } from "./consts"
 
@@ -37,8 +38,8 @@ export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, Wit
   Actions extends ActionsOf<Source>,
   ApplyClassName extends WithClassName|false = false
  >(
-  arg0?: ApplyClassName | StrictSub<Used, Source, Actions>,
-  arg1?: ApplyClassName extends true ? StrictSub<Used, Source, Actions> : never
+  arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions>,
+  arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions> : never
 ) => ClassNamingReturn<
   ApplyClassName extends true ? false : WithClassName,
   {[K in keyof Used | RequiredKeys<Actions>]: K extends keyof Used ? Used[K] : Bool<Actions[K]>},
