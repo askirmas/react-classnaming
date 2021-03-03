@@ -55,8 +55,8 @@ function classes<
   Actions extends undefined | {[K in keyof Source]?: Action}
 >(
   this: ClassNamingThis<Source>,
-  arg0?: string | true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
-  arg1?: [Extract<typeof arg0, undefined|true|string>] extends [never] ? never : Actions
+  arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
+  arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
 ): ClassNaming<Source, {}> {
   const {
     className,
@@ -65,16 +65,15 @@ function classes<
   } = this
   , withPropagation = arg0 === true  
   , source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
-  , allowed = source && resolver(classnames, source!)
-  , withInjection = typeof arg0 !== "string" ? preStacked : joinWithLead(preStacked, arg0)
-  , stacked = joinWithLead(withInjection, allowed)
+  , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
+  , stacked = joinWithLead(preStacked, allowed)
   , result = joinWithLead(withPropagation && className, stacked)
   , host: ClassNamingCall<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
   >
   //TODO #21 Replace with lambda wrap https://jsbench.me/itklt6fadw
-  = classes.bind({classnames, className, [stackedKey]: stacked})
+  = classes.bind({classnames, className, [stackedKey]: result})
 
   classnames && emptize(classnames)
 
@@ -110,7 +109,7 @@ type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
   Actions0 extends {[K in keyof Source]?: Action},
   Actions1 extends {[K in keyof Source]?: Action}
  >(
-    arg0?: true | string | Actions0
+    arg0?: true | Actions0
     & {[K in keyof Actions0]: K extends keyof Source ? K extends keyof Used ? never : Action : never},
     arg1?: {[K in keyof Source]?: Action} extends Actions0 ? Actions1
     & {[K in keyof Actions1]: K extends keyof Source ? K extends keyof Used ? never : Action : never} : never

@@ -3,9 +3,9 @@ import expectRender from "../expect-to-same-render"
 import type { ClassNames, ClassNamesProperty, ClassNamed, ClassHash } from "."
 import classNaming, {classNamesCheck} from "."
 
-const Button = ({className, "classnames": { Btn }}
+const Button = ({className, classnames, "classnames": { Btn }}
   : ClassNamed & ClassNamesProperty<{Btn: ClassHash}>
-) => <button {...classNaming()(className, { Btn })}/>
+) => <button {...classNaming({className, classnames})(true, { Btn })}/>
 
 type RootClassNames = ClassNamesProperty<{
   App__Item: ClassHash
@@ -100,13 +100,17 @@ it("additional type check after rename", () => {
 })
 
 it("chaining", () => {
-  const props = {className: "Cell", classnames: classNamesCheck()}
+  const props = {className: "Cell", classnames:
+    //TODO #16
+    classNamesCheck() as Record<string, ClassHash>
+  }
 
-  const {className, "classnames": {
+  const {"classnames": {
     Column_1, Column_2,
     Row_1, Row_2
   }} = props
-  , Cell = classNaming()(className)
+  , classes = classNaming(props)
+  , Cell = classes(true)
   , Col1 = Cell({Column_1})
   , Col2 = Cell({Column_2})
 
@@ -115,7 +119,7 @@ it("chaining", () => {
     <div {...Col1({ Row_2 })} />,
     <div {...Col2({ Row_1 })} />,
     <div {...Col2({ Row_2 })} />,
-    <div {...classNaming()({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
+    <div {...classes({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} />
   ).toSame(
     <div className="Cell Column_1 Row_1" />,
     <div className="Cell Column_1 Row_2" />,
