@@ -33,8 +33,9 @@ function resolver(
     //TODO #10 Clarify what behaviour to implement
 
     if (act !== undefined && !act) {
-      //TODO Consider assign to false
-      delete keys[i]
+      // https://jsbench.me/q8kltjsdwy/
+      //@ts-expect-error
+      keys[i] = false
       continue
     }
 
@@ -45,7 +46,7 @@ function resolver(
       keys[i] = act
   }
 
-  // https://measurethat.net/Benchmarks/Show/11866/1/arrayfilter
+  // https://jsbench.me/9mklnonq0m
   const filtered = keys.filter(x => x)
 
   return filtered.length === 0 ? EMPTY_ARRAY : filtered
