@@ -34,27 +34,28 @@ export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, 
  * ```
  */
  <
-  Actions0 extends ActionsOf<Source>,
+  Actions extends ActionsOf<Source>,
   ApplyClassName extends WithClassName|false = false
  >(
-    arg0?: ApplyClassName | StrictSub<Actions0, Source, Used>,
-    arg1?: ApplyClassName extends true ? StrictSub<Actions0, Source, Used> : never
-  ) => ClassNamingReturn<Source, Used, Actions0, ApplyClassName extends true ? false : WithClassName>
-;
+  arg0?: ApplyClassName | StrictSub<Used, Source, Actions>,
+  arg1?: ApplyClassName extends true ? StrictSub<Used, Source, Actions> : never
+) => ClassNamingReturn<
+  ApplyClassName extends true ? false : WithClassName,
+  {[K in keyof Used | RequiredKeys<Actions>]: K extends keyof Used ? Used[K] : Bool<Actions[K]>},
+  Source
+>;
 
-type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>, WithClassName extends boolean>
+type ClassNamingReturn< WithClassName extends boolean, Used extends UsedActions, Source extends CssModule>
 = ClassNaming<
   {[K in Exclude<keyof Source,
-    RequiredKeys<Actions> 
+    RequiredKeys<Used> 
   >]: Source[K]},
-  {[K in keyof Used
-    | RequiredKeys<Actions> 
-  ]: K extends keyof Used ? Used[K] : Actions[K]},
+  Used,
   WithClassName
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-type StrictSub<Actions extends ActionsOf<Source>, Source extends CssModule, Used extends UsedActions>
+type StrictSub<Used extends UsedActions, Source extends CssModule, Actions extends ActionsOf<Source>>
 = Extract<Actions, AnyObject> & {
   [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Actions[K] : never
 }
@@ -70,7 +71,7 @@ type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
 type UsedActions = Record<string, Action>
 // type BooleanMap = Record<string, boolean>
 
-// type ActionToBool<A extends Action> = A extends string|undefined ? true : A
+type Bool<A extends Action> = A extends ClassHash ? true : A
 
 type Action = ClassHash|boolean
 

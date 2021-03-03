@@ -113,7 +113,7 @@ it("chaining", () => {
   , Cell = classes(true)
   , Col1 = Cell({Column_1})
   , Col2 = Cell({Column_2})
-
+  
   expectRender(
     <div {...Col1({ Row_1 })} />,
     <div {...Col1({ Row_2 })} />,
