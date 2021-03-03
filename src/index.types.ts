@@ -5,7 +5,8 @@ import type {
   ClassNamesProperty,
   RequiredKeys,
   AnyObject,
-  Falsy
+  Falsy,
+  Ever
 } from "./defs"
 
 //TODO #11 no `className` - no first `true`
@@ -38,7 +39,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   ApplyClassName extends WithClassName|false = false
  >(
   arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions0>,
-  arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions1> : never
+  arg1?: ApplyClassName extends true ? Falsy | StrictSub<Used, Source, Actions1> : never
 ) => ClassNaming<
   ApplyClassName extends true ? false : WithClassName,
   {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Act2Used<Actions0[K]>},
@@ -63,10 +64,11 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
   : Actions[K] extends boolean
     ? Actions[K]
     : Actions[K] extends ClassHash
-      ? [Extract<Actions[K], string>] extends [never]
-        ? Actions[K]
-        : Extract<Actions[K], string> extends "" ? never
-        : Actions[K]
+      ? Ever<
+        Extract<Actions[K], string>,
+        Extract<Actions[K], string> extends "" ? never : Actions[K],
+        Actions[K]
+      >
       : never
   : never
 }

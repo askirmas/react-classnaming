@@ -90,7 +90,7 @@ type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
 
 /// UTILITY TYPES
 
-type Ever<T, V> = [T] extends [never] ? EmptyObject : V
+export type Ever<T, V, D = EmptyObject> = [T] extends [never] ? D : V
 type EmptyObject = Record<never, never>
 export type AnyObject = {[k: string]: any}
 export type Falsy = undefined|null|false|0|""
