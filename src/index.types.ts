@@ -9,8 +9,6 @@ import type {
   Ever
 } from "./defs"
 
-//TODO #11 no `className` - no first `true`
-export type ClassNamingWrap<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> = ClassNamed & ClassNamingFn<Source, Used, WithClassName>
 // Making as interface breaks stuff
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
@@ -47,13 +45,11 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
 >;
 
 export type ClassNaming<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
-= ClassNamingWrap<
-  {[K in Exclude<keyof Source,
-    RequiredKeys<Used> 
-  >]: Source[K]},
+= ClassNamingFn<
+  {[K in Exclude<keyof Source, RequiredKeys<Used> >]: Source[K]},
   Used,
   WithClassName
->
+> & ClassNamed
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
 
@@ -72,14 +68,6 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
       : never
   : never
 }
-
-export type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
-  stacked: string|undefined
-}
-
-type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
-  classnames: T
-}>
 
 type BoolDict = Record<string, boolean>
 
@@ -103,6 +91,6 @@ export type ClassNamesMap<Source extends CssModule> = (
     TargetClasses extends CssModule = CssModule
   >(map: {
     [T in keyof Target["classnames"]]:
-      {[S in keyof Source]?: Action}
+      ActionsOf<Source>
   }) => {classnames: {[T in keyof Target["classnames"]]: string}}
 );

@@ -13,9 +13,7 @@ import {
   EMPTY_OBJECT
 } from "./consts"
 import type {
-  ClassNamingWrap,
   ClassNamingFn,
-  ClassNamingThis,
   ClassNaming,
   ActionsOf
 } from "./index.types"
@@ -72,10 +70,14 @@ function classes<
     className,
     classnames,
     stacked: preStacked,
-  }: ClassNamingThis<Source>,
+  }: {
+    className: string,
+    classnames: Source,
+    stacked: string|undefined
+  },
   arg0?: Falsy | true | Actions,
   arg1?: Falsy | Actions
-): ClassNamingWrap<Source, {}, boolean> {
+): ClassNaming<boolean, {}, Source> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
   , stacked = joinWithLead(preStacked, allowed)
