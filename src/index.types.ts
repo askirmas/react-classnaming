@@ -10,9 +10,9 @@ import type { stackedKey } from "./consts"
 
 
 //TODO #11 no `className` - no first `true`
-export type ClassNaming<Source extends CssModule, Used extends UsedActions, WithClassName extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassName>
+export type ClassNaming<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassName>
 // Making as interface breaks stuff
-export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, WithClassName extends boolean> =
+export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
  * @example
  * ```typescript
@@ -45,7 +45,7 @@ export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, 
   Source
 >;
 
-type ClassNamingReturn< WithClassName extends boolean, Used extends UsedActions, Source extends CssModule>
+type ClassNamingReturn<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
 = ClassNaming<
   {[K in Exclude<keyof Source,
     RequiredKeys<Used> 
@@ -55,7 +55,7 @@ type ClassNamingReturn< WithClassName extends boolean, Used extends UsedActions,
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-type StrictSub<Used extends UsedActions, Source extends CssModule, Actions extends ActionsOf<Source>>
+type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends ActionsOf<Source>>
 = Extract<Actions, AnyObject> & {
   [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Actions[K] : never
 }
@@ -68,8 +68,7 @@ type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
   classnames: T
 }>
 
-type UsedActions = Record<string, Action>
-// type BooleanMap = Record<string, boolean>
+type BoolDict = Record<string, boolean>
 
 type Bool<A extends Action> = A extends ClassHash ? true : A
 
