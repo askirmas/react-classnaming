@@ -38,15 +38,18 @@ export type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
  >(
     arg0?: true | StrictSub<Actions0, Source, Used>,
     arg1?: ActionsOf<Source> extends Actions0 ? StrictSub<Actions1, Source, Used> : never
-  ) => ClassNaming<
-    {[K in Exclude<keyof Source,
-      RequiredKeys<Actions0> | RequiredKeys<Actions1>
-    >]: ClassHash},
-    {[K in keyof Used
-      | RequiredKeys<Actions0> | RequiredKeys<Actions1>
-    ]: ClassHash}
-  >
+  ) => ClassNamingReturn<Source, Used, Actions0 | Actions1>
 ;
+
+type ClassNamingReturn<Source extends CssModule, Used extends CssModule, Actions extends ActionsOf<Source>>
+= ClassNaming<
+{[K in Exclude<keyof Source,
+  RequiredKeys<Actions> 
+>]: ClassHash},
+{[K in keyof Used
+  | RequiredKeys<Actions> 
+]: ClassHash}
+>
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
 type StrictSub<Actions extends {[K in keyof Source]?: Action}, Source extends CssModule, Used extends CssModule>
