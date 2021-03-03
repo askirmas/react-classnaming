@@ -3,10 +3,10 @@ import classNaming from "."
 describe("#11 className control", () => {
   it("no className", () => {
     const classes = classNaming()
-    //TODO #11 @ts-expect-error
+    //@ts-expect-error
     , call1 = classes(true)
     , call2 = classes()
-    //TODO #11 @ts-expect-error
+    //@ts-expect-error
     , call3 = call2(true)
 
     expect([

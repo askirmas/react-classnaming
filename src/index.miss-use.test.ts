@@ -62,13 +62,17 @@ describe("mixed args", () => {
 })
 
 describe("multi-arg call", () => {
-  it("ctx", () => expect({...classNaming()(
-    {class1: true},
-    //@ts-expect-error
-    {class2: "hash2"}
-  )}).toStrictEqual({
-    className: "class1"
-  }))
+  it("ctx", () => {
+    const classes = classNaming()
+    
+    expect({...classes(
+      {class1: true},
+      //@ts-expect-error
+      {class2: "hash2"}
+    )}).toStrictEqual({
+      className: "class1"
+    })
+  })
 
 })
 
@@ -93,13 +97,3 @@ it("no duplication on TS level", () => {
     className: "class1 class2 class1"
   })
 })
-
-it("propagate absent className", () => expect({
-  ...classNaming({classnames: module_css})(
-    //TODO #11 Raise TS error
-    true,
-    {class1: true, class4: true}
-  )
-}).toStrictEqual({
-  className: "class1 hash4"
-}))

@@ -48,13 +48,14 @@ function classNaming<
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
-  const host: ClassNamingCall<Source, {}> = (arg0?, arg1?) => classes({
+  const host: ClassNamingCall<Source, {}, Ctx["className"] extends string ? true : false> = (arg0?, arg1?) => classes({
     classnames,
     className,
     [stackedKey]: undefined
   },
+    //@ts-expect-error #19
     arg0,
-    //@ts-expect-error //TODO #21
+    //@ ts-expect-error //TODO #21
     arg1
   )
 
@@ -74,7 +75,7 @@ function classes<
   }: ClassNamingThis<Source>,
   arg0?: true | ActionsOf<Source>,
   arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
-): ClassNaming<Source, {}> {
+): ClassNaming<Source, {}, boolean> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
   , stacked = joinWithLead(preStacked, allowed)
@@ -83,10 +84,12 @@ function classes<
   : stacked
   , host: ClassNamingCall<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
-    {}
+    {},
+    boolean
   > = (arg0?, arg1?) => classes({classnames, className, [stackedKey]: result},
+    //@ts-expect-error #19
     arg0,
-    //@ts-expect-error //TODO #21
+    //@ ts-expect-error //TODO #21
     arg1
   )
 

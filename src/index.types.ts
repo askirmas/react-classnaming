@@ -9,9 +9,9 @@ import type { stackedKey } from "./consts"
 
 
 //TODO #11 no `className` - no first `true`
-export type ClassNaming<Source extends CssModule, Used extends UsedActions> = ClassNamed & ClassNamingCall<Source, Used>
+export type ClassNaming<Source extends CssModule, Used extends UsedActions, WithClassNames extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassNames>
 // Making as interface breaks stuff
-export type ClassNamingCall<Source extends CssModule, Used extends UsedActions> =
+export type ClassNamingCall<Source extends CssModule, Used extends UsedActions, WithClassNames extends boolean> =
 /** 
  * @example
  * ```typescript
@@ -36,19 +36,20 @@ export type ClassNamingCall<Source extends CssModule, Used extends UsedActions> 
   Actions0 extends ActionsOf<Source>,
   Actions1 extends ActionsOf<Source>
  >(
-    arg0?: true | StrictSub<Actions0, Source, Used>,
+    arg0?: WithClassNames | StrictSub<Actions0, Source, Used>,
     arg1?: ActionsOf<Source> extends Actions0 ? StrictSub<Actions1, Source, Used> : never
-  ) => ClassNamingReturn<Source, Used, Actions0 | Actions1>
+  ) => ClassNamingReturn<Source, Used, Actions0 | Actions1, WithClassNames>
 ;
 
-type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>>
+type ClassNamingReturn<Source extends CssModule, Used extends UsedActions, Actions extends ActionsOf<Source>, WithClassNames extends boolean>
 = ClassNaming<
-{[K in Exclude<keyof Source,
-  RequiredKeys<Actions> 
->]: Source[K]},
-{[K in keyof Used
-  | RequiredKeys<Actions> 
-]: K extends keyof Used ? Used[K] : Actions[K]}
+  {[K in Exclude<keyof Source,
+    RequiredKeys<Actions> 
+  >]: Source[K]},
+  {[K in keyof Used
+    | RequiredKeys<Actions> 
+  ]: K extends keyof Used ? Used[K] : Actions[K]},
+  WithClassNames
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
