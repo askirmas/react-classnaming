@@ -11,9 +11,9 @@ import type { stackedKey } from "./consts"
 
 
 //TODO #11 no `className` - no first `true`
-export type ClassNaming<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> = ClassNamed & ClassNamingCall<Source, Used, WithClassName>
+export type ClassNamingWrap<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> = ClassNamed & ClassNamingFn<Source, Used, WithClassName>
 // Making as interface breaks stuff
-export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
+export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
  * @example
  * ```typescript
@@ -41,14 +41,14 @@ export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, Wit
  >(
   arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions0>,
   arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions1> : never
-) => ClassNamingReturn<
+) => ClassNaming<
   ApplyClassName extends true ? false : WithClassName,
   {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Bool<Actions0[K]>},
   Source
 >;
 
-export type ClassNamingReturn<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
-= ClassNaming<
+export type ClassNaming<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
+= ClassNamingWrap<
   {[K in Exclude<keyof Source,
     RequiredKeys<Used> 
   >]: Source[K]},

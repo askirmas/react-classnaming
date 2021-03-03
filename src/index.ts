@@ -14,10 +14,10 @@ import {
   stackedKey
 } from "./consts"
 import type {
-  ClassNaming,
-  ClassNamingCall,
+  ClassNamingWrap,
+  ClassNamingFn,
   ClassNamingThis,
-  ClassNamingReturn,
+  ClassNaming,
   ActionsOf
 } from "./index.types"
 
@@ -47,11 +47,11 @@ function classNaming<
   WithClassName extends boolean = Ctx["className"] extends string ? true : false
 >(
   context: Ctx = EMPTY_OBJECT as Ctx
-): ClassNamingReturn<WithClassName, {}, Source> {
+): ClassNaming<WithClassName, {}, Source> {
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
-  const host: ClassNamingCall<Source, {}, WithClassName> = (arg0?, arg1?) => classes({
+  const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes({
     classnames,
     className,
     [stackedKey]: undefined
@@ -76,14 +76,14 @@ function classes<
   }: ClassNamingThis<Source>,
   arg0?: Falsy | true | Actions,
   arg1?: Falsy | Actions
-): ClassNaming<Source, {}, boolean> {
+): ClassNamingWrap<Source, {}, boolean> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
   , stacked = joinWithLead(preStacked, allowed)
   , result = arg0 === true && className
   ? joinWithLead(className, stacked)
   : stacked
-  , host: ClassNamingCall<
+  , host: ClassNamingFn<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {},
     boolean
