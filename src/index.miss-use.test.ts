@@ -79,7 +79,7 @@ it("not equal hashes", () => expect({
 }))
 
 
-it("TBD no duplication on TS level", () => {
+it("no duplication on TS level", () => {
   const {class1, class2} = global_css
   , cn = classNaming({classnames: global_css})
   , call1 = cn({class1})
