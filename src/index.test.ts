@@ -7,10 +7,10 @@ const module_css = {
 describe("#11 className control", () => {
   it("no className", () => {
     const classes = classNaming()
-    //@ts-expect-error
+    //@ts-expect-error #11
     , call1 = classes(true)
     , call2 = classes()
-    //@ts-expect-error
+    //@ts-expect-error #11
     , call3 = call2(true)
 
     expect([
@@ -37,11 +37,19 @@ describe("#11 className control", () => {
   })
 })
 
-describe("falsy", () => {
+describe("#19 falsy", () => {
   const classes = classNaming({classnames: module_css})
   , nullish: null | boolean = null
 
   it("null", () => expect({...classes(nullish && {class1: true})}).toStrictEqual({
     className: ""
   }))
+})
+
+describe("#18", () => {
+  const classes = classNaming({classnames: module_css})
+  , title = "" as string
+  , enabled = true as boolean
+
+  expect({...classes({class1: title && enabled})})
 })
