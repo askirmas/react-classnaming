@@ -38,6 +38,7 @@ function classNaming<
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
+  //TODO #21 Replace with lambda wrap https://jsbench.me/itklt6fadw
   const host: ClassNamingCall<Source, {}> = classes.bind({
     classnames,
     className,
@@ -72,6 +73,7 @@ function classes<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
   >
+  //TODO #21 Replace with lambda wrap https://jsbench.me/itklt6fadw
   = classes.bind({classnames, className, [stackedKey]: stacked})
 
   classnames && emptize(classnames)
