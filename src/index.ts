@@ -20,7 +20,6 @@ import type {
   ActionsOf
 } from "./index.types"
 
-emptize(classNaming)
 emptize(classes)
 
 export type {
@@ -69,20 +68,20 @@ function classes<
   Source extends CssModule,
   Actions extends undefined | ActionsOf<Source>
 >(
-  ctx: ClassNamingThis<Source>,
-  arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
-  arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
-): ClassNaming<Source, {}> {
-  const {
+  {
     className,
     classnames,
     [stackedKey]: preStacked,
-  } = ctx
-  , withPropagation = arg0 === true  
-  , source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
+  }: ClassNamingThis<Source>,
+  arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
+  arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
+): ClassNaming<Source, {}> {
+  const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
   , stacked = joinWithLead(preStacked, allowed)
-  , result = joinWithLead(withPropagation && className, stacked)
+  , result = arg0 === true && className
+  ? joinWithLead(className, stacked)
+  : stacked
   , host: ClassNamingCall<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
