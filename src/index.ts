@@ -38,12 +38,15 @@ function classNaming<
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
-  //TODO #21 Replace with lambda wrap https://jsbench.me/itklt6fadw
-  const host: ClassNamingCall<Source, {}> = classes.bind({
+  const host: ClassNamingCall<Source, {}> = (arg0?, arg1?) => classes({
     classnames,
     className,
     [stackedKey]: undefined
-  })
+  },
+    //@ts-expect-error //TODO #21
+    arg0,
+    arg1
+  )
 
   return wrapper(host, className)
 }
@@ -54,7 +57,7 @@ function classes<
   Source extends CssModule,
   Actions extends undefined | {[K in keyof Source]?: Action}
 >(
-  this: ClassNamingThis<Source>,
+  ctx: ClassNamingThis<Source>,
   arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
   arg1?: [Extract<typeof arg0, undefined|true>] extends [never] ? never : Actions
 ): ClassNaming<Source, {}> {
@@ -62,7 +65,7 @@ function classes<
     className,
     classnames,
     [stackedKey]: preStacked,
-  } = this
+  } = ctx
   , withPropagation = arg0 === true  
   , source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
@@ -71,9 +74,11 @@ function classes<
   , host: ClassNamingCall<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {}
-  >
-  //TODO #21 Replace with lambda wrap https://jsbench.me/itklt6fadw
-  = classes.bind({classnames, className, [stackedKey]: result})
+  > = (arg0?, arg1?) => classes({classnames, className, [stackedKey]: result},
+    //@ts-expect-error //TODO #21
+    arg0,
+    arg1
+  )
 
   classnames && emptize(classnames)
 
