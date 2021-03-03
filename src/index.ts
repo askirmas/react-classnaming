@@ -1,9 +1,7 @@
 import type {
   CssModule,
   ClassHash,
-  ClassNamed,
   Action,
-  RequiredKeys
 } from "./defs"
 import {
   joinWithLead,
@@ -11,14 +9,28 @@ import {
   wrapper
 } from "./core"
 import { emptize } from "./utils"
-import { EMPTY_OBJECT, stackedKey } from "./consts"
+import {
+  EMPTY_OBJECT,
+  stackedKey
+} from "./consts"
+import type {
+  ClassNaming,
+  ClassNamingCall,
+  ClassNamingThis,
+  ActionsOf
+} from "./index.types"
 
 emptize(classNaming)
 emptize(classes)
 
-export type { ClassNames, ClassHash, ClassNamesProperty, ClassNamed } from "./defs"
+export type {
+  ClassNames,
+  ClassHash,
+  ClassNamesProperty,
+  ClassNamed
+} from "./defs"
 export default classNaming
-export {classNamesCheck} from "./check"
+export { classNamesCheck } from "./check"
 
 /** Set context
  * @example
@@ -55,7 +67,7 @@ function classNaming<
 
 function classes<
   Source extends CssModule,
-  Actions extends undefined | {[K in keyof Source]?: Action}
+  Actions extends undefined | ActionsOf<Source>
 >(
   ctx: ClassNamingThis<Source>,
   arg0?: true | {[K in keyof Actions]: K extends keyof Source ? Action : never},
@@ -87,54 +99,3 @@ function classes<
     result,
   )
 }   
-
-// Making as interface breaks stuff
-type ClassNamingCall<Source extends CssModule, Used extends CssModule> =
-/** 
- * @example
- * ```typescript
- *   classes();
- *   classes(true); classes("App");
- *   classes({App}); classes({App: true, "App--bad": false});
- * 
- *   const btn = classes(className, {Btn})
- *   btn({Btn__disabled: true});
- * ```
- * @example
- * ```tsx
- *   <div {...classes(...)} />
- *   <div data-block={`${classes(...)}`} />
- *   <Component {...{
- *     ...classes(...)(...)(...)},
- *     ...classnames
- *   }/>
- * ```
- */
- <
-  Actions0 extends {[K in keyof Source]?: Action},
-  Actions1 extends {[K in keyof Source]?: Action}
- >(
-    arg0?: true | Actions0
-    & {[K in keyof Actions0]: K extends keyof Source ? K extends keyof Used ? never : Action : never},
-    arg1?: {[K in keyof Source]?: Action} extends Actions0 ? Actions1
-    & {[K in keyof Actions1]: K extends keyof Source ? K extends keyof Used ? never : Action : never} : never
-  ) => ClassNaming<
-    {[K in Exclude<keyof Source,
-      RequiredKeys<Actions0> | RequiredKeys<Actions1>
-    >]: ClassHash},
-    {[K in keyof Used
-      | RequiredKeys<Actions0> | RequiredKeys<Actions1>
-    ]: ClassHash}
-  >
-;
-
-//TODO #11 no `className` - no first `true`
-type ClassNaming<Source extends CssModule, Used extends CssModule> = ClassNamed & ClassNamingCall<Source, Used>
-
-type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
-  [stackedKey]: string|undefined
-}
-
-type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
-  classnames: T
-}>
