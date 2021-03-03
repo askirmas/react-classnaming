@@ -3,11 +3,11 @@ import type {
   EmptyObject,
   AnyObject,
 } from "./ts-swiss"
-import type {
-  JSXElementConstructor,
-  ReactElement,
-  Component
-} from "react"
+import {
+  GetProps,
+  RCC,
+  RFC
+} from "./react-swiss"
 
 /** Collects required `classnames` from used sub-Components
  * @example
@@ -84,11 +84,4 @@ export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ?
 /// UTILITIES FOR REACT
 
 export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
-export type GetProps<C> = C extends JSXElementConstructor<infer P> ? P : C
-
-/// REACT
-
-export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC
-//TODO Is there any way to require `classnames` in FC `props`?
-type RFC = (props: any) => ReactElement<any, any> | null
-type RCC = new (props: any) => Component<AnyObject & WithClassNames, any>
+export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC<WithClassNames>

@@ -6,10 +6,12 @@ import type {
   ClassNamed,
   ClassHash,
   ReactRelated,
-  GetProps,
   ClassNamesProperty,
   ClassNames
 } from "./defs"
+import {
+  GetProps
+} from "./react-swiss"
 
 type Props = ClassNames<true, ClassNamesProperty<{props: ClassHash}>>
 function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassHash}>>) { return null }
