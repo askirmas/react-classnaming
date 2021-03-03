@@ -45,18 +45,6 @@ describe("empty call", () => {
 describe("toggling", () => {
   describe("classnames", () => {
     const classes = classNaming({classnames})
-    it("map", () => expect({
-      ...classes({
-        class1: true,
-        class2: false,
-        //TODO //@ts-expect-error
-        class3: "",
-        //@ts-expect-error Truthy not allowed by TS
-        class4: 1,
-      })
-    }).toStrictEqual({
-      className: "class1 hash4"
-    }))
 
     it("redundant in map", () => expect({
       ...classes({

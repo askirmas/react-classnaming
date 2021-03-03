@@ -35,14 +35,15 @@ export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, Wit
  * ```
  */
  <
-  Actions extends ActionsOf<Source>,
+  Actions0 extends {[K in keyof Source]?: Action},
+  Actions1 extends {[K in keyof Source]?: Action},
   ApplyClassName extends WithClassName|false = false
  >(
-  arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions>,
-  arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions> : never
+  arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions0>,
+  arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions1> : never
 ) => ClassNamingReturn<
   ApplyClassName extends true ? false : WithClassName,
-  {[K in keyof Used | RequiredKeys<Actions>]: K extends keyof Used ? Used[K] : Bool<Actions[K]>},
+  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Bool<Actions0[K]>},
   Source
 >;
 
@@ -56,9 +57,21 @@ type ClassNamingReturn<WithClassName extends boolean, Used extends BoolDict, Sou
 >
 
 export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
+
 type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends ActionsOf<Source>>
 = Extract<Actions, AnyObject> & {
-  [K in keyof Actions]: K extends keyof Source ? K extends keyof Used ? never : Actions[K] : never
+  [K in keyof Actions]: K extends keyof Source
+  ? K extends keyof Used ? never
+  // : Actions[K]
+  : Actions[K] extends boolean
+    ? Actions[K]
+    : Actions[K] extends ClassHash
+      ? [Extract<Actions[K], string>] extends [never]
+        ? Actions[K]
+        : Extract<Actions[K], string> extends "" ? never
+        : Actions[K]
+      : never
+  : never
 }
 
 export type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
