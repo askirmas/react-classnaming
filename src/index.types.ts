@@ -47,7 +47,7 @@ export type ClassNamingCall<Source extends CssModule, Used extends BoolDict, Wit
   Source
 >;
 
-type ClassNamingReturn<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
+export type ClassNamingReturn<WithClassName extends boolean, Used extends BoolDict, Source extends CssModule>
 = ClassNaming<
   {[K in Exclude<keyof Source,
     RequiredKeys<Used> 

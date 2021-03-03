@@ -17,6 +17,7 @@ import type {
   ClassNaming,
   ClassNamingCall,
   ClassNamingThis,
+  ClassNamingReturn,
   ActionsOf
 } from "./index.types"
 
@@ -42,14 +43,15 @@ export { classNamesCheck } from "./check"
  */
 function classNaming<
   Ctx extends {classnames: Source, className?: string},
-  Source extends CssModule = Ctx["classnames"]
+  Source extends CssModule = Ctx["classnames"],
+  WithClassName extends boolean = Ctx["className"] extends string ? true : false
 >(
   context: Ctx = EMPTY_OBJECT as Ctx
-) {
+): ClassNamingReturn<WithClassName, {}, Source> {
   const {classnames, className = ""} = context
   classnames && emptize(classnames)
   
-  const host: ClassNamingCall<Source, {}, Ctx["className"] extends string ? true : false> = (arg0?, arg1?) => classes({
+  const host: ClassNamingCall<Source, {}, WithClassName> = (arg0?, arg1?) => classes({
     classnames,
     className,
     [stackedKey]: undefined
