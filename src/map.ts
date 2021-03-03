@@ -1,10 +1,10 @@
 import {
   ClassNamesProperty,
-  CssModule
+  CssModule,
+  ActionsOf
 } from "./defs";
 import type {
   ClassNamesMap,
-  ActionsOf,
 } from "./index.types";
 import {resolver} from "./core"
 

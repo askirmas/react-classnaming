@@ -1,6 +1,7 @@
 import type {
   CssModule,
   ClassHash,
+  ActionsOf,
 } from "./defs"
 import type { Falsy } from "./ts-swiss"
 import {
@@ -12,8 +13,7 @@ import { emptize } from "./utils"
 import { EMPTY_OBJECT } from "./consts"
 import type {
   ClassNamingFn,
-  ClassNaming,
-  ActionsOf
+  ClassNaming
 } from "./index.types"
 
 emptize(classes)

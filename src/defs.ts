@@ -81,6 +81,10 @@ export type CssModule = Record<string, ClassHash>
 //TODO Consider not empty object
 export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
 
+export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
+export type Act4Used<A extends Action> = A extends ClassHash ? true : A
+export type Action = ClassHash|boolean
+
 /// UTILITIES FOR REACT
 
 export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>

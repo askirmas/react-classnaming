@@ -3,6 +3,9 @@ import type {
   ClassNamed,
   ClassHash,
   ClassNamesProperty,
+  ActionsOf,
+  Action,
+  Act4Used
 } from "./defs"
 import {
   BoolDict,
@@ -35,6 +38,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
  * ```
  */
  <
+  // Change to `ActionsOf` breaks TS
   Actions0 extends {[K in keyof Source]?: Action},
   Actions1 extends {[K in keyof Source]?: Action},
   ApplyClassName extends WithClassName|false = false
@@ -43,7 +47,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   arg1?: ApplyClassName extends true ? Falsy | StrictSub<Used, Source, Actions1> : never
 ) => ClassNaming<
   ApplyClassName extends true ? false : WithClassName,
-  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Act2Used<Actions0[K]>},
+  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Act4Used<Actions0[K]>},
   Source
 >;
 
@@ -69,12 +73,6 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
       : never
   : never
 }
-
-export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-
-type Act2Used<A extends Action> = A extends ClassHash ? true : A
-
-type Action = ClassHash|boolean
 
 export type ClassNamesMap<Source extends CssModule> = (
 /** Function to map one `classnames` to another
