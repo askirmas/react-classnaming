@@ -68,7 +68,6 @@ export type ClassNamed = {
   className: string
 }
 
-
 /// iNTERNAL
 type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
 type WithClassNames = {classnames: CssModule}

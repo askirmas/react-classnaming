@@ -10,8 +10,7 @@ import {
 } from "./core"
 import { emptize } from "./utils"
 import {
-  EMPTY_OBJECT,
-  stackedKey
+  EMPTY_OBJECT
 } from "./consts"
 import type {
   ClassNamingWrap,
@@ -54,7 +53,7 @@ function classNaming<
   const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes({
     classnames,
     className,
-    [stackedKey]: undefined
+    stacked: undefined
   },
     arg0,
     arg1
@@ -72,7 +71,7 @@ function classes<
   {
     className,
     classnames,
-    [stackedKey]: preStacked,
+    stacked: preStacked,
   }: ClassNamingThis<Source>,
   arg0?: Falsy | true | Actions,
   arg1?: Falsy | Actions
@@ -87,7 +86,7 @@ function classes<
     {[K in Exclude<keyof Source, keyof Actions>]: ClassHash},
     {},
     boolean
-  > = (arg0?, arg1?) => classes({classnames, className, [stackedKey]: result},
+  > = (arg0?, arg1?) => classes({classnames, className, stacked: result},
     arg0,
     arg1
   )

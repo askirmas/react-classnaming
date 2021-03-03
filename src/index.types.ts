@@ -7,8 +7,6 @@ import type {
   AnyObject,
   Falsy
 } from "./defs"
-import type { stackedKey } from "./consts"
-
 
 //TODO #11 no `className` - no first `true`
 export type ClassNamingWrap<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> = ClassNamed & ClassNamingFn<Source, Used, WithClassName>
@@ -43,7 +41,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   arg1?: ApplyClassName extends true ? Falsy |StrictSub<Used, Source, Actions1> : never
 ) => ClassNaming<
   ApplyClassName extends true ? false : WithClassName,
-  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Bool<Actions0[K]>},
+  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Act2Used<Actions0[K]>},
   Source
 >;
 
@@ -62,7 +60,6 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
 = Extract<Actions, AnyObject> & {
   [K in keyof Actions]: K extends keyof Source
   ? K extends keyof Used ? never
-  // : Actions[K]
   : Actions[K] extends boolean
     ? Actions[K]
     : Actions[K] extends ClassHash
@@ -75,7 +72,7 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
 }
 
 export type ClassNamingThis<Source extends CssModule> = ClassNamingContext<Source> & {
-  [stackedKey]: string|undefined
+  stacked: string|undefined
 }
 
 type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
@@ -84,7 +81,7 @@ type ClassNamingContext<T extends CssModule> = Partial<ClassNamed & {
 
 type BoolDict = Record<string, boolean>
 
-type Bool<A extends Action> = A extends ClassHash ? true : A
+type Act2Used<A extends Action> = A extends ClassHash ? true : A
 
 type Action = ClassHash|boolean
 
