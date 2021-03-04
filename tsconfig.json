@@ -47,11 +47,11 @@
     "jsx": "react"
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "__recipes__"
   ],
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "global.d.ts"
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }
