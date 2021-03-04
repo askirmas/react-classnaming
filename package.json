@@ -1,0 +1,73 @@
+{
+  "name": "react-classnaming",
+  "version": "0.12.0",
+  "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
+  "main": "dist",
+  "scripts": {
+    "dev": "npm run jest -- --watch --collectCoverageFrom=[] --onlyFailures",
+    "test": "npm run jest --",
+    "pretest": "jest --clearCache",
+    "build": "npm run compile",
+    "prebuild": "npm run test",
+    "postbuild": "npm run spec",
+    "release": "np",
+    "prerelease": "npm run build",
+    "postrelease": "npm update",
+    "spec": "cd __recipes__ && npm run test",
+    "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
+    "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
+    "jest": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/askirmas/react-classnaming.git"
+  },
+  "keywords": [
+    "React",
+    "CSS class",
+    "CSS modules",
+    "typescript",
+    "className",
+    "class",
+    "classNames",
+    "classNaming",
+    "css",
+    "modules",
+    "css-modules"
+  ],
+  "author": "Andrii Kirmas <kirmas@phystech.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/askirmas/react-classnaming/issues#bugs"
+  },
+  "homepage": "https://github.com/askirmas/react-classnaming#readme",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@types/react": ">=15"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.11",
+    "@types/node": "^14.14.25",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.1",
+    "classnames": "^2.2.6",
+    "git-hooks-wrapper": "^0.7.1",
+    "jest": "^26.6.3",
+    "np": "^7.3.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "ts-jest": "^26.5.0",
+    "typescript": "^4.2.2"
+  },
+  "np": {
+    "yarn": false
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "dist"
+  ]
+}
