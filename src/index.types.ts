@@ -2,7 +2,6 @@ import type {
   CssModule,
   ClassNamed,
   ClassHash,
-  ClassNamesProperty,
   ActionsOf,
   Action,
   Act4Used
@@ -74,22 +73,27 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
   : never
 }
 
-export type ClassNamesMap<Source extends CssModule> = (
-/** Function to map one `classnames` to another
+export type ClassNamesMapping<Source extends CssModule> = (
+/** Function to map `classnames` to certain properties of target Component
  * @example 
  * ```tsx
- *  <Component {...mapping<ComponentProps>({
- *    Container: { Root, "Theme--dark": true },
- *    Checked___true: { "Item--active": true },
+ *  <ThirdPartyComponent {...mapping<ComponentProps>({
+ *    ContainerClassName: {Root, "Theme--dark": true},
+ *    Checked___true: {"Item--active": true},
  *    Checked___false: {}
  *  })}/>
  *```
   */
   <
-    Target extends ClassNamesProperty<TargetClasses>,
-    TargetClasses extends CssModule = CssModule
-  >(map: {
-    [T in keyof Target["classnames"]]:
-      ActionsOf<Source>
-  }) => {classnames: {[T in keyof Target["classnames"]]: string}}
+    Target extends AnyObject = CssModule,
+    Map extends ClassNamesMap<Target, Source> = ClassNamesMap<Target, Source>
+  >(map: Map
+  ) => {[T in keyof Map]: string}
 );
+
+export type ClassNamesMap<Target extends AnyObject, Source extends CssModule>
+= {[K in
+  {[T in keyof Target]: string extends Target[T] ? T : never}[keyof Target]
+]?:
+  {[S in keyof Source]?: Action}
+}

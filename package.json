@@ -53,6 +53,8 @@
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.1",
+    "@types/reactstrap": "^8.7.2",
+    "ag-grid-community": "^25.1.0",
     "classnames": "^2.2.6",
     "git-hooks-wrapper": "^0.7.1",
     "jest": "^26.6.3",

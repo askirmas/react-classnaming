@@ -1,86 +1,23 @@
-import { ClassHash, ClassNamesProperty } from "./defs"
-import classNamesMap from "./map"
+import type { TooltipProps } from 'reactstrap';
+import { AnyObject } from "./ts-swiss";
+import classNamesMap from "./map";
 
-type Layout = ClassNamesProperty<{
-  Header: ClassHash
-  Body: ClassHash
-  Footer: ClassHash
-}>
-
-const css_module = {
-  "App__Header": "header_hash",
-  "App__Body": "body_hash",
-  "App---dark": undefined
+const module_css = {
+  class1: "hash1",
+  class2: "hash2"
 }
-, {
-  App__Body, 
-  App__Header,
-} = css_module
+const mapping = classNamesMap(module_css)
 
+describe("ClassNamesMap", () => {
 
-describe("contexted", () => {
-  const mapping = classNamesMap(css_module)
-
-  it("demo", () => expect(mapping<Layout>({
-    Body: {App__Body, "App---dark": true},
-    Header: {App__Header},
-    Footer: {}
-  })).toStrictEqual({
-    classnames: {
-      Body: "body_hash App---dark",
-      Header: "header_hash",
-      Footer: ""
-    }
-  }))
-
-  describe("#ts-error", () => {
-    it("forgot Footer", () => expect(mapping<Layout>(
-      //@ts-expect-error
-      {
-        Body: {App__Body, "App---dark": true},
-        Header: {App__Header},
-      }
-    )).toStrictEqual({
-      classnames: {
-        Body: "body_hash App---dark",
-        Header: "header_hash"
-      }
-    }))
-  
-    it("redundant", () => expect(mapping<Layout>({
-      Body: {App__Body, "App---dark": true},
-      Header: {App__Header},
-      Footer: {},
-      //@ts-expect-error
-      "redundant": {}
+  it("reactstrap tooltip", () => {
+    type WithoutAny<T extends AnyObject> = {[K in keyof T]?: any extends T[K] ? never : T[K]}
+    type TooltipDefinedProps = WithoutAny<TooltipProps>
+    expect(mapping<TooltipDefinedProps>({
+      //TODO ts-expect-error #23
+      "isOpen": true
     })).toStrictEqual({
-      classnames: {
-        Body: "body_hash App---dark",
-        Header: "header_hash",
-        Footer: "",
-        redundant: ""
-      }
-    }))
-  
-    it("unknown @ source", () => expect(mapping<Layout>({
-      Body: {App__Body, "App---dark": true},
-      Header: {App__Header},
-      Footer: {
-        //@ts-expect-error
-        unknown: true
-      },
-    })).toStrictEqual({
-      classnames: {
-        Body: "body_hash App---dark",
-        Header: "header_hash",
-        Footer: "unknown"
-      }
-    }))
+      "isOpen": ""
+    })
   })
 })
-
-it("free form", () => expect(classNamesMap({} as Record<string, ClassHash>)({
-  "ever what": {"whatever": true}
-})).toStrictEqual({
-  "classnames": {"ever what": "whatever"}
-}))
