@@ -1,29 +1,17 @@
-# react-classnaming
+# [react-classnaming](github.com/askirmas/react-classnaming)
 
 [TypeScript](https://www.typescriptlang.org/)-driven CSS classes handler for developer experience. Easily applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes by powerful TypeScript notation
 
 ![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
 
-![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main)
-![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming)
-[![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues)
-[![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/)
-[![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming)
-[![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming)
-![license](https://img.shields.io/npm/l/react-classnaming)
+![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues) [![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/)
+[![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming) [![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
 [TOC]
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="react" style="height: 64px" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" style="height: 64px" />     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" style="height:64px;" />
 
-## Key valued features
 
-- Declarative style programming
-- Returning *stringable* object
-- Reusability by pipe calls
-- Single interface
-- Class names control by type check of keys
-- Playing together with IDE renames
-- With and without CSS modules
 
 ## Installation
 
@@ -32,20 +20,145 @@ npm install --save react-classnaming
 ```
 
 ## Basic usage
-```tsx
-import { Cell } from "./some.css"
+
+
+- `classNaming` outputs functional object *bounded* to *context* as first (optional) argument
+
+```typescript
 import classNaming from "react-classnaming"
 
-function Component() {
-  const classes = classNaming()
-  , Column_1 = classes({Cell, Column_1: true})
-  , Cell_1_1 = Column_1({
-    Row_1: true,
-    //@ts-expect-error
-    //Column_1: true
-  })
+classNaming() // Any css-class may be setted further
+classNaming({classnames: require("./some.css")}) // Allows only classes declared in that CSS
+classNaming({classnames: css_module_data, className: props.className}) // 
+```
 
-  return <div {...Cell_1_1} data-class={`${Cell_1_1}`}/>
+- Argument of returned function is a dictionary of CSS-classes as keys and `boolean` (condition) or `string|undefined` (hash from css-module or import without pre-process) as values OR `true` if `className` was supplied . `classNaming`-return can be destructed in React props `{...X}`, stringified `` `${X}` ``, or called further `X({...})` with a new payload argument to append to previous.
+
+```typescript
+const cssClasses = classNaming()
+const btnClass = cssClasses({ "btn": true, "icon": false }) // {className: "btn"}
+
+{...btnClass} // {className: "btn"}
+btnClass.className // "btn"
+`${btnClass}` // "btn"
+`${btnClass()}` // "btn"
+
+const btnDisabled = btnClass({ "btn-disabled": true, "btn-enabled": false })
+btnDisabled.className // "btn btn-disabled"
+
+//@ts-expect-error - TS tracks that in chain there's only 1 place for class to be conditionally included 
+btnDisabled({ "btn-disabled": true})} // {className: "btn btn-disabled btn-disabled"}
+//@ts-expect-error - For same reason
+btnDisabled({ "btn-enabled": true})} // {className: "btn btn-disabled btn-enabled"}
+```
+
+- Let's refactor an ordinary react component. It 3 buttons *Close+Reset+Submit*
+
+```tsx
+export function FormButtons({isValid}: {isValid: boolean}) {
+  return <>
+    <button className="btn">Close</button>
+    <button type="reset" className: "btn">Reset</button> 
+    <button type="submit" className={
+      ["btn", isValid || "btn--disabled"]
+      .filter(Boolean)
+      .join(" ")
+		}>Submit</button> 
+  </>
+}
+```
+
+- ClassName string `"btn"` is used several times so it is a good idea to reuse it
+
+```tsx
+import classNaming from "react-classnaming"
+
+export function FormButtons({isValid}: {isValid: boolean}) {
+  const cssClasses = classNaming()
+  const btnClass = cssClasses({ "btn": true })
+
+  return <>
+    <button className={
+      `${btnClass}` // "btn"
+    }>Close</button>
+    <button type="reset" {
+      ...btnClass // {className: "btn"}
+    }>Reset</button> 
+    <button type="submit" {
+      ...btnClass({ "btn--disabled": !isValid }) // {className: "btn btn--disabled"} - assuming isValid = false
+    }>Submit</button> 
+  </>
+}
+```
+
+## Extending to more complex
+
+- If some CSS classes are not conditional but static – you can declare them as `const`-s with `undefined` value 
+
+```diff
+import classNaming from "react-classnaming"
++ import type { CssModule } from "react-classnaming"
++ const { btn } = {} as CssModule
+...
+- const btnClass = cssClasses({ "btn": true, "icon": false })
++ const btnClass = cssClasses({ btn })
+```
+
+- If you want to re-use some CSS classes across tsx-components, but don't ready to switch completely to CSS modules – you just need to write `some.css.d.ts` declaration file (or use [postcss-plugin-d-ts](https://www.npmjs.com/package/postcss-plugin-d-ts)). For example:
+
+```typescript
+// some.css.d.ts
+declare const css: {
+  btn: undefined|string
+}
+export default css
+```
+
+Then, import it as `default` and/or destructed items
+
+```diff
+- import type { CssModule } from "react-classnaming"
+- const { btn } = {} as CssModule
++ import { btn } from "./some.css"
+// or
++ import styles from "./some.css"
++ const { btn } = styles
+```
+
+- To sum up all previous and with submit's icon as addition
+
+```tsx
+import React from "react"
+import classNaming from "react-classnaming"
+import type { CssModule } from "react-classnaming"
+
+// Assuming .icon and .btn--disabled are local css-classes and will be hashed to "hash-i" and "hash-b-d" accordingly
+import styles, { btn } from "./some.css"
+
+const { ripple } = {} as CssModule
+
+// Assuming `props = {className: "form-button", isValid: false}`
+const FormButtons = ({className, isValid}: {className: string, isValid: boolean}) => {
+  const injectedClasses = classNaming()
+  
+  const cssClasses = classNaming({className, classnames: styles})
+  const btnClass = cssClasses({ btn })
+  
+						  // {className: "ripple"}
+  return <div {...injectedClasses({ ripple })} >
+    <button className={
+      `${btnClass}` // "btn"
+    }>Close</button>
+    <button type="reset" {
+      ...btnClass(true) // {className: "form-button btn"}
+    }>Reset</button> 
+    <button type="submit" {
+      ...btnClass(true, { "btn--disabled": !isValid, "btn--enabled": isValid }) // {className: "form-button btn hash-b-d"}
+    }>
+      <i {...cssClasses({icon: true}) /**{className: "hash-i"}*/}>✓</i>
+      Submit
+    </button> 
+  </>
 }
 ```
 
@@ -55,54 +168,63 @@ Check the tests with detailed usage: [src/direct.spec.tsx](./src/direct.spec.tsx
 
 With create-react-application: [./\_\_recipes\_\_/create-react-app/src/App.tsx](./__recipes__/create-react-app/src/App.tsx) 
 
+## Key valued features
+
+- Contract-based development - TS errors on undeclared classes and duplicated assignment
+- Declarative style programming - With and without CSS modules
+- Main instrument is callable-stringable function-object
 
 ## Reference
 
 ### type `ClassNamed`
-Useful to not set each time `className: string`. 
+Shortcut  for `{className: string}`. 
 
 ### type `ClassHash`
-For serving ordinary and modules CSS. Module will bring to TS `Record<string, string>` while global CSS just empty object `{}`. Thus, `type ClassHash = string | undefined`
+For serving ordinary and modules CSS. Css-module will be imported as `{[cssClasses: string]: string}`, while pure `require` returns just empty object `{}`. Their common notation is `{[cssClasses: string]: string | undefined} `, thus `type ClassHash = string | undefined`
 
 ### function [`classNaming`](https://github.com/askirmas/react-classnaming/projects/1)
 
-Sets *context* for type checks, and then...
+Sets *context* for further type checks in supplying and toggling.
 
 ```typescript
-  const classes = classNaming(this.props)
-  const classes = classNaming({classnames: require("./some.css"), className?})
-  const classes = classNaming<Props>()
-  const classes = classNaming<MyClassNames>()
+classNaming()
+classNaming<MyProps>()
+classNaming<MyClassNames>()
+classNaming({classnames: require("./some.css")})
+classNaming({classnames: module_css, className})
+classNaming(this.props)
 ```
----
-```typescript
-  classes();
-  classes(true);
-  classes({App}); classes({App: true, "App--bad": false});
+Returns pipe-able callback, that also can be destructed as `ClassNamed` or stringified
 
-  const btn = classes({Btn})
-  , disabledBtn = btn(true, {Btn__disabled: true});
-```
----
 ```tsx
-  <div {...classes(...)} />
-  <div data-block={`${classes(...)}`} />
+const cssClasses = classNaming(...)
+return                               
+  <div {...cssClasses(...)} />
+  <div data-block={`${cssClasses(...)}`} />
   <Component {...{
-    ...classes(...)(...)(...)},
-    ...classnames
+    ...cssClasses(...)(...)(...)}
   }/>
 ```
 
-### type [`ClassNames`](https://github.com/askirmas/react-classnaming/projects/2)
-
-Collects/gathers required `classnames` from used sub-Components
+On TS-level checks that Component's propagated `className` and certain CSS-class are conditioned once
 
 ```typescript
-type Props = ClassNames<true> // {className: string}
-type Props = ClassNames<Props> // {classnames: Props["classnames"]}
-type Props = ClassNames<typeof Component>
-type Props = ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
+const conditionForClass1: boolean = false
+const containerClass = classes(true, {class1: conditionForClass1})
+
+const withClass1Twice = containerClass({
+  class2: true,
+  //@ts-expect-error – TS tracks that in chain there's only 1 place for class to be conditionally included 
+  class1: otherCondiition
+})
+
+const withClassNameTwice = containerClass(
+  //@ts-expect-error - Same for `className` - it is already added
+  true
+)
 ```
+
+On `const` hovering will be tooltip with already conditioned classes under this chain
 
 ### type [`ClassNamesProperty`](https://github.com/askirmas/react-classnaming/projects/3)
 
@@ -113,23 +235,67 @@ Declaration of self Component's `classnames`
     class1: ClassHash
     class2: ClassHash
   }>
+```
+Can be restricted to use classes only from CSS module. *Note* Currently no IDE's tooltip for hints
 
+```typescript
   type MyProps = ClassNamesProperty<
     typeof some_module_css,
-    {class1: ClassHash, class2: ClassHash}
+    //@ts-expect-error
+    {class1: ClassHash, class2: ClassHash, unknownClass: ClassHash}
   >
+```
+
+### type [`ClassNames`](https://github.com/askirmas/react-classnaming/projects/2)
+
+Collects/gathers required `classnames` from used sub-Components
+
+```typescript
+type MyProps = ClassNames<true> // === ClassNamed === {className: string}
+type MyProps = ClassNames<Props> // {classnames: Props["classnames"]}
+type MyProps = ClassNames<typeof Component>
+type MyProps = ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
+```
+
+```tsx
+type Props = ClassNames<
+  true,
+  Sub1Props,
+  typeof Sub2
+>
+  
+function Component({className, classnames, "classnames": {Sub1Class}}: Props) {
+  const classes = classNaming({classnames, className})
+  
+  return <div>
+    <Sub1 {...classes(true, {Sub1Class})} classnames={classnames}/>
+    <Sub2 {...{
+        classes({Sub2Class: true}),
+				classnames
+    }}/>
+  </div>
+}
 ```
 
 ### function [`classNamesCheck`](https://github.com/askirmas/react-classnaming/projects/4) 
 
-... #16
+*//TODO #16*
+
+TS will check on root level that no CSS class is lost, and, in addition, you can check that you haven't redundant
+
+```tsx
+import css from "./page.scss"
+import App from "./App.tsx"
+
+ReactDOM.render(<App classnames={classNamesCheck(css)} />
+```
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 
 Function to map one `classnames` to another
 
 ```tsx
-  <Component {...mapping<ComponentProps>({
+  <ThirdPartyComponent {...mapping<ComponentProps>({
     Container: { Root, "Theme--dark": true },
     Checked___true: { "Item--active": true },
     Checked___false: {}
