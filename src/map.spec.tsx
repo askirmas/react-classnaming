@@ -2,7 +2,7 @@ import React from "react"
 import classNaming from ".";
 import expectRender from "../expect-to-same-render";
 import { ClassHash, ClassNamesProperty } from "./defs";
-import classNamesMap from "./map";
+import {classNamesMap} from ".";
 
 
 type ComponentProps = {checked: boolean} & ClassNamesProperty<{

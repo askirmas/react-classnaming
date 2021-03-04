@@ -14,11 +14,6 @@
 
 [TOC]
 
-## Installation
-
-```bash
-npm install --save react-classnaming
-```
 
 ## Key valued features
 
@@ -30,89 +25,129 @@ npm install --save react-classnaming
 - Playing together with IDE renames
 - With and without CSS modules
 
-## Examples of usage
+## Installation
+
+```bash
+npm install --save react-classnaming
+```
+
+## Basic usage
+```tsx
+import { Cell } from "./some.css"
+import classNaming from "react-classnaming"
+
+function Component() {
+  const classes = classNaming()
+  , Column_1 = classes({Cell, Column_1: true})
+  , Cell_1_1 = Column_1({
+    Row_1: true,
+    //@ts-expect-error
+    //Column_1: true
+  })
+
+  return <div {...Cell_1_1} data-class={`${Cell_1_1}`}/>
+}
+```
+
+## Examples @ specs
 
 Check the tests with detailed usage: [src/direct.spec.tsx](./src/direct.spec.tsx) and [src/toggling.spec.tsx](./src/toggling.spec.tsx)
 
 With create-react-application: [./\_\_recipes\_\_/create-react-app/src/App.tsx](./__recipes__/create-react-app/src/App.tsx) 
 
-### Direct (via property destruct)
 
-```tsx
-import classNaming from "react-classnaming"
+## Reference
 
-const {
-  className, // "class1"
-  "classnames": {
-    class2, // "hash2"
-    class3, // undefined
-	}
-} = props
+### type `ClassNamed`
+Useful to not set each time `className: string`. 
 
-<div {...classNaming(className, {class2, class3})} />; // className="class1 hash2 class3"
-<div className={`${classNaming({class2, class3})}`} />; // className="hash2 class3"
-```
+### type `ClassHash`
+For serving ordinary and modules CSS. Module will bring to TS `Record<string, string>` while global CSS just empty object `{}`. Thus, `type ClassHash = string | undefined`
 
-### Toggling
+### function [`classNaming`](https://github.com/askirmas/react-classnaming/projects/1)
 
-```tsx
-import classNaming from "react-classnaming"
-import css from "./some.css" // {"class1": "hash1"}
-
-const classes = classNaming({className: "App", classnames: css})
-
-<div {...classes(true, {class1: true, class2: false})} />; // "App hash1"
-<div {...classes({class2: true})} />; // "class2"
-```
-
-### Chaining
-
-```tsx
-import classNaming from "react-classnaming"
-
-const {
-  className, // "Cell"
-  "classnames": {
-    Column_1, Column_2,
-    Row_1, Row_2
-}} = props
-, c = classNaming(className)
-, col1 = c({Column_1})
-, col2 = c({Column_2})
-
-<div {...col1({ Row_1 })} />; // "Cell Column_1 Row_1"
-<div {...col1({ Row_2 })} />; // "Cell Column_1 Row_2"
-<div {...col2({ Row_1 })} />; // "Cell Column_2 Row_1"
-<div {...col2({ Row_2 })} />; // "Cell Column_2 Row_2"
-<div {...classNaming({ Column_1 })({ Column_2 })({ Row_1 })({ Row_2 })} /> // "Column_1 Column_2 Row_1 Row_2"
-```
-
-### Mixed usage
-
-//TODO Add practical example
-
-### TS generic for gathering 
+Sets *context* for type checks, and then...
 
 ```typescript
-import type { ClassNames, ClassNamed } from "react-classnaming"
+  const classes = classNaming(this.props)
+  const classes = classNaming({classnames: require("./some.css"), className?})
+  const classes = classNaming<Props>()
+  const classes = classNaming<MyClassNames>()
+```
+---
+```typescript
+  classes();
+  classes(true);
+  classes({App}); classes({App: true, "App--bad": false});
 
-ClassNames<true> === ClassNamed // requires `className`
-
-ClassNames<Props1, Props2> // requires to supply `classnames` for `Props1` and `Props2` 
-
-ClassNames<true, Props, typeof Component, typeof FunctionalComponent> //requires `className` and to supply `classnames` from `Props`, class component `Component` and function component `FunctionalComponent`
+  const btn = classes({Btn})
+  , disabledBtn = btn(true, {Btn__disabled: true});
+```
+---
+```tsx
+  <div {...classes(...)} />
+  <div data-block={`${classes(...)}`} />
+  <Component {...{
+    ...classes(...)(...)(...)},
+    ...classnames
+  }/>
 ```
 
-###  TS generic for `props` declaration
+### type [`ClassNames`](https://github.com/askirmas/react-classnaming/projects/2)
+
+Collects/gathers required `classnames` from used sub-Components
 
 ```typescript
-import type { ClassNamesProperty, ClassHash } from "react-classnaming"
-
-type Props = ClassNamesProperty<{
-  class1: ClassHash
-  class2: ClassHash
-}>
+type Props = ClassNames<true> // {className: string}
+type Props = ClassNames<Props> // {classnames: Props["classnames"]}
+type Props = ClassNames<typeof Component>
+type Props = ClassNames<true, Props, typeof ClassComponent, typeof FunctionalComponent>
 ```
+
+### type [`ClassNamesProperty`](https://github.com/askirmas/react-classnaming/projects/3)
+
+Declaration of self Component's `classnames`
+
+```typescript
+  type MyClasses = ClassNamesProperty<{
+    class1: ClassHash
+    class2: ClassHash
+  }>
+
+  type MyProps = ClassNamesProperty<
+    typeof some_module_css,
+    {class1: ClassHash, class2: ClassHash}
+  >
+```
+
+### function [`classNamesCheck`](https://github.com/askirmas/react-classnaming/projects/4) 
+
+... #16
+
+### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
+
+Function to map one `classnames` to another
+
+```tsx
+  <Component {...mapping<ComponentProps>({
+    Container: { Root, "Theme--dark": true },
+    Checked___true: { "Item--active": true },
+    Checked___false: {}
+  })}/>
+```
+
+## Getting Started //TODO
+
+- Component usage: `classNames`
+
+- Component declaration: `ClassNamesProperty`, `ClassHash`
+
+- Collecting: `ClassNames`
+
+- Root supply: `classNamesCheck`
+
+- With `*.css.d.ts`
+
 
 ### Root apply
 
@@ -132,15 +167,8 @@ ReactDOM.render( <Root classnames={classNamesCheck<typeof Root, typeof css>(css)
 ### Declarative style programming
 
 ```tsx
-import classNaming from "react-classnaming"
-const {
-  "classnames": {App, App__Item}
-} = props
-<div {...classNaming({App, App__Item})} />
-```
-
-```tsx
 import type {ClassNamesProperty, ClassHash} from "react-classnaming"
+
 type ComponentClassNames = ClassNamesProperty<{
   App: ClassHash
   App__Item: ClassHash
@@ -149,6 +177,7 @@ type ComponentClassNames = ClassNamesProperty<{
 
 ```tsx
 import type {ClassNames} from "react-classnaming"
+
 type AppProps = {
   isMyAppGreat: boolean
 } & ClassNames<
@@ -179,14 +208,6 @@ const c = classNaming(className) // className: "Cell"
 <div {...Col2({ Row_2 })} />; // className="Cell Column_2 Row_2"
 ```
 
-### Single interface
-
-```typescript
-classNaming({classnames, className}) // Start with context
-classNaming({App, App__Item}) // Destructed
-classNaming({App: true, App__Item: false}) // Toggling
-```
-
 ### Class names control by type check of keys
 
 *//TODO add example*
@@ -205,13 +226,15 @@ import module_css from "./module_css" // module_css === {"class1": "hash1", ...}
 <App classnames={module} />;
 ```
 
-## Versus [`classnames`](https://github.com/JedWatson/classnames#readme) package
+## Misc 
+
+### Versus [`classnames`](https://github.com/JedWatson/classnames#readme) package
 
 See [src/versus-classnames.test.ts](./src/versus-classnames.test.ts)
 
 //TODO Copy here the most significant TS errors
 
-### No css-modules, just simulation
+#### No css-modules, just simulation
 
 ```tsx
 import classnames from "classnames"
@@ -237,7 +260,7 @@ const {class2} = props.classnames
 <div id={`${classNaming({class1, class2})}`} />
 ```
 
-### CSS module
+#### CSS module
 
 ```tsx
 import module_css from "./some.module.css" // {"class1": "hash1", "class2": "hash2"}
@@ -254,15 +277,3 @@ const clases = classNaming({classnames: module_css})
 //@ts-expect-error Argument of type '"class3"' is not assignable to parameter
 <div {...clases({class1: true, class3: true})} />
 ```
-
-## Getting Started
-
-### Component usage: `classNames`
-
-### Component declaration: `ClassNamesProperty`, `ClassHash`
-
-### Collecting: `ClassNames`
-
-### Root supply: `classNamesCheck`
-
-### With `*.css.d.ts`

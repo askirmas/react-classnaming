@@ -12,6 +12,9 @@ import {resolver} from "./core"
 const {keys: $keys} = Object
 
 export default classNamesMap
+export {
+  classNamesMap
+}
 
 /**
  * Set up mapping classnames function
