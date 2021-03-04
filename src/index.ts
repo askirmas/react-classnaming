@@ -22,7 +22,8 @@ export type {
   ClassNames,
   ClassHash,
   ClassNamesProperty,
-  ClassNamed
+  ClassNamed,
+  CssModule
 } from "./defs"
 export default classNaming
 export { classNaming }
