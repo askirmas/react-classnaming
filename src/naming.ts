@@ -18,17 +18,8 @@ import type {
 
 emptize(classes)
 
-export type {
-  ClassNames,
-  ClassHash,
-  ClassNamesProperty,
-  ClassNamed,
-  CssModule //TODO Delete after #16
-} from "./defs"
 export default classNaming
 export { classNaming }
-export { classNamesCheck } from "./check"
-export { classNamesMap } from "./map"
 
 /** Set context
  * @example

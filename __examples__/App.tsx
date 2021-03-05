@@ -1,6 +1,6 @@
 import React from "react"
-import classNaming, {classNamesMap} from "../src/naming"
-import type { ClassNames, ClassNamesProperty, ClassHash, ClassNamed} from "../src/naming"
+import classNaming, {classNamesMap} from "../src"
+import type { ClassNames, ClassNamesProperty, ClassHash, ClassNamed} from "../src"
 
 import MyComponent from "./MyComponent"
 import ThirdParty, { ThirdPartyProps } from "./node_modules-third_party_component"

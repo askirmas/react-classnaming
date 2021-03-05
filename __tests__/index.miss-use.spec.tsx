@@ -1,5 +1,5 @@
 import React from "react"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "../src/naming"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "../src"
 import classNaming from "../src/naming"
 import expectRender from "../expect-to-same-render"
 

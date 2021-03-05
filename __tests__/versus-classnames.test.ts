@@ -1,5 +1,5 @@
-import type {ClassNames} from "../src/naming"
-import classNaming from "../src/naming"
+import type {ClassNames} from "../src"
+import classNaming from "../src"
 
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
