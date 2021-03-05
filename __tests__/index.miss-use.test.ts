@@ -1,4 +1,4 @@
-import classNaming from "../src"
+import classNaming from "../src/naming"
 import { CssModule } from "../src/defs"
 
 const global_css: CssModule = {}

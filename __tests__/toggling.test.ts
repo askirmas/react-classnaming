@@ -1,4 +1,4 @@
-import classNaming from "../src";
+import classNaming from "../src/naming";
 
 const classnames = {
   "class3": "hash3",
