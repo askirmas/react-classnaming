@@ -1,5 +1,5 @@
 import type { TooltipProps } from 'reactstrap';
-import { AnyObject } from "./ts-swiss";
+import type { GridOptions } from "ag-grid-community";
 import classNamesMap from "./map";
 
 const module_css = {
@@ -8,16 +8,21 @@ const module_css = {
 }
 const mapping = classNamesMap(module_css)
 
-describe("ClassNamesMap", () => {
-
-  it("reactstrap tooltip", () => {
-    type WithoutAny<T extends AnyObject> = {[K in keyof T]?: any extends T[K] ? never : T[K]}
-    type TooltipDefinedProps = WithoutAny<TooltipProps>
-    expect(mapping<TooltipDefinedProps>({
-      //TODO ts-expect-error #23
-      "isOpen": true
-    })).toStrictEqual({
-      "isOpen": ""
-    })
+it("reactstrap tooltip", () => {
+  expect(mapping<TooltipProps>({
+    popperClassName: {class1: true, class2: true},
+    //@ts-expect-error Object literal may only specify known properties, and 'isOpen' does not exist
+    isOpen: {class1: true}
+  })).toStrictEqual({
+    "popperClassName": "hash1 hash2",
+    "isOpen": "hash1"
   })
 })
+
+it("AgGrid", () => expect(
+  mapping<GridOptions>({
+    rowClass: {class2: true},
+  })
+).toStrictEqual({
+  rowClass: "hash2"
+}))  

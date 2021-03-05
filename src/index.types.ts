@@ -11,7 +11,8 @@ import {
   RequiredKeys,
   AnyObject,
   Falsy,
-  Ever
+  Ever,
+  OmitIndexed
 } from "./ts-swiss";
 
 // Making as interface breaks stuff
@@ -86,9 +87,9 @@ export type ClassNamesMapping<Source extends CssModule> = (
   */
   <
     Target extends AnyObject = CssModule,
-    Map extends ClassNamesMap<Target, Source> = ClassNamesMap<Target, Source>
+    Map extends ClassNamesMap<OmitIndexed<Target>, Source> = ClassNamesMap<OmitIndexed<Target>, Source>
   >(map: Map
-  ) => {[T in keyof Map]: string}
+  ) => {[K in keyof Map]: string}
 );
 
 export type ClassNamesMap<Target extends AnyObject, Source extends CssModule>
