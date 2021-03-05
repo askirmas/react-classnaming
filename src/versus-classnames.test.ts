@@ -1,5 +1,5 @@
 import type {ClassNames} from "."
-import classNaming, { classNamesCheck } from "."
+import classNaming from "."
 
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
@@ -15,9 +15,8 @@ const module_css: typeof module = {
 
 it("usage interface", () => {
   const { class1,
-    //@ts-expect-error Property 'class3' does not exist
     whatever
-  } = classNamesCheck<ClassNamesProperty<{class1: ClassHash; class2: ClassHash}>>(css)
+  } = css
   
   const props: ClassNames<ClassNamesProperty<{class2: ClassHash}>> = {
     //@ts-expect-error

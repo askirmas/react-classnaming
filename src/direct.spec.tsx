@@ -83,7 +83,7 @@ it("additional type check after rename", () => {
   const { class1,
     //@ts-expect-error Property 'class2' does not exist 
     class2
-  } = classNamesCheck<Props1 & Props2>();
+  } = {} as (Props1 & Props2)["classnames"]
 
   expectRender(
     <div {...classNaming<Props1>()({class1})} />,
