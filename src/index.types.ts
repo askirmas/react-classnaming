@@ -6,6 +6,7 @@ import type {
   Action,
   Act4Used
 } from "./defs"
+import { GetProps } from "./react-swiss";
 import {
   BoolDict,
   RequiredKeys,
@@ -87,7 +88,7 @@ export type ClassNamesMapping<Source extends CssModule> = (
   */
   <
     Target extends AnyObject = CssModule,
-    Map extends ClassNamesMap<OmitIndexed<Target>, Source> = ClassNamesMap<OmitIndexed<Target>, Source>
+    Map extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source> = ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
   >(map: Map
   ) => {[K in keyof Map]: string}
 );

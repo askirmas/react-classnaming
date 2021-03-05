@@ -7,7 +7,6 @@ import type {
 import {resolver} from "./core"
 import { AnyObject } from "./ts-swiss";
 
-
 const {keys: $keys} = Object
 
 export default classNamesMap
