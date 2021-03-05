@@ -26,3 +26,28 @@ it("AgGrid", () => expect(
 ).toStrictEqual({
   rowClass: "hash2"
 }))  
+
+describe("type checks", () => {
+  it("persist required/optional", () => {
+    const mapped = mapping<typeof module_css>(
+      //TODO #25 @ts-expect-error
+      {}
+    )
+    expect(mapped).toStrictEqual({})
+  })
+  it("output types", () => {
+    const mapped = mapping<typeof module_css>({
+      class1: {class2: true},
+    })
+    , check: Record<string, typeof mapped> = {
+      //TODO #25 @ts-expect-error
+      "empty": {},
+      //TODO #25 @ts-expect-error
+      "redundant": {
+        class1: "hash2",
+        class2: "hash1",
+      }
+    }
+    expect(check).toBeInstanceOf(Object)
+  })
+})
