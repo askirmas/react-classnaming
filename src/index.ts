@@ -23,7 +23,7 @@ export type {
   ClassHash,
   ClassNamesProperty,
   ClassNamed,
-  CssModule
+  CssModule //TODO Delete after #16
 } from "./defs"
 export default classNaming
 export { classNaming }
