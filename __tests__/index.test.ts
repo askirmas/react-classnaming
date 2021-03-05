@@ -1,4 +1,4 @@
-import classNaming from "."
+import classNaming from "../src"
 const module_css = {
   class1: "hash1",
   class2: "hash2"

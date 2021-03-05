@@ -1,23 +1,16 @@
-import { ClassHash } from "../../defs"
+import { ClassHash } from "../../src/defs"
 
-export {}
-
-type tExcluder<
-  Source extends Record<string, ClassHash>,
-  Left extends Record<string, ClassHash> = Source,
-  Used extends Record<string, ClassHash> = Record<never, ClassHash>,
+type tExcluder2<
+  S extends Record<string, ClassHash>,
+  U extends {[K in keyof S]?: ClassHash}
 >
 = (
-  <
-    // E extends 
-    E extends {[K in keyof Left]?: K extends keyof Used ? never : ClassHash}
-  >(exclude: E) =>
+  <E extends {[K in Exclude<keyof S, U>]?: ClassHash}>(exclude: E) =>
   //  keyof E extends keyof S ?
-   { [K in Exclude<keyof Left, keyof E>]: ClassHash; }
-    & tExcluder<
-      Source,
-      { [P in Exclude<keyof Left, keyof E>]: P extends keyof Used ? never : ClassHash; },
-      { [P in keyof Used | keyof E]: ClassHash; }
+   { [P in Exclude<keyof S, keyof E | U>]: ClassHash; }
+    & tExcluder2<
+      S,
+      {[K in keyof E | keyof U]: ClassHash}
     >
   // : {[P in Exclude<keyof E, keyof S>]: never;}
 );
@@ -47,11 +40,7 @@ function exclusion<
     host[key]
     = filtered[key]
 
-  return host as tExcluder<
-    S,
-    {[P in Exclude<keyof S, keyof E>]: ClassHash;},
-    E
-  >
+  return host as tExcluder2<S, {[K in keyof E]: ClassHash}>
 }
 
 const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
@@ -80,6 +69,7 @@ const step2 = step1({"c": undefined})
 })}
 , result = {...step2}
 , checks: Record<string, typeof result> = {
+  //@ts-expect-error //TODO
   "output": {d: "", e: ""},
   "unknown": {
     //@ts-expect-error
@@ -89,27 +79,12 @@ const step2 = step1({"c": undefined})
   "lost": {
     d: ""
   },
+  //@ts-expect-error //TODO
   "previously ommited": {
     d: "", e: "",
-    //@ts-expect-error
+    //TODO @ts-expect-error
     a: ""
   }
 }
 
-const unknown0 = exclusion({} as Record<string, ClassHash>, {a: "a"})
-//todo @ts-error
-, unknown1 = unknown0({a: "a"})
-
-export {answ0, step3, checks, unknown1}
-
-// type Additinioze<A, T0, E = never> = {
-//   [P in keyof A]: A[P] extends E ? T0 : A[P] 
-// }
-// type Additional<K extends string, T1, T2, E = never> = Additinioze<AntiRecord<K, T2, true, E>, T1, E>
-// type AntiRecord<R extends string, T, Strict extends boolean, E = never>
-// = {[k: string]: T}
-// & (
-//   Strict extends true
-//   ? {[k in R]: E }
-//   : {[k in R]?: E }
-// )
+export {answ0, step3, checks}

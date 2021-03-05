@@ -5,10 +5,10 @@ import type {
   ClassNamed,
   ClassHash,
   ReactRelated,
-} from "./defs"
+} from "../src/defs"
 import {
   GetProps
-} from "./react-swiss"
+} from "../src/react-swiss"
 
 
 describe("ReactRelated", () => {

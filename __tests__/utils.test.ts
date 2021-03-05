@@ -1,4 +1,4 @@
-import { emptize, stringifyClassNamed } from "./utils";
+import { emptize, stringifyClassNamed } from "../src/utils";
 
 describe(stringifyClassNamed.name, () => {
   it("works", () => expect(

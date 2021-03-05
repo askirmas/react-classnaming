@@ -1,7 +1,7 @@
-import { EMPTY_ARRAY } from "./consts";
+import { EMPTY_ARRAY } from "../src/consts";
 import {
   resolver,
-} from "./core";
+} from "../src/core";
 
 describe(resolver.name, () => {
   it("without hash", () => expect(resolver(

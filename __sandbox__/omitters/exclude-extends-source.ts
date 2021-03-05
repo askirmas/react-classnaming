@@ -1,6 +1,4 @@
-import { ClassHash } from "../../defs"
-
-export {}
+import { ClassHash } from "../../src/defs"
 
 // type Excluder<
 //   S extends Record<string, ClassHash>,

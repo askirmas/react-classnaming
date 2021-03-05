@@ -1,5 +1,5 @@
 // import { Component } from "react"
-// import type { ClassHash, ClassNames } from "./defs"
+// import type { ClassHash, ClassNames } from "../src/defs"
 
 export {}
 

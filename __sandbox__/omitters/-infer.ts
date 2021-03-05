@@ -1,6 +1,6 @@
-import { ClassHash } from "../../defs"
+//@ts-nocheck 
 
-export {}
+import { ClassHash } from "../../src/defs"
 
 // type Excluder<
 //   S extends Record<string, ClassHash>,
@@ -14,29 +14,32 @@ export {}
 // }
 
 function exclusion<
-  E extends Record<string, ClassHash>,
-  S extends Record<keyof E, ClassHash>
+  S extends Record<string, ClassHash>,
 >(
-  source: S, ex: E
-): { [P in Exclude<keyof S, keyof E>]: S[P]; }
+  source: S, ex: {[K in keyof S]?: ClassHash}
+): typeof ex extends Record<infer E, any>
+? { [P in Exclude<keyof S, E>]: S[P]; }
+: never
 {
   const $return = {...source}
   for (const k in ex) {
     delete $return[k]
   }
 
-  return $return
+  //@ts-expect-error
+  return $return 
 }
 
 const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}
 
 const step0 = exclusion(
-  //@ts-expect-error Property 'z' is missing in type
   source,
+  //@ts-expect-error 'z' does not exist in type
   {z: undefined}
 )
 , answ0: typeof step0 = {
-  whatever: true
+  //@ts-expect-error Type 'undefined' is not assignable to type 'never'
+  whatever: undefined
 }
 , step1 = exclusion(source, {a: "a", b: undefined})
 , step2 = exclusion(step1, {"c": undefined})

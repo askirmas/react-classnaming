@@ -1,5 +1,5 @@
 import React from "react"
-import expectRender from "../../expect-to-same-render"
+import expectRender from "../expect-to-same-render"
 
 it("falsy props", () => expectRender(
   <div {...{

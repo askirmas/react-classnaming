@@ -1,8 +1,12 @@
 {
   "collectCoverage": true,
+  "modulePathIgnorePatterns": [
+    "/dist"
+  ],
   "testPathIgnorePatterns": [
-    "node_modules",
-    "__recipes__"
+    "/node_modules/",
+    "/__recipes__/",
+    "\\.d\\.ts$"
   ],
   "coverageThreshold": {
     "global": {

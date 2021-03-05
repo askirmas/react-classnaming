@@ -1,5 +1,4 @@
-export {}
-type ClassHash = string | undefined
+import { ClassHash } from "../../src/defs"
 
 type Props = {
   Btn: ClassHash

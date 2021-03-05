@@ -6,7 +6,7 @@ import type {
   ClassHash,
   ClassNamesProperty,
   ClassNames
-} from "./defs"
+} from "../src/defs"
 
 type Props = ClassNames<true, ClassNamesProperty<{props: ClassHash}>>
 function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassHash}>>) { return null }
