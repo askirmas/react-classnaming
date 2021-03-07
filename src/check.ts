@@ -1,4 +1,4 @@
-import { EMPTY_OBJECT } from "./consts"
+import { EMPTY_OBJECT } from "./consts.json"
 import type { CssModule, ClassHash } from "./defs"
 
 export {

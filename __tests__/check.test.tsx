@@ -1,6 +1,6 @@
 import React from "react"
 import { classNamesCheck } from "../src/check"
-import { EMPTY_OBJECT } from "../src/consts"
+import { EMPTY_OBJECT } from "../src/consts.json"
 import { ClassHash, ClassNamesProperty, CssModule } from "../src/defs"
 
 export {}

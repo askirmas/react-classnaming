@@ -1,4 +1,4 @@
-import { EMPTY_ARRAY } from "../src/consts";
+import { EMPTY_ARRAY } from "../src/consts.json";
 import {
   resolver,
 } from "../src/core";

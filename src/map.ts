@@ -3,7 +3,7 @@ import {
 } from "./defs";
 import type {
   ClassNamesMapping, ClassNamesMap,
-} from "./index.types";
+} from "./index-types";
 import {resolver} from "./core"
 import { AnyObject } from "./ts-swiss";
 

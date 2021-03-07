@@ -10,11 +10,11 @@ import {
   wrapper
 } from "./core"
 import { emptize } from "./utils"
-import { EMPTY_OBJECT } from "./consts"
+import { EMPTY_OBJECT } from "./consts.json"
 import type {
   ClassNamingFn,
   ClassNaming
-} from "./index.types"
+} from "./index-types"
 
 emptize(classes)
 

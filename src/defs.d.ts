@@ -3,7 +3,7 @@ import type {
   EmptyObject,
   AnyObject,
 } from "./ts-swiss"
-import {
+import type {
   GetProps,
   RCC,
   RFC

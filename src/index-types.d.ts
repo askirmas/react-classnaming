@@ -6,8 +6,10 @@ import type {
   Action,
   Act4Used
 } from "./defs"
-import { GetProps } from "./react-swiss";
-import {
+import type {
+  GetProps
+} from "./react-swiss";
+import type {
   BoolDict,
   RequiredKeys,
   AnyObject,
