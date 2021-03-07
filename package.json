@@ -23,14 +23,15 @@
     "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
   "keywords": [
-    "react",
-    "css",
     "typescript",
-    "css-modules",
     "declarative",
-    "classname",
-    "classnames",
     "css-classes",
+    "css",
+    "react",
+    "classname",
+    "css-modules",
+    "classnames",
+    "classnaming",
     "react-classnaming"
   ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
