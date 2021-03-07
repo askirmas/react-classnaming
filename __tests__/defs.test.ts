@@ -5,13 +5,26 @@ import {
 import type {
   ClassHash,
   ClassNamesProperty,
-  ClassNames
+  ClassNames,
+  ClassNamed
 } from "../src/defs"
 
-type Props = ClassNames<true, ClassNamesProperty<{props: ClassHash}>>
-function Functional(_: ClassNames<ClassNamesProperty<{functional: ClassHash}>>) { return null }
-class ClassComponent extends Component<ClassNames<ClassNamesProperty<{component: ClassHash; comp0: ClassHash}>>> {}
-class ClassPureComponent extends PureComponent<ClassNames<ClassNamesProperty<{pureComponent: ClassHash}>>> {}
+type Props = ClassNames<true, ClassNamesProperty<{
+  prop1: ClassHash
+  prop2: ClassHash
+}>>
+function Functional(_: ClassNamed & ClassNames<ClassNamesProperty<{
+  func1: ClassHash
+  func2: ClassHash
+}>>) { return null }
+class ClassComponent extends Component<{isValid: boolean} & ClassNames<ClassNamesProperty<{
+  comp1: ClassHash
+  comp2: ClassHash
+}>>> {}
+class ClassPureComponent extends PureComponent<ClassNames<ClassNamesProperty<{
+  pure1: ClassHash
+  pure2: ClassHash
+}>>> {}
 
 describe("ClassNames", () => {
   describe("direct", () => {
@@ -37,7 +50,7 @@ describe("ClassNames", () => {
     it("<{class1, class2}>", () => {
       const suites: Record<string, ClassNames<{classnames: {class1: ClassHash; class2: ClassHash}}>> = {
         "omitted": {
-          //@ts-expect-error ReactRelated
+          //@ts-expect-error
           classnames: {
             class1: undefined
           }
@@ -101,74 +114,7 @@ describe("ClassNames", () => {
     })
   })
 
-  describe("from", () => {
-    it("manually merge", () => {
-      type AppClassNames = (
-        ClassNamesProperty<{App: ClassHash}>
-        & ClassNames<typeof ClassComponent>
-        & ClassNames<typeof ClassPureComponent>
-        & ClassNames<typeof Functional>
-        & ClassNames<Props>
-      );
-    
-      const suites: Record<string, AppClassNames["classnames"]> = {
-        "exact": {
-          App: undefined,
-          component: undefined,
-          comp0: undefined,
-          functional: undefined,
-          props: undefined,
-          pureComponent: undefined
-        },
-        "redundant": {
-          //@ts-expect-error Object literal may only specify known properties, and 'redundant' does not exist
-          redundant: undefined,
-          App: undefined,
-          component: undefined,
-          functional: undefined,
-          props: undefined,
-          pureComponent: undefined,
-        },
-        //@ts-expect-error Property 'App' is missing
-        "missed App": {
-          component: undefined,
-          functional: undefined,
-          props: undefined,
-          pureComponent: undefined,
-        },
-        //@ts-expect-error Property 'component' is missing
-        "missed component": {
-          App: undefined,
-          functional: undefined,
-          props: undefined,
-          pureComponent: undefined,
-        },
-        //@ts-expect-error Property 'pureComponent' is missing
-        "missed pureComponent": {
-          App: undefined,
-          component: undefined,
-          functional: undefined,
-          props: undefined,
-        },
-        //@ts-expect-error Property 'functional' is missing 
-        "missed functional": {
-          App: undefined,
-          component: undefined,
-          props: undefined,
-          pureComponent: undefined,
-        },
-        //@ts-expect-error Property 'props' is missing
-        "missed props": {
-          App: undefined,
-          component: undefined,
-          functional: undefined,
-          pureComponent: undefined,
-        }
-      }
-      
-      expect(suites).toBeInstanceOf(Object)
-    })
-  
+  describe("from", () => {  
     it("multiple apply", () => {
       type AppClassNames = ClassNames<
           true,
@@ -182,12 +128,83 @@ describe("ClassNames", () => {
       const suites: Record<string, AppClassNames["classnames"]> = {
         "exact": {
           App: undefined,
-          component: undefined,
-          comp0: undefined,
-          functional: undefined,
-          props: undefined,
-          pureComponent: undefined
-        }
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+          pure2: undefined
+        },
+        "redundant": {
+          App: undefined,
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+          pure2: undefined,
+          //@ts-expect-error Object literal may only specify known properties, and 'redundant' does not exist
+          redundant: undefined,
+        },
+        //@ts-expect-error Property 'App' is missing
+        "missed App": {
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+          pure2: undefined,
+        },
+        //@ts-expect-error Property 'component' is missing
+        "missed comp2": {
+          App: undefined,
+          comp1: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+          pure2: undefined,
+        },
+        //@ts-expect-error Property 'pureComponent' is missing
+        "missed pure2": {
+          App: undefined,
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+        },
+        //@ts-expect-error Property 'functional' is missing 
+        "missed func2": {
+          App: undefined,
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          prop1: undefined,
+          prop2: undefined,
+          pure1: undefined,
+          pure2: undefined,
+        },
+        //@ts-expect-error Property 'props' is missing
+        "missed prop2": {
+          App: undefined,
+          comp1: undefined,
+          comp2: undefined,
+          func1: undefined,
+          func2: undefined,
+          prop1: undefined,
+          pure1: undefined,
+          pure2: undefined,
+        }        
       }
   
       expect(suites).toBeInstanceOf(Object)
@@ -198,7 +215,8 @@ describe("ClassNames", () => {
 describe("ClassNamesProperty", () => {
   it("Free declaration", () => {
     type Props = ClassNamesProperty<{
-      class1: ClassHash, class2: ClassHash
+      class1: ClassHash
+      class2: ClassHash
     }>
     const suites: Record<string, Props["classnames"]> = {
       "all setted": {
