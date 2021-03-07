@@ -42,9 +42,9 @@ describe("type checks", () => {
     , check: Record<string, typeof mapped> = {
       //TODO #25 @ts-expect-error
       "empty": {},
-      //TODO #25 @ts-expect-error
       "redundant": {
         class1: "hash2",
+        //TODO #25 @ts-expect-error
         class2: "hash1",
       }
     }
