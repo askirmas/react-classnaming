@@ -1,6 +1,6 @@
 # [react-classnaming](github.com/askirmas/react-classnaming)
 
-[TypeScript](https://www.typescriptlang.org/)-driven CSS classes handler for developer experience. Easily applied function to use optionally with [CSS modules](https://github.com/css-modules/css-modules) and do not get lost in CSS classes by powerful TypeScript notation
+Tools to establish CSS classes as an explicit [abstraction layer](https://en.wikipedia.org/wiki/Abstraction_layer "a way of hiding the working details of a subsystem, allowing the separation of concerns to facilitate interoperability") and to handle it as an [interface](https://en.wikipedia.org/wiki/Interface_(computing) "a shared boundary across which two or more separate components of a computer system exchange information") between React and [CSSStyleDeclaration](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration "exposes style information and various style-related methods and properties"). 
 
 ![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
 

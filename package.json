@@ -1,7 +1,7 @@
 {
   "name": "react-classnaming",
   "version": "0.13.0",
-  "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
+  "description": "Tools to establish CSS classes as an explicit abstraction layer and to handle it as an interface between React and CSSStyleDeclaration",
   "main": "dist",
   "scripts": {
     "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --onlyFailures --watch",
@@ -23,17 +23,15 @@
     "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
   "keywords": [
-    "React",
-    "CSS class",
-    "CSS modules",
-    "typescript",
-    "className",
-    "class",
-    "classNames",
-    "classNaming",
+    "react",
     "css",
-    "modules",
-    "css-modules"
+    "typescript",
+    "css-modules",
+    "declarative",
+    "classname",
+    "classnames",
+    "css-classes",
+    "react-classnaming"
   ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
   "license": "MIT",
