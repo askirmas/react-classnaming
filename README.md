@@ -5,18 +5,48 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 ![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
 
 ![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues) [![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/)
+
 [![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming) [![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
 [TOC]
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="react" height="64px" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" height="64px" />     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" height="64px;" />
 
+## Objectives
 
+1. Make CSS classes to be explicit and predictable project layer
+2. Enforce declaration style programming
+3. Enforce contract based development via TypeScript
+4. Use IDE type hints as developers UX for faster issues resolving
+5. CSS-modules agnostic
 
-## Installation
+## Installation and import
 
 ```bash
 npm install --save react-classnaming
+```
+
+```typescript
+import {
+  classNaming, // Returns function for building `className: string` from conditioned CSS classes with "context" (if was provided) from `props` for using only declared CSS classes
+  classNamesMap, // Similar to classNaming, specifies mapping to component's (i.e. 3rd-party) `className`-related props
+  classNamesCheck // Identical function for TS restriction on classes determed in CSS and not used in component
+} from "react-classnaming"
+
+// Default export is the most frequently used function
+import classNaming from "react-classnaming"
+
+// Import module with specific function only
+import { classNaming } from "react-classnaming/naming"
+import { classNamesCheck } from "react-classnaming/check"
+import { classNamesMap } from "react-classnaming/map"
+
+import types {
+  ClassNamesProperty, // Type to declare component's self CSS classes
+  ClassNames, // Type to gather required CSS classes of sub-components
+  ClassHash, // `= string | undefined` – type to declare CSS class, global or local
+  ClassNamed  // `= {className: string}` – useful shortcut
+} from "react-classnaming/types"
 ```
 
 ## Basic usage

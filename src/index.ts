@@ -1,4 +1,4 @@
-import classNaming from "./naming"
+import { classNaming } from "./naming"
 
 export type {
   ClassNames,
@@ -6,7 +6,7 @@ export type {
   ClassNamesProperty,
   ClassNamed,
   CssModule //TODO Delete after #16
-} from "./defs"
+} from "./types"
 
 export default classNaming
 export { classNaming }

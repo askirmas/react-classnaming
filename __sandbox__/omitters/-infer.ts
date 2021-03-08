@@ -1,6 +1,6 @@
 //@ts-nocheck 
 
-import { ClassHash } from "../../src/defs"
+import { ClassHash } from "../../src/types"
 
 // type Excluder<
 //   S extends Record<string, ClassHash>,

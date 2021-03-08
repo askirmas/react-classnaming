@@ -1,6 +1,6 @@
 import {
   CssModule,
-} from "./defs";
+} from "./types";
 import type {
   ClassNamesMapping, ClassNamesMap,
 } from "./index-types";
@@ -9,7 +9,6 @@ import { AnyObject } from "./ts-swiss";
 
 const {keys: $keys} = Object
 
-export default classNamesMap
 export {
   classNamesMap
 }

@@ -1,4 +1,4 @@
-import { ClassNamed } from "./defs"
+import { ClassNamed } from "./types"
 
 const stringifyProperty: SymbolConstructor["toPrimitive"] | "valueOf" | "toString"  = Symbol.toPrimitive
 

@@ -5,7 +5,7 @@ import type {
   ClassNamed,
   ClassHash,
   ReactRelated,
-} from "../src/defs"
+} from "../src/types"
 import {
   GetProps
 } from "../src/react-swiss"

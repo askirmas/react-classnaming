@@ -1,6 +1,6 @@
 import type { TooltipProps } from 'reactstrap';
 import type { GridOptions } from "ag-grid-community";
-import classNamesMap from "../src/map";
+import { classNamesMap } from "../src/map";
 
 const module_css = {
   class1: "hash1",

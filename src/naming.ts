@@ -2,7 +2,7 @@ import type {
   CssModule,
   ClassHash,
   ActionsOf,
-} from "./defs"
+} from "./types"
 import type { Falsy } from "./ts-swiss"
 import {
   joinWithLead,
@@ -18,7 +18,6 @@ import type {
 
 emptize(classes)
 
-export default classNaming
 export { classNaming }
 
 /** Set context

@@ -1,4 +1,4 @@
-import { ClassHash } from "../../src/defs";
+import { ClassHash } from "../../src/types";
 
 const source = {a: "a", b: undefined}
 , called = k.call(source)

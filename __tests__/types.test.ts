@@ -7,7 +7,7 @@ import type {
   ClassNamesProperty,
   ClassNames,
   ClassNamed
-} from "../src/defs"
+} from "../src/types"
 
 type Props = ClassNames<true, ClassNamesProperty<{
   prop1: ClassHash

@@ -5,7 +5,7 @@ import type {
   ActionsOf,
   Action,
   Act4Used
-} from "./defs"
+} from "./types"
 import type {
   GetProps
 } from "./react-swiss";
@@ -18,22 +18,26 @@ import type {
   OmitIndexed
 } from "./ts-swiss";
 
-// Making as interface breaks stuff
+// Making as interface make ts-errors much worth
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
+ * Makes `string` from conditioned CSS classes as keys.
+ * Destructed to singleton `{className: string}`, stringifyable, re-callable with propagation of previously stacked
  * @example
  * ```typescript
- *   classes();
- *   classes(true);
- *   classes({App}); classes({App: true, "App--bad": false});
+ *   classes({App}); // "App"
+ *   classes(true); // `${props.className}`
+ *   classes(true && {App: true, "App--bad": false}); // `${props.className} App`
+ *   classes(); // `== classes`
  * 
- *   const btn = classes({Btn})
- *   btn(true, {Btn__disabled: true});
+ *   const btn = classes({btn}) // "btn"
+ *   btn(true, {"btn--disabled": true}); // `${props.className} btn btn--disabled`
  * ```
  * @example
  * ```tsx
- *   <div {...classes(...)} />
- *   <div data-block={`${classes(...)}`} />
+ *   <div {...classes} />;
+ *   <div {...classes(...)} />; 
+ *   <div data-block={`${classes}`} />
  *   <Component {...{
  *     ...classes(...)(...)(...)},
  *     ...classnames

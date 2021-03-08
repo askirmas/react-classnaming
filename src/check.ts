@@ -1,10 +1,9 @@
 import { EMPTY_OBJECT } from "./consts.json"
-import type { CssModule, ClassHash } from "./defs"
+import type { CssModule, ClassHash } from "./types"
 
 export {
   classNamesCheck
 }
-
 
 /**
  * Identical function or returning constant `EMPTY_OBJECT` for keys check of not required classes

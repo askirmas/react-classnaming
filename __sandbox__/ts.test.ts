@@ -1,4 +1,4 @@
-import { ClassHash as V, CssModule } from "../src/defs"
+import { ClassHash as V, CssModule } from "../src/types"
 
 const {keys: $keys} = Object
 
