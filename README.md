@@ -52,7 +52,7 @@ import type {
 
 ## Basic usage
 
-[\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L5-L36)
+Example of simple CSS classes conditioning – [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L6-L28)
 
 ```tsx
 import classNaming from "react-classnaming"
@@ -79,12 +79,36 @@ function FormButtons({isValid, readOnly}: Props) {
     }`}>Submit</button> 
   </>
 }  
-
 ```
 
+## Advanced steps
 
+### Single source of truth
 
+There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L40-L48)
 
+![classnaming_single_truth](./images/classnaming_single_truth.gif)
+
+### Declare own component's CSS classes
+
+```diff
++ import type { ClassHash, ClassNamesProperty } from "react-classnaming"
+
++ type MyClassNames = ClassNamesProperty<{
++   button: ClassHash
++   button_submit: ClassHash
++   "button--disabled": ClassHash
++ }>
+
+- const cssClasses = classNaming()
++ const cssClasses = classNaming<MyClassNames>()
+```
+
+Only declared CSS classes will be allowed in conditioning  with IDE hint on possibilities – [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L56-L82)
+
+![classnaming_declared](./images/classnaming_declared.gif)
+
+## Old
 
 
 - `classNaming` outputs functional object *bounded* to *context* as first (optional) argument
@@ -115,45 +139,6 @@ btnDisabled.className // "btn btn-disabled"
 btnDisabled({ "btn-disabled": true})} // {className: "btn btn-disabled btn-disabled"}
 //@ts-expect-error - For same reason
 btnDisabled({ "btn-enabled": true})} // {className: "btn btn-disabled btn-enabled"}
-```
-
-- Let's refactor an ordinary react component. It 3 buttons *Close+Reset+Submit*
-
-```tsx
-export function FormButtons({isValid}: {isValid: boolean}) {
-  return <>
-    <button className="btn">Close</button>
-    <button type="reset" className: "btn">Reset</button> 
-    <button type="submit" className={
-      ["btn", isValid || "btn--disabled"]
-      .filter(Boolean)
-      .join(" ")
-		}>Submit</button> 
-  </>
-}
-```
-
-- ClassName string `"btn"` is used several times so it is a good idea to reuse it
-
-```tsx
-import classNaming from "react-classnaming"
-
-export function FormButtons({isValid}: {isValid: boolean}) {
-  const cssClasses = classNaming()
-  const btnClass = cssClasses({ "btn": true })
-
-  return <>
-    <button className={
-      `${btnClass}` // "btn"
-    }>Close</button>
-    <button type="reset" {
-      ...btnClass // {className: "btn"}
-    }>Reset</button> 
-    <button type="submit" {
-      ...btnClass({ "btn--disabled": !isValid }) // {className: "btn btn--disabled"} - assuming isValid = false
-    }>Submit</button> 
-  </>
-}
 ```
 
 ## Extending to more complex
