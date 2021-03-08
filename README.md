@@ -41,7 +41,7 @@ import { classNaming } from "react-classnaming/naming"
 import { classNamesCheck } from "react-classnaming/check"
 import { classNamesMap } from "react-classnaming/map"
 
-import types {
+import type {
   ClassNamesProperty, // Type to declare component's self CSS classes
   ClassNames, // Type to gather required CSS classes of sub-components
   ClassHash, // `= string | undefined` – type to declare CSS class, global or local
