@@ -91,7 +91,7 @@ export type ClassNamesMapping<Source extends CssModule> = (
  *    Checked___false: {}
  *  })}/>
  *```
-  */
+ */
   <
     Target extends AnyObject,
     Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
@@ -101,8 +101,7 @@ export type ClassNamesMapping<Source extends CssModule> = (
 );
 
 export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModule>
-= {[K in
+= Pick<
+  {[K in keyof TargetProps]?: {[S in keyof Source]?: Action}},
   {[T in keyof TargetProps]: string extends TargetProps[T] ? T : never}[keyof TargetProps]
-]?:
-  {[S in keyof Source]?: Action}
-}
+>

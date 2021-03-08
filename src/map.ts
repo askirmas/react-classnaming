@@ -5,7 +5,8 @@ import type {
   ClassNamesMapping, ClassNamesMap,
 } from "./index-types";
 import {resolver} from "./core"
-import { AnyObject } from "./ts-swiss";
+import { AnyObject, OmitIndexed } from "./ts-swiss";
+import { GetProps } from "./react-swiss";
 
 const {keys: $keys} = Object
 
@@ -30,7 +31,7 @@ function classNamesMap<
 function mapping<
   Source extends CssModule,
   Target extends AnyObject,
-  Mapping extends ClassNamesMap<Target, Source>
+  Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
 >(
   source: Source,
   _: Target,
