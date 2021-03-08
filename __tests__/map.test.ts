@@ -1,5 +1,5 @@
 import { classNamesMap } from "../src/map";
-import classNaming from '../src';
+import classNaming, { ClassHash } from '../src';
 
 const module_css = {
   class1: "hash1",
@@ -16,13 +16,26 @@ type ThirdPartyComponentProps = {
 
 const mapping = classNamesMap(module_css)
 
-it("classNaming as values", () => {
-  const classes = classNaming({classnames: module_css})
-  expect(mapping({} as ThirdPartyComponentProps, {
-    //@ts-expect-error //TODO #27
-    required: classes({class1: true})
-  })).toStrictEqual({
-    required: "hash1"
+describe("#27 classNaming as values", () => {
+  it("same source", () => {
+    const classes = classNaming({classnames: module_css})
+
+    expect(mapping({} as ThirdPartyComponentProps, {
+      required: classes({class1: true})
+    })).toStrictEqual({
+      required: "hash1"
+    })  
+  })
+
+  it("another source", () => {
+    const classes = classNaming<{classnames: {CLASS: ClassHash}}>()
+
+    expect(mapping({} as ThirdPartyComponentProps, {
+      //TODO No type check for sources inconsistency
+      required: classes({CLASS: true})
+    })).toStrictEqual({
+      required: "CLASS"
+    })  
   })
 })
 
@@ -90,20 +103,43 @@ describe("type checks", () => {
 
   it("return keys", () => {
     const mapped = mapping({} as ThirdPartyComponentProps, {
-      required: {class2: true},
+      required: {class2: true}
     })
     , check: Record<string, typeof mapped> = {
-      //@ts-expect-error #25
+      //@ts-expect-error #25 Property 'required' is missing
       "empty": {},
       "exact": {
-        required: "hash2"
+        required: "string"
       },
       "redundant": {
-        required: "hash2",
-        //@ts-expect-error #25
-        optional: "hash1",
+        required: "string",
+        //@ts-expect-error #25 Object literal may only specify known properties, and 'optional' does not exist
+        optional: "string",
       }
     }
+    expect(check).toBeInstanceOf(Object)
+  })
+
+  it("undefined is also map", () => {
+    const reqClasses = undefined as undefined | {} 
+    , mapped = mapping({} as ThirdPartyComponentProps, {
+      required: reqClasses,
+      optional: undefined,
+    })
+    , check: Record<string, typeof mapped> = {
+      //@ts-expect-error Property 'required' is missing
+      "empty": {},
+      "exact": {
+        required: "string"
+      },
+      "redundant": {
+        required: "string",
+        //@ts-expect-error Object literal may only specify known properties, and 'optional' does not exist
+        optional: "string",
+      }
+    }
+
+    expect(mapped).toStrictEqual({})
     expect(check).toBeInstanceOf(Object)
   })
 })

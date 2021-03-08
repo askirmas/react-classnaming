@@ -319,17 +319,19 @@ ReactDOM.render(<App classnames={classNamesCheck(css)} />
 Function to map `classnames` to string props of some (i.e. 3rd-party) component.
 
 ```tsx
-const {Root} = classnames
+const { Root } = classnames
 const mapping = classNamesMap(classnames)
 
 <ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
-  ContainerClassName: {Root, "Theme--dark": true},
-  Checked___true: {"Item--active": true},
+  ContainerClassName: { Root, "Theme--dark": true },
+  Checked___true: classes({ "Item--active": true }),
   Checked___false: {}
 })} />
 ```
 
-![](/Users/kirmasy/code/classnaming/images/classnames_map.gif)
+For hint will be used such props of target component that can be assignable to `string`. After calling `mapping` function and setting other properties, usual TypeScript will check for presence of target's required properties and other ordinary for TS things.
+
+![](./images/classnames_map.gif)
 
 ## Getting Started //TODO
 

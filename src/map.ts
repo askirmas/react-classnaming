@@ -36,16 +36,24 @@ function mapping<
   source: Source,
   _: Target,
   map: Mapping
-): {[T in keyof Mapping]: string} {
+): {[M in keyof Mapping]: string} {
   const keys = $keys(map) as (keyof Mapping)[]
-  , classnames = {} as {[T in keyof Mapping]: string}
+  , classnames = {} as {[M in keyof Mapping]: string}
 
   for (let i = keys.length; i--;) {
     const key = keys[i]
+    , val = map[key]
     
-    classnames[key] = resolver(source, map[key]!).join(" ")
+    if (val === undefined)
+      continue
+      
+    classnames[key] = typeof val === "function"
+    ? `${val}`
+    : resolver(source,
+      //@ts-expect-error #27 TS doesn't understand that ClassNaming is first of all function
+      val
+    ).join(" ") 
   }
 
   return classnames
 }
-

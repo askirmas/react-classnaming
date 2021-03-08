@@ -86,8 +86,8 @@ export type ClassNamesMapping<Source extends CssModule> = (
  * @example 
  * ```tsx
  *  <ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
- *    ContainerClassName: {Root, "Theme--dark": true},
- *    Checked___true: {"Item--active": true},
+ *    ContainerClassName: { Root, "Theme--dark": true },
+ *    Checked___true: classes({"Item--active": true}),
  *    Checked___false: {}
  *  })}/>
  *```
@@ -95,13 +95,21 @@ export type ClassNamesMapping<Source extends CssModule> = (
   <
     Target extends AnyObject,
     Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
-  >(target: Target, map: Mapping) => {
-    [K in keyof Mapping]: string
-  }
+  >(target: Target, map: Mapping) => Omit<
+    {[M in keyof Mapping]: string},
+    {[M in keyof Mapping]: Mapping[M] extends undefined ? M : never}[keyof Mapping]
+  >
 );
 
 export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModule>
 = Pick<
-  {[K in keyof TargetProps]?: {[S in keyof Source]?: Action}},
+  {[K in keyof TargetProps]?:
+    ClassNaming<boolean, {}, Source>
+    | {[S in keyof Source]?:
+      //TODO Strict action
+      Action
+    }
+
+  },
   {[T in keyof TargetProps]: string extends TargetProps[T] ? T : never}[keyof TargetProps]
 >
