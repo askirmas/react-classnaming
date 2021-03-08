@@ -5,7 +5,6 @@
   ],
   "testPathIgnorePatterns": [
     "/node_modules/",
-    "/__recipes__/",
     "\\.d\\.ts$"
   ],
   "coverageThreshold": {

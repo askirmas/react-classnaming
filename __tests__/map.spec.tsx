@@ -15,6 +15,7 @@ it("Some Component", () => {
     CheckedClassName?: string
     NotCheckedClassName?: string
   }  
+  
   function ThirdPartyComponent({ checked, ContainerClassName, CheckedClassName, NotCheckedClassName}: ThirdPartyComponentProps ) {
     return <div className={ContainerClassName}>
       <div className={checked ? CheckedClassName : NotCheckedClassName}/>
