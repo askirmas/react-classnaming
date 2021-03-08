@@ -102,7 +102,7 @@ Conditions with falsy values may lead to hardly caught bugs due to not obvious b
 
 ### Single source of truth
 
-There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx:52](./__tests__/readme.spec.tsx#L52-L60)
+There can be only ONE condition for each class in call pipe. Already conditioned classes are propagated to next call type notation so you can see currently stacked with according *modality*: `true`, `false` or `boolean`. [\__tests__/readme.spec.tsx:52](./__tests__/readme.spec.tsx#L52-L60)
 
 ![classnaming_single_truth](./images/classnaming_single_truth.gif)
 
