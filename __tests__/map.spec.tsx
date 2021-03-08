@@ -8,34 +8,6 @@ const classnames = {Root: "App", "Item--active": "hash1"} as Record<"Root"|"Them
 , {Root} = classnames
 , mapping = classNamesMap(classnames)
 
-it("Some Component", () => {
-  type ThirdPartyComponentProps = {
-    checked?: boolean
-    ContainerClassName?: string
-    CheckedClassName?: string
-    NotCheckedClassName?: string
-  }  
-  
-  function ThirdPartyComponent({ checked, ContainerClassName, CheckedClassName, NotCheckedClassName}: ThirdPartyComponentProps ) {
-    return <div className={ContainerClassName}>
-      <div className={checked ? CheckedClassName : NotCheckedClassName}/>
-    </div>
-  }
-  
-  expectRender(
-    <ThirdPartyComponent checked={true} {...mapping<ThirdPartyComponentProps>({
-      ContainerClassName: {Root, "Theme--dark": true},
-      CheckedClassName: {"Item--active": true},
-      //@ts-expect-error Object literal may only specify known properties, and 'NotExistentProperty' does not exist
-      NotExistentProperty: {"Theme--dark": true}
-    })}/>
-  ).toSame(
-    <div className="App Theme--dark">
-      <div className="hash1"/>
-    </div>
-  )
-})
-
 it("reactstrap Tooltip", () => expectRender(
   <Tooltip target="target" {...mapping<typeof Tooltip>({
     //TODO #25 {target: {...}}
