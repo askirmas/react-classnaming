@@ -85,7 +85,7 @@ export type ClassNamesMapping<Source extends CssModule> = (
 /** Function to map `classnames` to certain properties of target Component
  * @example 
  * ```tsx
- *  <ThirdPartyComponent {...mapping<ComponentProps>({
+ *  <ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
  *    ContainerClassName: {Root, "Theme--dark": true},
  *    Checked___true: {"Item--active": true},
  *    Checked___false: {}
@@ -93,17 +93,16 @@ export type ClassNamesMapping<Source extends CssModule> = (
  *```
   */
   <
-    Target extends AnyObject = CssModule,
-    Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source> = ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
-  >(map: Mapping) => {
-    //TODO #25
+    Target extends AnyObject,
+    Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
+  >(target: Target, map: Mapping) => {
     [K in keyof Mapping]: string
   }
 );
 
-export type ClassNamesMap<Target extends AnyObject, Source extends CssModule>
+export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModule>
 = {[K in
-  {[T in keyof Target]: string extends Target[T] ? T : never}[keyof Target]
+  {[T in keyof TargetProps]: string extends TargetProps[T] ? T : never}[keyof TargetProps]
 ]?:
   {[S in keyof Source]?: Action}
 }

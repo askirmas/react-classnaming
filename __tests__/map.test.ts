@@ -18,7 +18,7 @@ const mapping = classNamesMap(module_css)
 
 it("classNaming as values", () => {
   const classes = classNaming({classnames: module_css})
-  expect(mapping<ThirdPartyComponentProps>({
+  expect(mapping({} as ThirdPartyComponentProps, {
     //@ts-expect-error //TODO #27
     required: classes({class1: true})
   })).toStrictEqual({
@@ -27,8 +27,13 @@ it("classNaming as values", () => {
 })
 
 describe("type checks", () => {
+  it("All target keys are optional", () => {
+    const mapped = mapping({} as ThirdPartyComponentProps, {})
+    expect(mapped).toStrictEqual({})
+  })
+
   it("No unknown source keys", () => {
-    const mapped = mapping<ThirdPartyComponentProps>({
+    const mapped = mapping({} as ThirdPartyComponentProps, {
       required: {
         //@ts-expect-error Object literal may only specify known properties, but 'class3' does not exist
         class3: true
@@ -38,7 +43,7 @@ describe("type checks", () => {
   })
 
   it("No unknown target keys", () => {
-    const mapped = mapping<ThirdPartyComponentProps>({
+    const mapped = mapping({} as ThirdPartyComponentProps, {
       //@ts-expect-error Object literal may only specify known properties, and '"unknown"' does not exist
       unknown: {
         class1: true
@@ -49,7 +54,7 @@ describe("type checks", () => {
   })
 
   it("No target keys without string value type", () => {
-    const mapped = mapping<ThirdPartyComponentProps>({
+    const mapped = mapping({} as ThirdPartyComponentProps, {
       //@ts-expect-error Object literal may only specify known properties, and 'notString' does not exist
       notString: {
         class1: true
@@ -60,7 +65,7 @@ describe("type checks", () => {
   })
 
   it("All keys string value type", () => {
-    const mapped = mapping<ThirdPartyComponentProps>({
+    const mapped = mapping({} as ThirdPartyComponentProps, {
       required: {class1: true},
       optional: {class2: true},
       stringAndOthers: {class1: true, class2: true}
@@ -75,7 +80,7 @@ describe("type checks", () => {
 
   it("Strict action", () => {
     const {act} = {} as {act?: boolean}
-    , mapped = mapping<ThirdPartyComponentProps>({
+    , mapped = mapping({} as ThirdPartyComponentProps, {
       //TODO @ts-expect-error
       required: {class2: act},
     })
@@ -84,15 +89,18 @@ describe("type checks", () => {
   })
 
   it("return keys", () => {
-    const mapped = mapping<ThirdPartyComponentProps>({
+    const mapped = mapping({} as ThirdPartyComponentProps, {
       required: {class2: true},
     })
     , check: Record<string, typeof mapped> = {
-      //TODO #25 @ts-expect-error
+      //@ts-expect-error #25
       "empty": {},
+      "exact": {
+        required: "hash2"
+      },
       "redundant": {
         required: "hash2",
-        //TODO #25 @ts-expect-error
+        //@ts-expect-error #25
         optional: "hash1",
       }
     }

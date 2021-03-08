@@ -28,7 +28,7 @@ export default function App(props: AppProps) {
         ...withClassName({"app__item": true})
       }} />
       <ThirdParty {
-        ...cssClassesMapping<ThirdPartyProps>({
+        ...cssClassesMapping({} as ThirdPartyProps,{
                               // "app__item"
           containerClassName: { "app__item": true }
         })

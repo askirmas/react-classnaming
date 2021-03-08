@@ -316,15 +316,20 @@ ReactDOM.render(<App classnames={classNamesCheck(css)} />
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 
-Function to map one `classnames` to another
+Function to map `classnames` to string props of some (i.e. 3rd-party) component.
 
 ```tsx
-  <ThirdPartyComponent {...mapping<ComponentProps>({
-    Container: { Root, "Theme--dark": true },
-    Checked___true: { "Item--active": true },
-    Checked___false: {}
-  })}/>
+const {Root} = classnames
+const mapping = classNamesMap(classnames)
+
+<ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
+  ContainerClassName: {Root, "Theme--dark": true},
+  Checked___true: {"Item--active": true},
+  Checked___false: {}
+})} />
 ```
+
+![](/Users/kirmasy/code/classnaming/images/classnames_map.gif)
 
 ## Getting Started //TODO
 

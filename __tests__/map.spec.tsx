@@ -9,9 +9,8 @@ const classnames = {Root: "App", "Item--active": "hash1"} as Record<"Root"|"Them
 , mapping = classNamesMap(classnames)
 
 it("reactstrap Tooltip", () => expectRender(
-  <Tooltip target="target" {...mapping<typeof Tooltip>({
-    //TODO #25 {target: {...}}
-    className: {Root},
+  <Tooltip {...mapping({} as typeof Tooltip, {
+    target: {Root},
     popperClassName: {"Theme--dark": true},
     innerClassName: {"Item--active": true},
   })}/>

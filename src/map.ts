@@ -23,16 +23,17 @@ export {
 function classNamesMap<
   Source extends CssModule,
 >(classnames: Source){
-  const mapper: ClassNamesMapping<Source> = map => mapping(classnames, map)
+  const mapper: ClassNamesMapping<Source> = (target, map) => mapping(classnames, target, map)
   return mapper
 }
 
 function mapping<
   Source extends CssModule,
-  Target extends AnyObject = CssModule,
-  Mapping extends ClassNamesMap<Target, Source> = ClassNamesMap<Target, Source>
+  Target extends AnyObject,
+  Mapping extends ClassNamesMap<Target, Source>
 >(
   source: Source,
+  _: Target,
   map: Mapping
 ): {[T in keyof Mapping]: string} {
   const keys = $keys(map) as (keyof Mapping)[]
