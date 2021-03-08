@@ -8,7 +8,7 @@ import type {
 } from "./types"
 import type {
   GetProps
-} from "./react-swiss";
+} from "./react-swiss.defs";
 import type {
   BoolDict,
   RequiredKeys,
@@ -16,7 +16,7 @@ import type {
   Falsy,
   Ever,
   OmitIndexed
-} from "./ts-swiss";
+} from "./ts-swiss.defs";
 
 // Making as interface make ts-errors much worth
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =

@@ -8,7 +8,7 @@ import type {
 } from "../src/types"
 import {
   GetProps
-} from "../src/react-swiss"
+} from "../src/react-swiss.defs"
 
 
 describe("ReactRelated", () => {

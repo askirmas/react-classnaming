@@ -3,10 +3,10 @@ import {
 } from "./types";
 import type {
   ClassNamesMapping, ClassNamesMap,
-} from "./index-types";
+} from "./index-types.defs";
 import {resolver} from "./core"
-import { AnyObject, OmitIndexed } from "./ts-swiss";
-import { GetProps } from "./react-swiss";
+import { AnyObject, OmitIndexed } from "./ts-swiss.defs";
+import { GetProps } from "./react-swiss.defs";
 
 const {keys: $keys} = Object
 

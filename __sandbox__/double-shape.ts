@@ -1,4 +1,4 @@
-import { Falsy } from "../src/ts-swiss"
+import { Falsy } from "../src/ts-swiss.defs"
 import { ClassHash } from "../src/types"
 
 type ClassNamesDirect<K extends string = string> = Record<K, ClassHash>

@@ -13,7 +13,7 @@
     "prerelease": "./prerelease.sh",
     "postrelease": "./postrelease.sh",
     "compile": "tsc --project tsconfig.compile.json",
-    "precompile": "rm -rf dist && mkdir dist && find src -name '*.d.ts' -exec cp {} dist \\;",
+    "precompile": "rm -rf dist",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
     "jest": "jest --runInBand"
   },

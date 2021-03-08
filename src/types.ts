@@ -2,12 +2,12 @@ import type {
   Ever,
   EmptyObject,
   AnyObject,
-} from "./ts-swiss"
+} from "./ts-swiss.defs"
 import type {
   GetProps,
   RCC,
   RFC
-} from "./react-swiss"
+} from "./react-swiss.defs"
 
 /** Collects required `classnames` from used sub-Components
  * @example

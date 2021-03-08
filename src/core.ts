@@ -1,5 +1,5 @@
 import type { ClassNamed, ClassHash } from "./types"
-import type { Falsy } from "./ts-swiss"
+import type { Falsy } from "./ts-swiss.defs"
 import { EMPTY_ARRAY } from "./consts.json"
 import { stringifyClassNamed } from "./utils"
 

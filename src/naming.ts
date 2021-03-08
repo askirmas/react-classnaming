@@ -3,7 +3,7 @@ import type {
   ClassHash,
   ActionsOf,
 } from "./types"
-import type { Falsy } from "./ts-swiss"
+import type { Falsy } from "./ts-swiss.defs"
 import {
   joinWithLead,
   resolver,
@@ -14,7 +14,7 @@ import { EMPTY_OBJECT } from "./consts.json"
 import type {
   ClassNamingFn,
   ClassNaming
-} from "./index-types"
+} from "./index-types.defs"
 
 emptize(classes)
 
