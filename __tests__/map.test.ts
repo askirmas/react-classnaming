@@ -1,12 +1,21 @@
 import type { TooltipProps } from 'reactstrap';
 import type { GridOptions } from "ag-grid-community";
 import { classNamesMap } from "../src/map";
+import classNaming from '../src';
 
 const module_css = {
   class1: "hash1",
   class2: "hash2"
 }
 const mapping = classNamesMap(module_css)
+
+it("AgGrid", () => expect(
+  mapping<GridOptions>({
+    rowClass: {class2: true},
+  })
+).toStrictEqual({
+  rowClass: "hash2"
+}))  
 
 it("reactstrap tooltip", () => {
   expect(mapping<TooltipProps>({
@@ -19,23 +28,38 @@ it("reactstrap tooltip", () => {
   })
 })
 
-it("AgGrid", () => expect(
-  mapping<GridOptions>({
-    rowClass: {class2: true},
+it("classNaming as values", () => {
+  const classes = classNaming({classnames: module_css})
+  expect(mapping<TooltipProps>({
+    //@ts-expect-error //TODO #27
+    popperClassName: classes({class1: true})
+  })).toStrictEqual({
+    popperClassName: "hash1"
   })
-).toStrictEqual({
-  rowClass: "hash2"
-}))  
+})
 
 describe("type checks", () => {
-  it("persist required/optional", () => {
-    const mapped = mapping<typeof module_css>(
-      //TODO #25 @ts-expect-error
-      {}
-    )
-    expect(mapped).toStrictEqual({})
+  it("No unknown source keys", () => {
+    const mapped = mapping<typeof module_css>({
+      class1: {
+        //@ts-expect-error Object literal may only specify known properties, but 'class3' does not exist
+        class3: true
+      }
+    })
+    expect(mapped).toStrictEqual({class1: "class3"})
   })
-  it("output types", () => {
+
+  it("Strict action", () => {
+    const {act} = {} as {act?: boolean}
+    , mapped = mapping<typeof module_css>({
+      //TODO @ts-expect-error
+      class1: {class2: act},
+    })
+
+    expect(mapped).toStrictEqual({class1: "hash2"})
+  })
+
+  it("return keys", () => {
     const mapped = mapping<typeof module_css>({
       class1: {class2: true},
     })
