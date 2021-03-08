@@ -17,8 +17,9 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 1. Make CSS classes to be explicit and predictable project layer
 2. Enforce declaration style programming
 3. Enforce contract based development via TypeScript
-4. Use IDE type hints as developers UX for faster issues resolving
-5. CSS-modules agnostic
+4. Enforce single source of truth
+5. Use IDE type hints as developers UX for faster issues resolving
+6. CSS-modules agnostic
 
 ## Installation and import
 
@@ -50,6 +51,40 @@ import type {
 ```
 
 ## Basic usage
+
+[\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L5-L36)
+
+```tsx
+import classNaming from "react-classnaming"
+
+type Props = {
+  isValid: boolean
+  readOnly: boolean
+}
+
+// isValid = false, readOnly = false
+function FormButtons({isValid, readOnly}: Props) {
+  const cssClasses = classNaming()
+  const buttonClass = cssClasses({"button": true}) // "button"
+
+  return <>
+    <button {
+      ...buttonClass // className="button" 
+    }>Close</button>
+    <button type="reset" {
+      ...buttonClass({"button--disabled": readOnly}) // className="button"
+    }>Reset</button> 
+    <button type="submit" className={`button_submit ${
+      buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
+    }`}>Submit</button> 
+  </>
+}  
+
+```
+
+
+
+
 
 
 - `classNaming` outputs functional object *bounded* to *context* as first (optional) argument
