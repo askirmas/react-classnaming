@@ -94,10 +94,10 @@ export type ClassNamesMapping<Source extends CssModule> = (
   */
   <
     Target extends AnyObject = CssModule,
-    Map extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source> = ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
-  >(map: Map) => {
+    Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source> = ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
+  >(map: Mapping) => {
     //TODO #25
-    [K in keyof Map]: string
+    [K in keyof Mapping]: string
   }
 );
 
