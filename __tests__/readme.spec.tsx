@@ -36,6 +36,18 @@ it("Basic usage", () => {
   </>)
 })
 
+it("Strict type", () => {
+  type Props = {readOnly?: boolean}
+  const {readOnly} = {} as Props
+  const cssClasses = classNaming()
+  const disabling = cssClasses({
+    //@ts-expect-error Type 'boolean | undefined' is not assignable to type 'boolean'
+    "button--disabled": readOnly
+  })
+
+  expect({...disabling}).toStrictEqual({className: "button--disabled"})
+})
+
 it("Single source of truth", () => {
   const cssClasses = classNaming()
   const isValidClass = cssClasses({"button--disabled": /* !isValid */ false })

@@ -18,8 +18,9 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 2. Enforce declaration style programming
 3. Enforce contract based development via TypeScript
 4. Enforce single source of truth
-5. Use IDE type hints as developers UX for faster issues resolving
-6. CSS-modules agnostic
+5. Enforce class-conditions to be strictly `boolean`, not ~~`falsy|truthy`~~
+6. Use IDE type hints as developers UX for faster issues resolving
+7. CSS-modules agnostic
 
 ## Installation and import
 
@@ -85,13 +86,19 @@ As shown, producing function `classNaming` returns a multipurpose object. It can
 
 - recalled to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
 - destructed in component's props as `className` singleton:  `<div {...someClass}/> <button {...anotherClass}/>` 
-- used as a string:  ` ``${someClass} ${anotherClass}`` `.
+- used as a string:  ` ``${someClass} ${anotherClass}`` `
 
 ## Getting more
 
+### Condition is strictly `boolean`
+
+Conditions with falsy values may lead to hardly caught bugs due to not obvious behavior for humans. In addition, as a possible `true` shortcut, the value can be not empty string as `class-hash` from CSS-module, and <u>`undefined`</u> for global CSS-class or modules simulation. Thus, to not keep in mind that `undefined` appears to be a truthy condition, it is prohibited on TypeScript level to mix in value type `boolean` with `ClassHash = string | undefined` and not allowed to use any other types like 0, null. [\__tests__/readme.spec.tsx:40](./__tests__/readme.spec.tsx#L40-L46)
+
+![](./images/classnaming_strict_condition.gif)
+
 ### Single source of truth
 
-There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx:40](./__tests__/readme.spec.tsx#L40-L48)
+There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx:52](./__tests__/readme.spec.tsx#L52-L60)
 
 ![classnaming_single_truth](./images/classnaming_single_truth.gif)
 
@@ -110,44 +117,13 @@ There can be only ONE condition for each class in call pipe. [\__tests__/readme.
 + const cssClasses = classNaming<MyClassNames>()
 ```
 
-Only declared CSS classes will be allowed in conditioning  with IDE hint on possibilities – [\__tests__/readme.spec.tsx:56](./__tests__/readme.spec.tsx#L56-L82)
+Only declared CSS classes will be allowed as keys with IDE hint on possibilities – [\__tests__/readme.spec.tsx:68](./__tests__/readme.spec.tsx#L68-L94)
 
 ![classnaming_declared](./images/classnaming_declared.gif)
 
 ## Old
 
-
-- `classNaming` outputs functional object *bounded* to *context* as first (optional) argument
-
-```typescript
-import classNaming from "react-classnaming"
-
-classNaming() // Any css-class may be setted further
-classNaming({classnames: require("./some.css")}) // Allows only classes declared in that CSS
-classNaming({classnames: css_module_data, className: props.className}) // 
-```
-
-- Argument of returned function is a dictionary of CSS-classes as keys and `boolean` (condition) or `string|undefined` (hash from css-module or import without pre-process) as values OR `true` if `className` was supplied . `classNaming`-return can be destructed in React props `{...X}`, stringified `` `${X}` ``, or called further `X({...})` with a new payload argument to append to previous.
-
-```typescript
-const cssClasses = classNaming()
-const btnClass = cssClasses({ "btn": true, "icon": false }) // {className: "btn"}
-
-{...btnClass} // {className: "btn"}
-btnClass.className // "btn"
-`${btnClass}` // "btn"
-`${btnClass()}` // "btn"
-
-const btnDisabled = btnClass({ "btn-disabled": true, "btn-enabled": false })
-btnDisabled.className // "btn btn-disabled"
-
-//@ts-expect-error - TS tracks that in chain there's only 1 place for class to be conditionally included 
-btnDisabled({ "btn-disabled": true})} // {className: "btn btn-disabled btn-disabled"}
-//@ts-expect-error - For same reason
-btnDisabled({ "btn-enabled": true})} // {className: "btn btn-disabled btn-enabled"}
-```
-
-## Extending to more complex
+### Extending to more complex
 
 - If some CSS classes are not conditional but static – you can declare them as `const`-s with `undefined` value 
 
@@ -223,12 +199,6 @@ const FormButtons = ({className, isValid}: {className: string, isValid: boolean}
 Check the tests with detailed usage: [src/direct.spec.tsx](./src/direct.spec.tsx) and [src/toggling.spec.tsx](./src/toggling.spec.tsx)
 
 With create-react-application: [./\_\_recipes\_\_/create-react-app/src/App.tsx](./__recipes__/create-react-app/src/App.tsx) 
-
-## Key valued features
-
-- Contract-based development - TS errors on undeclared classes and duplicated assignment
-- Declarative style programming - With and without CSS modules
-- Main instrument is callable-stringable function-object
 
 ## Reference
 

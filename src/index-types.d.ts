@@ -77,7 +77,7 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
         Extract<Actions[K], string> extends "" ? never : Actions[K],
         Actions[K]
       >
-      : never
+      : boolean
   : never
 }
 
