@@ -52,7 +52,7 @@ import type {
 
 ## Basic usage
 
-Example of simple CSS classes conditioning – [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L6-L28)
+Example of simple CSS classes conditioning – [\__tests__/readme.spec.tsx:7](./__tests__/readme.spec.tsx#L7-L28)
 
 ```tsx
 import classNaming from "react-classnaming"
@@ -81,11 +81,17 @@ function FormButtons({isValid, readOnly}: Props) {
 }  
 ```
 
-## Advanced steps
+As shown, producing function `classNaming` returns a multipurpose object. It can be
+
+- recalled to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
+- destructed in component's props as `className` singleton:  `<div {...someClass}/> <button {...anotherClass}/>` 
+- used as a string:  ` ``${someClass} ${anotherClass}`` `.
+
+## Getting more
 
 ### Single source of truth
 
-There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L40-L48)
+There can be only ONE condition for each class in call pipe. [\__tests__/readme.spec.tsx:40](./__tests__/readme.spec.tsx#L40-L48)
 
 ![classnaming_single_truth](./images/classnaming_single_truth.gif)
 
@@ -104,7 +110,7 @@ There can be only ONE condition for each class in call pipe. [\__tests__/readme.
 + const cssClasses = classNaming<MyClassNames>()
 ```
 
-Only declared CSS classes will be allowed in conditioning  with IDE hint on possibilities – [\__tests__/readme.spec.tsx](./__tests__/readme.spec.tsx#L56-L82)
+Only declared CSS classes will be allowed in conditioning  with IDE hint on possibilities – [\__tests__/readme.spec.tsx:56](./__tests__/readme.spec.tsx#L56-L82)
 
 ![classnaming_declared](./images/classnaming_declared.gif)
 
