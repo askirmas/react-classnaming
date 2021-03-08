@@ -88,6 +88,10 @@ As shown, producing function `classNaming` returns a multipurpose object. It can
 - destructed in component's props as `className` singleton:  `<div {...someClass}/> <button {...anotherClass}/>` 
 - used as a string:  ` ``${someClass} ${anotherClass}`` `
 
+## Demos
+
+You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition to present *`*.test.*`* and *`*.spec.*`*.
+
 ## Getting more
 
 ### Condition is strictly `boolean`
@@ -193,12 +197,6 @@ const FormButtons = ({className, isValid}: {className: string, isValid: boolean}
   </>
 }
 ```
-
-## Examples @ specs
-
-Check the tests with detailed usage: [src/direct.spec.tsx](./src/direct.spec.tsx) and [src/toggling.spec.tsx](./src/toggling.spec.tsx)
-
-With create-react-application: [./\_\_recipes\_\_/create-react-app/src/App.tsx](./__recipes__/create-react-app/src/App.tsx) 
 
 ## Reference
 

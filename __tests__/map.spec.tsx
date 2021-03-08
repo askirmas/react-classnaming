@@ -37,6 +37,7 @@ it("Some Component", () => {
 
 it("reactstrap Tooltip", () => expectRender(
   <Tooltip target="target" {...mapping<typeof Tooltip>({
+    //TODO #25 {target: {...}}
     className: {Root},
     popperClassName: {"Theme--dark": true},
     innerClassName: {"Item--active": true},
