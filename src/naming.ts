@@ -1,8 +1,10 @@
 import type {
-  CssModule,
   ClassHash,
-  ActionsOf,
 } from "./types"
+import type {
+  CssModule,
+  ActionsOf,
+} from "./definitions.defs"
 import type { Falsy } from "./ts-swiss.defs"
 import {
   joinWithLead,

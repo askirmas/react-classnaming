@@ -1,4 +1,4 @@
-import { CssModule } from "../src/types"
+import { CssModule } from "../src/definitions.defs"
 
 export {}
 

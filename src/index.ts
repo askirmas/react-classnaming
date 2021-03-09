@@ -5,7 +5,7 @@ export type {
   ClassNamesProperty,
   ClassHash,
   ClassNamed,
-  ClassNamesFrom
+  ClassNamesFrom,
 } from "./types"
 
 export default classNaming

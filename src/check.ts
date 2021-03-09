@@ -1,5 +1,6 @@
 import { EMPTY_OBJECT } from "./consts.json"
-import type { CssModule, ClassHash } from "./types"
+import type { ClassHash } from "./types"
+import type { CssModule } from "./definitions.defs"
 
 export {
   classNamesCheck

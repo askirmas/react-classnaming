@@ -1,6 +1,6 @@
 import {
   CssModule,
-} from "./types";
+} from "./definitions.defs";
 import type {
   ClassNamesMapping, ClassNamesMap,
 } from "./index-types.defs";

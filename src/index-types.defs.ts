@@ -1,11 +1,13 @@
 import type {
-  CssModule,
   ClassNamed,
   ClassHash,
+} from "./types"
+import type {
+  CssModule,
   ActionsOf,
   Action,
   Act4Used
-} from "./types"
+} from "./definitions.defs"
 import type {
   GetProps
 } from "./react-swiss.defs";

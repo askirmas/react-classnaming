@@ -1,13 +1,21 @@
 import type {
   Ever,
   EmptyObject,
-  AnyObject,
 } from "./ts-swiss.defs"
 import type {
   GetProps,
-  RCC,
-  RFC
 } from "./react-swiss.defs"
+import type {
+  ClassNamesCombiner,
+  ReactRelated,
+  GetClassNames,
+  CssModule,
+  ClassHash
+} from "./definitions.defs"
+
+export type {
+  ClassHash
+} from "./definitions.defs"
 
 /** Collects required `classnames` from used sub-Components
  * @example
@@ -65,27 +73,9 @@ export type ClassNamesProperty<
   T extends {[K in keyof C]?: ClassHash} & {[K in Exclude<keyof T, keyof C>]: never} = C & EmptyObject,
 > = {classnames: {[K in keyof T & keyof C]: ClassHash}}
 
-/** Primitive for global CSS and CSS module */
-export type ClassHash = undefined|string
-
 /** Shortcut to require property `className` */
 export type ClassNamed = {
   className: string
 }
 
-/// iNTERNAL
-type ClassNamesCombiner<C extends CssModule> = Ever<C, Ever<keyof C, {classnames: {[K in keyof C]: ClassHash}}>>
-type WithClassNames = {classnames: CssModule}
-
-export type CssModule = Record<string, ClassHash>
-//TODO Consider not empty object
-export type GetClassNames<T, D = EmptyObject, R = never> = [T] extends [never] ? D : "classnames" extends keyof T ? T["classnames"] : R
-
-export type ActionsOf<Source extends CssModule> = {[K in keyof Source]?: Action}
-export type Act4Used<A extends Action> = A extends ClassHash ? true : A
-export type Action = ClassHash|boolean
-
-/// UTILITIES FOR REACT
-
 export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
-export type ReactRelated = (AnyObject & WithClassNames) | RFC | RCC<WithClassNames>

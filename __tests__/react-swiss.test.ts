@@ -4,12 +4,13 @@ import {
 import type {
   ClassNamed,
   ClassHash,
-  ReactRelated,
 } from "../src/types"
+import type {
+  ReactRelated,
+} from "../src/definitions.defs"
 import {
   GetProps
 } from "../src/react-swiss.defs"
-
 
 describe("ReactRelated", () => {
   type Getter<T extends ReactRelated> = GetProps<T>
