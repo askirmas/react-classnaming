@@ -317,13 +317,14 @@ ReactDOM.render(<App classnames={classNamesCheck(...)} />
 ```
 - Checks CSS with defined (not indexed) classes keys
 ```tsx
+import type { ClassNamesFrom } from "react-classnaming/types";
 import css_module from "./some.css"; // With class `.never-used {...}`
 
 <Component classnames={classNamesCheck(
-   css_module, 
-   //@ts-expect-error Property 'never-used' is missing
-   {} as ComponentClassNames
- )} />;
+  css_module, 
+  //@ts-expect-error Property 'never-used' is missing
+  {} as ClassNamesFrom<typeof Component>
+)} />;
 ```
 
 
@@ -357,20 +358,6 @@ For hint will be used such props of target component that can be assignable to `
 - Root supply: `classNamesCheck`
 
 - With `*.css.d.ts`
-
-
-### Root apply
-
-```tsx
-import {classNamesCheck} from "react-classnaming"
-
-ReactDOM.render( <Root classnames={classNamesCheck()}/> )
-
-import css from "./module.css"
-
-ReactDOM.render( <Root classnames={classNamesCheck(css))} /> )
-ReactDOM.render( <Root classnames={classNamesCheck<typeof Root, typeof css>(css))} /> )
-```
 
 ## Explaining and recipes
 

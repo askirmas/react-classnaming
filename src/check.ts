@@ -14,18 +14,23 @@ export {
  * ```
  * ---
  * ```tsx
+ * import type { ClassNamesFrom } from "react-classnaming/types"
  * import css_module from "./some.css" // With class `.never-used {...}`
  *
  *  <Component classnames={classNamesCheck(
  *    css_module, 
  *    //@ts-expect-error Property 'never-used' is missing
- *    {} as ComponentClassNames
+ *    {} as ClassNamesFrom<typeof Component>
  *  )} />;
  * ```
  */
- function classNamesCheck<C extends {[K in keyof T]: ClassHash}, T extends CssModule = CssModule>(
-  source = EMPTY_OBJECT as T,
-  _ = EMPTY_OBJECT as C
-) {
+ function classNamesCheck<
+  Target extends {[K in keyof Module]: ClassHash},
+  Module extends CssModule
+>(
+  source = EMPTY_OBJECT as Module,
+  _ = EMPTY_OBJECT as Target
+): string extends keyof Module ? Target : Module {
+  //@ts-expect-error
   return source
 }

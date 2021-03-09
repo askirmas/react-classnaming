@@ -1,12 +1,11 @@
 import React from "react"
 import { classNamesCheck } from "../src/check"
 import { EMPTY_OBJECT } from "../src/consts.json"
-import { ClassHash, ClassNamesProperty, CssModule } from "../src/types"
+import { ClassHash, ClassNamesFrom, ClassNamesProperty, CssModule } from "../src/types"
 
 export {}
 
-type ComponentClassNames = {App: ClassHash}
-const Component = ({classnames: {App}}: ClassNamesProperty<ComponentClassNames>) => <div className={App}/>
+const Component = ({classnames: {App}}: ClassNamesProperty<{App: ClassHash}>) => <div className={App}/>
 
 const css_module_exact = {
   App: undefined
@@ -22,29 +21,23 @@ it(classNamesCheck.name, () => {
   //@ts-expect-error Property 'App' is missing
   <Component classnames={classNamesCheck({})} />;
 
-  //@ts-expect-error Property 'App' is missing //TODO #26 
   <Component classnames={classNamesCheck(css_dictionary)} />;
-  //@ts-expect-error Property 'App' is missing //TODO #26 
-  <Component classnames={classNamesCheck<ComponentClassNames>(css_dictionary)} />;
+
+  <Component classnames={classNamesCheck(css_dictionary, {} as ClassNamesFrom<typeof Component>)} />;
 
   <Component classnames={classNamesCheck(css_module_exact)} />;
   <Component classnames={classNamesCheck(css_module)} />;
-  <Component classnames={classNamesCheck(css_module_exact, {} as ComponentClassNames)} />;
-  <Component classnames={classNamesCheck<ComponentClassNames, typeof css_module_exact>(css_module_exact)} />;
+  <Component classnames={classNamesCheck(css_module_exact, {} as ClassNamesFrom<typeof Component>)} />;
+  <Component classnames={classNamesCheck<ClassNamesFrom<typeof Component>, typeof css_module_exact>(css_module_exact)} />;
   <Component classnames={classNamesCheck(
     css_module,
     //@ts-expect-error Property 'never-used' is missing
-    {} as ComponentClassNames)
+    {} as ClassNamesFrom<typeof Component>)
   } />;
 
-  //@ts-expect-error Type 'CssModule' is not assignable to type 
   <Component classnames={classNamesCheck<
-    ComponentClassNames
-  >(css_module)} />;
-
-  <Component classnames={classNamesCheck<
-    //@ts-expect-error Type 'ComponentClassNames' does not satisfy the constraint
-    ComponentClassNames,
+    //@ts-expect-error Type 'ClassNamesFrom<typeof Component>' does not satisfy the constraint
+    ClassNamesFrom<typeof Component>,
     typeof css_module
   >(css_module)} />;
 
@@ -63,7 +56,7 @@ it("research", () => {
     App__bad: "bad"
   }} />;
   <Component classnames={css_module} />;
-  <Component classnames={css_module as ComponentClassNames} />;
+  <Component classnames={css_module as ClassNamesFrom<typeof Component>} />;
   expect(true).toBe(true)
 })
 
@@ -88,11 +81,11 @@ it("check", () => {
 
   //@ts-expect-error Property 'App' is missing in type 'CssModule'
   <Component classnames
-    ={check0<ComponentClassNames>(css_module)} />;
+    ={check0<ClassNamesFrom<typeof Component>>(css_module)} />;
 
   <Component classnames={check0<
-    //@ts-expect-error Property 'never-used' is missing in type 'ComponentClassNames'
-    ComponentClassNames,
+    //@ts-expect-error Property 'never-used' is missing in type 'ClassNamesFrom<typeof Component>'
+    ClassNamesFrom<typeof Component>,
     typeof css_module
   >(css_module)} />;
 
@@ -104,16 +97,16 @@ it("check", () => {
   <Component classnames={check2()} />;
   //@ts-expect-error Property 'App' is missing
   <Component classnames={check2({})} />;
-  <Component classnames={check2(css_module_exact, {} as ComponentClassNames)} />;
-  <Component classnames={check2<typeof css_module_exact, ComponentClassNames>(css_module_exact)} />;
+  <Component classnames={check2(css_module_exact, {} as ClassNamesFrom<typeof Component>)} />;
+  <Component classnames={check2<typeof css_module_exact, ClassNamesFrom<typeof Component>>(css_module_exact)} />;
   <Component classnames={check2(css_module,
     //@ts-expect-error Property 'never-used' is missing
-    {} as ComponentClassNames)
+    {} as ClassNamesFrom<typeof Component>)
   } />;
   <Component classnames={check2<
     typeof css_module,
-    //@ts-expect-error Type 'ComponentClassNames' does not satisfy the constraint
-    ComponentClassNames
+    //@ts-expect-error Type 'ClassNamesFrom<typeof Component>' does not satisfy the constraint
+    ClassNamesFrom<typeof Component>
   >(css_module)} />;
 
   expect(true).toBe(true)

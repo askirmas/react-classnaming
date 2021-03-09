@@ -2,10 +2,10 @@ import { classNaming } from "./naming"
 
 export type {
   ClassNames,
-  ClassHash,
   ClassNamesProperty,
+  ClassHash,
   ClassNamed,
-  CssModule //TODO Delete after #16
+  ClassNamesFrom
 } from "./types"
 
 export default classNaming
