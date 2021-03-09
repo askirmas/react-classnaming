@@ -30,6 +30,10 @@
 
     "downlevelIteration": true,
     "keyofStringsOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": false,
 
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
