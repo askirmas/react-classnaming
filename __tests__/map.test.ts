@@ -91,14 +91,35 @@ describe("type checks", () => {
     })
   })
 
-  it("Strict action", () => {
-    const {act} = {} as {act?: boolean}
-    , mapped = mapping({} as ThirdPartyComponentProps, {
-      //TODO @ts-expect-error
-      required: {class2: act},
+  describe("Strict action", () => {
+    it("boolean|undefined", () => {
+      const {act} = {} as {act?: boolean}
+      , mapped = mapping({} as ThirdPartyComponentProps, {
+        //@ts-expect-error Type 'boolean | undefined' is not assignable to type 'boolean'
+        required: {class2: act},
+      })
+
+      expect(mapped).toStrictEqual({required: "hash2"})
     })
 
-    expect(mapped).toStrictEqual({required: "hash2"})
+    it('""|undefined', () => {
+      const {act} = {} as {act?: ""}
+      , mapped = mapping({} as ThirdPartyComponentProps, {
+        //@ts-expect-error Type 'string | undefined' is not assignable to type 'never'.
+        required: {class2: act},
+      })
+
+      expect(mapped).toStrictEqual({required: "hash2"})
+    })
+    
+    it("hash", () => {
+      const {act} = {} as {act?: string}
+      , mapped = mapping({} as ThirdPartyComponentProps, {
+        required: {class2: act},
+      })
+
+      expect(mapped).toStrictEqual({required: "hash2"})
+    })
   })
 
   it("return keys", () => {

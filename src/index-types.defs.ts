@@ -95,7 +95,7 @@ export type ClassNamesMapping<Source extends CssModule> = (
   <
     Target extends AnyObject,
     Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
-  >(target: Target, map: Mapping) => Omit<
+  >(target: Target, map: StrictActions<Mapping>) => Omit<
     {[M in keyof Mapping]: string},
     {[M in keyof Mapping]: Mapping[M] extends undefined ? M : never}[keyof Mapping]
   >
@@ -109,7 +109,24 @@ export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModul
       //TODO Strict action
       Action
     }
-
   },
   {[T in keyof TargetProps]: string extends TargetProps[T] ? T : never}[keyof TargetProps]
 >
+
+type StrictActions<MapActs extends ClassNamesMap<any, any>> = {
+  [T in keyof MapActs]:
+    MapActs[T] extends Record<string, Action>
+    ? {[S in keyof MapActs[T]]:
+      MapActs[T][S] extends boolean
+      ? MapActs[T][S]
+      : MapActs[T][S] extends ClassHash
+        ? Ever<
+          Extract<MapActs[T][S], string>,
+          Extract<MapActs[T][S], string> extends "" ? never : MapActs[T][S],
+          MapActs[T][S]
+        >
+
+        : boolean
+    }
+    : MapActs[T]
+}

@@ -42,7 +42,8 @@ it("Strict type", () => {
   const cssClasses = classNaming()
   const disabling = cssClasses({
     //@ts-expect-error Type 'boolean | undefined' is not assignable to type 'boolean'
-    "button--disabled": readOnly
+    "button--disabled": readOnly,
+
   })
 
   expect({...disabling}).toStrictEqual({className: "button--disabled"})
@@ -85,7 +86,9 @@ it("Declare own component's CSS classes", () => {
         ...buttonClass // className="button" 
       }>Close</button>
       <button type="reset" {
-        ...buttonClass({"button--disabled": readOnly}) // className="button"
+        ...buttonClass({
+        "button--disabled": readOnly
+      }) // className="button"
       }>Reset</button> 
       <button type="submit" className={`button_submit ${
         buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
