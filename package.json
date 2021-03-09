@@ -10,7 +10,7 @@
     "build": "npm run compile",
     "prebuild": "npm run test",
     "release": "np",
-    "prerelease": "./prerelease.sh",
+    "-prerelease": "./prerelease.sh",
     "postrelease": "./postrelease.sh",
     "compile": "tsc --project tsconfig.compile.json",
     "precompile": "rm -rf dist",

@@ -1,6 +1,7 @@
 {
   "display": "CLI",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "CommonJS",
     "isolatedModules": true,
@@ -46,8 +47,8 @@
     "declaration": true,
     "jsx": "react",
     "paths": {
-      "react-classnaming": ["./src"],
-      "react-classnaming/*": ["./src/*"]
+      "react-classnaming": ["src"],
+      "react-classnaming/*": ["src/*"]
     }
   },
   "include": [

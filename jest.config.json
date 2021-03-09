@@ -25,5 +25,10 @@
   ],
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "bail": 1
+  "bail": 1,
+  "rootDir": ".",
+  "moduleNameMapper": {
+    "react-classnaming": ["<rootDir>/src"],
+    "react-classnaming/*": ["<rootDir>/src/*"]
+  }
 }
