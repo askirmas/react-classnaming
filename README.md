@@ -301,18 +301,31 @@ function Component({className, classnames, "classnames": {Sub1Class}}: Props) {
 }
 ```
 
-### function [`classNamesCheck`](https://github.com/askirmas/react-classnaming/projects/4) 
+### function [`classNamesCheck`](https://github.com/askirmas/react-classnaming/projects/4)
 
-*//TODO #16*
-
-TS will check on root level that no CSS class is lost, and, in addition, you can check that you haven't redundant
+Identical function or returning constant `EMPTY_OBJECT` for keys check of not used classes in components tree 
 
 ```tsx
 import css from "./page.scss"
 import App from "./App.tsx"
 
-ReactDOM.render(<App classnames={classNamesCheck(css)} />
+ReactDOM.render(<App classnames={classNamesCheck(...)} />
 ```
+- Dummies shape
+```tsx
+<Component classnames={classNamesCheck()} />;
+```
+- Checks CSS with defined (not indexed) classes keys
+```tsx
+import css_module from "./some.css"; // With class `.never-used {...}`
+
+<Component classnames={classNamesCheck(
+   css_module, 
+   //@ts-expect-error Property 'never-used' is missing
+   {} as ComponentClassNames
+ )} />;
+```
+
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 

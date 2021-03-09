@@ -15,11 +15,18 @@ const css_module_exact = {
   App: undefined,
   "never-used": "bad"
 }
+, css_dictionary: CssModule = {}
 
 it(classNamesCheck.name, () => {
   <Component classnames={classNamesCheck()} />;
   //@ts-expect-error Property 'App' is missing
   <Component classnames={classNamesCheck({})} />;
+
+  //@ts-expect-error Property 'App' is missing //TODO #26 
+  <Component classnames={classNamesCheck(css_dictionary)} />;
+  //@ts-expect-error Property 'App' is missing //TODO #26 
+  <Component classnames={classNamesCheck<ComponentClassNames>(css_dictionary)} />;
+
   <Component classnames={classNamesCheck(css_module_exact)} />;
   <Component classnames={classNamesCheck(css_module)} />;
   <Component classnames={classNamesCheck(css_module_exact, {} as ComponentClassNames)} />;
