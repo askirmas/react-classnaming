@@ -2,6 +2,8 @@ import React from "react"
 import expectRender from "../expect-to-same-render"
 import classNaming from "../src"
 import type {ClassHash, ClassNamesProperty} from "../src"
+// import css_module from "./button.module.css"
+const css_module = {button: "BTN"}
 
 it("Basic usage", () => {
   type Props = {
@@ -21,6 +23,7 @@ it("Basic usage", () => {
       <button type="reset" {
         ...buttonClass({"button--disabled": readOnly}) // className="button"
       }>Reset</button> 
+                        {/* className="button_submit button button--disabled" */}
       <button type="submit" className={`button_submit ${
         buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
       }`}>Submit</button> 
@@ -42,8 +45,7 @@ it("Strict type", () => {
   const cssClasses = classNaming()
   const disabling = cssClasses({
     //@ts-expect-error Type 'boolean | undefined' is not assignable to type 'boolean'
-    "button--disabled": readOnly,
-
+    "button--disabled": readOnly
   })
 
   expect({...disabling}).toStrictEqual({className: "button--disabled"})
@@ -90,9 +92,12 @@ it("Declare own component's CSS classes", () => {
         "button--disabled": readOnly
       }) // className="button"
       }>Reset</button> 
-      <button type="submit" className={`button_submit ${
-        buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
-      }`}>Submit</button> 
+      <button type="submit" {
+        ...buttonClass({
+          "button_submit": true,
+          "button--disabled": readOnly || !isValid
+        }) // className="button button_submit button--disabled"
+      }>Submit</button> 
     </>
   }  
 
@@ -101,6 +106,57 @@ it("Declare own component's CSS classes", () => {
   ).toSame(<>
     <button className="button">Close</button>
     <button type="reset" className="button">Reset</button>
-    <button type="submit" className="button_submit button button--disabled">Submit</button>
+    <button type="submit" className="button button_submit button--disabled">Submit</button>
+  </>)
+})
+
+it("Using ClassHash", () => {
+  // CSS-module
+  const { button } = css_module
+
+  // Module simulation
+  type CssModuleSimulation = { button_submit: ClassHash }
+  const { button_submit } = {} as CssModuleSimulation
+  
+  type MyClassNames = ClassNamesProperty<
+    typeof css_module &
+    CssModuleSimulation &
+    {
+      "button--disabled": ClassHash
+    }
+  >
+  type Props = {
+    isValid: boolean
+    readOnly: boolean
+  }
+
+  // isValid = false, readOnly = false
+  function FormButtons({isValid, readOnly}: Props) {
+    const cssClasses = classNaming<MyClassNames>()
+    const buttonClass = cssClasses({ button })
+    
+    return <>
+      <button {
+        ...buttonClass // className="BTN" 
+      }>Close</button>
+      <button type="reset" {
+        ...buttonClass({
+          "button--disabled": readOnly
+      }) // className="BTN"
+      }>Reset</button> 
+      <button type="submit" {...buttonClass({
+        button_submit,
+        "button--disabled": readOnly || !isValid
+      }) // "BTN button_submit button--disabled"
+      }>Submit</button> 
+    </>
+  }  
+
+  expectRender(
+    <FormButtons isValid={false} readOnly={false} />
+  ).toSame(<>
+    <button className="BTN">Close</button>
+    <button type="reset" className="BTN">Reset</button>
+    <button type="submit" className="BTN button_submit button--disabled">Submit</button>
   </>)
 })
