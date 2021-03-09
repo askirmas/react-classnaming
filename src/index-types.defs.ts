@@ -56,7 +56,10 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   arg1?: ApplyClassName extends true ? Falsy | StrictSub<Used, Source, Actions1> : never
 ) => ClassNaming<
   ApplyClassName extends true ? false : WithClassName,
-  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used ? Used[K] : Act4Used<Actions0[K]>},
+  {[K in keyof Used | RequiredKeys<Actions0 | Actions1>]: K extends keyof Used
+    ? Used[K]
+    : Act4Used<Actions0[K]> & Act4Used<Actions1[K]>
+  },
   Source
 >;
 
