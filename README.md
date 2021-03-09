@@ -22,6 +22,8 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 6. Use IDE type hints as developers UX for faster issues resolving
 7. CSS-modules agnostic
 
+Use package like [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts) to prepare strict declaration of CSS 
+
 ## Installation and import
 
 ```bash
@@ -299,6 +301,15 @@ function Component({className, classnames, "classnames": {Sub1Class}}: Props) {
     }}/>
   </div>
 }
+```
+
+### type `ClassNamesFrom`
+
+Obtain `classnames`-object from `props` of functional component, class component or props type
+
+```typescript
+ClassNamesFrom<ComponentProps>;
+ClassNamesFrom<typeof Component>;
 ```
 
 ### function [`classNamesCheck`](https://github.com/askirmas/react-classnaming/projects/4)

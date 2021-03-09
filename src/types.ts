@@ -78,4 +78,14 @@ export type ClassNamed = {
   className: string
 }
 
-export type ClassNamesFrom<T, D = EmptyObject> = GetClassNames<GetProps<T>, D, EmptyObject>
+
+// TODO Consider `never` if no `"classnames"` key
+/**
+ * Obtain `classnames`-object from `props` of functional component, class component or props type
+ * @example
+ * ```typescript
+ * ClassNamesFrom<ComponentProps>;
+ * ClassNamesFrom<typeof Component>;
+ * ```
+ */
+export type ClassNamesFrom<C extends ReactRelated> = GetClassNames<GetProps<C>, EmptyObject, EmptyObject>
