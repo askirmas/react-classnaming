@@ -1,7 +1,7 @@
 
 import React from "react"
-import { classNaming } from "../src/naming"
-import type { ClassNamesProperty, ClassHash } from "../src"
+import { classNaming } from "react-classnaming"
+import type { ClassNamesProperty, ClassHash } from "react-classnaming/types"
 
 type MyComponentProps = ClassNamesProperty<{
   btn: ClassHash

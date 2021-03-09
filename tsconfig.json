@@ -44,7 +44,11 @@
     "sourceMap": false,
     "outDir": "dist",
     "declaration": true,
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "react-classnaming": ["./src"],
+      "react-classnaming/*": ["./src/*"]
+    }
   },
   "include": [
     "**/*.ts",

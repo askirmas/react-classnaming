@@ -1,6 +1,6 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import { classNamesCheck } from "../src"
+import { classNamesCheck } from "react-classnaming"
 import App from "./App"
 
 // Emulation of import some_module_css from "./some.module.css"

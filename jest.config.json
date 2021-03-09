@@ -17,6 +17,7 @@
   },
   "collectCoverageFrom": [
     "src/**/*.{ts,tsx,js,jsx}",
+    "!src/index.ts",
     "!**/node_modules/**",
     "!**/coverage/**",
     "!**/cypress/**",
