@@ -1,14 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": false
+    "noEmit": false,
+    "paths": {}
   },
+  "include": [
+    "src/*.ts",
+    "src/*.json"
+  ],
   "exclude": [
     "**/sandbox/**/**.*",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.test.tsx",
-    "**/*.spec.tsx",
+    "**/*.test.*",
+    "**/*.spec.*",
     "**/*.css*"
   ]
 }

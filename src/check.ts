@@ -1,45 +1,37 @@
-import { EMPTY_OBJECT } from "./consts"
-import type { ReactRelated, ClassNamesFrom, CssModule, ClassHash } from "./defs"
+import { EMPTY_OBJECT } from "./consts.json"
+import type { ClassHash } from "./types"
+import type { CssModule } from "./definitions.defs"
 
 export {
   classNamesCheck
 }
 
-//TODO On assignment
-/** Checks equality
- * @example classNamesCheck<typeof App, typeof require("./module.css")>(module?) // Will return notation as array of not used classes
- * @todo On parameter:
- * @example classNamesCheck<typeof App>(require("./module.css"))
-*/
-
-/** Identical function */
-function classNamesCheck<T extends CssModule>(classnames: T): T
-
-/** Declares class keys
+/**
+ * Identical function or returning constant `EMPTY_OBJECT` for keys check of not used classes in components tree 
  * @example
- * classNamesCheck() // Anything
- * classNamesCheck<typeof Component>()
+ * ```tsx
+ *  // Dummies shape
+ *  <Component classnames={classNamesCheck()} />;
+ * ```
+ * ---
+ * ```tsx
+ * import type { ClassNamesFrom } from "react-classnaming/types"
+ * import css_module from "./some.css" // With class `.never-used {...}`
+ *
+ *  <Component classnames={classNamesCheck(
+ *    css_module, 
+ *    //@ts-expect-error Property 'never-used' is missing
+ *    {} as ClassNamesFrom<typeof Component>
+ *  )} />;
+ * ```
  */
-function classNamesCheck(): never
-
-/**
- * Overrides argument's shape.
- * For checking equality add `typeof css_module` as second generic parameter
-*/
-function classNamesCheck<K extends ReactRelated>(classnames: {[k: string]: ClassHash}): ClassNamesFrom<K>
-
-/**
- * Check redundant keys
- */
-function classNamesCheck<
-  K extends ReactRelated,
-  T extends ClassNamesFrom<K> = ClassNamesFrom<K> 
->(classnames?: T): string extends keyof T ? ClassNamesFrom<K>
-: keyof T extends keyof ClassNamesFrom<K> ? T
-// For Verbosing redundant keys
-: Exclude<keyof T, keyof ClassNamesFrom<K>>[]
-
-
-function classNamesCheck(classnames = EMPTY_OBJECT) {
-  return classnames
+ function classNamesCheck<
+  Target extends {[K in keyof Module]: ClassHash},
+  Module extends CssModule
+>(
+  source = EMPTY_OBJECT as Module,
+  _ = EMPTY_OBJECT as Target
+): string extends keyof Module ? Target : Module {
+  //@ts-expect-error
+  return source
 }

@@ -1,6 +1,6 @@
-import type { ClassNamed, ClassHash } from "./defs"
-import type { Falsy } from "./ts-swiss"
-import { EMPTY_ARRAY } from "./consts"
+import type { ClassNamed, ClassHash } from "./types"
+import type { Falsy } from "./ts-swiss.defs"
+import { EMPTY_ARRAY } from "./consts.json"
 import { stringifyClassNamed } from "./utils"
 
 const {keys: $keys} = Object

@@ -1,17 +1,15 @@
 import {
-  ClassNamesProperty,
   CssModule,
-  ActionsOf
-} from "./defs";
+} from "./definitions.defs";
 import type {
-  ClassNamesMap,
-} from "./index.types";
+  ClassNamesMapping, ClassNamesMap,
+} from "./index-types.defs";
 import {resolver} from "./core"
-
+import { AnyObject, OmitIndexed } from "./ts-swiss.defs";
+import { GetProps } from "./react-swiss.defs";
 
 const {keys: $keys} = Object
 
-export default classNamesMap
 export {
   classNamesMap
 }
@@ -26,26 +24,36 @@ export {
 function classNamesMap<
   Source extends CssModule,
 >(classnames: Source){
-  const mapper: ClassNamesMap<Source> = map => mapping(classnames, map)
+  const mapper: ClassNamesMapping<Source> = (target, map) => mapping(classnames, target, map)
   return mapper
 }
 
 function mapping<
-  Target extends ClassNamesProperty<CssModule>,
   Source extends CssModule,
+  Target extends AnyObject,
+  Mapping extends ClassNamesMap<OmitIndexed<GetProps<Target>>, Source>
 >(
   source: Source,
-  map: {[T in keyof Target["classnames"]]: ActionsOf<Source>}
-): {classnames: {[T in keyof Target["classnames"]]: string}} {
-  const keys = $keys(map) as (keyof Target["classnames"])[]
-  , classnames = {} as {[T in keyof Target["classnames"]]: string}
+  _: Target,
+  map: Mapping
+): {[M in keyof Mapping]: string} {
+  const keys = $keys(map) as (keyof Mapping)[]
+  , classnames = {} as {[M in keyof Mapping]: string}
 
   for (let i = keys.length; i--;) {
     const key = keys[i]
+    , val = map[key]
     
-    classnames[key] = resolver(source, map[key]).join(" ")
+    if (val === undefined)
+      continue
+      
+    classnames[key] = typeof val === "function"
+    ? `${val}`
+    : resolver(source,
+      //@ts-expect-error #27 TS doesn't understand that ClassNaming is first of all function
+      val
+    ).join(" ") 
   }
 
-  return {classnames}
+  return classnames
 }
-

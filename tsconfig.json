@@ -1,6 +1,7 @@
 {
   "display": "CLI",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "CommonJS",
     "isolatedModules": true,
@@ -44,14 +45,14 @@
     "sourceMap": false,
     "outDir": "dist",
     "declaration": true,
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "react-classnaming": ["src"],
+      "react-classnaming/*": ["src/*"]
+    }
   },
-  "exclude": [
-    "node_modules"
-  ],
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "global.d.ts"
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

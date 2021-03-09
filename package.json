@@ -1,20 +1,19 @@
 {
   "name": "react-classnaming",
   "version": "0.13.0",
-  "description": "Easily applied function to use optionally with CSS modules and do not get lost in CSS classes by powerful TypeScript notation",
+  "description": "Tools to establish CSS classes as an explicit abstraction layer and to handle it as an interface between React and CSSStyleDeclaration",
   "main": "dist",
   "scripts": {
-    "dev": "npm run jest -- --watch --collectCoverageFrom=[] --onlyFailures",
+    "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --onlyFailures --watch",
     "test": "npm run jest --",
     "pretest": "jest --clearCache",
     "build": "npm run compile",
     "prebuild": "npm run test",
-    "postbuild": "npm run spec",
     "release": "np",
-    "prerelease": "npm run build",
-    "postrelease": "npm update",
-    "spec": "cd __recipes__ && npm run test",
-    "compile": "rm -rf dist && tsc --project tsconfig.compile.json",
+    "-prerelease": "./prerelease.sh",
+    "postrelease": "./postrelease.sh",
+    "compile": "tsc --project tsconfig.compile.json",
+    "precompile": "rm -rf dist",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
     "jest": "jest --runInBand"
   },
@@ -23,17 +22,16 @@
     "url": "git+https://github.com/askirmas/react-classnaming.git"
   },
   "keywords": [
-    "React",
-    "CSS class",
-    "CSS modules",
     "typescript",
-    "className",
-    "class",
-    "classNames",
-    "classNaming",
+    "declarative",
+    "css-classes",
     "css",
-    "modules",
-    "css-modules"
+    "react",
+    "classname",
+    "css-modules",
+    "classnames",
+    "classnaming",
+    "react-classnaming"
   ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
   "license": "MIT",
@@ -53,6 +51,7 @@
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.1",
+    "@types/reactstrap": "^8.7.2",
     "classnames": "^2.2.6",
     "git-hooks-wrapper": "^0.7.1",
     "jest": "^26.6.3",
@@ -63,7 +62,9 @@
     "typescript": "^4.2.2"
   },
   "np": {
-    "yarn": false
+    "yarn": false,
+    "branch": "release",
+    "2fa": false
   },
   "files": [
     "README.md",

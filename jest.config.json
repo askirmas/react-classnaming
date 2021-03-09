@@ -1,8 +1,11 @@
 {
   "collectCoverage": true,
+  "modulePathIgnorePatterns": [
+    "/dist"
+  ],
   "testPathIgnorePatterns": [
-    "node_modules",
-    "__recipes__"
+    "/node_modules/",
+    "\\.d\\.ts$"
   ],
   "coverageThreshold": {
     "global": {
@@ -14,6 +17,7 @@
   },
   "collectCoverageFrom": [
     "src/**/*.{ts,tsx,js,jsx}",
+    "!src/index.ts",
     "!**/node_modules/**",
     "!**/coverage/**",
     "!**/cypress/**",
@@ -21,5 +25,10 @@
   ],
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "bail": 1
+  "bail": 1,
+  "rootDir": ".",
+  "moduleNameMapper": {
+    "react-classnaming": ["<rootDir>/src"],
+    "react-classnaming/*": ["<rootDir>/src/*"]
+  }
 }
