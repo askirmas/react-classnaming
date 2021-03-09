@@ -82,6 +82,7 @@ function classes<
     {},
     boolean
   > = (arg0?, arg1?) => classes({classnames, className, stacked: result},
+    //@ts-expect-error Due to not accurate `withClassName`
     arg0,
     arg1
   )

@@ -50,7 +50,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   // Change to `ActionsOf` breaks TS
   Actions0 extends {[K in keyof Source]?: Action},
   Actions1 extends {[K in keyof Source]?: Action},
-  ApplyClassName extends WithClassName|false = false
+  ApplyClassName extends WithClassName | false
  >(
   arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions0>,
   arg1?: ApplyClassName extends true ? Falsy | StrictSub<Used, Source, Actions1> : never
@@ -71,7 +71,7 @@ export type ClassNaming<WithClassName extends boolean, Used extends BoolDict, So
 > & ClassNamed
 
 type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends ActionsOf<Source>>
-= Extract<Actions, AnyObject> & {
+= {
   [K in keyof Actions]: K extends keyof Source
   ? K extends keyof Used ? never
   : Actions[K] extends boolean
