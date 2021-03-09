@@ -14,17 +14,21 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 
 ## Objectives
 
-1. Make CSS classes to be explicit and predictable project layer
-2. Enforce declaration style programming
-3. Enforce contract based development via TypeScript
-4. Enforce single source of truth
-5. Enforce class-conditions to be strictly `boolean`, not ~~`falsy|truthy`~~
-6. Use IDE type hints as developers UX for faster issues resolving
-7. CSS-modules agnostic
+1. Use CSS classes as an ontology of front-end project for clean communication between developers and non-tech staff
+2. Make CSS classes be an explicit and predictable informational layer
+3. Enforce declarative programming paradigm
+4. Enforce contract programming (via TypeScript)
+
+## Dev features
+
+1. Enforce <u>single source of truth</u> of class appending – treat as TypeScript-driven dedupe
+2. Require strict `boolean` for value of class condition
+3. Use IDE type hints as developers' UX for faster issues resolving
+4. CSS-modules agnostic
 
 Use package like [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts) to prepare strict declaration of CSS 
 
-## Installation and import
+## Installation and brief overview
 
 ```bash
 npm install --save react-classnaming
@@ -32,9 +36,14 @@ npm install --save react-classnaming
 
 ```typescript
 import {
-  classNaming, // Returns function for building `className: string` from conditioned CSS classes with "context" (if was provided) from `props` for using only declared CSS classes
-  classNamesMap, // Similar to classNaming, specifies mapping to component's (i.e. 3rd-party) `className`-related props
-  classNamesCheck // Identical function for TS restriction on classes determed in CSS and not used in component
+  // Returns function for building `className: string` from conditioned CSS classes with "context" (if was provided) from `props` for using only declared CSS classes
+  classNaming, 
+  
+  // Similar to classNaming, specifies mapping to component's (i.e. 3rd-party) `className`-related props
+  classNamesMap,
+  
+  // Identical function for TS restriction on classes determed in CSS and not used in component
+  classNamesCheck 
 } from "react-classnaming"
 
 // Default export is the most frequently used function
@@ -46,10 +55,17 @@ import { classNamesCheck } from "react-classnaming/check"
 import { classNamesMap } from "react-classnaming/map"
 
 import type {
-  ClassNamesProperty, // Type to declare component's self CSS classes
-  ClassNames, // Type to gather required CSS classes of sub-components
-  ClassHash, // `= string | undefined` – type to declare CSS class, global or local
-  ClassNamed  // `= {className: string}` – useful shortcut
+  // Type to declare component's self CSS classes
+  ClassNamesProperty, 
+    
+  // Type to gather required CSS classes of sub-components
+  ClassNames, 
+    
+  // `= string | undefined` – type to declare CSS class, global or local
+  ClassHash, 
+    
+  // `= {className: string}` – useful shortcut
+  ClassNamed 
 } from "react-classnaming/types"
 ```
 
@@ -77,6 +93,7 @@ function FormButtons({isValid, readOnly}: Props) {
     <button type="reset" {
       ...buttonClass({"button--disabled": readOnly}) // className="button"
     }>Reset</button> 
+                     { /* className="button_submit button button--disabled" */ }
     <button type="submit" className={`button_submit ${
       buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
     }`}>Submit</button> 
@@ -86,13 +103,13 @@ function FormButtons({isValid, readOnly}: Props) {
 
 As shown, producing function `classNaming` returns a multipurpose object. It can be
 
-- recalled to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
-- destructed in component's props as `className` singleton:  `<div {...someClass}/> <button {...anotherClass}/>` 
-- used as a string:  ` ``${someClass} ${anotherClass}`` `
+- <u>recalled</u> to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
+- <u>destructed in</u> component's <u>props</u> as `className` singleton:  `<div {...someClass}/><button {...anotherClass}/>` 
+- used as a <u>string</u>:  ` ``${someClass} ${anotherClass}`` `
 
 ## Demos
 
-[<img src="./images/vscode.png" style="width: 50%; float:right;" />](./images/vscode.png) You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. 
+You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. [<img src="./images/vscode.png" width="50%"/>](./images/vscode.png) 
 
 ## Getting more
 
