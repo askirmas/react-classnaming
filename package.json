@@ -1,6 +1,6 @@
 {
   "name": "react-classnaming",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Tools to establish CSS classes as an explicit abstraction layer and to handle it as an interface between React and CSSStyleDeclaration",
   "main": "dist",
   "scripts": {
@@ -62,7 +62,9 @@
     "typescript": "^4.2.2"
   },
   "np": {
-    "yarn": false
+    "yarn": false,
+    "branch": "release",
+    "2fa": false
   },
   "files": [
     "README.md",
