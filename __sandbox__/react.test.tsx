@@ -39,3 +39,9 @@ it("props to dom attribute", () => expectRender(
   //@ts-expect-error
   <div classnames="" />
 ))
+
+it("symbol prop", () => expectRender(
+  <div {...{[Symbol("symbol")]: () => "symbol"}} />
+).toSame(
+  <div />
+))
