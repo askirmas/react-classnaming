@@ -92,7 +92,7 @@ As shown, producing function `classNaming` returns a multipurpose object. It can
 
 ## Demos
 
-You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition to present *`*.test.*`* and *`*.spec.*`*.
+[<img src="./images/vscode.png" style="width: 50%; float:right;" />](./images/vscode.png) You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. 
 
 ## Getting more
 
@@ -126,38 +126,6 @@ Only declared CSS classes will be allowed as keys with IDE hint on possibilities
 ```
 
 ![classnaming_declared](./images/classnaming_declared.gif)
-
-### Using CSS-modules or simulation
-
-It is possible to use CSS modules or simulation without "context" by supplying class-hash value with variable [\__tests__/readme.spec.tsx:114](./__tests__/readme.spec.tsx#L114-L153)
-
-```diff
-// CSS-module, assuming "button" will be replaced with "BTN"
-+ import css_module from "./button.module.css"
-+ const { button } = css_module
-// Module simulation
-+ type CssModuleSimulation = { button_submit: ClassHash }
-+ const { button_submit } = {} as CssModuleSimulation
-  
-  type MyClassNames = ClassNamesProperty<
-+   typeof css_module &
-+   CssModuleSimulation & 
-    {
--     button: ClassHash
--     button_submit: ClassHash
-      "button--disabled": ClassHash
-    }
- >
-
-- const buttonClass = cssClasses({ button: true })
-+ const buttonClass = cssClasses({ button })
-
-  <button type="submit" {...buttonClass({
--    "button_submit": true, 
-+    button_submit,
-    "button--disabled": readOnly || !isValid
-  })}>Submit</button>  
-```
 
 ## Reference
 
@@ -212,6 +180,25 @@ const withClassNameTwice = containerClass(
 ```
 
 On `const` hovering will be tooltip with already conditioned classes under this chain
+
+### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
+
+Function to map `classnames` to string props of some (i.e. 3rd-party) component.
+
+```tsx
+const { Root } = classnames
+const mapping = classNamesMap(classnames)
+
+<ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
+  ContainerClassName: { Root, "Theme--dark": true },
+  Checked___true: classes({ "Item--active": true }),
+  Checked___false: {}
+})} />
+```
+
+For hint will be used such props of target component that can be assigned to `string`. After calling `mapping` function and setting other properties, usual TypeScript will check for presence of target's required properties and other ordinary for TS things.
+
+![](./images/classnames_map.gif)
 
 ### type [`ClassNamesProperty`](https://github.com/askirmas/react-classnaming/projects/3)
 
@@ -295,55 +282,41 @@ import css_module from "./some.css"; // With class `.never-used {...}`
 )} />;
 ```
 
-
-### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
-
-Function to map `classnames` to string props of some (i.e. 3rd-party) component.
-
-```tsx
-const { Root } = classnames
-const mapping = classNamesMap(classnames)
-
-<ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
-  ContainerClassName: { Root, "Theme--dark": true },
-  Checked___true: classes({ "Item--active": true }),
-  Checked___false: {}
-})} />
-```
-
-For hint will be used such props of target component that can be assigned to `string`. After calling `mapping` function and setting other properties, usual TypeScript will check for presence of target's required properties and other ordinary for TS things.
-
-![](./images/classnames_map.gif)
-
-## Getting Started //TODO
-
-- Component usage: `classNames`
-
-- Component declaration: `ClassNamesProperty`, `ClassHash`
-
-- Collecting: `ClassNames`
-
-- Root supply: `classNamesCheck`
-
-- With `*.css.d.ts`
-
-## Explaining and recipes
-
-### Playing together with IDE renames
-
-*//TODO add example*
-
-### With and without CSS modules
-
-```tsx
-import css from "./css" // css === {}
-import module_css from "./module_css" // module_css === {"class1": "hash1", ...}
-
-<App classnames={css} />;
-<App classnames={module} />;
-```
-
 ## Misc 
+
+### Restructuring
+
+#### Using CSS-modules or simulation
+
+It is possible to use CSS modules or simulation without "context" by supplying class-hash value with variable [\__tests__/readme.spec.tsx:114](./__tests__/readme.spec.tsx#L114-L153)
+
+```diff
+// CSS-module, assuming "button" will be replaced with "BTN"
++ import css_module from "./button.module.css"
++ const { button } = css_module
+// Module simulation
++ type CssModuleSimulation = { button_submit: ClassHash }
++ const { button_submit } = {} as CssModuleSimulation
+  
+  type MyClassNames = ClassNamesProperty<
++   typeof css_module &
++   CssModuleSimulation & 
+    {
+-     button: ClassHash
+-     button_submit: ClassHash
+      "button--disabled": ClassHash
+    }
+ >
+
+- const buttonClass = cssClasses({ button: true })
++ const buttonClass = cssClasses({ button })
+
+  <button type="submit" {...buttonClass({
+-    "button_submit": true, 
++    button_submit,
+    "button--disabled": readOnly || !isValid
+  })}>Submit</button>  
+```
 
 ### Versus [`classnames`](https://github.com/JedWatson/classnames#readme) package
 
