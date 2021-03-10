@@ -1,6 +1,6 @@
 import React from "react"
-import type { ClassNames, ClassNamesProperty, ClassHash } from "react-classnaming"
-import classNaming from "react-classnaming"
+import type { ClassNames, ClassNamesProperty, ClassHash } from "../src/"
+import classNaming from "../src/"
 import expectRender from "../expect-to-same-render"
 
 const {classnames}: ClassNames<typeof App> = {

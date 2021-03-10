@@ -1,6 +1,7 @@
 import { CssModule } from "./definitions.types"
 import { Strip } from "./ts-swiss.types"
-import { ClassNamed } from "./types"
+import { ClassNamed } from "./main.types"
+import type {ReactClassNaming} from "."
 
 export type ClassBeming<
   ClassNames extends CssModule,
@@ -52,9 +53,15 @@ export type BemQuery1<
 
 export type BemQuery2<
   classes extends string,
-  delE extends string = "__",
-  delM extends string = "--",
-  bModKey extends string = "$",
+  delE extends string = "elementDelimiter" extends keyof ReactClassNaming.BemOptions
+  ? ReactClassNaming.BemOptions["elementDelimiter"]
+  : ReactClassNaming.BemOptions["$default"]["elementDelimiter"],
+  delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
+  ? ReactClassNaming.BemOptions["modDelimiter"]
+  : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
+  bModKey extends string = "blockModKey" extends keyof ReactClassNaming.BemOptions
+  ? ReactClassNaming.BemOptions["blockModKey"]
+  : ReactClassNaming.BemOptions["$default"]["blockModKey"],
   BE extends Strip<classes, delM> = Strip<classes, delM>,
   Block extends Strip<BE, delE> = Strip<BE, delE>,
 > = string extends classes ? BemAbsraction : {

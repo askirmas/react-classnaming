@@ -14,6 +14,7 @@
       "node",
       "jest"
     ],
+
     "resolveJsonModule": true,
 
     "allowJs": true,
@@ -49,14 +50,14 @@
     "sourceMap": false,
     "outDir": "dist",
     "declaration": true,
-    "jsx": "react",
-    "paths": {
-      "react-classnaming": ["src"],
-      "react-classnaming/*": ["src/*"]
-    }
+    "jsx": "react"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "exclude": [
+    "dist",
+    "__recipes__"
   ]
 }

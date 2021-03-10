@@ -4,7 +4,7 @@ import {
 import type {
   ClassNamed,
   ClassHash,
-} from "./types"
+} from "./main.types"
 import type {
   ReactRelated,
 } from "./definitions.types"

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import type { JSXElementConstructor, Component, ReactElement } from "react"
-import { ClassNamed, ClassNamesProperty, ClassHash } from "../src/types"
+import { ClassNamed, ClassNamesProperty, ClassHash } from "../src/main.types"
 
 function FWith(_: ClassNamed & ClassNamesProperty<{a: ClassHash}>) { return null }
 function FWithout(_: ClassNamed) { return null }

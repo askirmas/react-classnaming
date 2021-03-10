@@ -27,7 +27,7 @@ function bem2arr(query: BemAbsraction) {
     if (typeof blockQ !== "object") {
       $return.push(block)
       if (typeof blockQ === "string")
-        $return.push(`${block}--${blockQ}`)
+        $return.push(`${block}${modDelimiter}${blockQ}`)
       continue
     }
 
@@ -45,7 +45,7 @@ function bem2arr(query: BemAbsraction) {
 
       if (typeof elementQ !== "object") {
         if (typeof elementQ === "string")
-          $return.push(`${element}--${elementQ}`)
+          $return.push(`${element}${modDelimiter}${elementQ}`)
         continue
       }
 

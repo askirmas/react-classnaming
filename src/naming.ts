@@ -1,6 +1,6 @@
 import type {
   ClassHash,
-} from "./types"
+} from "./main.types"
 import type {
   CssModule,
   ActionsOf,

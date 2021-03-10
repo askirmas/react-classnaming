@@ -1,12 +1,11 @@
-import type {ClassNames} from "react-classnaming"
-import classNaming from "react-classnaming"
+import type {ClassNames, ClassNamesProperty, ClassHash} from "../src"
+import classNaming from "../src"
 
 import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
 
 import css from "./some.css"
 import module from "./some.module.css"
-import { ClassNamesProperty, ClassHash } from "react-classnaming/types"
 
 const module_css: typeof module = {
   "class1": "hash1",
