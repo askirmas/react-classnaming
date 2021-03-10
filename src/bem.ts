@@ -32,8 +32,8 @@ function bem<
     className?: string,
     classnames?: Source,
   },
-  arg0?: boolean | BemAbsraction,
-  arg1?: BemAbsraction 
+  arg0?: boolean | BemAbsraction<string>,
+  arg1?: BemAbsraction<string> 
 ) {
   const source = typeof arg0 === "object" ? arg0 : arg1
   , debemed = source && bem2arr(source)

@@ -1,4 +1,7 @@
-import { bem2arr, BemAbsraction } from "./bem.core";
+import {BemAbsraction, BemOptions, getOptions, setOptions} from "./bem.core";
+import {
+  bem2arr
+} from "./bem.core";
 
 describe(bem2arr.name, () => {
   describe("singletons", () => {
@@ -29,7 +32,7 @@ describe(bem2arr.name, () => {
           $: {mod: true},
           el: true               }},  "block block--mod block__el"]
       ]
-    } as Record<string, [BemAbsraction, string][]>
+    } as Record<string, [BemAbsraction<"$">, string][]>
 
     Object.entries(suites).forEach(([title, launches]) => describe(title, () => launches
       .forEach(([query, output]) => it(
@@ -38,4 +41,47 @@ describe(bem2arr.name, () => {
       )
     )) 
   })
+})
+
+describe("optioning", () => {
+  const defaultOpts: BemOptions = {
+    elementDelimiter: "__",
+    modDelimiter: "--",
+    blockModKey: "$"
+  }
+
+  it("default", () => expect(
+    getOptions()
+  ).toStrictEqual(
+    defaultOpts
+  ))
+
+  it("set empty", () => expect((
+    setOptions({}),
+    getOptions()
+  )).toStrictEqual(
+    defaultOpts
+  ))
+    
+  it("set another", () => {
+    const opts: BemOptions = {
+      elementDelimiter: "_",
+      modDelimiter: "-",
+      blockModKey: "$"
+    }
+    setOptions(opts)
+
+    expect(
+      getOptions()
+    ).toStrictEqual(
+      opts
+    )
+  })
+
+  it("revert to default", () => expect((
+    setOptions(defaultOpts),
+    getOptions()
+  )).toStrictEqual(
+    defaultOpts
+  ))
 })

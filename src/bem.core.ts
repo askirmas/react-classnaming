@@ -1,12 +1,19 @@
-const elementDelimiter = "__"
+let elementDelimiter = "__"
 , modDelimiter = "--"
-, blockModKey = "$" as const
+, blockModKey = "$"
 
-export type BemAbsraction = {
+export type BemOptions = {
+  elementDelimiter: string
+  modDelimiter: string
+  blockModKey: string
+}
+
+export type BemAbsraction<blockModKey extends string> = {
   [block: string]: boolean | {
-    [blockModKey]?: {
+    [k in blockModKey]?: {
       [mod: string]: boolean | string
     }
+  } & {
     [el: string]: undefined|boolean | {
       [mod: string]: boolean | string
     }
@@ -14,10 +21,12 @@ export type BemAbsraction = {
 }
 
 export {
-  bem2arr
+  bem2arr,
+  setOptions,
+  getOptions
 }
 
-function bem2arr(query: BemAbsraction) {
+function bem2arr(query: BemAbsraction<string>) {
   const $return: string[] = []
 
   for (const block in query) {
@@ -59,4 +68,22 @@ function bem2arr(query: BemAbsraction) {
   }
   
   return $return
+}
+
+function setOptions({
+  elementDelimiter: elD = elementDelimiter,
+  modDelimiter: modDel = modDelimiter,
+  blockModKey: modKey = blockModKey
+}: Partial<BemOptions>) {
+  elementDelimiter = elD
+  modDelimiter = modDel
+  blockModKey = modKey
+}
+
+function getOptions() {
+  return {
+    elementDelimiter,
+    modDelimiter,
+    blockModKey
+  }
 }
