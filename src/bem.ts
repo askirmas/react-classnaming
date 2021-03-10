@@ -1,7 +1,7 @@
 import type { BemAbsraction } from "./bem.core";
 import type { CssModule } from "./definitions.defs";
 import { bem2arr } from "./bem.core";
-import { joinWithLead, picker } from "./core"
+import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"
 
 export {
@@ -15,10 +15,11 @@ function classBeming<
 >(
  context: Ctx = EMPTY_OBJECT as Ctx
 ) {
+  const {className} = context
   //@ts-expect-error
   const host = (arg0?, arg1?) => bem(context, arg0, arg1)
 
-  return host
+  return wrapper(host, className)
 }
 
 function bem<
