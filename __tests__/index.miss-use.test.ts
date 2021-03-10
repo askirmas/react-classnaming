@@ -35,7 +35,7 @@ describe("ctx", () => {
       classnames: global_css
     })
   }).toStrictEqual({
-    className: ""
+    className: "[object Object]"
   }))
 })
 

@@ -11,14 +11,11 @@ import {
   resolver,
   wrapper
 } from "./core"
-import { emptize } from "./utils"
 import { EMPTY_OBJECT } from "./consts.json"
 import type {
   ClassNamingFn,
   ClassNaming
 } from "./index-types.defs"
-
-emptize(classes)
 
 export { classNaming }
 
@@ -38,8 +35,7 @@ function classNaming<
 >(
   context: Ctx = EMPTY_OBJECT as Ctx
 ): ClassNaming<WithClassName, {}, Source> {
-  const {classnames, className} = context
-  classnames && emptize(classnames)
+  const {className} = context
   
   const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes(
     context,
@@ -84,8 +80,6 @@ function classes<
     arg0,
     arg1
   )
-
-  classnames && emptize(classnames)
 
   return wrapper(
     host,
