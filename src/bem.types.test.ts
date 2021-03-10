@@ -91,7 +91,6 @@ describe("BemQuery2", () => {
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},
-      //@ts-expect-error
       "$": {block: {$: true}},
       "$: mod": {block: {$: "mod"}},
       "$: +mod": {block: {$: {mod: true}}},
@@ -108,7 +107,6 @@ describe("BemQuery2", () => {
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},
-      //@ts-expect-error
       "$": {block: {$: true}},
       //@ts-expect-error
       "$: mod": {block: {$: "mod"}},
@@ -132,13 +130,9 @@ describe("BemQuery2", () => {
     >> = {
       "exact": {
         block: {
-          $: {
-            mod1: true,
-            mod2: "val1"
-          },
+          $: "mod1",
           el: {
             mod1: false,
-            //@ts-expect-error weird bug
             mod2: "val1"
           }
         }

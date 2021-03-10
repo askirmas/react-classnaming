@@ -67,44 +67,24 @@ export type BemQuery2<
         : classes extends `${b}${delM}${string}`
         ? bModKey
         : never
-      )]?: e extends bModKey
+      )]?: boolean
+      | (
+        classes extends `${b}${
+          e extends bModKey ? "" : `${delE}${e}`
+        }${delM}${infer MV}`
         ? (
-          classes extends `${b}${delM}${infer bMV}`
-          ? (
-            (
-              bMV extends `${infer bM}${delM}${infer bV}`
-              ? {[k in bM]?: false | bV}
-              : (
-                bMV | {[k in bMV]?: boolean}
-              )
-            )
-          )
-          : never
+          (MV extends `${string}${delM}${string}` ? never : MV)
+          | {
+            [
+              m in Strip<MV, delM>
+            ]?: MV extends `${m}${delM}${infer V}`
+            //TODO why `[]` is hack to make things work?
+            ? false | V | []
+            : boolean
+          }
         )
-        : (
-          boolean | (
-            classes extends `${b}${delE}${e}${delM}${infer eMV}`
-            ? (
-              (
-                eMV extends `${infer eM}${delM}${infer eV}`
-                ? {[k in eM]?: false | eV}
-                : (
-                  eMV | {[k in eMV]?: boolean}
-                )
-              )
-              // (
-              //   eMV extends `${string}${delM}${string}`
-              //   ? never 
-              //   : eMV
-              // ) | {
-              //   [eM in Strip<eMV, delM>]?: false | (
-              //     eMV extends `${eM}${delM}${infer eV}` ? eV : true
-              //   )
-              // }
-            )
-            : never
-          )
-        )
+        : never
+      )
     }
     : never
   )
