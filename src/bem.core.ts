@@ -9,11 +9,13 @@ export type BemOptions = {
 }
 
 export type BemAbsraction<blockModKey extends string> = {
+  //TODO |string
   [block: string]: boolean | {
     [k in blockModKey]?: {
       [mod: string]: boolean | string
     }
   } & {
+    //TODO |string
     [el: string]: undefined|boolean | {
       [mod: string]: boolean | string
     }
