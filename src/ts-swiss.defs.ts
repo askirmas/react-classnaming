@@ -18,3 +18,5 @@ export type KnownKeys<T> = {
 } extends {[_ in keyof T]: infer U} ? U : never;
 
 export type OmitIndexed<T> = Pick<T, KnownKeys<T> & keyof T>
+
+export type Primitive = undefined | null | boolean | number | string | symbol | bigint
