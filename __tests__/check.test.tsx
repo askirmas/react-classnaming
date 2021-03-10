@@ -2,7 +2,7 @@ import React from "react"
 import { classNamesCheck } from "../src/check"
 import { EMPTY_OBJECT } from "../src/consts.json"
 import type { ClassHash, ClassNamesFrom, ClassNamesProperty } from "../src/types"
-import type { CssModule } from "../src/definitions.defs"
+import type { CssModule } from "../src/definitions.types"
 
 export {}
 

@@ -1,5 +1,5 @@
 // import { Primitive } from "react-classnaming/ts-swiss.defs"
-import { CssModule } from "../src/definitions.defs"
+import { CssModule } from "../src/definitions.types"
 
 it("tree2classes", () => {
 

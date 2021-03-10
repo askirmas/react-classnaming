@@ -1,5 +1,5 @@
 import type { BemAbsraction } from "./bem.core";
-import type { CssModule } from "./definitions.defs";
+import type { CssModule } from "./definitions.types";
 import { bem2arr } from "./bem.core";
 import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"

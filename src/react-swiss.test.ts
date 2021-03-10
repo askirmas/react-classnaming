@@ -7,10 +7,10 @@ import type {
 } from "./types"
 import type {
   ReactRelated,
-} from "./definitions.defs"
+} from "./definitions.types"
 import {
   GetProps
-} from "./react-swiss.defs"
+} from "./react-swiss.types"
 
 describe("ReactRelated", () => {
   type Getter<T extends ReactRelated> = GetProps<T>

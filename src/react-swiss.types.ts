@@ -1,6 +1,6 @@
 import type {
   AnyObject,
-} from "./ts-swiss.defs"
+} from "./ts-swiss.types"
 import type {
   JSXElementConstructor,
   ReactElement,

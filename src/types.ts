@@ -1,21 +1,21 @@
 import type {
   Ever,
   EmptyObject,
-} from "./ts-swiss.defs"
+} from "./ts-swiss.types"
 import type {
   GetProps,
-} from "./react-swiss.defs"
+} from "./react-swiss.types"
 import type {
   ClassNamesCombiner,
   ReactRelated,
   GetClassNames,
   CssModule,
   ClassHash
-} from "./definitions.defs"
+} from "./definitions.types"
 
 export type {
   ClassHash
-} from "./definitions.defs"
+} from "./definitions.types"
 
 /** Collects required `classnames` from used sub-Components
  * @example

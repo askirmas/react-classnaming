@@ -1,5 +1,5 @@
-import { Falsy } from "react-classnaming/ts-swiss.defs"
-import { Action, ClassHash, CssModule } from "../src/definitions.defs"
+import { Falsy } from "react-classnaming/ts-swiss.types"
+import { Action, ClassHash, CssModule } from "../src/definitions.types"
 
 const {keys: $keys} = Object
 

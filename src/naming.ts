@@ -4,8 +4,8 @@ import type {
 import type {
   CssModule,
   ActionsOf,
-} from "./definitions.defs"
-import type { Falsy } from "./ts-swiss.defs"
+} from "./definitions.types"
+import type { Falsy } from "./ts-swiss.types"
 import {
   joinWithLead,
   resolver,
@@ -15,7 +15,7 @@ import { EMPTY_OBJECT } from "./consts.json"
 import type {
   ClassNamingFn,
   ClassNaming
-} from "./index-types.defs"
+} from "./naming.types"
 
 export { classNaming }
 
