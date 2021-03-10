@@ -12,18 +12,20 @@ export {
   wrapper,  
   resolver,
   picker,
-  joinWithLead,
-  stringifyClassNamed
+  joinWithLead
 }
 
-function wrapper<T>(
+function wrapper<T extends Record<string, any>>(
   destination: T,
   className: undefined | string
 ) {
   //@ts-expect-error
   destination["className"] = className
   
-  return stringifyClassNamed(destination as T & ClassNamed)
+  if (!destination.hasOwnProperty(stringifyProperty))
+    $defineProperty(destination, stringifyProperty, StringifyDescriptor)
+
+  return destination as T & ClassNamed
 }
 
 function picker(
@@ -79,14 +81,6 @@ function joinWithLead(value: Falsy|ClassHash, arr: undefined | string | readonly
     return str2
 
   return `${str1} ${str2}`
-}
-
-// Ref: 1
-function stringifyClassNamed<T extends ClassNamed>(source: T) :T {
-  if (!source.hasOwnProperty(stringifyProperty))
-    $defineProperty(source, stringifyProperty, StringifyDescriptor)
-  
-  return source
 }
 
 function classNamedToString(this: ClassNamed) {

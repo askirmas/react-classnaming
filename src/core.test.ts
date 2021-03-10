@@ -2,7 +2,7 @@ import { EMPTY_ARRAY } from "../src/consts.json";
 import {
   picker,
   resolver,
-  stringifyClassNamed
+  wrapper,
 } from "../src/core";
 
 describe(picker.name, () => {
@@ -77,18 +77,21 @@ describe(resolver.name, () => {
   ))
 })
 
-describe(stringifyClassNamed.name, () => {
+describe(wrapper.name, () => {
+  const className = "className string"
+
   it("works", () => expect(
-    `${stringifyClassNamed({className: "className string"})}`
+    `${wrapper({}, className)}`
   ).toBe(
-    "className string"
+    className
   ))
+
   it("no overwrite - for coverage", () => {
-    const source = stringifyClassNamed({className: "className string"})
+    const source = wrapper({}, className)
     expect(
-      `${stringifyClassNamed(source)}`
+      `${wrapper(source, className)}`
     ).toBe(
-      "className string"
+      className
     )
   })
 })
