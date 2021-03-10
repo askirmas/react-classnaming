@@ -1,6 +1,10 @@
+const elementDelimiter = "__"
+, modDelimiter = "--"
+, blockModKey = "$" as const
+
 export type BemAbsraction = {
   [block: string]: boolean | {
-    $?: {
+    [blockModKey]?: {
       [mod: string]: boolean | string
     }
     [el: string]: undefined|boolean | {
@@ -28,10 +32,10 @@ function bem2arr(query: BemAbsraction) {
 
     for (const el in blockQ) {
       const elementQ = blockQ[el]
-      , element = el === "$" ? block : `${block}__${el}`
+      , element = el === blockModKey ? block : `${block}${elementDelimiter}${el}`
       
       if (!elementQ) {
-        el === "$" && $return.push(element)
+        el === blockModKey && $return.push(element)
         continue
       }
       
@@ -45,10 +49,10 @@ function bem2arr(query: BemAbsraction) {
         if (!modValue)
           continue
 
-        $return.push(`${element}--${mod}${
+        $return.push(`${element}${modDelimiter}${mod}${
           typeof modValue !== "string"
           ? ""
-          : `--${modValue}`
+          : `${modDelimiter}${modValue}`
         }`)
       }
     }
