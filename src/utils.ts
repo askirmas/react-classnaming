@@ -12,7 +12,7 @@ export {
   emptize,
   stringifyClassNamed,
 }
-
+// TODO move to `core`
 function stringifyClassNamed<T extends ClassNamed>(source: T) :T {
   if (!source.hasOwnProperty(stringifyProperty))
     $defineProperty(source, stringifyProperty, StringifyDescriptor)
@@ -25,6 +25,7 @@ function classNamedToString(this: ClassNamed) {
   return this.className
 }
 
+//TODO delete
 function emptize(source: Record<string, any>) {
   if (!source.hasOwnProperty(stringifyProperty))
     $defineProperty(source, stringifyProperty, EmptyDescriptor)

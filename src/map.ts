@@ -37,7 +37,9 @@ function mapping<
   _: Target,
   map: Mapping
 ): {[M in keyof Mapping]: string} {
+  // TODO change to for-in https://jsbench.me/prkm3gn4ji
   const keys = $keys(map) as (keyof Mapping)[]
+  // TODO  = {...keys} + reassign or delete?
   , classnames = {} as {[M in keyof Mapping]: string}
 
   for (let i = keys.length; i--;) {

@@ -36,9 +36,9 @@ describe(resolver.name, () => {
     }
   )).toStrictEqual([
     "hash", "hashless",
-    "one",
+    1,
     "true",
-    "array", "object"    
+    [], {}
   ]))
 
   it("with hash", () => expect(resolver(
@@ -62,10 +62,10 @@ describe(resolver.name, () => {
       array: [], object: {},
     }
   )).toStrictEqual([
-    "HASH", "HASHNESS",
-    "ONE",
+    "hash", "HASHNESS",
+    1,
     "TRUE",
-    "ARRAY", "OBJECT"    
+    [], {}
   ]))
 
   it("nothing is falsy", () => expect(resolver(

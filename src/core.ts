@@ -3,8 +3,6 @@ import type { Falsy } from "./ts-swiss.defs"
 import { EMPTY_ARRAY } from "./consts.json"
 import { stringifyClassNamed } from "./utils"
 
-const {keys: $keys} = Object
-
 export {
   wrapper,  
   resolver,
@@ -44,32 +42,24 @@ function resolver(
   vocabulary: undefined | Record<string, ClassHash>,
   actions: Record<string, ClassHash | boolean>
 ) {
-  const keys = $keys(actions)
+  // https://jsbench.me/q8kltjsdwy
+  const $return: string[] = []
 
-  for (let i = keys.length; i--;) {
-    const key = keys[i]
-    , act = actions[key]
-    
-    //TODO #10 Clarify what behaviour to implement
+  // https://jsbench.me/prkm3gn4ji
+  for (const key in actions) {
+    const act = actions[key]
 
-    if (act !== undefined && !act) {
-      // https://jsbench.me/q8kltjsdwy/
-      //@ts-expect-error
-      keys[i] = false
-      continue
-    }
-
-    const hash = vocabulary?.[key]
-    if (hash !== undefined)
-      keys[i] = hash
-    else if (typeof act === "string")
-      keys[i] = act
+    if (act === undefined || act === true)
+      // https://jsbench.me/p3km3fg4e7
+      $return.push(key)
+    else if (act)
+      // https://jsbench.me/p3km3fg4e7
+      $return.push(act)
   }
 
-  // https://jsbench.me/9mklnonq0m
-  const filtered = keys.filter(x => x)
-
-  return filtered.length === 0 ? EMPTY_ARRAY : filtered
+  return $return.length === 0
+  ? EMPTY_ARRAY
+  : picker(vocabulary, $return)
 }
 
 //TODO Consider returning `undefined` on empty string

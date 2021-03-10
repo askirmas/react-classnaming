@@ -38,14 +38,11 @@ function classNaming<
 >(
   context: Ctx = EMPTY_OBJECT as Ctx
 ): ClassNaming<WithClassName, {}, Source> {
-  const {classnames, className = ""} = context
+  const {classnames, className} = context
   classnames && emptize(classnames)
   
-  const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes({
-    classnames,
-    className,
-    stacked: undefined
-  },
+  const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes(
+    context,
     arg0,
     arg1
   )
@@ -64,14 +61,15 @@ function classes<
     classnames,
     stacked: preStacked,
   }: {
-    className: string,
+    className?: string,
     classnames: Source,
-    stacked: string|undefined
+    stacked?: string|undefined
   },
   arg0?: Falsy | true | Actions,
   arg1?: Falsy | Actions
 ): ClassNaming<boolean, {}, Source> {
   const source = typeof arg0 === "object" ? arg0 as Actions: arg1 as Actions
+  //TODO check what will happen with classes()
   , allowed = source && resolver(classnames, source! /* TS-bug? `source` couldn't be `undefined`*/)
   , stacked = joinWithLead(preStacked, allowed)
   , result = arg0 === true && className
