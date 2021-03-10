@@ -1,13 +1,19 @@
 import type { ClassNamed, ClassHash } from "./types"
 import type { Falsy } from "./ts-swiss.defs"
 import { EMPTY_ARRAY } from "./consts.json"
-import { stringifyClassNamed } from "./utils"
+
+const {
+  defineProperty: $defineProperty
+} = Object
+, stringifyProperty: SymbolConstructor["toPrimitive"] | "valueOf" | "toString"  = Symbol.toPrimitive
+, StringifyDescriptor = {value: classNamedToString}
 
 export {
   wrapper,  
   resolver,
   picker,
-  joinWithLead
+  joinWithLead,
+  stringifyClassNamed
 }
 
 function wrapper<T>(
@@ -73,4 +79,17 @@ function joinWithLead(value: Falsy|ClassHash, arr: undefined | string | readonly
     return str2
 
   return `${str1} ${str2}`
+}
+
+// Ref: 1
+function stringifyClassNamed<T extends ClassNamed>(source: T) :T {
+  if (!source.hasOwnProperty(stringifyProperty))
+    $defineProperty(source, stringifyProperty, StringifyDescriptor)
+  
+  return source
+}
+
+function classNamedToString(this: ClassNamed) {
+  //TODO `?? ""`
+  return this.className
 }

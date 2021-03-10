@@ -2,6 +2,7 @@ import { EMPTY_ARRAY } from "../src/consts.json";
 import {
   picker,
   resolver,
+  stringifyClassNamed
 } from "../src/core";
 
 describe(picker.name, () => {
@@ -74,4 +75,20 @@ describe(resolver.name, () => {
   )).toBe(
     EMPTY_ARRAY
   ))
+})
+
+describe(stringifyClassNamed.name, () => {
+  it("works", () => expect(
+    `${stringifyClassNamed({className: "className string"})}`
+  ).toBe(
+    "className string"
+  ))
+  it("no overwrite - for coverage", () => {
+    const source = stringifyClassNamed({className: "className string"})
+    expect(
+      `${stringifyClassNamed(source)}`
+    ).toBe(
+      "className string"
+    )
+  })
 })
