@@ -20,3 +20,5 @@ export type KnownKeys<T> = {
 export type OmitIndexed<T> = Pick<T, KnownKeys<T> & keyof T>
 
 export type Primitive = undefined | null | boolean | number | string | symbol | bigint
+
+export type Strip<Str extends string, Delimiter extends string> = Str extends `${infer Lead}${Delimiter}${string}` ? Lead : Str

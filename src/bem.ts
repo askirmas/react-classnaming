@@ -3,6 +3,7 @@ import type { CssModule } from "./definitions.types";
 import { bem2arr } from "./bem.core";
 import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"
+import { ClassBeming } from "./bem.types";
 
 export {
   classBeming
@@ -17,7 +18,7 @@ function classBeming<
 ) {
   const {className} = context
   //@ts-expect-error
-  const host = (arg0?, arg1?) => bem(context, arg0, arg1)
+  const host: ClassBeming<Source> = (arg0?, arg1?) => bem(context, arg0, arg1)
 
   return wrapper(host, className)
 }
