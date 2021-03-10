@@ -149,7 +149,12 @@ describe("upon delimiter", () => {
   })
   
   it("query", () => {
-    type BemQuery<ClassNames extends CssModule, delE extends string = "__", delM extends string = "--"> = 
+    type BemQuery<
+      ClassNames extends CssModule,
+      bModKey extends string = "$",
+      delE extends string = "__",
+      delM extends string = "--"
+    > = 
     <
       classes extends keyof ClassNames,
       BE extends StripFromObj<ClassNames, delM>,
@@ -157,24 +162,16 @@ describe("upon delimiter", () => {
       Q extends {
         [b in Block]?: boolean | (
           {
-            // ""?: classes extends `${b}--${infer _}`
-            // ? {
-            //   [m in classes extends `${b}--${infer M}--${infer _}`
-            //     ? M 
-            //     : classes extends `${b}--${infer M}`
-            //     ? M
-            //     : never
-            //   ]?: classes extends `${b}--${m}--${infer V}`
-            //     ? false|V
-            //     : boolean
-            // }
-            // : never
-              // {
-              //   [m in MV extends `${infer M}--${infer _}` ? M : MV]: 
-              //     MV extends `${m}--${infer V}`
-              //     ? false|V
-              //     : boolean
-          } & {
+            [bmKey in bModKey]?: {
+              [
+                m in classes extends `${b}--${infer MV}`
+                ? MV extends `${infer M}--${infer _}` ? M : MV
+                : never
+              ]?: classes extends `${b}--${m}--${infer V}`
+              ? false|V
+              : boolean
+            }
+         } & {
           [e in BE extends `${b}${delE}${infer E}` ? E : never]?: boolean | {
             [
               m in classes extends `${b}${delE}${e}${delM}${infer M}${delM}${infer _}`
@@ -220,7 +217,8 @@ describe("upon delimiter", () => {
         for (const el in bVal) {
           //@ts-expect-error
           const eVal = bVal[el]
-          , be = `${block}__${el}`
+          , be = el === "$" ? block : `${block}__${el}`
+          
           if (!eVal) {
             $result[be] = eVal
             continue
@@ -253,6 +251,10 @@ describe("upon delimiter", () => {
         }
       },
       "Btn": {
+        $: {
+          info: "error",
+          disabled: false
+        },
         "Icon": {
           "big": true
         }
@@ -267,9 +269,12 @@ describe("upon delimiter", () => {
       "App__Container--status--error": true,
       "App__Header": false,
       "Btn": true,
+      "Btn--disabled": false,
+      "Btn--info--error": true,      
       "Btn__Icon": true,
       "Btn__Icon--big": true,
       "Footer": false,
+
     } as typeof res)
   })
 })
