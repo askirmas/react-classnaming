@@ -32,25 +32,31 @@ function bem2arr(query: BemAbsraction) {
       continue
     if (typeof blockQ !== "object") {
       $return.push(block)
+      if (typeof blockQ === "string")
+        $return.push(`${block}--${blockQ}`)
       continue
     }
 
     for (const el in blockQ) {
       const elementQ = blockQ[el]
-      , element = el === blockModKey ? block : `${block}${elementDelimiter}${el}`
+      , isBlockMod = el === blockModKey
+      , element = isBlockMod ? block : `${block}${elementDelimiter}${el}`
       
       if (!elementQ) {
-        el === blockModKey && $return.push(element)
+        isBlockMod && $return.push(element)
         continue
       }
       
       $return.push(element)
 
-      if (typeof elementQ !== "object")
+      if (typeof elementQ !== "object") {
+        if (typeof elementQ === "string")
+          $return.push(`${element}--${elementQ}`)
         continue
+      }
 
       for (const mod in elementQ) {
-        const modValue: undefined|boolean|string = elementQ[mod]
+        const modValue = elementQ[mod]
         if (!modValue)
           continue
 

@@ -10,11 +10,11 @@ describe(bem2arr.name, () => {
       "block singleton": [
         [{block: false           },   ""],
         [{block: true            },   "block"],
-        [{block: "mod"           },   "block" /*TODO "block block--mod"*/],
+        [{block: "mod"           },   "block block--mod"],
 
         [{block: {$:  false      }},  "block"],
         [{block: {$:  true       }},  "block"],        
-        [{block: {$:  "mod"      }},  "block" /*TODO "block block--mod"*/],
+        [{block: {$:  "mod"      }},  "block block--mod"],
         [{block: {$:  {}         }},  "block"],
 
         [{block: {$:  {mod: false}}}, "block"],
@@ -24,7 +24,7 @@ describe(bem2arr.name, () => {
       "element singleton": [
         [{block: {el: false      }},  ""],
         [{block: {el: true       }},  "block__el"],
-        [{block: {el: "mod"      }},  "block__el" /*TODO "block__el block__el--mod"*/],
+        [{block: {el: "mod"      }},  "block__el block__el--mod"],
         [{block: {el: {}         }},  "block__el"],
         [{block: {el: {mod: false}}}, "block__el"],
         [{block: {el: {mod: true }}}, "block__el block__el--mod"],
