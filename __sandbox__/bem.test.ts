@@ -90,13 +90,13 @@ it("take blocks", () => {
 describe("upon delimiter", () => {
   type Strip<Str extends string, Delimiter extends string> = Str extends `${infer Lead}${Delimiter}${string}` ? Lead : Str
   type StripFromObj<T, Delimiter extends string> = {[K in string & keyof T]: Strip<K,Delimiter>}[keyof T]
-  type GetMods<T, B extends string, E extends string|undefined> = {
-    [K in string & keyof T]: E extends string 
-    ? K extends `${B}__${E}--${infer M}` ? M : never
-    : K extends `${B}--${infer M}` ? M : never
-  }[keyof T]
 
   it("args", () => {
+    type GetMods<T, B extends string, E extends string|undefined> = {
+      [K in string & keyof T]: E extends string 
+      ? K extends `${B}__${E}--${infer M}` ? M : never
+      : K extends `${B}--${infer M}` ? M : never
+    }[keyof T]  
     type Bemer<ClassNames extends CssModule> = (
       <
         BE extends StripFromObj<ClassNames, "--">,
@@ -150,44 +150,51 @@ describe("upon delimiter", () => {
   
   it("query", () => {
     type BemQuery<
+      bModKey extends string,
+      delE extends string,
+      delM extends string,
+      classes extends string,
+      BE extends string,
+      Block extends string
+    > = {
+      [b in Block]?: boolean | (
+        {
+          [bmKey in bModKey]?: {
+            [
+              m in classes extends `${b}${delM}${infer MV}`
+              ? MV extends `${infer M}${delM}${infer _}` ? M : MV
+              : never
+            ]?: classes extends `${b}${delM}${m}${delM}${infer V}`
+            ? false|V
+            : boolean
+          }
+        } & {
+        [e in BE extends `${b}${delE}${infer E}` ? E : never]?: boolean | {
+          [
+            m in classes extends `${b}${delE}${e}${delM}${infer M}${delM}${infer _}`
+            ? M
+            : classes extends `${b}${delE}${e}${delM}${infer M}`
+            ? M
+            : never
+          ]?: classes extends `${b}${delE}${e}${delM}${m}${delM}${infer V}`
+            ? false|V
+            : boolean
+          
+        }
+      })
+    }    
+    type BemQuerier<
       ClassNames extends CssModule,
       bModKey extends string = "$",
       delE extends string = "__",
       delM extends string = "--"
     > = 
     <
-      classes extends keyof ClassNames,
+      // classes extends keyof ClassNames,
       BE extends StripFromObj<ClassNames, delM>,
-      Block extends Strip<BE, delE>,
-      Q extends {
-        [b in Block]?: boolean | (
-          {
-            [bmKey in bModKey]?: {
-              [
-                m in classes extends `${b}${delM}${infer MV}`
-                ? MV extends `${infer M}${delM}${infer _}` ? M : MV
-                : never
-              ]?: classes extends `${b}${delM}${m}${delM}${infer V}`
-              ? false|V
-              : boolean
-            }
-         } & {
-          [e in BE extends `${b}${delE}${infer E}` ? E : never]?: boolean | {
-            [
-              m in classes extends `${b}${delE}${e}${delM}${infer M}${delM}${infer _}`
-              ? M
-              : classes extends `${b}${delE}${e}${delM}${infer M}`
-              ? M
-              : never
-            ]?: classes extends `${b}${delE}${e}${delM}${m}${delM}${infer V}`
-              ? false|V
-              : boolean
-            
-          }
-        })
-      }
+      Q extends BemQuery<bModKey, delE, delM, keyof ClassNames, BE, Strip<BE, delE>>
     >(arg: Q) => {[K in 
-      keyof Q
+      {[b in keyof Q]: Q[b] extends boolean ? b : never}[keyof Q]
       // | {[b in keyof Q]: Q[b] extends Primitive ? never : `${b}${delE}${keyof Q[b]}`}[keyof Q]
       // | {
       //   [b in keyof Q]: {[e in keyof Q[b]]: Q[b][e] extends Primitive ? never :
@@ -204,7 +211,7 @@ describe("upon delimiter", () => {
     ]: boolean}
 
     //@ts-expect-error
-    const q: BemQuery<ClassNames> = x => {
+    const q: BemQuerier<ClassNames> = x => {
       const $result: Record<string, undefined|boolean> = {}
 
       for (const block in x) {
