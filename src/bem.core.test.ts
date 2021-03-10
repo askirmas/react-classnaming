@@ -5,34 +5,58 @@ import {
 
 describe(bem2arr.name, () => {
   describe("singletons", () => {
-    const suites = {
+    const mod = undefined
+    const suites: Record<string, [BemAbsraction, string][]> = {
       "block singleton": [
         [{block: false           },   ""],
         [{block: true            },   "block"],
-        [{block: {}              },   "" /* or "block" */],
-        [{block: {$:  undefined  }},  "block"],
+        [{block: "mod"           },   "block" /*TODO "block block--mod"*/],
+
         [{block: {$:  false      }},  "block"],
-        [{block: {$:  {          }}}, "block"],
+        [{block: {$:  true       }},  "block"],        
+        [{block: {$:  "mod"      }},  "block" /*TODO "block block--mod"*/],
+        [{block: {$:  {}         }},  "block"],
+
         [{block: {$:  {mod: false}}}, "block"],
         [{block: {$:  {mod: true }}}, "block block--mod"],
-        [{block: {$:  {mod: ""   }}}, "block"],
         [{block: {$:  {mod: "val"}}}, "block block--mod--val"],  
       ],
       "element singleton": [
         [{block: {el: false      }},  ""],
         [{block: {el: true       }},  "block__el"],
+        [{block: {el: "mod"      }},  "block__el" /*TODO "block__el block__el--mod"*/],
         [{block: {el: {}         }},  "block__el"],
         [{block: {el: {mod: false}}}, "block__el"],
         [{block: {el: {mod: true }}}, "block__el block__el--mod"],
-        [{block: {el: {mod: ""   }}}, "block__el"],
         [{block: {el: {mod: "val"}}}, "block__el block__el--mod--val"],  
       ],
       "block and el combine": [
         [{block: {
           $: {mod: true},
           el: true               }},  "block block--mod block__el"]
+      ],
+      "wrong shape": [
+        //@ts-expect-error
+        [{block: {$:  {mod: {}   }}}, "block block--mod"],
+        //@ts-expect-error
+        [{block: {el: {mod: {}}  }}, "block__el block__el--mod"],  
+      ],
+      "weird stuff": [
+        [{block: ""              },   "" /* or "block" */],
+        [{block: {}              },   "" /* or "block" */],
+        [{block: {$:  ""         }},  "block"],
+        [{block: {$:  {mod: ""   }}}, "block"],
+        [{block: {el: ""         }},  "" /* or "block__el" */],
+        [{block: {el: {mod: ""   }}}, "block__el"],
+      ],
+      "undefineds": [
+        [{block: undefined       },   ""],      
+        [{block: {$:  undefined  }},  "block"], 
+        [{block: {$:  {mod       }}}, "block"], 
+        [{block: {el: undefined  }},  ""],         
+        [{block: {el: {mod       }}}, "block__el"],
       ]
-    } as Record<string, [BemAbsraction<"$">, string][]>
+    }
 
     Object.entries(suites).forEach(([title, launches]) => describe(title, () => launches
       .forEach(([query, output]) => it(

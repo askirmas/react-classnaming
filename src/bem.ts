@@ -17,7 +17,6 @@ function classBeming<
  context: Ctx = EMPTY_OBJECT as Ctx
 ) {
   const {className} = context
-  //@ts-expect-error
   const host: ClassBeming<Source> = (arg0?, arg1?) => bem(context, arg0, arg1)
 
   return wrapper(host, className)
@@ -33,8 +32,8 @@ function bem<
     className?: string,
     classnames?: Source,
   },
-  arg0?: boolean | BemAbsraction<string>,
-  arg1?: BemAbsraction<string> 
+  arg0?: boolean | BemAbsraction,
+  arg1?: BemAbsraction 
 ) {
   const source = typeof arg0 === "object" ? arg0 : arg1
   , debemed = source && bem2arr(source)

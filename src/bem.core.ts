@@ -8,16 +8,10 @@ export type BemOptions = {
   blockModKey: string
 }
 
-export type BemAbsraction<blockModKey extends string> = {
-  //TODO |string
-  [block: string]: boolean | {
-    [k in blockModKey]?: {
-      [mod: string]: boolean | string
-    }
-  } & {
-    //TODO |string
-    [el: string]: undefined|boolean | {
-      [mod: string]: boolean | string
+export type BemAbsraction = {
+  [block: string]: undefined | boolean | string | {
+    [el: string]: undefined | boolean | string | {
+      [mod: string]: undefined | boolean | string
     }
   }
 }
@@ -28,7 +22,7 @@ export {
   getOptions
 }
 
-function bem2arr(query: BemAbsraction<string>) {
+function bem2arr(query: BemAbsraction) {
   const $return: string[] = []
 
   for (const block in query) {
@@ -56,7 +50,7 @@ function bem2arr(query: BemAbsraction<string>) {
         continue
 
       for (const mod in elementQ) {
-        const modValue: string|boolean = elementQ[mod]
+        const modValue: undefined|boolean|string = elementQ[mod]
         if (!modValue)
           continue
 
