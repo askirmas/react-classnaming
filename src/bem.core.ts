@@ -1,3 +1,5 @@
+import type { BemAbsraction } from "./bem.types"
+
 let elementDelimiter = "__"
 , modDelimiter = "--"
 , blockModKey = "$"
@@ -6,14 +8,6 @@ export type BemOptions = {
   elementDelimiter: string
   modDelimiter: string
   blockModKey: string
-}
-
-export type BemAbsraction = {
-  [block: string]: undefined | boolean | string | {
-    [el: string]: undefined | boolean | string | {
-      [mod: string]: undefined | boolean | string
-    }
-  }
 }
 
 export {

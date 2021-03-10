@@ -1,9 +1,8 @@
-import type { BemAbsraction } from "./bem.core";
 import type { CssModule } from "./definitions.types";
+import type { ClassBeming, BemAbsraction } from "./bem.types";
 import { bem2arr } from "./bem.core";
 import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"
-import { ClassBeming } from "./bem.types";
 
 export {
   classBeming
@@ -12,6 +11,7 @@ export {
 function classBeming<
   Ctx extends {classnames: Source, className?: string},
   Source extends CssModule = Ctx["classnames"],
+  //TODO
   // WithClassName extends boolean = Ctx["className"] extends string ? true : false
 >(
  context: Ctx = EMPTY_OBJECT as Ctx

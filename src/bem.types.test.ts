@@ -124,7 +124,7 @@ describe("BemQuery2", () => {
     expect(checks).toBeInstanceOf(Object)
   })  
 
-  it("everything", () => {
+  it("mix #1", () => {
     const checks: Record<string, BemQuery2<
     `${"block" | "block__el"}--${"mod1"|"mod2--val1"|"mod2--val2"}`
     >> = {

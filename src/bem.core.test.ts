@@ -1,6 +1,9 @@
-import {BemAbsraction, BemOptions, getOptions, setOptions} from "./bem.core";
+import type {BemAbsraction} from "./bem.types"
+import type {BemOptions} from "./bem.core";
 import {
-  bem2arr
+  bem2arr,
+  getOptions,
+  setOptions
 } from "./bem.core";
 
 describe(bem2arr.name, () => {

@@ -9,8 +9,8 @@ export type ClassBeming<
   // delM extends string = "--"
 > = 
 <
-  Q1 extends undefined | boolean | BemQuery1<keyof ClassNames>,
-  Q2 extends BemQuery1<keyof ClassNames>,
+  Q1 extends undefined | boolean | BemQuery2<keyof ClassNames>,
+  Q2 extends BemQuery2<keyof ClassNames>,
 >(
   arg0?: Q1,
   arg1?: Q1 extends undefined | boolean ? Q2 : never
@@ -57,7 +57,7 @@ export type BemQuery2<
   bModKey extends string = "$",
   BE extends Strip<classes, delM> = Strip<classes, delM>,
   Block extends Strip<BE, delE> = Strip<BE, delE>,
-> = {
+> = string extends classes ? BemAbsraction : {
   [b in Block]?: boolean | (
     classes extends `${b}${delE | delM}${string}`
     ? {
@@ -75,12 +75,11 @@ export type BemQuery2<
         ? (
           (MV extends `${string}${delM}${string}` ? never : MV)
           | {
-            [
-              m in Strip<MV, delM>
-            ]?: MV extends `${m}${delM}${infer V}`
-            //TODO why `[]` is hack to make things work?
-            ? false | V | []
-            : boolean
+            [m in Strip<MV, delM>]?:
+              MV extends `${m}${delM}${infer V}`
+              //TODO why `[]` is hack to make things work?
+              ? false | V | []
+              : boolean
           }
         )
         : never
@@ -88,4 +87,12 @@ export type BemQuery2<
     }
     : never
   )
+}
+
+export type BemAbsraction = {
+  [block: string]: undefined | boolean | string | {
+    [el: string]: undefined | boolean | string | {
+      [mod: string]: undefined | boolean | string
+    }
+  }
 }
