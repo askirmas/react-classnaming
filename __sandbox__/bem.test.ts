@@ -1,4 +1,4 @@
-import { Primitive } from "react-classnaming/ts-swiss.defs"
+// import { Primitive } from "react-classnaming/ts-swiss.defs"
 import { CssModule } from "../src/definitions.defs"
 
 it("tree2classes", () => {
@@ -164,10 +164,10 @@ describe("upon delimiter", () => {
           {
             [bmKey in bModKey]?: {
               [
-                m in classes extends `${b}--${infer MV}`
-                ? MV extends `${infer M}--${infer _}` ? M : MV
+                m in classes extends `${b}${delM}${infer MV}`
+                ? MV extends `${infer M}${delM}${infer _}` ? M : MV
                 : never
-              ]?: classes extends `${b}--${m}--${infer V}`
+              ]?: classes extends `${b}${delM}${m}${delM}${infer V}`
               ? false|V
               : boolean
             }
@@ -188,16 +188,19 @@ describe("upon delimiter", () => {
       }
     >(arg: Q) => {[K in 
       keyof Q
-      | {[b in keyof Q]: Q[b] extends Primitive ? never : `${b}${delE}${keyof Q[b]}`}[keyof Q]
-      | {
-        [b in keyof Q]: {[e in keyof Q[b]]: Q[b][e] extends Primitive ? never :
-          {[m in keyof Q[b][e]]: 
-            Q[b][e][m] extends string
-            ? `${b}${delE}${e}${delM}${m}${delM}${Q[b][e][m]}`
-            : `${b}${delE}${e}${delM}${m}`
-          }[keyof Q[b][e]]
-        }[keyof Q[b]]
-      }[keyof Q]
+      // | {[b in keyof Q]: Q[b] extends Primitive ? never : `${b}${delE}${keyof Q[b]}`}[keyof Q]
+      // | {
+      //   [b in keyof Q]: {[e in keyof Q[b]]: Q[b][e] extends Primitive ? never :
+      //     {[m in keyof Q[b][e]]: 
+      //       Q[b][e][m] extends string
+      //       ? `${b}${delE}${e}${delM}${m}${delM}${Q[b][e][m]}`
+      //       : `${b}${delE}${e}${delM}${m}`
+      //     }[keyof Q[b][e]]
+      //   }[keyof Q[b]]
+      // }[keyof Q]
+      // {[b in keyof Q]:
+      //   Q[b] extends boolean ? b : never
+      // }[keyof Q]
     ]: boolean}
 
     //@ts-expect-error
@@ -260,8 +263,14 @@ describe("upon delimiter", () => {
       },
       "Footer": false
     })
+    , typeCheck: Record<string, typeof res> = {
+      "exact": {
+        Footer: true,
+        Btn: true,
+        App: true,
+      }
+    }
 
-    //@ts-expect-error
     expect(res).toStrictEqual({
       "App__Container": true,
       "App__Container--loading": true,
@@ -273,6 +282,7 @@ describe("upon delimiter", () => {
       "Btn__Icon": true,
       "Btn__Icon--big": true,
       "Footer": false,
-    } as typeof res)
+    })
+    expect(typeCheck).toBeInstanceOf(Object)
   })
 })
