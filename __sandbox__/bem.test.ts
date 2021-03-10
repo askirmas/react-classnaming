@@ -206,13 +206,12 @@ describe("upon delimiter", () => {
 
       for (const block in x) {
         const bVal = x[block]
+        
         if (!bVal) {
           //@ts-expect-error
           $result[block] = bVal
           continue
         }
-        
-        $result[block] = true
 
         for (const el in bVal) {
           //@ts-expect-error
@@ -262,8 +261,8 @@ describe("upon delimiter", () => {
       "Footer": false
     })
 
+    //@ts-expect-error
     expect(res).toStrictEqual({
-      "App": true,
       "App__Container": true,
       "App__Container--loading": true,
       "App__Container--status--error": true,
@@ -274,7 +273,6 @@ describe("upon delimiter", () => {
       "Btn__Icon": true,
       "Btn__Icon--big": true,
       "Footer": false,
-
     } as typeof res)
   })
 })
