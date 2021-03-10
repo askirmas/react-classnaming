@@ -1,5 +1,5 @@
-import { classNamesMap } from "../src/map";
-import classNaming, { ClassHash } from '../src';
+import { classNamesMap } from "./map";
+import classNaming, { ClassHash } from '.';
 
 const module_css = {
   class1: "hash1",
