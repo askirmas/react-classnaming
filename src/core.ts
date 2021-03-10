@@ -8,6 +8,7 @@ const {keys: $keys} = Object
 export {
   wrapper,  
   resolver,
+  picker,
   joinWithLead
 }
 
@@ -19,6 +20,24 @@ function wrapper<T>(
   destination["className"] = className
   
   return stringifyClassNamed(destination as T & ClassNamed)
+}
+
+function picker(
+  vocabulary: undefined | Record<string, ClassHash>,
+  keys: string[]
+) {
+  if (!vocabulary)
+    return keys
+
+  for (let i = keys.length; i--;) {
+    const key = keys[i]
+    , val = vocabulary[key]
+    
+    if (val !== undefined)
+      keys[i] = val
+  }
+
+  return keys
 }
 
 function resolver(
