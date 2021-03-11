@@ -234,13 +234,13 @@ Table of output logic:
 | Returned `className`              | Query argument                                               |
 | --------------------------------- | ------------------------------------------------------------ |
 | `""`                              | `{block: false}`<br />`{block: {el: false}}`                 |
-|                                   |                                                              |
-| `"block"`                         | `{block: true}`<br />`{block: {$: boolean | {} | {[mod]: false} }}` |
-| `"block__el"`                     | `{block: {el: true | {} | {[mod]: false} }}`                 |
-|                                   |                                                              |
-| `"block block--mod"`              | `{block: "mod"}`<br/>`{block: {$: "mod" | {mod: true} }}`    |
-| `"block__el block__el--mod"`      | `{block: {el: "mod" | {mod: true} }}`                        |
-|                                   |                                                              |
+| <hr>                              | <hr>                                                         |
+| `"block"`                         | `{block: true}`<br />`{block: {$: boolean \| {} \| {[mod]: false} }}` |
+| `"block__el"`                     | `{block: {el: true \| {} \| {[mod]: false} }}`               |
+| <hr>                              | <hr>                                                         |
+| `"block block--mod"`              | `{block: "mod"}`<br/>`{block: {$: "mod" \| {mod: true} }}`   |
+| `"block__el block__el--mod"`      | `{block: {el: "mod" \| {mod: true} }}`                       |
+| <hr>                              | <hr>                                                         |
 | `"block block--mod--val"`         | `{block: {$: {mod: "val"}}}`                                 |
 | `"block__el block__el--mod--val"` | `{block: {el: {mod: "val"}}}`                                |
 
