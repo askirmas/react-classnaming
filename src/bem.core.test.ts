@@ -91,7 +91,7 @@ describe("optioning", () => {
   ))
     
   it("set another", () => {
-    //TODO test bem wit another options
+    //TODO #29 test bem with not default options
     const opts: BemOptions = {
       elementDelimiter: "_",
       modDelimiter: "-",
