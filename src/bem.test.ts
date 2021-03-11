@@ -1,4 +1,6 @@
 import { classBeming } from "./bem";
+import { ClassHash } from "./definitions.types";
+import { ClassNamed, ClassNamesProperty } from "./main.types";
 
 describe("contexting", () => {
   describe("empty", () => {
@@ -28,4 +30,26 @@ describe("contexting", () => {
       className: "propagated hash1 hash2"
     }))
   })
+})
+
+it("TS UX", () => {
+  type ClassProps = ClassNamed & ClassNamesProperty<Record<
+    |"block1__el1--m1"
+    |"block1__el1--m2"
+    |"block1--m2--v1"
+    |"block1--m2--v2"
+    |"block2"
+  , ClassHash>>
+
+    const bem = classBeming<ClassProps>()
+    , check = {
+      "1": bem(true, {
+        "block1": {
+          $: {"m2": "v1"},
+          "el1": {"m1": true}
+        },
+      })
+    }
+
+    expect(check).toBeInstanceOf(Object)
 })

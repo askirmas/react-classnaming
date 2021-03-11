@@ -1,31 +1,8 @@
-import type {BemQuery1, BemQuery2} from "./bem.types"
+import type {BemQuery} from "./bem.types"
 
-describe("BemQuery1", () => {
+describe("BemQuery", () => {
   it("block", () => {
-    const checks: Record<string, BemQuery1<"block">> = {
-      //TODO @ts-expect-error
-      "number": {block: 1}
-    }
-    expect(checks).toBeInstanceOf(Object)
-  })
-
-  it("block__el", () => {
-    const checks: Record<string, BemQuery1<"block__el">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      //TODO @ts-expect-error
-      "true": {block: true},
-      "el": {block: {el: true}},
-      "el == 1": {block: {el: 1}},
-      "$...": {block: {$: {"a": 1}}},
-    }
-    expect(checks).toBeInstanceOf(Object)
-  })
-})
-
-describe("BemQuery2", () => {
-  it("block", () => {
-    const checks: Record<string, BemQuery2<"block">> = {
+    const checks: Record<string, BemQuery<"block">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
@@ -36,12 +13,12 @@ describe("BemQuery2", () => {
   })
 
   it("block__el", () => {
-    const checks: Record<string, BemQuery2<"block__el">> = {
+    const checks: Record<string, BemQuery<"block__el">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
       "{}": {block: {}},
-      //@ts-expect-error
+      //TODO recover strict @ts-expect-error
       "el=1": {block: {el: 1}},
       "el": {block: {el: true}}
     }
@@ -49,14 +26,16 @@ describe("BemQuery2", () => {
   })
 
   it("block__el--mod", () => {
-    const checks: Record<string, BemQuery2<"block__el--mod">> = {
+    const checks: Record<string, BemQuery<"block__el--mod">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el=1": {block: {el: 1}},
       "el": {block: {el: true}},
+      //@ts-expect-error //TODO Recover shortcut
       "el: mod": {block: {el: "mod"}},
       "el: -mod": {block: {el: {mod: false}}},
       "el: +mod": {block: {el: {mod: true}}}
@@ -65,10 +44,11 @@ describe("BemQuery2", () => {
   })  
 
   it("block__el--mod--val", () => {
-    const checks: Record<string, BemQuery2<"block__el--mod--val">> = {
+    const checks: Record<string, BemQuery<"block__el--mod--val">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el=1": {block: {el: 1}},
@@ -84,14 +64,16 @@ describe("BemQuery2", () => {
   })  
 
   it("block--mod", () => {
-    const checks: Record<string, BemQuery2<"block--mod">> = {
+    const checks: Record<string, BemQuery<"block--mod">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},
       "$": {block: {$: true}},
+      //@ts-expect-error //TODO Recover shortcut
       "$: mod": {block: {$: "mod"}},
       "$: +mod": {block: {$: {mod: true}}},
       "$: -mod": {block: {$: {mod: false}}},
@@ -100,10 +82,11 @@ describe("BemQuery2", () => {
   })  
 
   it("block--mod--val", () => {
-    const checks: Record<string, BemQuery2<"block--mod--val">> = {
+    const checks: Record<string, BemQuery<"block--mod--val">> = {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},
@@ -125,12 +108,12 @@ describe("BemQuery2", () => {
   })  
 
   it("mix #1", () => {
-    const checks: Record<string, BemQuery2<
+    const checks: Record<string, BemQuery<
     `${"block" | "block__el"}--${"mod1"|"mod2--val1"|"mod2--val2"}`
     >> = {
       "exact": {
         block: {
-          $: "mod1",
+          $: {"mod1": true},
           el: {
             mod1: false,
             mod2: "val1"

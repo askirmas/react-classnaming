@@ -22,3 +22,9 @@ export type OmitIndexed<T> = Pick<T, KnownKeys<T> & keyof T>
 export type Primitive = undefined | null | boolean | number | string | symbol | bigint
 
 export type Strip<Str extends string, Delimiter extends string> = Str extends `${infer Lead}${Delimiter}${string}` ? Lead : Str
+export type Cut<Str extends string, Delimiter extends string> = Str extends `${string}${Delimiter}${infer Back}` ? Back : Str
+
+export type Subest<Base, Extendent> = Base extends Extendent ? Extendent : Base
+// export type SubestDeep<Base, Extendent> = Base extends Extendent ? Extendent : Base
+
+export type PartDeep<T> = Exclude<T, AnyObject> | {[K in keyof Extract<T, AnyObject>]?: Extract<T, AnyObject>[K]}

@@ -1,5 +1,5 @@
 //-/ <reference path="node_modules/react-classnaming/dist" />
-import {classBeming, ClassNamesProperty, setOptions} from "react-classnaming"
+import {classBeming, ClassNamed, ClassNamesProperty, setOptions} from "react-classnaming"
 import type {ClassHash, ReactClassNaming} from "react-classnaming"
 
 declare module "react-classnaming" {
@@ -25,9 +25,10 @@ type CssModule = Record<
 >
 
 it("go", () => {
-  const bem = classBeming<ClassNamesProperty<CssModule>>()
-  expect(bem({
+  const bem = classBeming<ClassNamesProperty<CssModule> & ClassNamed>()
+  expect(bem(true, {
     "block": {
+      //@ts-expect-error //TODO Recover shortcut
       "&": "m",
       "el": {"m": "X"}
     }
