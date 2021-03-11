@@ -23,12 +23,12 @@ import type {
 // Making as interface make ts-errors much worth
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
- * Makes `string` from conditioned CSS classes as keys.
- * Destructed to singleton `{className: string}`, stringifyable, re-callable with propagation of previously stacked
+ * Makes `string`-className from conditioned CSS classes as keys.
+ * Destructed to singleton `{className: string}`, stringifyable object, re-callable with propagation of previously stacked
  * @example
  * ```typescript
- *   classes({App}); // "App"
  *   classes(true); // `${props.className}`
+ *   classes({App}); // "App"
  *   classes(true && {App: true, "App--bad": false}); // `${props.className} App`
  *   classes(); // `== classes`
  * 

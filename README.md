@@ -24,7 +24,8 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 1. Enforce <u>single source of truth</u> of class appending – treat as TypeScript-driven dedupe
 2. Require strict `boolean` for value of class condition
 3. Use IDE type hints as developers' UX for faster issues resolving
-4. CSS-modules agnostic
+4. BEM
+5. CSS-modules agnostic
 
 Use package like [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts) to prepare strict declaration of CSS 
 
@@ -43,16 +44,14 @@ import {
   classNamesMap,
   
   // Identical function for TS restriction on classes determed in CSS and not used in component
-  classNamesCheck 
+  classNamesCheck,
+  
+  // Works with BEM conditional object
+  classBeming
 } from "react-classnaming"
 
 // Default export is the most frequently used function
 import classNaming from "react-classnaming"
-
-// Import module with specific function only
-import { classNaming } from "react-classnaming/naming"
-import { classNamesCheck } from "react-classnaming/check"
-import { classNamesMap } from "react-classnaming/map"
 
 import type {
   // Type to declare component's self CSS classes
@@ -144,6 +143,22 @@ Only declared CSS classes will be allowed as keys with IDE hint on possibilities
 
 ![classnaming_declared](./images/classnaming_declared.gif)
 
+### BEM
+
+It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L186)
+
+```diff
+import {
+- classNaming 
++ classBeming
+} from "react-classnaming"
+
+- const cssClasses = classNaming<MyClassNames>()
++ const bemClasses = classBeming<MyClassNames>()
+```
+
+![](./images/classbeming.gif)
+
 ## Reference
 
 ### type `ClassNamed`
@@ -197,6 +212,53 @@ const withClassNameTwice = containerClass(
 ```
 
 On `const` hovering will be tooltip with already conditioned classes under this chain
+
+### function `classBeming`
+
+Sets context to returned function for using BEM conditioned CSS classes queries. In general, argument's shape is
+
+```typescript
+type BemInGeneral = {
+  [__Block__]: boolean | __Block_Mod__ | {
+    [__Element__ | $ /*key for block mods*/]:  boolean | __BE_Mod__ | {
+      [__Mod__]: false | (true | __BE_Mod_Value__ )
+    }
+  }
+}
+```
+
+Table of output logic: 
+
+> Tests @ [./src/bem.core.test.ts:13](https://github.com/askirmas/react-classnaming/blob/main/src/bem.core.test.ts#L13-L35)
+
+| Returned `className`              | Query argument                                               |
+| --------------------------------- | ------------------------------------------------------------ |
+| `""`                              | `{block: false}`<br />`{block: {el: false}}`                 |
+|                                   |                                                              |
+| `"block"`                         | `{block: true}`<br />`{block: {$: boolean | {} | {[mod]: false} }}` |
+| `"block__el"`                     | `{block: {el: true | {} | {[mod]: false} }}`                 |
+|                                   |                                                              |
+| `"block block--mod"`              | `{block: "mod"}`<br/>`{block: {$: "mod" | {mod: true} }}`    |
+| `"block__el block__el--mod"`      | `{block: {el: "mod" | {mod: true} }}`                        |
+|                                   |                                                              |
+| `"block block--mod--val"`         | `{block: {$: {mod: "val"}}}`                                 |
+| `"block__el block__el--mod--val"` | `{block: {el: {mod: "val"}}}`                                |
+
+Mixins are deep merge of single possibilities in table
+
+![](./images/classbeming.gif)
+
+---
+
+#### Setting options
+
+Default options BEM naming:
+
+- Element's separator is a double underscore `"__"`
+- Modifier's and value's separator is a double hyphen `"--"`
+- Key for block modifiers is `"$"`
+
+It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 

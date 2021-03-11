@@ -1,5 +1,5 @@
 import type { CssModule } from "./definitions.types";
-import type { ClassBeming, BemAbsraction } from "./bem.types";
+import type { ClassBeming, BemInGeneral } from "./bem.types";
 import { bem2arr } from "./bem.core";
 import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"
@@ -8,6 +8,15 @@ export {
   classBeming
 }
 
+/** Set context
+ * @example
+ * ```typescript
+ *   const bem = classBeming({classnames: require("./some.css"), className?})
+ *   const bem = classBeming(this.props)
+ *   const bem = classBeming<Props>()
+ *   const bem = classBeming<MyClassNames>()
+ * ```
+ */
 function classBeming<
   Ctx extends {classnames: Source, className?: string},
   Source extends CssModule = Ctx["classnames"],
@@ -31,8 +40,8 @@ function bem<
     className?: string,
     classnames?: Source,
   },
-  arg0?: boolean | BemAbsraction,
-  arg1?: BemAbsraction 
+  arg0?: boolean | BemInGeneral,
+  arg1?: BemInGeneral 
 ) {
   const source = typeof arg0 === "object" ? arg0 : arg1
   , debemed = source && bem2arr(source)

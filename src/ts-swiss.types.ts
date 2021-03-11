@@ -1,4 +1,5 @@
 export type Ever<T, V, D = EmptyObject> = [T] extends [never] ? D : V
+export type Ever0<T, D = never> = [T] extends [never] ? D : T
 export type EmptyObject = Record<never, never>
 export type AnyObject = Record<string, any>
 export type Falsy = undefined|null|false|0|""

@@ -1,4 +1,4 @@
-import type {BemAbsraction} from "./bem.types"
+import type {BemInGeneral} from "./bem.types"
 import type {BemOptions} from "./bem.core";
 import {
   bem2arr,
@@ -9,7 +9,7 @@ import {
 describe(bem2arr.name, () => {
   describe("singletons", () => {
     const mod = undefined
-    const suites: Record<string, [BemAbsraction, string][]> = {
+    const suites: Record<string, [BemInGeneral, string][]> = {
       "block singleton": [
         [{block: false           },   ""],
         [{block: true            },   "block"],

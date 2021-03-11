@@ -22,8 +22,8 @@ export { classNaming }
 /** Set context
  * @example
  * ```typescript
- *   const classes = classNaming(this.props)
  *   const classes = classNaming({classnames: require("./some.css"), className?})
+ *   const classes = classNaming(this.props)
  *   const classes = classNaming<Props>()
  *   const classes = classNaming<MyClassNames>()
  * ```

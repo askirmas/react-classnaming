@@ -1,4 +1,4 @@
-import type { BemAbsraction } from "./bem.types"
+import type { BemInGeneral } from "./bem.types"
 
 let elementDelimiter = "__"
 , modDelimiter = "--"
@@ -16,7 +16,7 @@ export {
   getOptions
 }
 
-function bem2arr(query: BemAbsraction) {
+function bem2arr(query: BemInGeneral) {
   const $return: string[] = []
 
   for (const block in query) {
