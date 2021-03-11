@@ -67,6 +67,7 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      "mod": {block: "mod"},
       //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
@@ -84,6 +85,8 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
+      //@ts-expect-error
+      "mod": {block: "mod"},
       //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error

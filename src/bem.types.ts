@@ -3,6 +3,7 @@ import type {
   Subest,
   Strip,
   PartDeep,
+  Extends,
   // PartDeep
 } from "./ts-swiss.types"
 import type { ClassNamed } from "./main.types"
@@ -31,11 +32,13 @@ export type BemQuery<
   ? ReactClassNaming.BemOptions["blockModKey"]
   : ReactClassNaming.BemOptions["$default"]["blockModKey"],
 > = string extends classes ? BemAbsraction : PartDeep<{
-  [b in Strip<Strip<classes, delM>, delE>]: boolean | (
+  [b in Strip<Strip<classes, delM>, delE>]: boolean
+  | Exclude<MVs<classes, b, bModKey>, `${string}${delM}${string}`>
+  | (
     Extends<classes, `${b}${delE | delM}${string}`, 
       {
         [e in Elements<classes, b>]: boolean
-        | (MVs<classes, b, e> extends `${string}${delM}${string}` ? never : MVs<classes, b, e>)
+        | Exclude<MVs<classes, b, e>, `${string}${delM}${string}`>
         | (
           {[m in Strip<MVs<classes, b, e>, delM>]: 
             classes extends `${b}${
@@ -47,11 +50,8 @@ export type BemQuery<
         )
       }
     >
-    // : never
   )
 }>
-
-type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
 type Elements<
   classes extends string,

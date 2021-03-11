@@ -25,7 +25,7 @@ export type Strip<Str extends string, Delimiter extends string> = Str extends `$
 export type Cut<Str extends string, Delimiter extends string> = Str extends `${string}${Delimiter}${infer Back}` ? Back : Str
 
 export type Subest<Base, Extendent> = Base extends Extendent ? Extendent : Base
-// export type SubestDeep<Base, Extendent> = Base extends Extendent ? Extendent : Base
+export type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
 export type PartDeep<T> = Exclude<T, AnyObject> | (
   // [Extract<T, AnyObject>] extends [never] ? never :
