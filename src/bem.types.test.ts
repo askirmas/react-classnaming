@@ -35,7 +35,6 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "el=1": {block: {el: 1}},
       "el": {block: {el: true}},
-      //@ts-expect-error //TODO Recover shortcut
       "el: mod": {block: {el: "mod"}},
       "el: -mod": {block: {el: {mod: false}}},
       "el: +mod": {block: {el: {mod: true}}}
@@ -73,7 +72,6 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "el": {block: {el: true}},
       "$": {block: {$: true}},
-      //@ts-expect-error //TODO Recover shortcut
       "$: mod": {block: {$: "mod"}},
       "$: +mod": {block: {$: {mod: true}}},
       "$: -mod": {block: {$: {mod: false}}},

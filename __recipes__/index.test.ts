@@ -28,7 +28,6 @@ it("go", () => {
   const bem = classBeming<ClassNamesProperty<CssModule> & ClassNamed>()
   expect(bem(true, {
     "block": {
-      //@ts-expect-error //TODO Recover shortcut
       "&": "m",
       "el": {"m": "X"}
     }

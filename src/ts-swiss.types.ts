@@ -27,4 +27,7 @@ export type Cut<Str extends string, Delimiter extends string> = Str extends `${s
 export type Subest<Base, Extendent> = Base extends Extendent ? Extendent : Base
 // export type SubestDeep<Base, Extendent> = Base extends Extendent ? Extendent : Base
 
-export type PartDeep<T> = Exclude<T, AnyObject> | {[K in keyof Extract<T, AnyObject>]?: Extract<T, AnyObject>[K]}
+export type PartDeep<T> = Exclude<T, AnyObject> | (
+  // [Extract<T, AnyObject>] extends [never] ? never :
+  T extends AnyObject ? {[K in keyof Extract<T, AnyObject>]?: PartDeep<Extract<T, AnyObject>[K]>} : never
+)

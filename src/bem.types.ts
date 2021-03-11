@@ -2,6 +2,7 @@ import type { CssModule } from "./definitions.types"
 import type {
   Subest,
   Strip,
+  PartDeep,
   // PartDeep
 } from "./ts-swiss.types"
 import type { ClassNamed } from "./main.types"
@@ -29,14 +30,14 @@ export type BemQuery<
   bModKey extends string = "blockModKey" extends keyof ReactClassNaming.BemOptions
   ? ReactClassNaming.BemOptions["blockModKey"]
   : ReactClassNaming.BemOptions["$default"]["blockModKey"],
-> = string extends classes ? BemAbsraction : {
-  [b in Strip<Strip<classes, delM>, delE>]?: boolean | (
-    // [classes extends `${b}${delE | delM}${string}` ? true : never] extends [never] ? never :
+> = string extends classes ? BemAbsraction : PartDeep<{
+  [b in Strip<Strip<classes, delM>, delE>]: boolean | (
     Extends<classes, `${b}${delE | delM}${string}`, 
       {
-        [e in Elements<classes, b>]?: boolean
+        [e in Elements<classes, b>]: boolean
+        | (MVs<classes, b, e> extends `${string}${delM}${string}` ? never : MVs<classes, b, e>)
         | (
-          {[m in Strip<MVs<classes, b, e>, delM>]?: 
+          {[m in Strip<MVs<classes, b, e>, delM>]: 
             classes extends `${b}${
               e extends bModKey ? "" : `${delE}${e}`
             }${delM}${m}${delM}${infer V}`
@@ -48,7 +49,7 @@ export type BemQuery<
     >
     // : never
   )
-}
+}>
 
 type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
