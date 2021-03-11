@@ -1,56 +1,73 @@
-import type { ClassNamed, ClassHash } from "./types"
-import type { Falsy } from "./ts-swiss.defs"
+import type { ClassNamed, ClassHash } from "./main.types"
+import type { Falsy } from "./ts-swiss.types"
 import { EMPTY_ARRAY } from "./consts.json"
-import { stringifyClassNamed } from "./utils"
 
-const {keys: $keys} = Object
+const {
+  defineProperty: $defineProperty
+} = Object
+, stringifyProperty: SymbolConstructor["toPrimitive"] | "valueOf" | "toString"  = Symbol.toPrimitive
+, StringifyDescriptor = {value: classNamedToString}
 
 export {
   wrapper,  
   resolver,
+  picker,
   joinWithLead
 }
 
-function wrapper<T>(
+function wrapper<T extends Record<string, any>>(
   destination: T,
   className: undefined | string
 ) {
   //@ts-expect-error
   destination["className"] = className
   
-  return stringifyClassNamed(destination as T & ClassNamed)
+  if (!destination.hasOwnProperty(stringifyProperty))
+    $defineProperty(destination, stringifyProperty, StringifyDescriptor)
+
+  return destination as T & ClassNamed
+}
+
+function picker(
+  vocabulary: undefined | Record<string, ClassHash>,
+  keys: string[]
+) {
+  if (!vocabulary)
+    return keys
+
+  for (let i = keys.length; i--;) {
+    const key = keys[i]
+    , val = vocabulary[key]
+    
+    if (val !== undefined)
+      keys[i] = val
+  }
+
+  return keys
 }
 
 function resolver(
   vocabulary: undefined | Record<string, ClassHash>,
   actions: Record<string, ClassHash | boolean>
 ) {
-  const keys = $keys(actions)
+  // https://jsbench.me/q8kltjsdwy
+  const $return: string[] = []
 
-  for (let i = keys.length; i--;) {
-    const key = keys[i]
-    , act = actions[key]
-    
-    //TODO #10 Clarify what behaviour to implement
+  // https://jsbench.me/prkm3gn4ji
+  for (const key in actions) {
+    const act = actions[key]
 
-    if (act !== undefined && !act) {
-      // https://jsbench.me/q8kltjsdwy/
-      //@ts-expect-error
-      keys[i] = false
-      continue
-    }
-
-    const hash = vocabulary?.[key]
-    if (hash !== undefined)
-      keys[i] = hash
-    else if (typeof act === "string")
-      keys[i] = act
+    if (act === undefined || act === true)
+      // https://jsbench.me/p3km3fg4e7
+      $return.push(key)
+    else if (act)
+      // https://jsbench.me/p3km3fg4e7
+      $return.push(act)
   }
 
-  // https://jsbench.me/9mklnonq0m
-  const filtered = keys.filter(x => x)
-
-  return filtered.length === 0 ? EMPTY_ARRAY : filtered
+  return $return.length === 0
+  ? EMPTY_ARRAY
+  : picker(vocabulary, $return)
 }
 
 //TODO Consider returning `undefined` on empty string
@@ -64,4 +81,9 @@ function joinWithLead(value: Falsy|ClassHash, arr: undefined | string | readonly
     return str2
 
   return `${str1} ${str2}`
+}
+
+function classNamedToString(this: ClassNamed) {
+  //TODO `?? ""`
+  return this.className
 }

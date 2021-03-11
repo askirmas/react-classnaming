@@ -1,0 +1,19 @@
+{
+  "name": "recipes",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "npm run jest --",
+    "pretest": "npm run setup",
+    "ci": "npm ci --prefer-offline --no-audit --silent --quiet --progress=false",
+    "setup": "npm uninstall --prefer-offline --no-audit --silent --quiet --progress=false react-classnaming && npm install --prefer-offline --no-audit --silent --quiet --progress=false ../",
+    "jest": "jest --"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^26.6.3",
+    "react-classnaming": "file:.."
+  }
+}

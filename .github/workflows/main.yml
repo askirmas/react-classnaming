@@ -38,8 +38,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: install
-        run: npm ci --prefer-offline --no-audit --silent --quiet --no-progress
-
+        run: |
+          npm ci --prefer-offline --no-audit --silent --quiet --no-progress
+          cd __recipes__ && npm ci --prefer-offline --no-audit --silent --quiet --no-progress
+        
       - name: build
         run: npm run build
         

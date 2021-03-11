@@ -1,16 +1,16 @@
 import type {
   ClassNamed,
   ClassHash,
-} from "./types"
+} from "./main.types"
 import type {
   CssModule,
   ActionsOf,
   Action,
   Act4Used
-} from "./definitions.defs"
+} from "./definitions.types"
 import type {
   GetProps
-} from "./react-swiss.defs";
+} from "./react-swiss.types";
 import type {
   BoolDict,
   RequiredKeys,
@@ -18,17 +18,17 @@ import type {
   Falsy,
   Ever,
   OmitIndexed
-} from "./ts-swiss.defs";
+} from "./ts-swiss.types";
 
 // Making as interface make ts-errors much worth
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
 /** 
- * Makes `string` from conditioned CSS classes as keys.
- * Destructed to singleton `{className: string}`, stringifyable, re-callable with propagation of previously stacked
+ * Makes `string`-className from conditioned CSS classes as keys.
+ * Destructed to singleton `{className: string}`, stringifyable object, re-callable with propagation of previously stacked
  * @example
  * ```typescript
- *   classes({App}); // "App"
  *   classes(true); // `${props.className}`
+ *   classes({App}); // "App"
  *   classes(true && {App: true, "App--bad": false}); // `${props.className} App`
  *   classes(); // `== classes`
  * 
@@ -50,7 +50,7 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
   // Change to `ActionsOf` breaks TS
   Actions0 extends {[K in keyof Source]?: Action},
   Actions1 extends {[K in keyof Source]?: Action},
-  ApplyClassName extends WithClassName|false = false
+  ApplyClassName extends WithClassName | false
  >(
   arg0?: ApplyClassName | Falsy | StrictSub<Used, Source, Actions0>,
   arg1?: ApplyClassName extends true ? Falsy | StrictSub<Used, Source, Actions1> : never
@@ -71,7 +71,7 @@ export type ClassNaming<WithClassName extends boolean, Used extends BoolDict, So
 > & ClassNamed
 
 type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends ActionsOf<Source>>
-= Extract<Actions, AnyObject> & {
+= {
   [K in keyof Actions]: K extends keyof Source
   ? K extends keyof Used ? never
   : Actions[K] extends boolean
@@ -111,7 +111,7 @@ export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModul
   {[K in keyof TargetProps]?:
     ClassNaming<boolean, {}, Source>
     | {[S in keyof Source]?:
-      //TODO Strict action
+      //TODO #36 Strict `Action`
       Action
     }
   },

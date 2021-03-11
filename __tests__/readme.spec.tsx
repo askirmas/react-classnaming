@@ -1,7 +1,7 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import classNaming from "react-classnaming"
-import type {ClassHash, ClassNamesProperty} from "react-classnaming"
+import classNaming, { classBeming, ClassNamed } from "../src"
+import type {ClassHash, ClassNamesProperty} from "../src"
 // import css_module from "./button.module.css"
 const css_module = {button: "BTN"}
 
@@ -159,4 +159,30 @@ it("Using ClassHash", () => {
     <button type="reset" className="BTN">Reset</button>
     <button type="submit" className="BTN button_submit button--disabled">Submit</button>
   </>)
+})
+
+it("bem", () => {
+  type MyClassNames = ClassNamed & ClassNamesProperty<{
+    form__item: ClassHash
+    button: ClassHash
+    "button--status--warning": ClassHash
+    "button--status--danger": ClassHash
+    button__icon: ClassHash
+    "button__icon--hover": ClassHash
+    "button__icon--focus": ClassHash
+  }>
+  const props = {className: "${props.className}"} as MyClassNames
+
+  const bem = classBeming(props)
+  expectRender(
+    <div {...bem(true, {
+      form: {item: true},
+      button: {
+        $: {status: "danger"},
+        icon: {hover: true}
+      }
+    })}/>
+  ).toSame(
+    <div className="${props.className} form__item button button--status--danger button__icon button__icon--hover" />
+  )
 })

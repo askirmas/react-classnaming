@@ -1,4 +1,4 @@
-import { ClassHash } from "../../src/types"
+import { ClassHash } from "../../src/main.types"
 
 type tExcluder2<
   S extends Record<string, ClassHash>,

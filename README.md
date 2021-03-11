@@ -8,23 +8,28 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 
 [![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming) [![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
-[TOC]
-
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="react" height="64px" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" height="64px" />     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" height="64px;" />
+
+![](./images/classbeming.gif)
 
 ## Objectives
 
-1. Make CSS classes to be explicit and predictable project layer
-2. Enforce declaration style programming
-3. Enforce contract based development via TypeScript
-4. Enforce single source of truth
-5. Enforce class-conditions to be strictly `boolean`, not ~~`falsy|truthy`~~
-6. Use IDE type hints as developers UX for faster issues resolving
-7. CSS-modules agnostic
+1. Use CSS classes as an ontology of front-end project for clean communication between developers and non-tech staff
+2. Make CSS classes be an explicit and predictable informational layer
+3. Enforce declarative programming paradigm
+4. Enforce contract programming (via TypeScript)
+
+## Dev features
+
+1. Enforce <u>single source of truth</u> of class appending – treat as TypeScript-driven dedupe
+2. Require strict `boolean` for value of class condition
+3. Use IDE type hints as developers' UX for faster issues resolving
+4. BEM
+5. CSS-modules agnostic
 
 Use package like [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts) to prepare strict declaration of CSS 
 
-## Installation and import
+## Installation and brief overview
 
 ```bash
 npm install --save react-classnaming
@@ -32,24 +37,34 @@ npm install --save react-classnaming
 
 ```typescript
 import {
-  classNaming, // Returns function for building `className: string` from conditioned CSS classes with "context" (if was provided) from `props` for using only declared CSS classes
-  classNamesMap, // Similar to classNaming, specifies mapping to component's (i.e. 3rd-party) `className`-related props
-  classNamesCheck // Identical function for TS restriction on classes determed in CSS and not used in component
+  // Returns function for building `className: string` from conditioned CSS classes with "context" (if was provided) from `props` for using only declared CSS classes
+  classNaming, 
+  
+  // Similar to classNaming, specifies mapping to component's (i.e. 3rd-party) `className`-related props
+  classNamesMap,
+  
+  // Identical function for TS restriction on classes determed in CSS and not used in component
+  classNamesCheck,
+  
+  // Works with BEM conditional object
+  classBeming
 } from "react-classnaming"
 
 // Default export is the most frequently used function
 import classNaming from "react-classnaming"
 
-// Import module with specific function only
-import { classNaming } from "react-classnaming/naming"
-import { classNamesCheck } from "react-classnaming/check"
-import { classNamesMap } from "react-classnaming/map"
-
 import type {
-  ClassNamesProperty, // Type to declare component's self CSS classes
-  ClassNames, // Type to gather required CSS classes of sub-components
-  ClassHash, // `= string | undefined` – type to declare CSS class, global or local
-  ClassNamed  // `= {className: string}` – useful shortcut
+  // Type to declare component's self CSS classes
+  ClassNamesProperty, 
+    
+  // Type to gather required CSS classes of sub-components
+  ClassNames, 
+    
+  // `= string | undefined` – type to declare CSS class, global or local
+  ClassHash, 
+    
+  // `= {className: string}` – useful shortcut
+  ClassNamed 
 } from "react-classnaming/types"
 ```
 
@@ -77,6 +92,7 @@ function FormButtons({isValid, readOnly}: Props) {
     <button type="reset" {
       ...buttonClass({"button--disabled": readOnly}) // className="button"
     }>Reset</button> 
+                     { /* className="button_submit button button--disabled" */ }
     <button type="submit" className={`button_submit ${
       buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
     }`}>Submit</button> 
@@ -86,13 +102,13 @@ function FormButtons({isValid, readOnly}: Props) {
 
 As shown, producing function `classNaming` returns a multipurpose object. It can be
 
-- recalled to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
-- destructed in component's props as `className` singleton:  `<div {...someClass}/> <button {...anotherClass}/>` 
-- used as a string:  ` ``${someClass} ${anotherClass}`` `
+- <u>recalled</u> to stack more CSS classes on conditions: `anotherClass = someClass({...})({...})`
+- <u>destructed in</u> component's <u>props</u> as `className` singleton:  `<div {...someClass}/><button {...anotherClass}/>` 
+- used as a <u>string</u>:  ` ``${someClass} ${anotherClass}`` `
 
 ## Demos
 
-[<img src="./images/vscode.png" style="width: 50%; float:right;" />](./images/vscode.png) You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. 
+You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. [<img src="./images/vscode.png" width="50%"/>](./images/vscode.png) 
 
 ## Getting more
 
@@ -126,6 +142,22 @@ Only declared CSS classes will be allowed as keys with IDE hint on possibilities
 ```
 
 ![classnaming_declared](./images/classnaming_declared.gif)
+
+### BEM
+
+It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L186)
+
+```diff
+import {
+- classNaming 
++ classBeming
+} from "react-classnaming"
+
+- const cssClasses = classNaming<MyClassNames>()
++ const bemClasses = classBeming<MyClassNames>()
+```
+
+![](./images/classbeming.gif)
 
 ## Reference
 
@@ -180,6 +212,53 @@ const withClassNameTwice = containerClass(
 ```
 
 On `const` hovering will be tooltip with already conditioned classes under this chain
+
+### function `classBeming`
+
+Sets context to returned function for using BEM conditioned CSS classes queries. In general, argument's shape is
+
+```typescript
+type BemInGeneral = {
+  [__Block__]: boolean | __Block_Mod__ | {
+    [__Element__ | $ /*key for block mods*/]:  boolean | __BE_Mod__ | {
+      [__Mod__]: false | (true | __BE_Mod_Value__ )
+    }
+  }
+}
+```
+
+Table of output logic: 
+
+> Tests @ [./src/bem.core.test.ts:13](https://github.com/askirmas/react-classnaming/blob/main/src/bem.core.test.ts#L13-L35)
+
+| Returned `className`              | Query argument                                               |
+| --------------------------------- | ------------------------------------------------------------ |
+| `""`                              | `{block: false}`<br />`{block: {el: false}}`                 |
+|                                   |                                                              |
+| `"block"`                         | `{block: true}`<br />`{block: {$: boolean | {} | {[mod]: false} }}` |
+| `"block__el"`                     | `{block: {el: true | {} | {[mod]: false} }}`                 |
+|                                   |                                                              |
+| `"block block--mod"`              | `{block: "mod"}`<br/>`{block: {$: "mod" | {mod: true} }}`    |
+| `"block__el block__el--mod"`      | `{block: {el: "mod" | {mod: true} }}`                        |
+|                                   |                                                              |
+| `"block block--mod--val"`         | `{block: {$: {mod: "val"}}}`                                 |
+| `"block__el block__el--mod--val"` | `{block: {el: {mod: "val"}}}`                                |
+
+Mixins are deep merge of single possibilities in table
+
+![](./images/classbeming.gif)
+
+---
+
+#### Setting options
+
+Default options BEM naming:
+
+- Element's separator is a double underscore `"__"`
+- Modifier's and value's separator is a double hyphen `"--"`
+- Key for block modifiers is `"$"`
+
+It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 

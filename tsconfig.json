@@ -14,6 +14,7 @@
       "node",
       "jest"
     ],
+
     "resolveJsonModule": true,
 
     "allowJs": true,
@@ -30,6 +31,10 @@
 
     "downlevelIteration": true,
     "keyofStringsOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": false,
 
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -45,14 +50,14 @@
     "sourceMap": false,
     "outDir": "dist",
     "declaration": true,
-    "jsx": "react",
-    "paths": {
-      "react-classnaming": ["src"],
-      "react-classnaming/*": ["src/*"]
-    }
+    "jsx": "react"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "exclude": [
+    "dist",
+    "__recipes__"
   ]
 }

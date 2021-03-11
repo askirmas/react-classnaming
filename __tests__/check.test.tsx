@@ -1,8 +1,8 @@
 import React from "react"
 import { classNamesCheck } from "../src/check"
 import { EMPTY_OBJECT } from "../src/consts.json"
-import type { ClassHash, ClassNamesFrom, ClassNamesProperty } from "../src/types"
-import type { CssModule } from "../src/definitions.defs"
+import type { ClassHash, ClassNamesFrom, ClassNamesProperty } from "../src/main.types"
+import type { CssModule } from "../src/definitions.types"
 
 export {}
 
@@ -61,7 +61,7 @@ it("research", () => {
   expect(true).toBe(true)
 })
 
-it("check", () => {
+it("research ", () => {
   function check0<
     //@ts-expect-error
     C extends T,
@@ -77,7 +77,7 @@ it("check", () => {
   //@ts-expect-error Property 'App' is missing 
   <Component classnames={check0({})} />;
   <Component classnames={check0(css_module_exact)} />;
-  //TODO #16 @ts-expect-error
+  //#16 @ts-expect-error
   <Component classnames={check0(css_module)} />;
 
   //@ts-expect-error Property 'App' is missing in type 'CssModule'

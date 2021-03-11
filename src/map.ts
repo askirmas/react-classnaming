@@ -1,12 +1,12 @@
 import {
   CssModule,
-} from "./definitions.defs";
+} from "./definitions.types";
 import type {
   ClassNamesMapping, ClassNamesMap,
-} from "./index-types.defs";
+} from "./naming.types";
 import {resolver} from "./core"
-import { AnyObject, OmitIndexed } from "./ts-swiss.defs";
-import { GetProps } from "./react-swiss.defs";
+import { AnyObject, OmitIndexed } from "./ts-swiss.types";
+import { GetProps } from "./react-swiss.types";
 
 const {keys: $keys} = Object
 
@@ -37,7 +37,9 @@ function mapping<
   _: Target,
   map: Mapping
 ): {[M in keyof Mapping]: string} {
+  // TODO #33 change to for-in https://jsbench.me/prkm3gn4ji
   const keys = $keys(map) as (keyof Mapping)[]
+  // TODO = {...keys} + reassign or delete?
   , classnames = {} as {[M in keyof Mapping]: string}
 
   for (let i = keys.length; i--;) {

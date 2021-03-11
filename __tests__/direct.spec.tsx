@@ -100,10 +100,7 @@ it("additional type check after rename", () => {
 })
 
 it("chaining", () => {
-  const props = {className: "Cell", classnames:
-    //TODO #16
-    classNamesCheck() as Record<string, ClassHash>
-  }
+  const props = {className: "Cell", classnames: classNamesCheck()}
 
   const {"classnames": {
     Column_1, Column_2,

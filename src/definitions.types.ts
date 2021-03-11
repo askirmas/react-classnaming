@@ -2,11 +2,11 @@ import type {
   Ever,
   EmptyObject,
   AnyObject,
-} from "./ts-swiss.defs"
+} from "./ts-swiss.types"
 import type {
   RCC,
   RFC
-} from "./react-swiss.defs"
+} from "./react-swiss.types"
 
 /** Primitive for global CSS and CSS module */
 export type ClassHash = undefined|string

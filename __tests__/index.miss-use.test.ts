@@ -1,5 +1,5 @@
 import { classNaming } from "../src"
-import type { CssModule } from "../src/definitions.defs"
+import type { CssModule } from "../src/definitions.types"
 
 const global_css: CssModule = {}
 , module_css = {
@@ -12,7 +12,7 @@ describe("ctx", () => {
     //TODO Recover //@ts-expect-error
     ...classNaming()
   }).toStrictEqual({
-    className: ""
+    className: undefined
   }))
 
   it("classnames === null", () => expect({
@@ -26,7 +26,7 @@ describe("ctx", () => {
     //@ts-expect-error
     ...classNaming({classnames: module_css}, {class1: true})
   }).toStrictEqual({
-    className: ""
+    className: undefined
   }))
 
   it("second ctx assign", () => expect({
@@ -35,7 +35,7 @@ describe("ctx", () => {
       classnames: global_css
     })
   }).toStrictEqual({
-    className: "classnames"
+    className: "[object Object]"
   }))
 })
 
@@ -79,7 +79,7 @@ describe("multi-arg call", () => {
 it("not equal hashes", () => expect({
   ...classNaming({classnames: {class1: "HASH1"}})({class1: "hash1"})
 }).toStrictEqual({
-  className: "HASH1"
+  className: "hash1"
 }))
 
 

@@ -9,13 +9,16 @@
     "pretest": "jest --clearCache",
     "build": "npm run compile",
     "prebuild": "npm run test",
+    "postbuild": "npm run spec",
     "release": "np",
     "-prerelease": "./prerelease.sh",
     "postrelease": "./postrelease.sh",
     "compile": "tsc --project tsconfig.compile.json",
     "precompile": "rm -rf dist",
+    "postcompile": "mkdir -p dist/types && find src -name '*.d.ts' -exec cp {} dist \\;",
+    "spec": "cd __recipes__ && npm run test",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand"
+    "jest": "jest --runInBand --"
   },
   "repository": {
     "type": "git",
@@ -25,8 +28,9 @@
     "typescript",
     "declarative",
     "css-classes",
-    "css",
     "react",
+    "bem",
+    "css",
     "classname",
     "css-modules",
     "classnames",
@@ -67,8 +71,6 @@
     "2fa": false
   },
   "files": [
-    "README.md",
-    "LICENSE",
     "dist"
   ]
 }

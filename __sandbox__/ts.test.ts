@@ -1,5 +1,5 @@
-import { ClassHash as V } from "../src/types"
-import { CssModule } from "../src/definitions.defs"
+import type { Falsy } from "../src/ts-swiss.types"
+import type { Action, ClassHash, CssModule } from "../src/definitions.types"
 
 const {keys: $keys} = Object
 
@@ -203,9 +203,9 @@ describe("UX of TS choice", () => {
   // })
 
   it("overload function", () => {
-    function joiner<S extends CssModule>(source: {[K in keyof S]?: V}) :string
-    function joiner<S extends CssModule>(inj: string, source: {[K in keyof S]?: V}) :string
-    function joiner<S extends CssModule, F1 extends {[K in keyof S]?: V} | string>(
+    function joiner<S extends CssModule>(source: {[K in keyof S]?: ClassHash}) :string
+    function joiner<S extends CssModule>(inj: string, source: {[K in keyof S]?: ClassHash}) :string
+    function joiner<S extends CssModule, F1 extends {[K in keyof S]?: ClassHash} | string>(
       arg0: F1,
       // arg1?: typeof arg0 extends string ? {[K in keyof S]?: V} : never 
       arg1?: F1 extends string ? Exclude<F1, string> : never
@@ -228,5 +228,69 @@ describe("UX of TS choice", () => {
     )
     
     expect({bothObjects, redundantKey}).toBeInstanceOf(Object)
+  })
+})
+
+describe("keys hinting", () => {
+  type Source = {
+    class1: ClassHash
+    class2: ClassHash
+    class3: ClassHash
+  }
+
+  it("- partial", () => {
+    const partial = <T extends {[K in keyof Source]?: Action}>(pay: T) => pay
+    , $return = partial({class1: true, class2: true, class4: undefined})
+    , check: Record<string, typeof $return> = {
+      //@ts-expect-error
+      "missed": {
+        class1: true, class2: true
+      },
+      "exact": {
+        class1: true, class2: true, class4: undefined
+      }
+    } 
+
+    expect(check).toBeInstanceOf(Object)
+  })
+
+  it("- partial*pick", () => {
+    const partial = <T extends {[K in keyof Source]?: Action}>(pay: Pick<T, keyof Source>) => pay
+    , checkRedundant = partial({class1: true, class2: true,
+        //@ts-expect-error
+        class4: undefined
+      })
+    , $return = partial({class1: true, class2: true})
+    , check: Record<string, typeof $return> = {
+      "exact": {},
+    } 
+
+    expect({check, checkRedundant}).toBeInstanceOf(Object)
+  })
+
+  it("+ partial*own pick", () => {
+    type Parter<Source> = <
+      T extends {[K in keyof Source]?: Action}
+    >(
+      pay?: T & {[K in keyof T]: K extends keyof Source ? Action : never} | Falsy
+    ) => T
+
+    const partial: Parter<Source> = (pay) => pay as any
+    , checkRedundant = partial({class1: true, class2: true,
+        //@ts-expect-error
+        class4: undefined
+      })
+    , $return = partial({class1: true, class2: true })
+    , check: Record<string, typeof $return> = {
+      //@ts-expect-error
+      "missed": {class1: true},
+      "exact": {class1: true, class2: true},
+      "redundant": {class1: true, class2: true,
+        //@ts-expect-error
+        class3: true
+      },
+    } 
+
+    expect({check, checkRedundant}).toBeInstanceOf(Object)
   })
 })

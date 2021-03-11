@@ -1,7 +1,25 @@
 import { EMPTY_ARRAY } from "../src/consts.json";
 import {
+  picker,
   resolver,
+  wrapper,
 } from "../src/core";
+
+describe(picker.name, () => {
+  it("without hash", () => expect(picker(
+    undefined,
+    ["class1", "class2", "class3"]
+  )).toStrictEqual(
+    ["class1", "class2", "class3"]
+  ))
+
+  it("without hash", () => expect(picker(
+    {class1: undefined, class3: "hash3", class4: "hash4"},
+    ["class1", "class2", "class3"]
+  )).toStrictEqual(
+    ["class1", "class2", "hash3"]
+  ))
+})
 
 describe(resolver.name, () => {
   it("without hash", () => expect(resolver(
@@ -19,9 +37,9 @@ describe(resolver.name, () => {
     }
   )).toStrictEqual([
     "hash", "hashless",
-    "one",
+    1,
     "true",
-    "array", "object"    
+    [], {}
   ]))
 
   it("with hash", () => expect(resolver(
@@ -45,10 +63,10 @@ describe(resolver.name, () => {
       array: [], object: {},
     }
   )).toStrictEqual([
-    "HASH", "HASHNESS",
-    "ONE",
+    "hash", "HASHNESS",
+    1,
     "TRUE",
-    "ARRAY", "OBJECT"    
+    [], {}
   ]))
 
   it("nothing is falsy", () => expect(resolver(
@@ -57,4 +75,23 @@ describe(resolver.name, () => {
   )).toBe(
     EMPTY_ARRAY
   ))
+})
+
+describe(wrapper.name, () => {
+  const className = "className string"
+
+  it("works", () => expect(
+    `${wrapper({}, className)}`
+  ).toBe(
+    className
+  ))
+
+  it("no overwrite - for coverage", () => {
+    const source = wrapper({}, className)
+    expect(
+      `${wrapper(source, className)}`
+    ).toBe(
+      className
+    )
+  })
 })
