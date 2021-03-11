@@ -8,9 +8,9 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 
 [![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming) [![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
 
-[TOC]
-
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="react" height="64px" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" height="64px" />     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" height="64px;" />
+
+![](./images/classbeming.gif)
 
 ## Objectives
 
