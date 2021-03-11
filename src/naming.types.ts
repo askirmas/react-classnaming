@@ -111,7 +111,7 @@ export type ClassNamesMap<TargetProps extends AnyObject, Source extends CssModul
   {[K in keyof TargetProps]?:
     ClassNaming<boolean, {}, Source>
     | {[S in keyof Source]?:
-      //TODO Strict action
+      //TODO Strict `Action`
       Action
     }
   },

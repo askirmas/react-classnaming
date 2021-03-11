@@ -1,6 +1,6 @@
 export type Ever<T, V, D = EmptyObject> = [T] extends [never] ? D : V
 export type EmptyObject = Record<never, never>
-export type AnyObject = {[k: string]: any}
+export type AnyObject = Record<string, any>
 export type Falsy = undefined|null|false|0|""
 // export type Part<T> = {[K in keyof T]: T[K] | undefined}
 // type get<T, K> = K extends keyof T ? T[K] : never
@@ -28,6 +28,10 @@ export type Subest<Base, Extendent> = Base extends Extendent ? Extendent : Base
 export type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
 export type PartDeep<T> = Exclude<T, AnyObject> | (
-  // [Extract<T, AnyObject>] extends [never] ? never :
-  T extends AnyObject ? {[K in keyof Extract<T, AnyObject>]?: PartDeep<Extract<T, AnyObject>[K]>} : never
+  T extends AnyObject
+  ? Ever<keyof Extract<T, AnyObject>,
+    {[K in keyof Extract<T, AnyObject>]?: PartDeep<Extract<T, AnyObject>[K]>},
+    never
+  >
+  : never
 )

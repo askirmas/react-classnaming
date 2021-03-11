@@ -11,8 +11,7 @@ export {
 function classBeming<
   Ctx extends {classnames: Source, className?: string},
   Source extends CssModule = Ctx["classnames"],
-  //TODO
-  // WithClassName extends boolean = Ctx["className"] extends string ? true : false
+  //TODO WithClassName extends boolean = Ctx["className"] extends string ? true : false
 >(
  context: Ctx = EMPTY_OBJECT as Ctx
 ) {

@@ -18,8 +18,8 @@ describe("BemQuery", () => {
       "number": {block: 1},
       "true": {block: true},
       "{}": {block: {}},
-      //TODO recover strict @ts-expect-error
-      "el=1": {block: {el: 1}},
+      //@ts-expect-error
+      "el=1": {block: {el: {}}},
       "el": {block: {el: true}}
     }
     expect(checks).toBeInstanceOf(Object)
@@ -30,7 +30,6 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
-      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el=1": {block: {el: 1}},
@@ -47,7 +46,6 @@ describe("BemQuery", () => {
       //@ts-expect-error
       "number": {block: 1},
       "true": {block: true},
-      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el=1": {block: {el: 1}},
@@ -68,7 +66,6 @@ describe("BemQuery", () => {
       "number": {block: 1},
       "true": {block: true},
       "mod": {block: "mod"},
-      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},
@@ -87,7 +84,6 @@ describe("BemQuery", () => {
       "true": {block: true},
       //@ts-expect-error
       "mod": {block: "mod"},
-      //@ ts-expect-error
       "{}": {block: {}},
       //@ts-expect-error
       "el": {block: {el: true}},

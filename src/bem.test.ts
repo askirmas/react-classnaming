@@ -34,10 +34,12 @@ describe("contexting", () => {
 
 it("TS UX", () => {
   type ClassProps = ClassNamed & ClassNamesProperty<Record<
-    |"block1__el1--m1"
-    |"block1__el1--m2"
+    |"block1--m1"
     |"block1--m2--v1"
     |"block1--m2--v2"
+    |"block1__el1--m1"
+    |"block1__el1--m2--v1"
+    |"block1__el1--m2--v2"
     |"block2"
   , ClassHash>>
 
