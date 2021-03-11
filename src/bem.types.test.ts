@@ -110,7 +110,7 @@ describe("BemQuery", () => {
     >> = {
       "exact": {
         block: {
-          $: {"mod1": true},
+          $: "mod1",
           el: {
             mod1: false,
             mod2: "val1"

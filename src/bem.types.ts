@@ -88,20 +88,6 @@ type MVs<
   e extends bModKey ? "" : `${delE}${e}`
 }${delM}${infer MV}` ? MV : never
 
-// type ModValObject<
-//   MV extends string | never,
-//   delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
-//   ? ReactClassNaming.BemOptions["modDelimiter"]
-//   : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
-// > = MV extends never ? never : (MV extends `${string}${delM}${string}` ? never : MV)
-// | {
-//   [m in Strip<MV, delM>]?:
-//     MV extends `${m}${delM}${infer V}`
-//     ? (false | V)
-//     : boolean
-// }
-
-
 export type BemAbsraction = {
   [block: string]: undefined | boolean | string | {
     [el: string]: undefined | boolean | string | {

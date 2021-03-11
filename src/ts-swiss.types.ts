@@ -24,7 +24,12 @@ export type Primitive = undefined | null | boolean | number | string | symbol | 
 export type Strip<Str extends string, Delimiter extends string> = Str extends `${infer Lead}${Delimiter}${string}` ? Lead : Str
 export type Cut<Str extends string, Delimiter extends string> = Str extends `${string}${Delimiter}${infer Back}` ? Back : Str
 
-export type Subest<Base, Extendent> = Base extends Extendent ? Extendent : Base
+export type Subest<Base, Extendent> = string extends keyof Base
+? Extendent
+: Base extends Extendent
+  ? Extendent
+  : Base
+
 export type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
 export type PartDeep<T> = Exclude<T, AnyObject> | (

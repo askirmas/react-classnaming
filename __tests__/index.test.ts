@@ -23,6 +23,7 @@ describe("#11 className control", () => {
     ])
   })
   it("className double use", () => {
+    // Consider classnames: {} as CssModule
     const classes = classNaming({className: "class", classnames: {}})
     , call1 = classes()
     , call2 = call1(true)
