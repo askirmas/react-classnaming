@@ -15,7 +15,7 @@ describe(bem2arr.name, () => {
         [{base: true       },  "base"],
         [{base: "mod"      },  "base base--mod"],
         //@ts-expect-error //TODO #40
-        [{base: ["mod"]    },  "base base--0--mod" /* TODO #40 "base base--mod"*/],
+        [{base: ["mod"]    },  "base base--mod" /* TODO #40 "base base--mod"*/],
         //@ts-expect-error //TODO #40
         [{base: [false]    },  "base"],
         [{base: {}         },  "base"],

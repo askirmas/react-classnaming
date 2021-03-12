@@ -1,5 +1,7 @@
 import type { BemInGeneral } from "./bem.types"
 
+const {isArray: $isArray} = Array
+
 let modDelimiter = "--"
 , elementDelimiter = "__"
 
@@ -29,12 +31,19 @@ function bem2arr(query: BemInGeneral) {
       continue
     }
 
+    const isArray = $isArray(baseQ)
+
+    // TODO check performance of `const in Array`
     for (const mod in baseQ) {
       const modValue = baseQ[mod]
       if (!modValue)
         continue
 
-      $return.push(`${base}${modDelimiter}${mod}${
+      $return.push(`${base}${
+        isArray
+        ? ""
+        : `${modDelimiter}${mod}`
+      }${
         typeof modValue !== "string"
         ? ""
         : `${modDelimiter}${modValue}`
