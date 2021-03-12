@@ -161,7 +161,7 @@ it("Using ClassHash", () => {
   </>)
 })
 
-it("bem", () => {
+describe("bem", () => {
   type MyClassNames = ClassNamed & ClassNamesProperty<{
     form__item: ClassHash
     button: ClassHash
@@ -176,13 +176,11 @@ it("bem", () => {
   const bem = classBeming(props)
   expectRender(
     <div {...bem(true, {
-      form: {item: true},
-      button: {
-        $: {status: "danger"},
-        icon: {hover: true}
-      }
+      form__item: true,
+      button: {status: "danger"},
+      button__icon: {hover: true}
     })}/>
-  ).toSame(
+  ).not.toSame(
     <div className="${props.className} form__item button button--status--danger button__icon button__icon--hover" />
   )
 })

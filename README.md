@@ -231,32 +231,16 @@ Table of output logic:
 
 > Tests @ [./src/bem.core.test.ts:13](https://github.com/askirmas/react-classnaming/blob/main/src/bem.core.test.ts#L13-L35)
 
-| Returned `className`              | Query argument                                               |
-| --------------------------------- | ------------------------------------------------------------ |
-| `""`                              | `{block: false}`<br />`{block: {el: false}}`                 |
-| <hr>                              | <hr>                                                         |
-| `"block"`                         | `{block: true}`<br />`{block: {$: boolean \| {} \| {[mod]: false} }}` |
-| `"block__el"`                     | `{block: {el: true \| {} \| {[mod]: false} }}`               |
-| <hr>                              | <hr>                                                         |
-| `"block block--mod"`              | `{block: "mod"}`<br/>`{block: {$: "mod" \| {mod: true} }}`   |
-| `"block__el block__el--mod"`      | `{block: {el: "mod" \| {mod: true} }}`                       |
-| <hr>                              | <hr>                                                         |
-| `"block block--mod--val"`         | `{block: {$: {mod: "val"}}}`                                 |
-| `"block__el block__el--mod--val"` | `{block: {el: {mod: "val"}}}`                                |
-
-Mixins are deep merge of single possibilities in table
-
 ![](./images/classbeming.gif)
 
 ---
 
-#### Setting options
+### Setting options
 
 Default options BEM naming:
 
-- Element's separator is a double underscore `"__"`
 - Modifier's and value's separator is a double hyphen `"--"`
-- Key for block modifiers is `"$"`
+- [#30](https://github.com/askirmas/react-classnaming/issues/30) ~~Element's separator is a double underscore `"__"`~~ 
 
 It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels
 

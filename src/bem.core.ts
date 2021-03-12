@@ -1,7 +1,7 @@
 import type { BemInGeneral } from "./bem.types"
 
-let elementDelimiter = "__"
-, modDelimiter = "--"
+let modDelimiter = "--"
+, elementDelimiter = "__"
 , blockModKey = "$"
 
 export type BemOptions = {
