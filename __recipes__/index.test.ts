@@ -5,19 +5,19 @@ import type {ClassHash, ReactClassNaming} from "react-classnaming"
 declare module "react-classnaming" {
   namespace ReactClassNaming {
     interface BemOptions {
-      // TODO #30 elementDelimiter: "_";
+      elementDelimiter: "_";
       modDelimiter: "-";
     }
   }
 }
 
 setOptions({
-  // TODO #30 elementDelimiter: "_",
+  elementDelimiter: "_",
   modDelimiter: "-",
 })
 
 type CssModule = Record<
-  "block"|"block-m"
+  |"block-m"
   |"block_el"|"block_el-m-X"|"block_el-m-Y",
   ClassHash
 >

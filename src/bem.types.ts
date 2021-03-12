@@ -45,11 +45,14 @@ export type ClassBeming<
 
 export type BemQuery<
   classes extends string,
+  delE extends string = "elementDelimiter" extends keyof ReactClassNaming.BemOptions
+  ? ReactClassNaming.BemOptions["elementDelimiter"]
+  : ReactClassNaming.BemOptions["$default"]["elementDelimiter"],
   delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
   ? ReactClassNaming.BemOptions["modDelimiter"]
   : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
 > = string extends classes ? BemInGeneral : PartDeep<{
-  [base in Strip<classes, delM>]: true
+  [base in Strip<classes, delM> | Strip<Strip<classes, delM>, delE>]: true
   | (
     Extends<classes, `${base}${delM}${string}`, 
       false

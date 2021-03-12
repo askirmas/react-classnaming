@@ -2,11 +2,16 @@ import type {BemQuery} from "./bem.types"
 
 describe("BemQuery", () => {
   it("block", () => {
+    const {block} = {} as Record<string, undefined>
+
     const checks: Record<string, BemQuery<"block">> = {
-      //@ts-expect-error
-      "number": {block: 1},
       "true": {block: true},
+      "undefined": {block},
+
+      /** No modifier - couldn't be false as return of condition */
       //@ts-expect-error
+      "false": {block: false},
+      //@ts-expect-error 
       "{}": {block: {}},
     }
     expect(checks).toBeInstanceOf(Object)
@@ -14,134 +19,59 @@ describe("BemQuery", () => {
 
   it("block__el", () => {
     const checks: Record<string, BemQuery<"block__el">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      //@ts-expect-error
-      "true": {block: true},
-      //@ts-expect-error
-      "{}": {block: {}},
-      //@ts-expect-error
-      "el=1": {block: {el: {}}},
-      //@ts-expect-error
-      "el": {block: {el: true}},
-      "block__el": {block__el: true}
+      "block__el": {block__el: true},
+      /** `block` may be ommited in CSS post-processor but it exists in ontology  */
+      "block": {block: true},
     }
     expect(checks).toBeInstanceOf(Object)
   })
 
-  it("block__el--mod", () => {
-    const checks: Record<string, BemQuery<"block__el--mod">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      //@ts-expect-error
-      "true": {block: true},
-      //@ts-expect-error
-      "{}": {block: {}},
-      //@ts-expect-error
-      "el=1": {block: {el: 1}},
-      //@ts-expect-error`
-      "el": {block: {el: true}},
-      //@ts-expect-error
-      "el: mod": {block: {el: "mod"}},
-      //@ts-expect-error
-      "el: [mod]": {block: {el: ["mod"]}},
-      //@ts-expect-error
-      "el: -mod": {block: {el: {mod: false}}},
-      //@ts-expect-error
-      "el: +mod": {block: {el: {mod: true}}},
-
-      //@ts-expect-error
-      "block__el=1": {block__el: 1},
-      "block__el": {block__el: true},
-      "block__el: mod": {block__el: "mod"},
-      //@ts-expect-error //TODO #40
-      "block__el: [mod]": {block__el: ["mod"]},
-      "block__el: -mod": {block__el: {mod: false}},
-      "block__el: +mod": {block__el: {mod: true}}
-    }
-    expect(checks).toBeInstanceOf(Object)
-  })  
-
-  it("block__el--mod--val", () => {
-    const checks: Record<string, BemQuery<"block__el--mod--val">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      //@ts-expect-error
-      "true": {block: true},
-      //@ts-expect-error
-      "{}": {block: {}},
-      //@ts-expect-error
-      "el=1": {block__el: 1},
-      "el": {block__el: true},
-      //@ts-expect-error
-      "el: mod": {block__el: "mod"},
-      //@ts-expect-error
-      "el: mod": {block__el: ["mod"]},
-      "el: -mod": {block__el: {mod: false}},
-      //@ts-expect-error
-      "el: +mod": {block__el: {mod: true}},
-      "el: mod=val": {block__el: {mod: "val"}},
-    }
-    expect(checks).toBeInstanceOf(Object)
-  })  
-
   it("block--mod", () => {
     const checks: Record<string, BemQuery<"block--mod">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      "true": {block: true},
+      /** Numbers are not allowed */
+      //@ts-expect-error 
+      "0": {block: 0},
+      //@ts-expect-error 
+      "1": {block: 1},
+
+      /** Possible Output of applied conditions for modifications */
+      "false": {block: false},
+      "{}": {block: {}}, 
+      
+      /** Possible mod apply options */
       "mod": {block: "mod"},
-      "{}": {block: {}},
-      //@ts-expect-error
-      "el": {block: {el: true}},
-      //@ts-expect-error
-      "$": {block: {$: true}},
-      //@ts-expect-error
-      "$: mod": {block: {$: "mod"}},
-      //@ts-expect-error
-      "$: +mod": {block: {$: {mod: true}}},
-      //@ts-expect-error
-      "$: -mod": {block: {$: {mod: false}}},
+      "mod-": {block: {mod: false}},
+      "mod+": {block: {mod: true}},
+      "-mod": {block: false && {mod: true}},
     }
     expect(checks).toBeInstanceOf(Object)
   })  
 
   it("block--mod--val", () => {
     const checks: Record<string, BemQuery<"block--mod--val">> = {
-      //@ts-expect-error
-      "number": {block: 1},
-      "true": {block: true},
+      /** Modifier should have value */
       //@ts-expect-error
       "mod": {block: "mod"},
-      "{}": {block: {}},
       //@ts-expect-error
-      "el": {block: {el: true}},
-      //@ts-expect-error
-      "mod---val": {block: "mod--val"},
-      //@ts-expect-error,
-      "mod+": {block: {"mod": true}},
-      "mod-": {block: {"mod": false}},
-      "mod:val": {block: {"mod": "val"}},
-      //@ts-expect-error
-      "$": {block: {$: true}},
-      //@ts-expect-error
-      "$: mod": {block: {$: "mod"}},
-      //@ts-expect-error
-      "$: mod--val": {block: {$: "mod--val"}},
-      //@ts-expect-error
-      "$: +mod--val": {block: {$: {"mod--val": true}}},
-      //@ts-expect-error
-      "$: -mod--val": {block: {$: {"mod--val": false}}},
-      //@ts-expect-error
-      "$: -mod": {block: {$: {mod: false}}},
-      //@ts-expect-error
-      "$: +mod": {block: {$: {mod: true}}},
-      //@ts-expect-error
-      "$: mod=val": {block: {$: {mod: "val"}}},
+      "mod+": {block: {mod: true}},
+
+      /** Usage */
+      "mod-": {block: {mod: false}},
+      "mod: val": {block: {mod: "val"}},
     }
     expect(checks).toBeInstanceOf(Object)
   })  
 
+  it("#40 array of midfiers", () => {
+    type Single = BemQuery<"block--modB"|"block--modV--val">
+    //@ts-expect-error
+    const modB_string: Single = {block: ["modB"]}
+    //@ts-expect-error
+    , modB_obj: Single = {block: [{modB: true}]}
+    //@ts-expect-error
+    , modV_obj: Single = {block: [{modV: "val"}]}
+  })
+  
   it("mix #1", () => {
     const checks: Record<string, BemQuery<
     `${"block" | "block__el"}--${"mod1"|"mod2--val1"|"mod2--val2"}`

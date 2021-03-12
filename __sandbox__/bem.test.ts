@@ -155,9 +155,9 @@ describe("upon delimiter", () => {
     type Elements<
         classes extends string,
         b extends string,
-        delE extends string = "__" /*"elementDelimiter" extends keyof ReactClassNaming.BemOptions
+        delE extends string = "elementDelimiter" extends keyof ReactClassNaming.BemOptions
         ? ReactClassNaming.BemOptions["elementDelimiter"]
-        : ReactClassNaming.BemOptions["$default"]["elementDelimiter"]*/,
+        : ReactClassNaming.BemOptions["$default"]["elementDelimiter"],
         delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
         ? ReactClassNaming.BemOptions["modDelimiter"]
         : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
@@ -172,9 +172,9 @@ describe("upon delimiter", () => {
 
     type BemQuery<
       classes extends string,
-      delE extends string = "__" /*"elementDelimiter" extends keyof ReactClassNaming.BemOptions
+      delE extends string = "elementDelimiter" extends keyof ReactClassNaming.BemOptions
       ? ReactClassNaming.BemOptions["elementDelimiter"]
-      : ReactClassNaming.BemOptions["$default"]["elementDelimiter"]*/,
+      : ReactClassNaming.BemOptions["$default"]["elementDelimiter"],
       delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
       ? ReactClassNaming.BemOptions["modDelimiter"]
       : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
@@ -211,9 +211,9 @@ describe("upon delimiter", () => {
       classes extends string,
       b extends string,
       e extends string,
-      delE extends string = "__" /*"elementDelimiter" extends keyof ReactClassNaming.BemOptions
+      delE extends string = "elementDelimiter" extends keyof ReactClassNaming.BemOptions
       ? ReactClassNaming.BemOptions["elementDelimiter"]
-      : ReactClassNaming.BemOptions["$default"]["elementDelimiter"]*/,
+      : ReactClassNaming.BemOptions["$default"]["elementDelimiter"],
       delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
       ? ReactClassNaming.BemOptions["modDelimiter"]
       : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
