@@ -41,7 +41,8 @@
     "postcompile": "./postcompile.sh",
     "spec": "cd __recipes__ && npm run test --",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand"
+    "jest": "jest --runInBand",
+    "tsc": "tsc"
   },
   "private": false,
   "main": "./dist/index.js",
@@ -81,8 +82,6 @@
     "np": "^7.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "ts-4.0": "npm:typescript@4.0.7",
-    "ts-4.1": "npm:typescript@4.1.5",
     "ts-jest": "^26.5.0",
     "typescript": "^4.2.3"
   }
