@@ -1,4 +1,4 @@
 declare module "*.css" {
-  const css: Record<string, string|undefined>
+  declare const css: Record<string, undefined|string>
   export = css
 }

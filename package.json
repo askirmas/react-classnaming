@@ -54,7 +54,6 @@
     "./map": "./dist/map.js",
     "./check": "./dist/check.js"
   },
-  "type": "module",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,7 @@
 {
   "display": "CLI",
   "compilerOptions": {
+    "baseUrl": "src",
     "target": "es5",
     "module": "CommonJS",
     "isolatedModules": true,
