@@ -1,15 +1,5 @@
-//-/ <reference path="node_modules/react-classnaming/dist" />
 import {classBeming, ClassNamed, ClassNamesProperty, setOptions} from "react-classnaming"
-import type {ClassHash, ReactClassNaming} from "react-classnaming"
-
-declare module "react-classnaming" {
-  namespace ReactClassNaming {
-    interface BemOptions {
-      elementDelimiter: "_";
-      modDelimiter: "-";
-    }
-  }
-}
+import type {ClassHash} from "react-classnaming"
 
 setOptions({
   elementDelimiter: "_",
@@ -17,18 +7,19 @@ setOptions({
 })
 
 type CssModule = Record<
-  |"block-m"
-  |"block_el"|"block_el-m-X"|"block_el-m-Y",
+  |"block1-m"
+  |"block2_el-m-X"|"block2_el-m-Y",
   ClassHash
 >
 
 it("go", () => {
   const bem = classBeming<ClassNamesProperty<CssModule> & ClassNamed>()
   , classNamed = bem(true, {
-    block: "m",
-    block_el: {"m": "X"}
+    block1: "m",
+    block2: true,
+    block2_el: {"m": "X"}
   })
   expect(classNamed).toStrictEqual({
-    className: "block block-m block_el block_el-m-X"
+    className: "block1 block1-m block2 block2_el block2_el-m-X"
   })
 })

@@ -241,7 +241,7 @@ Default options BEM naming:
 - Modifier's and value's separator is a double hyphen `"--"`
 - Element's separator is a double underscore `"__"`
 
-It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels
+It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels. See [./\__recipes__/](https://github.com/askirmas/react-classnaming/tree/main/__recipes__/)
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 

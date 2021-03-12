@@ -9,7 +9,6 @@ import type {
   Ever
 } from "./ts-swiss.types"
 import type { ClassNamed } from "./main.types"
-import type {ReactClassNaming} from "."
 
 export type ClassBeming<
   ClassNames extends CssModule,

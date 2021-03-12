@@ -2,7 +2,7 @@
   "display": "CLI",
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "es5",
+     "target": "es5",
     "module": "CommonJS",
     "isolatedModules": true,
     "moduleResolution": "node",
@@ -46,11 +46,13 @@
     
     "pretty": true,
 
+    "jsx": "react",
+
+    "declarationDir": "types",
     "noEmit": true,    
     "sourceMap": false,
     "outDir": "dist",
-    "declaration": true,
-    "jsx": "react"
+    "declaration": true   
   },
   "include": [
     "**/*.ts",
@@ -58,6 +60,7 @@
   ],
   "exclude": [
     "dist",
+    "types",
     "__recipes__"
   ]
 }

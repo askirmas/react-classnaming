@@ -1,3 +1,5 @@
+/** Comment */ 
+
 import { classNaming } from "./naming"
 
 export type {
@@ -15,12 +17,3 @@ export { classNamesCheck } from "./check"
 export { classNamesMap } from "./map"
 export { classBeming } from "./bem"
 export { setOptions } from "./bem.core"
-
-export declare namespace ReactClassNaming {
-  export interface BemOptions {
-    $default: {
-      elementDelimiter: "__",
-      modDelimiter: "--"
-    } 
-  }  
-}

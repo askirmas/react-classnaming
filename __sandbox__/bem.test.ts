@@ -1,5 +1,4 @@
 import type { Ever0, Extends, PartDeep } from "src/ts-swiss.types"
-import type {ReactClassNaming} from "../src"
 import { CssModule } from "../src/definitions.types"
 
 it("tree2classes", () => {
