@@ -13,7 +13,7 @@
     "postbuild": "npm run spec",
     "release": "np",
     "-prerelease": "./prerelease.sh",
-    "postrelease": "./postrelease.sh",
+    "-postrelease": "./postrelease.sh",
     "compile": "tsc --project tsconfig.compile.json",
     "precompile": "rm -rf dist types",
     "postcompile": "find src -name '*.d.ts' -exec cp {} types \\;",
@@ -68,7 +68,7 @@
   },
   "np": {
     "yarn": false,
-    "branch": "release",
+    "branch": "main",
     "2fa": false
   },
   "files": [
