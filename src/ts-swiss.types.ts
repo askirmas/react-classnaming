@@ -51,3 +51,10 @@ export type PartDeep<T> = Exclude<T, AnyObject>
 )
 
 export type KeyOf<T> = [T] extends [never] ? never : T extends AnyObject ? Extract<keyof T, string> : never
+
+/** @see https://stackoverflow.com/a/50375286/10325032 */
+export type UnionToIntersection<Union> = (
+  Union extends any ? (argument: Union) => void : never
+) extends (argument: infer Intersection) => void
+? Intersection
+: never;
