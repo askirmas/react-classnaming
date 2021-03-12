@@ -10,12 +10,6 @@ cd "$dir" || exit 1
 
 cd "$npm_package_types" || exit 1
 
-sed -ir 's/(<reference )types(="[^"]+)"/\1path\2.d.ts"/' index.d.ts
-result="$?"
-
-if [ "$result" ]; then 
-  echo "another"
-  sed -i '' -r 's/(<reference )types(="[^"]+)"/\1path\2.d.ts"/' index.d.ts
-else
-  echo "was ok"
-fi
+# https://stackoverflow.com/a/4247319/9412937
+# sed -i'' -r 's/(<reference )types(="[^"]+)"/\1path\2.d.ts"/' index.d.ts
+perl -i -pe's/(<reference )types(="[^"]+)"/\1path\2.d.ts"/' index.d.ts
