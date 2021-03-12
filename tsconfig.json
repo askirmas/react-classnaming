@@ -34,7 +34,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "noUncheckedIndexedAccess": false,
+    // "noUncheckedIndexedAccess": false,
 
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

@@ -1,5 +1,5 @@
 import type {BemQuery, Mods} from "./bem.types"
-import { PartDeep } from "./ts-swiss.types"
+import type { PartDeep } from "./ts-swiss.types"
 
 describe("BemQuery", () => {
   it("block", () => {
