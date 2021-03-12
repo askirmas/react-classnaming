@@ -50,7 +50,7 @@ import {
   classBeming
 } from "react-classnaming"
 
-// Default export is the most frequently used function
+// Default export is the most simple function
 import classNaming from "react-classnaming"
 
 import type {
@@ -65,7 +65,7 @@ import type {
     
   // `= {className: string}` – useful shortcut
   ClassNamed 
-} from "react-classnaming/types"
+} from "react-classnaming"
 ```
 
 ## Basic usage
