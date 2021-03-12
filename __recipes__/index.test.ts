@@ -5,17 +5,15 @@ import type {ClassHash, ReactClassNaming} from "react-classnaming"
 declare module "react-classnaming" {
   namespace ReactClassNaming {
     interface BemOptions {
-      elementDelimiter: "_";
+      // TODO #30 elementDelimiter: "_";
       modDelimiter: "-";
-      blockModKey: "&";
     }
   }
 }
 
 setOptions({
-  elementDelimiter: "_",
+  // TODO #30 elementDelimiter: "_",
   modDelimiter: "-",
-  blockModKey: "&"
 })
 
 type CssModule = Record<

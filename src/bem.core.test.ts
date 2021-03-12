@@ -36,9 +36,8 @@ describe(bem2arr.name, () => {
 
 describe("optioning", () => {
   const defaultOpts: BemOptions = {
-    elementDelimiter: "__",
+    // TODO #30 elementDelimiter: "__",
     modDelimiter: "--",
-    blockModKey: "$"
   }
 
   it("default", () => expect(
@@ -57,9 +56,8 @@ describe("optioning", () => {
   it("set another", () => {
     //TODO #29 test bem with not default options
     const opts: BemOptions = {
-      elementDelimiter: "_",
+      // TODO #30 elementDelimiter: "_",
       modDelimiter: "-",
-      blockModKey: "$"
     }
     setOptions(opts)
 

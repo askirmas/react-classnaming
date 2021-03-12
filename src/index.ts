@@ -18,9 +18,8 @@ export { setOptions } from "./bem.core"
 export declare namespace ReactClassNaming {
   export interface BemOptions {
     $default: {
-      elementDelimiter: "__"
+      // TODO #30 elementDelimiter: "__"
       modDelimiter: "--"
-      blockModKey: "$"  
     } 
   }  
 }

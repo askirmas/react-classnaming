@@ -1,13 +1,11 @@
 import type { BemInGeneral } from "./bem.types"
 
 let modDelimiter = "--"
-, elementDelimiter = "__"
-, blockModKey = "$"
+// TODO #30 , elementDelimiter = "__"
 
 export type BemOptions = {
-  elementDelimiter: string
+  // TODO #30 elementDelimiter: string
   modDelimiter: string
-  blockModKey: string
 }
 
 export {
@@ -48,19 +46,15 @@ function bem2arr(query: BemInGeneral) {
 }
 
 function setOptions({
-  elementDelimiter: elD = elementDelimiter,
-  modDelimiter: modDel = modDelimiter,
-  blockModKey: modKey = blockModKey
+  // TODO #30 elementDelimiter: elD = elementDelimiter,
+  modDelimiter: modDel = modDelimiter
 }: Partial<BemOptions>) {
-  elementDelimiter = elD
   modDelimiter = modDel
-  blockModKey = modKey
 }
 
 function getOptions() {
   return {
-    elementDelimiter,
+    // TODO #30 elementDelimiter,
     modDelimiter,
-    blockModKey
   }
 }
