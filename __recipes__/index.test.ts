@@ -24,16 +24,13 @@ type CssModule = Record<
   ClassHash
 >
 
-describe("go", () => {
+it("go", () => {
   const bem = classBeming<ClassNamesProperty<CssModule> & ClassNamed>()
   , classNamed = bem(true, {
     block: "m",
     block_el: {"m": "X"}
   })
-  it("TBD", () => expect(classNamed).not.toStrictEqual({
-    className: "block block-m block_el block_el_m-X"
-  }))
-  it("Now", () => expect(classNamed).toStrictEqual({
-    className: "block block-m block_el_m block_el_m-X"
-  }))
+  expect(classNamed).toStrictEqual({
+    className: "block block-m block_el block_el-m-X"
+  })
 })

@@ -16,9 +16,9 @@
     "compile": "tsc --project tsconfig.compile.json",
     "precompile": "rm -rf dist",
     "postcompile": "mkdir -p dist/types && find src -name '*.d.ts' -exec cp {} dist \\;",
-    "spec": "cd __recipes__ && npm run test",
+    "spec": "cd __recipes__ && npm run test --",
     "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand --"
+    "jest": "jest --runInBand"
   },
   "repository": {
     "type": "git",

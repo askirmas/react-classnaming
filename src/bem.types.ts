@@ -79,11 +79,9 @@ type MVs<
 > = classes extends `${b}${delM}${infer MV}` ? MV : never
 
 export type BemInGeneral = {
-  [block: string]: undefined | boolean | string | {
-    [el: string]: undefined | boolean | string
-    // TODO #40 | (false|string)[]
-    | {
-      [mod: string]: undefined | boolean | string
-    }
+  [base: string]: undefined | boolean | string
+  // TODO #40 | (false|string)[]
+  | {
+    [mod: string]: undefined | boolean | string
   }
 }

@@ -8,7 +8,7 @@ describe("contexting", () => {
 
     it("1", () => expect(bem({
       block1: true,
-      block2: { el: true }
+      block2__el: true
     })).toStrictEqual({
       className: "block1 block2__el"
     }))

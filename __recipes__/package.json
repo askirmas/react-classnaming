@@ -7,7 +7,7 @@
     "pretest": "npm run setup",
     "ci": "npm ci --prefer-offline --no-audit --silent --quiet --progress=false",
     "setup": "npm uninstall --prefer-offline --no-audit --silent --quiet --progress=false react-classnaming && npm install --prefer-offline --no-audit --silent --quiet --progress=false ../",
-    "jest": "jest --"
+    "jest": "jest"
   },
   "keywords": [],
   "author": "",

@@ -180,7 +180,7 @@ describe("bem", () => {
       button: {status: "danger"},
       button__icon: {hover: true}
     })}/>
-  ).not.toSame(
+  ).toSame(
     <div className="${props.className} form__item button button--status--danger button__icon button__icon--hover" />
   )
 })

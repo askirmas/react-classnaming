@@ -19,47 +19,28 @@ export {
 function bem2arr(query: BemInGeneral) {
   const $return: string[] = []
 
-  for (const block in query) {
-    const blockQ = query[block]
+  for (const base in query) {
+    const baseQ = query[base]
+    $return.push(base)
     
-    if (!blockQ) 
+    if (!baseQ) 
       continue
-    if (typeof blockQ !== "object") {
-      $return.push(block)
-      if (typeof blockQ === "string")
-        $return.push(`${block}${modDelimiter}${blockQ}`)
+    if (typeof baseQ !== "object") {
+      if (typeof baseQ === "string")
+        $return.push(`${base}${modDelimiter}${baseQ}`)
       continue
     }
 
-    for (const el in blockQ) {
-      const elementQ = blockQ[el]
-      , isBlockMod = el === blockModKey
-      , element = isBlockMod ? block : `${block}${elementDelimiter}${el}`
-      
-      if (!elementQ) {
-        isBlockMod && $return.push(element)
+    for (const mod in baseQ) {
+      const modValue = baseQ[mod]
+      if (!modValue)
         continue
-      }
-      
-      $return.push(element)
 
-      if (typeof elementQ !== "object") {
-        if (typeof elementQ === "string")
-          $return.push(`${element}${modDelimiter}${elementQ}`)
-        continue
-      }
-
-      for (const mod in elementQ) {
-        const modValue = elementQ[mod]
-        if (!modValue)
-          continue
-
-        $return.push(`${element}${modDelimiter}${mod}${
-          typeof modValue !== "string"
-          ? ""
-          : `${modDelimiter}${modValue}`
-        }`)
-      }
+      $return.push(`${base}${modDelimiter}${mod}${
+        typeof modValue !== "string"
+        ? ""
+        : `${modDelimiter}${modValue}`
+      }`)
     }
   }
   
