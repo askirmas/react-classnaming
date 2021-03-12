@@ -241,7 +241,40 @@ Default options BEM naming:
 - Modifier's and value's separator is a double hyphen `"--"`
 - Element's separator is a double underscore `"__"`
 
-It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels. See [./\__recipes__/](https://github.com/askirmas/react-classnaming/tree/main/__recipes__/)
+It is required to change this options twice, both on JS and TS levels. 
+
+- TS: in declaration file like [\./\__recipes\__/global.d.ts](https://github.com/askirmas/react-classnaming/blob/main/__recipes__/global.d.ts) you to add those lines:
+
+```typescript
+/// <reference types="react-classnaming" />
+declare namespace ReactClassNaming {
+  interface BemOptions {
+    elementDelimiter: "_";
+    modDelimiter: "-";
+  }
+}
+```
+
+And optionally in add to *tsconfig.json*:
+
+```diff
+  "compilerOptions": {
+    "types": [
++     "react-classnaming"
+    ]
+  }
+```
+
+
+
+- JS: [./\__recipes\__/index.test.ts#L2-L7](https://github.com/askirmas/react-classnaming/blob/main/__recipes__/index.test.ts#L2-L7)
+
+  ```typescript
+  import setOptions from "react-classnaming"
+  setOptions({...})
+  ```
+
+  
 
 ### function [`classNamesMap`](https://github.com/askirmas/react-classnaming/projects/5)
 

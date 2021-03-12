@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "types": [
-      "jest",
-      "react-classnaming"
+      "jest"
     ]
   },
   "exclude": [

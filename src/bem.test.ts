@@ -1,4 +1,4 @@
-import { classBeming } from "./bem";
+import { classBeming, setOptions } from "./bem";
 import { ClassHash } from "./definitions.types";
 import { ClassNamed, ClassNamesProperty } from "./main.types";
 
@@ -53,3 +53,5 @@ it("TS UX", () => {
 
     expect(check).toBeInstanceOf(Object)
 })
+
+it("cover reexported", () => expect(setOptions).toThrow())

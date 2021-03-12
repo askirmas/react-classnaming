@@ -1,5 +1,5 @@
-import {classBeming, ClassNamed, ClassNamesProperty, setOptions} from "react-classnaming"
-import type {ClassHash} from "react-classnaming"
+import type {ClassHash, ClassNamed, ClassNamesProperty} from "react-classnaming"
+import {classBeming, setOptions} from "react-classnaming"
 
 setOptions({
   elementDelimiter: "_",

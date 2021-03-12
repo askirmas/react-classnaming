@@ -4,6 +4,7 @@ import { bem2arr } from "./bem.core";
 import { joinWithLead, picker, wrapper } from "./core"
 import { EMPTY_OBJECT } from "./consts.json"
 
+export {setOptions} from "./bem.core"
 export {
   classBeming
 }
