@@ -1,8 +1,6 @@
 import type {BemInGeneral} from "./bem.types"
-import type {BemOptions} from "./bem.core";
 import {
   bem2arr,
-  getOptions,
   setOptions
 } from "./bem.core";
 
@@ -33,43 +31,23 @@ describe(bem2arr.name, () => {
 })
 
 describe("optioning", () => {
-  const defaultOpts: BemOptions = {
+  afterAll(() => setOptions({
     elementDelimiter: "__",
     modDelimiter: "--",
-  }
+  }))
 
-  it("default", () => expect(
-    getOptions()
-  ).toStrictEqual(
-    defaultOpts
-  ))
-
-  it("set empty", () => expect((
-    setOptions({}),
-    getOptions()
-  )).toStrictEqual(
-    defaultOpts
-  ))
-    
-  it("set another", () => {
-    //TODO #29 test bem with not default options
-    const opts: BemOptions = {
-      elementDelimiter: "_",
-      modDelimiter: "-",
-    }
-    setOptions(opts)
-
-    expect(
-      getOptions()
-    ).toStrictEqual(
-      opts
+  it("another mod", () => {
+    setOptions({modDelimiter: "-"})
+    expect(bem2arr({
+      base: {mod: "val"}
+    }).join(" ")).toBe(
+      "base base-mod-val"
     )
   })
 
-  it("revert to default", () => expect((
-    setOptions(defaultOpts),
-    getOptions()
-  )).toStrictEqual(
-    defaultOpts
-  ))
+  it("another el", () => {
+    //#Useful in #30
+    setOptions({elementDelimiter: "_"})
+    expect(true).toBe(true)
+  })
 })

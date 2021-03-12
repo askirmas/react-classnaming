@@ -12,8 +12,7 @@ export type BemOptions = {
 
 export {
   bem2arr,
-  setOptions,
-  getOptions
+  setOptions
 }
 
 function bem2arr(query: BemInGeneral) {
@@ -61,11 +60,4 @@ function setOptions({
 }: Partial<BemOptions>) {
   modDelimiter = modDel
   elementDelimiter = elD
-}
-
-function getOptions() {
-  return {
-    elementDelimiter,
-    modDelimiter,
-  }
 }
