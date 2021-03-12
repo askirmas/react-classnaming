@@ -1,4 +1,4 @@
-/** Comment */ 
+/// <reference path="global.d.ts" />
 
 import { classNaming } from "./naming"
 

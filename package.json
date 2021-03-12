@@ -1,30 +1,8 @@
 {
   "name": "react-classnaming",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "Tools to establish CSS classes as an explicit abstraction layer and to handle it as an interface between React and CSSStyleDeclaration",
-  "main": "dist",
-  "types": "types",
-  "scripts": {
-    "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --onlyFailures --watch",
-    "test": "npm run jest --",
-    "pretest": "jest --clearCache",
-    "build": "npm run compile",
-    "prebuild": "npm run test",
-    "postbuild": "npm run spec",
-    "release": "np",
-    "-prerelease": "./prerelease.sh",
-    "-postrelease": "./postrelease.sh",
-    "compile": "tsc --project tsconfig.compile.json",
-    "precompile": "rm -rf dist types",
-    "postcompile": "find src -name '*.d.ts' -exec cp {} types \\;",
-    "spec": "cd __recipes__ && npm run test --",
-    "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
-    "jest": "jest --runInBand"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/askirmas/react-classnaming.git"
-  },
+  "dependencies": {},
   "keywords": [
     "typescript",
     "declarative",
@@ -39,15 +17,55 @@
     "react-classnaming"
   ],
   "author": "Andrii Kirmas <kirmas@phystech.edu>",
-  "license": "MIT",
+  "homepage": "https://github.com/askirmas/react-classnaming#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/askirmas/react-classnaming.git"
+  },
   "bugs": {
     "url": "https://github.com/askirmas/react-classnaming/issues#bugs"
   },
-  "homepage": "https://github.com/askirmas/react-classnaming#readme",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --onlyFailures --watch",
+    "test": "npm run jest --",
+    "pretest": "jest --clearCache",
+    "build": "npm run compile",
+    "prebuild": "npm run test",
+    "postbuild": "npm run spec",
+    "release": "np",
+    "-prerelease": "./prerelease.sh",
+    "-postrelease": "./postrelease.sh",
+    "compile": "tsc --project tsconfig.compile.json",
+    "precompile": "rm -rf dist types",
+    "postcompile": "./postcompile.sh",
+    "spec": "cd __recipes__ && npm run test --",
+    "setup": "git config include.path ../.gitconfig && git-hooks-wrapper init",
+    "jest": "jest --runInBand"
+  },
   "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/",
+  "exports": {
+    ".": "./dist/index.js",
+    "./": "./dist/",
+    "./bem": "./dist/bem.js",
+    "./naming": "./dist/naming.js",
+    "./map": "./dist/map.js",
+    "./check": "./dist/check.js"
+  },
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
+  "np": {
+    "yarn": false,
+    "branch": "main",
+    "2fa": false
+  },
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "@types/react": "*"
   },
@@ -65,14 +83,5 @@
     "react-dom": "^17.0.1",
     "ts-jest": "^26.5.0",
     "typescript": "^4.2.2"
-  },
-  "np": {
-    "yarn": false,
-    "branch": "main",
-    "2fa": false
-  },
-  "files": [
-    "dist",
-    "types"
-  ]
+  }
 }
