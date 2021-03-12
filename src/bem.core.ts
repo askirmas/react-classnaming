@@ -21,8 +21,8 @@ function bem2arr(query: BemInGeneral) {
   for (const base in query) {
     const baseQ = query[base]
     $return.push(base)
-    
-    if (!baseQ) 
+
+    if (!baseQ)
       continue
     if (typeof baseQ !== "object") {
       if (typeof baseQ === "string")
@@ -50,7 +50,7 @@ function bem2arr(query: BemInGeneral) {
       }`)
     }
   }
-  
+
   return $return
 }
 

@@ -12,9 +12,9 @@ import type { ClassNamed } from "./main.types"
 
 export type ClassBeming<
   ClassNames extends CssModule,
-> = 
+> =
 /**
- * Makes `string`-className from conditioned BEM query based on supplied CSS classes. 
+ * Makes `string`-className from conditioned BEM query based on supplied CSS classes.
  * Destructed to singleton `{className: string}`, stringifyable object
  * @returns
  * @example
@@ -24,7 +24,7 @@ export type ClassBeming<
  *    bem({button: "raised"}) // "button button--raised"
  *    bem({button: false && "raised"}) // "button"
  *    bem({button: {type: "raised"}}) // "button button--type--raised"
- * 
+ *
  *    bem(true, {
  *      "material-icons": undefined,
  *      ripple: "background-focused",
@@ -41,7 +41,7 @@ export type ClassBeming<
   Q1 extends boolean// | BemQuery<keyof ClassNames>,
   // Q2 extends BemQuery<keyof ClassNames> will be needed for #31
 >(
-  arg0?: Q1 extends true ? Q1 : BemQuery<keyof ClassNames>, 
+  arg0?: Q1 extends true ? Q1 : BemQuery<keyof ClassNames>,
   arg1?: Q1 extends undefined | boolean ? BemQuery<keyof ClassNames> : never
 ) => ClassNamed
 
@@ -56,7 +56,7 @@ export type BemQuery<
 > = string extends classes ? BemInGeneral : PartDeep<{
   [base in Strip<classes, delM> | Strip<Strip<classes, delM>, delE>]: true
   | (
-    Extends<classes, `${base}${delM}${string}`, 
+    Extends<classes, `${base}${delM}${string}`,
       Mods<
         NoSubString<Cut<classes, `${base}${delM}`, true>, delM>,
         {

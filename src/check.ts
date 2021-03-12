@@ -7,7 +7,7 @@ export {
 }
 
 /**
- * Identical function or returning constant `EMPTY_OBJECT` for keys check of not used classes in components tree 
+ * Identical function or returning constant `EMPTY_OBJECT` for keys check of not used classes in components tree
  * @example
  * ```tsx
  *  // Dummies shape
@@ -19,7 +19,7 @@ export {
  * import css_module from "./some.css" // With class `.never-used {...}`
  *
  *  <Component classnames={classNamesCheck(
- *    css_module, 
+ *    css_module,
  *    //@ts-expect-error Property 'never-used' is missing
  *    {} as ClassNamesFrom<typeof Component>
  *  )} />;

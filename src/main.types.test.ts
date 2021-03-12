@@ -46,7 +46,7 @@ describe("ClassNames", () => {
       }
       expect(suites).toBeInstanceOf(Object)
     })
-  
+
     it("<{class1, class2}>", () => {
       const suites: Record<string, ClassNames<{classnames: {class1: ClassHash; class2: ClassHash}}>> = {
         "omitted": {
@@ -73,7 +73,7 @@ describe("ClassNames", () => {
       }
       expect(suites).toBeInstanceOf(Object)
     })
-  
+
     it("<true, {class1, class2}>", () => {
       const suites: Record<string, ClassNames<true, {classnames: {class1: ClassHash; class2: ClassHash}}>> = {
         "className and classnames": {
@@ -91,7 +91,7 @@ describe("ClassNames", () => {
       }
       expect(suites).toBeInstanceOf(Object)
     })
-  
+
     it("nothing to pick", () => {
       type NoClassNames = ClassNames<true>
       const suite1: Record<string, ClassNames<
@@ -114,7 +114,7 @@ describe("ClassNames", () => {
     })
   })
 
-  describe("from", () => {  
+  describe("from", () => {
     it("multiple apply", () => {
       type AppClassNames = ClassNames<
           true,
@@ -124,7 +124,7 @@ describe("ClassNames", () => {
           typeof Functional,
           Props
       >;
-  
+
       const suites: Record<string, AppClassNames["classnames"]> = {
         "exact": {
           App: undefined,
@@ -183,7 +183,7 @@ describe("ClassNames", () => {
           prop2: undefined,
           pure1: undefined,
         },
-        //@ts-expect-error Property 'functional' is missing 
+        //@ts-expect-error Property 'functional' is missing
         "missed func2": {
           App: undefined,
           comp1: undefined,
@@ -204,12 +204,12 @@ describe("ClassNames", () => {
           prop1: undefined,
           pure1: undefined,
           pure2: undefined,
-        }        
+        }
       }
-  
+
       expect(suites).toBeInstanceOf(Object)
     })
-  })    
+  })
 })
 
 describe("ClassNamesProperty", () => {
@@ -241,7 +241,7 @@ describe("ClassNamesProperty", () => {
     }
     expect(suites).toBeInstanceOf(Object)
   })
-  
+
   it("Module based", () => {
     type CssModule = {
       App: ClassHash
@@ -261,7 +261,7 @@ describe("ClassNamesProperty", () => {
         class3: ClassHash
       }
     >
-    
+
     const suite4wrong: PropsWithWrong["classnames"] = {
         //@ts-expect-error Object literal may only specify known properties, but 'class3' does not exist
         class3: undefined,

@@ -34,11 +34,11 @@ describe("ReactRelated", () => {
     //@ts-expect-error
     | Getter<typeof RWithout>
     //@ts-expect-error
-    | Getter<typeof RWrong> 
+    | Getter<typeof RWrong>
     //Consider @ts-expect-error
     | Getter<typeof RSome>
     | Getter<typeof RProps>
-    
+
     expect(true).toBe(true)
   })
 
@@ -60,10 +60,10 @@ describe("ReactRelated", () => {
     | Getter<typeof RWithout>
     //TODO @ts-expect-error
     | Getter<typeof RWrong>
-    //Consider @ts-expect-error 
+    //Consider @ts-expect-error
     | Getter<typeof RSome>
     | Getter<typeof RProps>
-    
+
     expect(true).toBe(true)
   })
 })

@@ -27,7 +27,7 @@ function Root({classnames, "classnames": { App__Item, App__Footer }}: RootProps)
 
 it("not css module", () => expectRender(
   <Root classnames={classNamesCheck()}/>
-).toSame(  
+).toSame(
   <button className="App__Item Btn"></button>,
   <div className="App__Footer" data-classname="App__Footer"></div>
 ))
@@ -81,7 +81,7 @@ it("additional type check after rename", () => {
     classnames: { class2_renamed: ClassHash }
   }
   const { class1,
-    //@ts-expect-error Property 'class2' does not exist 
+    //@ts-expect-error Property 'class2' does not exist
     class2
   } = {} as (Props1 & Props2)["classnames"]
 
@@ -95,7 +95,7 @@ it("additional type check after rename", () => {
     } />
   ).toSame(
     <div className="class1"/>,
-    <div className="class2"/>    
+    <div className="class2"/>
   )
 })
 
@@ -110,7 +110,7 @@ it("chaining", () => {
   , Cell = classes(true)
   , Col1 = Cell({Column_1})
   , Col2 = Cell({Column_2})
-  
+
   expectRender(
     <div {...Col1({ Row_1 })} />,
     <div {...Col1({ Row_2 })} />,

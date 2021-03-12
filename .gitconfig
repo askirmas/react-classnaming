@@ -21,3 +21,5 @@
 [remote "origin"]
 	url = git@github.com:askirmas/react-classnaming.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
+[apply]
+	whitespace = fix

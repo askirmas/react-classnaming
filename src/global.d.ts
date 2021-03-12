@@ -14,10 +14,10 @@ declare namespace ReactClassNaming {
  * ```
  */
   interface BemOptions {
-    
+
     $default: {
       elementDelimiter: "__",
       modDelimiter: "--"
-    } 
-  }  
+    }
+  }
 }

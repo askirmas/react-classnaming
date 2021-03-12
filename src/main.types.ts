@@ -61,7 +61,7 @@ export type ClassNames<
  *     class1: ClassHash
  *     class2: ClassHash
  *   }>
- * 
+ *
  *   type MyProps = ClassNamesProperty<
  *     typeof some_module_css,
  *     {class1: ClassHash, class2: ClassHash}

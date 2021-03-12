@@ -20,7 +20,7 @@ describe("ctx", () => {
     ...classNaming({classnames: null})({classnames: true})
   }).toStrictEqual({
     className: "classnames"
-  }))  
+  }))
 
   it("ctx + actions", () => expect({
     //@ts-expect-error
@@ -64,7 +64,7 @@ describe("mixed args", () => {
 describe("multi-arg call", () => {
   it("ctx", () => {
     const classes = classNaming()
-    
+
     expect({...classes(
       {class1: true},
       //@ts-expect-error

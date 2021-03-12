@@ -45,7 +45,7 @@ describe(resolver.name, () => {
   it("with hash", () => expect(resolver(
     {
       string: "HASH", hashless: "HASHNESS",
-      empty: "empty", 
+      empty: "empty",
       null: "null",
       zero: "zero", one: "ONE",
       false: "false", true: "TRUE",

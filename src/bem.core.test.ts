@@ -17,7 +17,7 @@ describe(bem2arr.name, () => {
         [{base: {}         },  "base"],
         [{base: {mod: false}}, "base"],
         [{base: {mod: true }}, "base base--mod"],
-        [{base: {mod: "val"}}, "base base--mod--val"],  
+        [{base: {mod: "val"}}, "base base--mod--val"],
       ],
     }
 
@@ -26,7 +26,7 @@ describe(bem2arr.name, () => {
         JSON.stringify(query, (_, v) => v === undefined ? "`undefined`" : v),
         () => expect(bem2arr(query).join(" ")).toBe(output))
       )
-    )) 
+    ))
   })
 })
 

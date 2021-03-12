@@ -9,7 +9,7 @@ const {
 , StringifyDescriptor = {value: classNamedToString}
 
 export {
-  wrapper,  
+  wrapper,
   resolver,
   picker,
   joinWithLead
@@ -21,7 +21,7 @@ function wrapper<T extends Record<string, any>>(
 ) {
   //@ts-expect-error
   destination["className"] = className
-  
+
   if (!destination.hasOwnProperty(stringifyProperty))
     $defineProperty(destination, stringifyProperty, StringifyDescriptor)
 
@@ -38,7 +38,7 @@ function picker(
   for (let i = keys.length; i--;) {
     const key = keys[i]
     , val = vocabulary[key]
-    
+
     if (val !== undefined)
       keys[i] = val
   }
@@ -75,7 +75,7 @@ function joinWithLead(value: Falsy|ClassHash, arr: undefined | string | readonly
   const str1 = value || ""
   if (!(arr && arr.length))
     return str1
-  
+
   const str2 = typeof arr === "string" ? arr : arr.join(" ")
   if (!str1)
     return str2

@@ -1,4 +1,4 @@
-//@ts-nocheck 
+//@ts-nocheck
 
 import { ClassHash } from "../../src/main.types"
 
@@ -27,7 +27,7 @@ function exclusion<
   }
 
   //@ts-expect-error
-  return $return 
+  return $return
 }
 
 const source: Record<"a"|"b"|"c"|"d"|"e", ClassHash> = {a: "a", b: undefined, c: "c", d: undefined, e: undefined}

@@ -22,7 +22,7 @@ import type {
 
 // Making as interface make ts-errors much worth
 export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithClassName extends boolean> =
-/** 
+/**
  * Makes `string`-className from conditioned CSS classes as keys.
  * Destructed to singleton `{className: string}`, stringifyable object, re-callable with propagation of previously stacked
  * @example
@@ -31,14 +31,14 @@ export type ClassNamingFn<Source extends CssModule, Used extends BoolDict, WithC
  *   classes({App}); // "App"
  *   classes(true && {App: true, "App--bad": false}); // `${props.className} App`
  *   classes(); // `== classes`
- * 
+ *
  *   const btn = classes({btn}) // "btn"
  *   btn(true, {"btn--disabled": true}); // `${props.className} btn btn--disabled`
  * ```
  * @example
  * ```tsx
  *   <div {...classes} />;
- *   <div {...classes(...)} />; 
+ *   <div {...classes(...)} />;
  *   <div data-block={`${classes}`} />
  *   <Component {...{
  *     ...classes(...)(...)(...)},
@@ -88,7 +88,7 @@ type StrictSub<Used extends BoolDict, Source extends CssModule, Actions extends 
 
 export type ClassNamesMapping<Source extends CssModule> = (
 /** Function to map `classnames` to certain properties of target Component
- * @example 
+ * @example
  * ```tsx
  *  <ThirdPartyComponent {...mapping({} as typeof ThirdPartyComponent, {
  *    ContainerClassName: { Root, "Theme--dark": true },

@@ -43,16 +43,16 @@
     "stripInternal": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    
+
     "pretty": true,
 
     "jsx": "react",
 
-    "noEmit": true,    
+    "noEmit": true,
     "sourceMap": false,
     "outDir": "dist",
     //"declarationDir": "types",
-    "declaration": true   
+    "declaration": true
   },
   "include": [
     "**/*.ts",

@@ -45,16 +45,16 @@ function mapping<
   for (let i = keys.length; i--;) {
     const key = keys[i]
     , val = map[key]
-    
+
     if (val === undefined)
       continue
-      
+
     classnames[key] = typeof val === "function"
     ? `${val}`
     : resolver(source,
       //@ts-expect-error #27 TS doesn't understand that ClassNaming is first of all function
       val
-    ).join(" ") 
+    ).join(" ")
   }
 
   return classnames

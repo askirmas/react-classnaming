@@ -36,7 +36,7 @@ function classNaming<
   context: Ctx = EMPTY_OBJECT as Ctx
 ): ClassNaming<WithClassName, {}, Source> {
   const {className} = context
-  
+
   const host: ClassNamingFn<Source, {}, WithClassName> = (arg0?, arg1?) => classes(
     context,
     arg0,
@@ -85,4 +85,4 @@ function classes<
     host,
     result,
   )
-}   
+}

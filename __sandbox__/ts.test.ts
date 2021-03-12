@@ -6,7 +6,7 @@ const {keys: $keys} = Object
 it("`in string` vs `:string`", () => {
   type In = {[k in string]: boolean}
   type Colon = {[k: string]: boolean}
-  
+
   function check1(_: {some: boolean}) {}
   function checkR<K extends string>(_: {[k in K]: boolean}) {}
   function checkC(_: {[k: string]: boolean}) {}
@@ -21,21 +21,21 @@ it("`in string` vs `:string`", () => {
   checkC(input1)
   checkC(input2)
 
-}) 
+})
 
 describe("this", () => {
   type Context = {context: string}
-  
+
   it.todo("`this?` is illegal")
 
-  it("|void - NOPE", () => {  
+  it("|void - NOPE", () => {
     function thising(this: void | Context): typeof this extends Context ? true : null {
       //@ts-expect-error
       return this && 'context' in this
       ? true
       : null
     }
-  
+
     const suite1 = thising()
     , suite2 = thising.bind({context: ""})()
     , suite1Check: Record<string, typeof suite1> = {
@@ -53,14 +53,14 @@ describe("this", () => {
     expect({suite1Check, suite2Check}).toBeInstanceOf(Object)
   })
 
-  it("|undefined - NOPE", () => {  
+  it("|undefined - NOPE", () => {
     function thising(this: undefined | Context): typeof this extends Context ? true : null {
       //@ts-expect-error
       return this && 'context' in this
       ? true
       : null
     }
-  
+
     //@ts-expect-error //TODO #13 The 'this' context of type 'void' is not assignable
     const suite1 = thising()
     , suite2 = thising.bind({context: ""})()
@@ -79,14 +79,14 @@ describe("this", () => {
     expect({suite1Check, suite2Check}).toBeInstanceOf(Object)
   })
 
-  it("|unknown - NOPE", () => {  
+  it("|unknown - NOPE", () => {
     function thising(this: unknown | Context): typeof this extends Context ? true : null {
       //@ts-expect-error
       return this && 'context' in this
       ? true
       : null
     }
-  
+
     const suite1 = thising()
     , suite2 = thising.bind({context: ""})()
     , suite1Check: Record<string, typeof suite1> = {
@@ -106,13 +106,13 @@ describe("this", () => {
 
   it("overload", () => {
     function thising(): null
-    function thising(this: Context): true 
+    function thising(this: Context): true
     function thising(this: void | Context) {
       return this && 'context' in this
       ? true
       : null
     }
-  
+
     const suite1 = thising()
     , suite2 = thising.bind({context: ""})()
     , suite1Check: Record<string, typeof suite1> = {
@@ -168,7 +168,7 @@ describe("this", () => {
     , suiteCheck: Record<string, typeof suite> = {
       "void": undefined
     }
-    
+
     expect({suiteCheck}).toBeInstanceOf(Object)
   })
 })
@@ -185,21 +185,21 @@ describe("UX of TS choice", () => {
   //   ) | (
   //     <A extends {[K in keyof S]?: V}>(inject: string, source: A) => string
   //   );
-    
+
   //   // const str = <S extends CssModule>(arg1: strS) => $keys(source).join(" ")
   // })
 
   // it("expression 1", () => {
   //   type tExpression1<S extends CssModule> = (
   //     <A extends {[K in keyof S]?: V}>(arg0: string|A, arg1?: typeof arg0 extends string ? A : never) => string
-  //   );  
+  //   );
   // })
 
   // it("overload interface", () => {
   //   interface iOverload<S extends CssModule> {
   //     <A extends {[K in keyof S]?: V}>(arg0: string): string
   //     <A extends {[K in keyof S]?: V}>(arg0: string, arg1: A): string
-  //   }  
+  //   }
   // })
 
   it("overload function", () => {
@@ -207,11 +207,11 @@ describe("UX of TS choice", () => {
     function joiner<S extends CssModule>(inj: string, source: {[K in keyof S]?: ClassHash}) :string
     function joiner<S extends CssModule, F1 extends {[K in keyof S]?: ClassHash} | string>(
       arg0: F1,
-      // arg1?: typeof arg0 extends string ? {[K in keyof S]?: V} : never 
+      // arg1?: typeof arg0 extends string ? {[K in keyof S]?: V} : never
       arg1?: F1 extends string ? Exclude<F1, string> : never
     ) {
       return `${
-        typeof arg0 === "string" ? arg0 : $keys(arg0) 
+        typeof arg0 === "string" ? arg0 : $keys(arg0)
       } ${
         arg1 === undefined ? "" : $keys(arg1).join(" ")
       }`.trim()
@@ -226,7 +226,7 @@ describe("UX of TS choice", () => {
       //@ts-expect-error Argument of type '{ class3: string; }' is not assignable
       {class3: ""}
     )
-    
+
     expect({bothObjects, redundantKey}).toBeInstanceOf(Object)
   })
 })
@@ -249,7 +249,7 @@ describe("keys hinting", () => {
       "exact": {
         class1: true, class2: true, class4: undefined
       }
-    } 
+    }
 
     expect(check).toBeInstanceOf(Object)
   })
@@ -263,7 +263,7 @@ describe("keys hinting", () => {
     , $return = partial({class1: true, class2: true})
     , check: Record<string, typeof $return> = {
       "exact": {},
-    } 
+    }
 
     expect({check, checkRedundant}).toBeInstanceOf(Object)
   })
@@ -289,7 +289,7 @@ describe("keys hinting", () => {
         //@ts-expect-error
         class3: true
       },
-    } 
+    }
 
     expect({check, checkRedundant}).toBeInstanceOf(Object)
   })

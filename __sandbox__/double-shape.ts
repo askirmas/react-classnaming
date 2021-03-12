@@ -25,16 +25,16 @@ function _doubleShape<
   injection: undefined|string,
   ...args: (Falsy | A)[]
 ) {
-  const {applied, classnames, className} = ctx  
+  const {applied, classnames, className} = ctx
   //@ts-expect-error
-  , nextApplied = !applied ? [] : applied.push(...args.filter(x => x)) as Record<U | keyof A, ClassHash|boolean>[] 
+  , nextApplied = !applied ? [] : applied.push(...args.filter(x => x)) as Record<U | keyof A, ClassHash|boolean>[]
 
   , host = <
       // T extends {[K in Exclude<S, U | keyof A>]?: boolean} | {[K in Exclude<S, U | keyof A>]?: ClassHash}
       T extends {[K in Exclude<S, U>]?: ClassHash | boolean},
     >(
     withClassName: boolean,
-    injection: undefined|string,  
+    injection: undefined|string,
     ...args: (Falsy | T)[]
   ) => _doubleShape(
     {classnames, className, applied: nextApplied},
@@ -70,8 +70,8 @@ function _doubleShape<
             //@ts-expect-error
             keys[i] = v
       }
-    }  
-    
+    }
+
     const chunk = keys.flat().join(" ")
     if (!chunk)
       delete args[i]

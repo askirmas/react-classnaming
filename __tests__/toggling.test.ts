@@ -49,17 +49,17 @@ describe("toggling", () => {
     it("redundant in map", () => expect({
       ...classes({
         class1: true,
-        //@ts-expect-error Object literal may only specify known properties, and 'etc' does not exist 
+        //@ts-expect-error Object literal may only specify known properties, and 'etc' does not exist
         etc: true
       })
     }).toStrictEqual({
       className: "class1 etc"
-    }))    
+    }))
   })
 
   describe("className + classnames", () => {
     const classes = classNaming({className, classnames})
-    
+
     it("only propagated", () => expect({
       ...classes(true)
     }).toStrictEqual({
@@ -74,7 +74,7 @@ describe("toggling", () => {
 
     it("both", () => expect({
       ...classes(true, { class1: true, class4: true })
-    }).toStrictEqual({ 
+    }).toStrictEqual({
       className: "App class1 hash4"
     }))
   })

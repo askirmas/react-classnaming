@@ -10,7 +10,7 @@ type MyComponentProps = ClassNamesProperty<{
 }>
 export default function MyComponent({classnames}: MyComponentProps) {
   const cssClasses = classNaming({classnames})
-                 
+
   return <>
     { "/// MyComponent.tsx" }
             {/* className="btn" */}

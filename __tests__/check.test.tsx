@@ -74,7 +74,7 @@ it("research ", () => {
   // }
 
   <Component classnames={check0()} />;
-  //@ts-expect-error Property 'App' is missing 
+  //@ts-expect-error Property 'App' is missing
   <Component classnames={check0({})} />;
   <Component classnames={check0(css_module_exact)} />;
   //#16 @ts-expect-error

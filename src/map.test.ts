@@ -12,7 +12,7 @@ type ThirdPartyComponentProps = {
   optional?: string
   stringAndOthers?: string | Object
   [x: string]: any
-}  
+}
 
 const mapping = classNamesMap(module_css)
 
@@ -24,7 +24,7 @@ describe("#27 classNaming as values", () => {
       required: classes({class1: true})
     })).toStrictEqual({
       required: "hash1"
-    })  
+    })
   })
 
   it("another source", () => {
@@ -35,7 +35,7 @@ describe("#27 classNaming as values", () => {
       required: classes({CLASS: true})
     })).toStrictEqual({
       required: "CLASS"
-    })  
+    })
   })
 })
 
@@ -111,7 +111,7 @@ describe("type checks", () => {
 
       expect(mapped).toStrictEqual({required: "hash2"})
     })
-    
+
     it("hash", () => {
       const {act} = {} as {act?: string}
       , mapped = mapping({} as ThirdPartyComponentProps, {
@@ -142,7 +142,7 @@ describe("type checks", () => {
   })
 
   it("undefined is also map", () => {
-    const reqClasses = undefined as undefined | {} 
+    const reqClasses = undefined as undefined | {}
     , mapped = mapping({} as ThirdPartyComponentProps, {
       required: reqClasses,
       optional: undefined,

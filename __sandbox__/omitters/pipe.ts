@@ -44,7 +44,7 @@ function exclusion<
   for (const k in ex) {
     delete filtered[k]
   }
-  
+
   const host = (
     e: { [P in Exclude<keyof S, keyof E>]?: ClassHash; }
   ) => exclusion(

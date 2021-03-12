@@ -6,19 +6,19 @@ it("tree2classes", () => {
   type BemTree = {
     [block: string]: {
         // ""?: {[blockMod: string]: true}
-        [element: string]: boolean | {[elMod: string]: boolean} 
+        [element: string]: boolean | {[elMod: string]: boolean}
     }
   }
-  
+
   type El2Classes<DMod extends string, S extends Record<string, boolean|Record<string, boolean>>> = {[K in string & keyof S]:
     K | (S[K] extends Record<string, boolean> ? `${K}${DMod}${string & keyof S[K]}` : never)
   }[string & keyof S]
-  
+
   type BemTree2Classes<DEl extends string, DMod extends string, S extends BemTree> = {[K in string & keyof S]:
     K | `${K}${DEl}${El2Classes<DMod,S[K]>}`
   }[string & keyof S]
- 
- 
+
+
   const bem2 = {
     "Button": {
        "Container": true,
@@ -30,9 +30,9 @@ it("tree2classes", () => {
    "Form": {
        "Container": true,
        "Button": true
-   }   
+   }
   }
-  
+
   const suite: Record<BemTree2Classes<"__", "--", typeof bem2>, boolean> = {
     Button: true,
     Button__Icon: true,
@@ -44,7 +44,7 @@ it("tree2classes", () => {
     Form__Container: true
    }
 
-  expect(suite).toBeInstanceOf(Object)     
+  expect(suite).toBeInstanceOf(Object)
 })
 
 type ClassNames = {
@@ -93,10 +93,10 @@ describe("upon delimiter", () => {
 
   it("args", () => {
     type GetMods<T, B extends string, E extends string|undefined> = {
-      [K in string & keyof T]: E extends string 
+      [K in string & keyof T]: E extends string
       ? K extends `${B}__${E}--${infer M}` ? M : never
       : K extends `${B}--${infer M}` ? M : never
-    }[keyof T]  
+    }[keyof T]
     type Bemer<ClassNames extends CssModule> = (
       <
         BE extends StripFromObj<ClassNames, "--">,
@@ -112,20 +112,20 @@ describe("upon delimiter", () => {
       }${
         Element extends string ? ` ${Block}__${Element}` : ""
       }${
-        Modifier extends string 
+        Modifier extends string
         ? ` ${Block}${
           Element extends string ? `__${Element}` : ""
         }--${Modifier}`
         : ""
       }`
     )
-  
-  
+
+
     function beming<ClassNames extends CssModule>() {
       const host: Bemer<ClassNames> = ((block, element?, modifier?) => {
         const elemened = element ? `${block}__${element}` : ""
         const moded = modifier ? ` ${element ? elemened : block}--${modifier}` : ""
-    
+
         return `${
           block
         }${
@@ -136,18 +136,18 @@ describe("upon delimiter", () => {
           moded
         }`
       }) as Bemer<ClassNames>
-  
+
       return host
     }
-      
-  
+
+
     const bemer = beming<ClassNames>()
     , $return = bemer("Btn", "Icon", "big")
     , typed: typeof $return = "Btn Btn__Icon Btn__Icon--big"
-  
+
     expect($return).toBe(typed)
   })
-  
+
   it("query", () => {
     // Can be used on #30
 
@@ -162,7 +162,7 @@ describe("upon delimiter", () => {
         : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
         bModKey extends string = "$" /*"blockModKey" extends keyof ReactClassNaming.BemOptions
         ? ReactClassNaming.BemOptions["blockModKey"]
-        : ReactClassNaming.BemOptions["$default"]["blockModKey"]*/  
+        : ReactClassNaming.BemOptions["$default"]["blockModKey"]*/
       > = classes extends `${b}${delE}${infer E}`
       ? Strip<E, delM>
       : classes extends `${b}${delM}${string}`
@@ -184,12 +184,12 @@ describe("upon delimiter", () => {
       [b in Strip<Strip<classes, delM>, delE>]: boolean
       | Exclude<MVs<classes, b, bModKey>, `${string}${delM}${string}`>
       | (
-        Extends<classes, `${b}${delE | delM}${string}`, 
+        Extends<classes, `${b}${delE | delM}${string}`,
           {
             [e in Elements<classes, b>]: boolean
             | Exclude<MVs<classes, b, e>, `${string}${delM}${string}`>
             | (
-              {[m in Strip<MVs<classes, b, e>, delM>]: 
+              {[m in Strip<MVs<classes, b, e>, delM>]:
                 false | (
                   Ever0<
                     classes extends `${b}${
@@ -204,8 +204,8 @@ describe("upon delimiter", () => {
           }
         >
       )
-    }> 
-    
+    }>
+
     type MVs<
       classes extends string,
       b extends string,
@@ -222,7 +222,7 @@ describe("upon delimiter", () => {
     > = classes extends `${b}${
       e extends bModKey ? "" : `${delE}${e}`
     }${delM}${infer MV}` ? MV : never
-    
+
     type BemInGeneral = {
       [block: string]: undefined | boolean | string | {
         [el: string]: undefined | boolean | string
@@ -231,13 +231,13 @@ describe("upon delimiter", () => {
         }
       }
     }
-      
+
     type BemQuerier<
       ClassNames extends CssModule,
       delE extends string = "__",
       delM extends string = "--",
       bModKey extends string = "$",
-    > = 
+    > =
     <
       // classes extends keyof ClassNames,
       // BE extends StripFromObj<ClassNames, delM>,
@@ -245,16 +245,16 @@ describe("upon delimiter", () => {
         keyof ClassNames,
         delE,
         delM,
-        bModKey        
+        bModKey
         // BE,
         // Strip<BE, delE>
       >
-    >(arg: Q) => {[K in 
+    >(arg: Q) => {[K in
       {[b in keyof Q]: Q[b] extends boolean ? b : never}[keyof Q]
       // | {[b in keyof Q]: Q[b] extends Primitive ? never : `${b}${delE}${keyof Q[b]}`}[keyof Q]
       // | {
       //   [b in keyof Q]: {[e in keyof Q[b]]: Q[b][e] extends Primitive ? never :
-      //     {[m in keyof Q[b][e]]: 
+      //     {[m in keyof Q[b][e]]:
       //       Q[b][e][m] extends string
       //       ? `${b}${delE}${e}${delM}${m}${delM}${Q[b][e][m]}`
       //       : `${b}${delE}${e}${delM}${m}`
@@ -267,7 +267,7 @@ describe("upon delimiter", () => {
     ]: boolean}
 
     //@ts-expect-error
-    const q = x => x as unknown as BemQuerier<ClassNames> 
+    const q = x => x as unknown as BemQuerier<ClassNames>
     , res = q({
       "App": {
         "Header": false,
@@ -303,7 +303,7 @@ describe("upon delimiter", () => {
     //   "App__Header": false,
     //   "Btn": true,
     //   "Btn--disabled": false,
-    //   "Btn--info--error": true,      
+    //   "Btn--info--error": true,
     //   "Btn__Icon": true,
     //   "Btn__Icon--big": true,
     //   "Footer": false,

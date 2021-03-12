@@ -41,7 +41,7 @@ function bem<
     classnames?: Source,
   },
   arg0?: boolean | BemInGeneral,
-  arg1?: BemInGeneral 
+  arg1?: BemInGeneral
 ) {
   const source = typeof arg0 === "object" ? arg0 : arg1
   , debemed = source && bem2arr(source)

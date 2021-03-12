@@ -10,13 +10,13 @@ const some_module_css = {
   "btn": "hash-btn",
   "icon": "hash-icon",
   "btn__icon": "hash-btn__icon"
-} 
+}
 
 it("render App with css-module", () => expectRender(
 
   /// index.tsx
   <App className="theme--dark" classnames={classNamesCheck(some_module_css)} />
-  
+
 ).toSame(<>
   { "/// App.tsx" }
   <div className="theme--dark hash-app__container">
@@ -51,4 +51,4 @@ it("render App with global css", () => expectRender(
     </div>
   </div>
 </>))
-  
+

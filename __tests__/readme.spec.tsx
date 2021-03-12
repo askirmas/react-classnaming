@@ -15,20 +15,20 @@ it("Basic usage", () => {
   function FormButtons({isValid, readOnly}: Props) {
     const cssClasses = classNaming()
     const buttonClass = cssClasses({"button": true}) // "button"
-    
+
     return <>
       <button {
-        ...buttonClass // className="button" 
+        ...buttonClass // className="button"
       }>Close</button>
       <button type="reset" {
         ...buttonClass({"button--disabled": readOnly}) // className="button"
-      }>Reset</button> 
+      }>Reset</button>
                         {/* className="button_submit button button--disabled" */}
       <button type="submit" className={`button_submit ${
         buttonClass({"button--disabled": readOnly || !isValid}) // "button button--disabled"
-      }`}>Submit</button> 
+      }`}>Submit</button>
     </>
-  }  
+  }
 
   expectRender(
     <FormButtons isValid={false} readOnly={false} />
@@ -61,7 +61,7 @@ it("Single source of truth", () => {
     //@ts-expect-error Type 'boolean' is not assignable to type 'never'
     "button--disabled": true
   })
-  
+
   expect({...disablingClass}).toStrictEqual({
     className: "button button--disabled"
   })
@@ -82,24 +82,24 @@ it("Declare own component's CSS classes", () => {
   function FormButtons({isValid, readOnly}: Props) {
     const cssClasses = classNaming<MyClassNames>()
     const buttonClass = cssClasses({button: true})
-    
+
     return <>
       <button {
-        ...buttonClass // className="button" 
+        ...buttonClass // className="button"
       }>Close</button>
       <button type="reset" {
         ...buttonClass({
         "button--disabled": readOnly
       }) // className="button"
-      }>Reset</button> 
+      }>Reset</button>
       <button type="submit" {
         ...buttonClass({
           "button_submit": true,
           "button--disabled": readOnly || !isValid
         }) // className="button button_submit button--disabled"
-      }>Submit</button> 
+      }>Submit</button>
     </>
-  }  
+  }
 
   expectRender(
     <FormButtons isValid={false} readOnly={false} />
@@ -117,7 +117,7 @@ it("Using ClassHash", () => {
   // Module simulation
   type CssModuleSimulation = { button_submit: ClassHash }
   const { button_submit } = {} as CssModuleSimulation
-  
+
   type MyClassNames = ClassNamesProperty<
     typeof css_module &
     CssModuleSimulation &
@@ -134,23 +134,23 @@ it("Using ClassHash", () => {
   function FormButtons({isValid, readOnly}: Props) {
     const cssClasses = classNaming<MyClassNames>()
     const buttonClass = cssClasses({ button })
-    
+
     return <>
       <button {
-        ...buttonClass // className="BTN" 
+        ...buttonClass // className="BTN"
       }>Close</button>
       <button type="reset" {
         ...buttonClass({
           "button--disabled": readOnly
       }) // className="BTN"
-      }>Reset</button> 
+      }>Reset</button>
       <button type="submit" {...buttonClass({
         button_submit,
         "button--disabled": readOnly || !isValid
       }) // "BTN button_submit button--disabled"
-      }>Submit</button> 
+      }>Submit</button>
     </>
-  }  
+  }
 
   expectRender(
     <FormButtons isValid={false} readOnly={false} />
@@ -167,7 +167,7 @@ it("bem leaf", () => {
 
   function DialogButton({focused}: Props) {
     const bem = classBeming<Props>()
-  
+
     return <button {...bem({
       dialog__button: true,
       button: {type: "raised"},
@@ -175,7 +175,7 @@ it("bem leaf", () => {
     })}/>
   }
 
-  
+
   const props = {focused: true} as Props
 
   expectRender(
@@ -239,14 +239,14 @@ type MaterialClasses = {
   "ripple--background-focused": ClassHash
   "ripple--foreground-activation": ClassHash
   "ripple--foreground-deactivation": ClassHash
-  
+
   "ripple-upgraded": ClassHash
   "ripple-upgraded--bounded": ClassHash
   "ripple-upgraded--unbounded": ClassHash
   "ripple-upgraded--background-focused": ClassHash
   "ripple-upgraded--foreground-activation": ClassHash
   "ripple-upgraded--foreground-deactivation": ClassHash
-    
+
   button: ClassHash
   "button--raised": ClassHash
   "button--type--raised": ClassHash

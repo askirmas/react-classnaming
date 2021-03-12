@@ -12,7 +12,7 @@ describe("BemQuery", () => {
       /** No modifier - couldn't be false as return of condition */
       //@ts-expect-error
       "false": {block: false},
-      //@ts-expect-error 
+      //@ts-expect-error
       "{}": {block: {}},
     }
     expect(checks).toBeInstanceOf(Object)
@@ -30,15 +30,15 @@ describe("BemQuery", () => {
   it("block--mod", () => {
     const checks: Record<string, BemQuery<"block--mod">> = {
       /** Numbers are not allowed */
-      //@ts-expect-error 
+      //@ts-expect-error
       "0": {block: 0},
-      //@ts-expect-error 
+      //@ts-expect-error
       "1": {block: 1},
 
       /** Possible Output of applied conditions for modifications */
       "false": {block: false},
-      "{}": {block: {}}, 
-      
+      "{}": {block: {}},
+
       /** Possible mod apply options */
       "mod": {block: "mod"},
       "mod-": {block: {mod: false}},
@@ -46,7 +46,7 @@ describe("BemQuery", () => {
       "-mod": {block: false && {mod: true}},
     }
     expect(checks).toBeInstanceOf(Object)
-  })  
+  })
 
   it("block--mod--val", () => {
     const checks: Record<string, BemQuery<"block--mod--val">> = {
@@ -61,7 +61,7 @@ describe("BemQuery", () => {
       "mod: val": {block: {mod: "val"}},
     }
     expect(checks).toBeInstanceOf(Object)
-  })  
+  })
 
   it("#40 array of midfiers", () => {
     type Single = BemQuery<"block--modB"|"block--modV--val">
@@ -72,7 +72,7 @@ describe("BemQuery", () => {
     //@ts-expect-error
     , modV_obj: Single = {block: [{modV: "val"}]}
   })
-  
+
   it("mix #1", () => {
     const checks: Record<string, BemQuery<
     `${"block" | "block__el"}--${"mod1"|"mod2--val1"|"mod2--val2"}`
@@ -98,7 +98,7 @@ describe("BemQuery", () => {
       }
     }
     expect(checks).toBeInstanceOf(Object)
-  })  
+  })
 })
 
 
@@ -127,7 +127,7 @@ describe("Mods", () => {
       "mix arr": [
         //@ts-expect-error //TODO consider
         {"M": "X"}
-      , "b1"] 
+      , "b1"]
     }
     expect(checks).toBeInstanceOf(Object)
   })
@@ -149,7 +149,7 @@ describe("Mods", () => {
       "mix arr": [
         //@ts-expect-error //TODO consider
         {"M": "X"}
-      , "b1"] 
+      , "b1"]
     }
     expect(checks).toBeInstanceOf(Object)
   })

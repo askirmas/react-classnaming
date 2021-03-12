@@ -10,7 +10,7 @@
       ],
       "args": [
         "${fileBasenameNoExtension}",
-        "--testTimeout", "9999999", 
+        "--testTimeout", "9999999",
         "--watch",
         "--onlyFailures",
         "--runInBand",
@@ -34,6 +34,6 @@
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
       "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-    }    
+    }
   ]
 }

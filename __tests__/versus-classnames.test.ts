@@ -16,12 +16,12 @@ it("usage interface", () => {
   const { class1,
     whatever
   } = css
-  
+
   const props: ClassNames<ClassNamesProperty<{class2: ClassHash}>> = {
     //@ts-expect-error
     "classnames": css
   }
-  
+
   const {classnames: {class2}} = props
   , classes = classNaming()
   expect({
@@ -36,7 +36,7 @@ it("usage interface", () => {
 
 it("css module", () => {
   const classes = classNaming({classnames: module_css})
-  
+
   expect({
     className: classnames_bind.bind(module_css)(
       // No error on redundant CSS-class

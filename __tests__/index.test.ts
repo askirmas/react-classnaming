@@ -52,7 +52,7 @@ describe("#18", () => {
   const classes = classNaming({classnames: module_css})
   , title = "" as string
   , enabled = true as boolean
-  
+
   it("string|boolean", () => expect({...classes({
       //@ts-expect-error #18
     class1: title && enabled

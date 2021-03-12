@@ -7,7 +7,7 @@ type tExcluder<
 >
 = (
   <
-    // E extends 
+    // E extends
     E extends {[K in keyof Left]?: K extends keyof Used ? never : ClassHash}
   >(exclude: E) =>
   //  keyof E extends keyof S ?
@@ -32,7 +32,7 @@ function exclusion<
   for (const k in ex) {
     delete filtered[k]
   }
-  
+
   const host = (
     e: { [P in Exclude<keyof S, keyof E>]?: ClassHash; }
   ) => exclusion(
@@ -101,7 +101,7 @@ const unknown0 = exclusion({} as Record<string, ClassHash>, {a: "a"})
 export {answ0, step3, checks, unknown1}
 
 // type Additinioze<A, T0, E = never> = {
-//   [P in keyof A]: A[P] extends E ? T0 : A[P] 
+//   [P in keyof A]: A[P] extends E ? T0 : A[P]
 // }
 // type Additional<K extends string, T1, T2, E = never> = Additinioze<AntiRecord<K, T2, true, E>, T1, E>
 // type AntiRecord<R extends string, T, Strict extends boolean, E = never>

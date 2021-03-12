@@ -18,7 +18,7 @@ export default function App(props: AppProps) {
   const {classnames} = props
 
   const cssClassesMapping = classNamesMap(classnames)
-     
+
   return <>{ "/// App.tsx" }
          {/* className=`${className} app__container` */}
     <div {...withClassName({"app__container": true})}>

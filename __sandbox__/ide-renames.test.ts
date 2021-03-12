@@ -19,11 +19,11 @@ it("+ rename with function generic inheritance", () => {
     const lambda: Keying<T> = source => Object.keys(source).join(" ")
     return lambda
   }
-  
+
   type ParentProps = ChildProps & ClassnamesProp<{
     parent1: string
   }>
-  
+
   function Parent({classnames, classnames: {
     parent1,
     renamed: child1
@@ -33,12 +33,12 @@ it("+ rename with function generic inheritance", () => {
       renamed: child1
     })} ${Child({classnames})}`
   }
-  
+
   type ChildProps = ClassnamesProp<{
     renamed: string
     child2: string
   }>
-  
+
   function Child({classnames: {
     renamed: child1,
     child2
@@ -67,34 +67,34 @@ it("- rename from bind", () => {
       parent1: string
     }
   }
-  
+
   function Parent(props: ParentProps) {
     const k = keyingCtx.bind(props)
     , {
       parent1,
       renamed_whatever: child1
     } = props.classnames
-    
+
     return `${k({
       parent1,
       renamed: child1
     })} ${Child(props)}`
   }
-  
+
   type ChildProps = {
     classnames: {
       renamed_whatever: string
       child2: string
     }
   }
-  
+
   function Child(props: ChildProps) {
     const k = keyingCtx.bind(props)
     , {
       renamed_whatever: child1,
-      child2  
+      child2
     } = props.classnames
-       
+
     return k({
       renamed: child1,
       child2
@@ -112,18 +112,18 @@ it("rename keys as string(-) or same shape object(+)", () => {
   function keyer<T extends WithClassNamed>(...keys: (keyof T["classnames"])[]) {
     return keys.join(" ")
   }
-  
+
   function keyShape<T extends WithClassNamed>(toggler: {[K in keyof T["classnames"]]?: boolean}) {
     return Object.keys(toggler)
     .filter(key => toggler[key])
     .join(" ")
   }
-  
+
 
   type ParentProps = ChildProps & ClassnamesProp<{
     parent1: string
   }>
-  
+
   function Parent(props: ParentProps) {
     return `${keyShape<ParentProps>({
       parent1: true,
@@ -131,12 +131,12 @@ it("rename keys as string(-) or same shape object(+)", () => {
       child2: false
     })} ${Child(props)}`
   }
-  
+
   type ChildProps = ClassnamesProp<{
     renamed: string
     child2: string
   }>
-  
+
   function Child(_: ChildProps) {
     return keyer<ChildProps>(
       //@ts-expect-error
@@ -149,7 +149,7 @@ it("rename keys as string(-) or same shape object(+)", () => {
     Parent({classnames: {}} as ParentProps)
   ).toBe(
     "parent1 renamed child1 child2"
-  )  
+  )
 })
 
 // it("rename throw ts expressions", () => {
@@ -157,12 +157,12 @@ it("rename keys as string(-) or same shape object(+)", () => {
 //     prop1: ClassHash
 //     prop2: ClassHash
 //   }>
-  
+
 //   function Func1(_:ClassnamesProp<{
 //     fn1: ClassHash
 //     fn2: ClassHash
 //   }>) {
-//     return null  
+//     return null
 //   }
 
 //   class Comp1 extends Component<ClassnamesProp<{

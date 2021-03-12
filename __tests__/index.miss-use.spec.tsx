@@ -40,7 +40,7 @@ it("not propagate classnames", () => {
     ClassNamesProperty<{App__Item: ClassHash}>,
     typeof Component>
   ) =>
-    //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable 
+    //@ts-expect-error Types of property classnames are incompatible Type undefined is not assignable
     <Component {
       ...classNaming({
         classnames, className
@@ -48,11 +48,11 @@ it("not propagate classnames", () => {
         true, {App__Item: true}
       )}
     />
-  
+
   expectRender(
     <App className="MyApp" classnames={classnames}/>
   ).toSame(
     <div className="MyApp hash class1" />,
-    <div className="class2" />  
+    <div className="class2" />
   )
 })
