@@ -70,7 +70,7 @@ import type {
 
 ## Basic usage
 
-Example of simple CSS classes conditioning – [\__tests__/readme.spec.tsx:9](./__tests__/readme.spec.tsx#L9-L31)
+Example of simple CSS classes conditioning – [./\__tests__/readme.spec.tsx:9](./__tests__/readme.spec.tsx#L9-L31)
 
 ```tsx
 import classNaming from "react-classnaming"
@@ -114,19 +114,19 @@ You can find demonstration with all main points in folder [./\__examples__/](./_
 
 ### Condition is strictly `boolean`
 
-Conditions with falsy values may lead to hardly caught bugs due to not obvious behavior for humans. In addition, as a possible `true` shortcut, the value can be not empty string as `class-hash` from CSS-module, and <u>`undefined`</u> for global CSS-class or modules simulation. Thus, to not keep in mind that `undefined` appears to be a truthy condition, it is prohibited on TypeScript level to mix in value type `boolean` with `ClassHash = string | undefined` and not allowed to use any other types like 0, null. [\__tests__/readme.spec.tsx:43](./__tests__/readme.spec.tsx#L43-L49)
+Conditions with falsy values may lead to hardly caught bugs due to not obvious behavior for humans. In addition, as a possible `true` shortcut, the value can be not empty string as `class-hash` from CSS-module, and <u>`undefined`</u> for global CSS-class or modules simulation. Thus, to not keep in mind that `undefined` appears to be a truthy condition, it is prohibited on TypeScript level to mix in value type `boolean` with `ClassHash = string | undefined` and not allowed to use any other types like 0, null. [./\__tests__/readme.spec.tsx:43](./__tests__/readme.spec.tsx#L43-L49)
 
 ![](./images/classnaming_strict_condition.gif)
 
 ### Single source of truth
 
-There can be only ONE condition for each class in call pipe. Already conditioned classes are propagated to next call type notation so you can see currently stacked with according *modality*: `true`, `false` or `boolean`. [\__tests__/readme.spec.tsx:55](./__tests__/readme.spec.tsx#L55-L63)
+There can be only ONE condition for each class in call pipe. Already conditioned classes are propagated to next call type notation so you can see currently stacked with according *modality*: `true`, `false` or `boolean`. [./\__tests__/readme.spec.tsx:55](./__tests__/readme.spec.tsx#L55-L63)
 
 ![classnaming_single_truth](./images/classnaming_single_truth.gif)
 
 ### Declare own component's CSS classes
 
-Only declared CSS classes will be allowed as keys with IDE hint on possibilities – [\__tests__/readme.spec.tsx:71](./__tests__/readme.spec.tsx#L71-L102)
+Only declared CSS classes will be allowed as keys with IDE hint on possibilities – [./\__tests__/readme.spec.tsx:71](./__tests__/readme.spec.tsx#L71-L102)
 
 ```diff
 + import type { ClassHash, ClassNamesProperty } from "react-classnaming"
@@ -145,7 +145,7 @@ Only declared CSS classes will be allowed as keys with IDE hint on possibilities
 
 ### BEM
 
-It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L176)
+It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [./\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L176)
 
 ```diff
 import {
@@ -215,21 +215,22 @@ On `const` hovering will be tooltip with already conditioned classes under this 
 
 ### function `classBeming`
 
-Sets context to returned function for using BEM conditioned CSS classes queries. In general, argument's shape is
+Sets context to returned function for using BEM conditioned CSS classes queries. General argument's shape is
 
 ```typescript
+// .src/bem.types.ts#L84-L90
 type BemInGeneral = {
-  [__Block_or_Element__]: undefined | boolean | __Block_Mod__ | {
-      [__Mod__]: false | (true | __BE_Mod_Value__ )
+  [base: string]: undefined | boolean | string
+  | (false|string)[]
+  | {
+    [mod: string]: undefined | boolean | string
   }
 }
 ```
 
-Table of output logic: 
+Output logic: [./src/bem.core.test.ts:13](https://github.com/askirmas/react-classnaming/blob/main/src/bem.core.test.ts#L13-L35)
 
-> Tests @ [./src/bem.core.test.ts:13](https://github.com/askirmas/react-classnaming/blob/main/src/bem.core.test.ts#L13-L35)
-
-![](./images/classbeming.gif)
+Featured example: [\./\__tests__/readme.spec.tsx:191](./__tests__/readme.spec.tsx#L191-L221)
 
 ---
 
@@ -238,7 +239,7 @@ Table of output logic:
 Default options BEM naming:
 
 - Modifier's and value's separator is a double hyphen `"--"`
-- [#30](https://github.com/askirmas/react-classnaming/issues/30) ~~Element's separator is a double underscore `"__"`~~ 
+- Element's separator is a double underscore `"__"`
 
 It is required to change this options twice, both on JS (`setOpts(...)`) and TS `namespace ReactClassNaming { interface BemOptions {...} }`) levels
 
@@ -349,7 +350,7 @@ import css_module from "./some.css"; // With class `.never-used {...}`
 
 #### Using CSS-modules or simulation
 
-It is possible to use CSS modules or simulation without "context" by supplying class-hash value with variable [\__tests__/readme.spec.tsx:114](./__tests__/readme.spec.tsx#L114-L153)
+It is possible to use CSS modules or simulation without "context" by supplying class-hash value with variable [./\__tests__/readme.spec.tsx:114](./__tests__/readme.spec.tsx#L114-L153)
 
 ```diff
 // CSS-module, assuming "button" will be replaced with "BTN"

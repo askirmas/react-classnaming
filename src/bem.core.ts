@@ -35,6 +35,7 @@ function bem2arr(query: BemInGeneral) {
 
     // TODO check performance of `const in Array`
     for (const mod in baseQ) {
+      //@ts-expect-error //TODO Split Array and Object?
       const modValue = baseQ[mod]
       if (!modValue)
         continue

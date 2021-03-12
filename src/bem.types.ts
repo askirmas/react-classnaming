@@ -1,9 +1,12 @@
 import type { CssModule } from "./definitions.types"
 import type {
   Strip,
+  Cut,
+  NoSubString,
   PartDeep,
   Extends,
-  Ever0
+  KeyOf,
+  Ever
 } from "./ts-swiss.types"
 import type { ClassNamed } from "./main.types"
 import type {ReactClassNaming} from "."
@@ -55,34 +58,32 @@ export type BemQuery<
   [base in Strip<classes, delM> | Strip<Strip<classes, delM>, delE>]: true
   | (
     Extends<classes, `${base}${delM}${string}`, 
-      false
-      | Exclude<MVs<classes, base>, `${string}${delM}${string}`>
-      | (
-        {[m in Strip<MVs<classes, base>, delM>]: 
-          false | (
-            Ever0<
-              classes extends `${base}${delM}${m}${delM}${infer V}`
-              ? V : never,
-              true
-            >
-          )
+      Mods<
+        NoSubString<Cut<classes, `${base}${delM}`, true>, delM>,
+        {
+          [m in Strip<Cut<classes, `${base}${delM}`, true>, delM, true>]:
+            classes extends `${base}${delM}${m}${delM}${infer V}`
+            ? V
+            : never
         }
-      )
+      >
     >
   )
 }>
 
-type MVs<
-  classes extends string,
-  b extends string,
-  delM extends string = "modDelimiter" extends keyof ReactClassNaming.BemOptions
-  ? ReactClassNaming.BemOptions["modDelimiter"]
-  : ReactClassNaming.BemOptions["$default"]["modDelimiter"],
-> = classes extends `${b}${delM}${infer MV}` ? MV : never
+export type Mods<Bools extends string, Enums extends Record<string, string>>
+= false
+//TODO #42 [false|Bools|Enum, ...Bools]
+| Ever<Bools, Bools|(false | Bools)[], never>
+| {[m in Bools | KeyOf<Enums>]?:
+  false
+  | (m extends Bools ? true : never)
+  | (m extends KeyOf<Enums> ? Enums[m] : never)
+}
 
 export type BemInGeneral = {
   [base: string]: undefined | boolean | string
-  // TODO #40 | (false|string)[]
+  | (false|string)[]
   | {
     [mod: string]: undefined | boolean | string
   }

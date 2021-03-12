@@ -47,7 +47,7 @@ it("TS UX", () => {
     , check = {
       1: bem(true, {
         block1: {m2: "v1"},
-        block1__el1: "m1",
+        block1__el1: [false && "m1"],
       })
     }
 

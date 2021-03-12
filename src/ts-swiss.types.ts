@@ -22,8 +22,11 @@ export type OmitIndexed<T> = Pick<T, KnownKeys<T> & keyof T>
 
 export type Primitive = undefined | null | boolean | number | string | symbol | bigint
 
-export type Strip<Str extends string, Delimiter extends string> = Str extends `${infer Lead}${Delimiter}${string}` ? Lead : Str
-export type Cut<Str extends string, Delimiter extends string> = Str extends `${string}${Delimiter}${infer Back}` ? Back : Str
+export type Strip<Str extends string, Delimiter extends string, toNever extends boolean = false>
+= Str extends `${infer Lead}${Delimiter}${string}` ? Lead : toNever extends false ? Str : never  
+export type Cut<Str extends string, Delimiter extends string, toNever extends boolean = false
+> = Str extends `${string}${Delimiter}${infer Back}` ? Back : toNever extends false ? Str : never  
+export type NoSubString<Str extends string, Sub extends string> = Exclude<Str, `${string}${Sub}${string}`>
 
 export type Subest<Base, Extendent> = string extends keyof Base
 ? Extendent
@@ -33,11 +36,18 @@ export type Subest<Base, Extendent> = string extends keyof Base
 
 export type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
-export type PartDeep<T> = Exclude<T, AnyObject> | (
-  T extends AnyObject
-  ? Ever<keyof Extract<T, AnyObject>,
-    {[K in keyof Extract<T, AnyObject>]?: PartDeep<Extract<T, AnyObject>[K]>},
-    never
-  >
-  : never
+export type PartDeep<T> = Exclude<T, AnyObject>
+| Extract<T, any[]>
+//TODO For #42 maybe | (T extends any[] ? PartDeep<Extract<T, any[]>[number]>[] : never)
+| (
+  T extends any[]
+  ? never 
+  : T extends AnyObject
+    ? Ever<keyof Extract<Exclude<T, any[]>, AnyObject>,
+      {[K in keyof Extract<Exclude<T, any[]>, AnyObject>]?: PartDeep<Extract<Exclude<T, any[]>, AnyObject>[K]>},
+      never
+    >
+    : never
 )
+
+export type KeyOf<T> = [T] extends [never] ? never : T extends AnyObject ? Extract<keyof T, string> : never

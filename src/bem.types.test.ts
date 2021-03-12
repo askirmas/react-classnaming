@@ -1,4 +1,5 @@
-import type {BemQuery} from "./bem.types"
+import type {BemQuery, Mods} from "./bem.types"
+import { PartDeep } from "./ts-swiss.types"
 
 describe("BemQuery", () => {
   it("block", () => {
@@ -83,6 +84,72 @@ describe("BemQuery", () => {
           mod2: "val1"
         }
       }
+    }
+    expect(checks).toBeInstanceOf(Object)
+  })
+
+  it("mix on coincide", () => {
+    const checks: Record<string, BemQuery<"block--mod"|`${"block__el--mod"}--${"val1"|"val2"}`>> = {
+      "exact": {
+        block: "mod",
+        block__el: {
+          mod: "val1"
+        }
+      }
+    }
+    expect(checks).toBeInstanceOf(Object)
+  })  
+})
+
+
+describe("Mods", () => {
+  it("single bool", () => {
+    const checks: Record<string, Mods<"b1", never>> = {
+      "str": "b1",
+      "arr": ["b1"],
+      "obj": {"b1": true}
+    }
+    expect(checks).toBeInstanceOf(Object)
+  })
+  it("single val", () => {
+    const checks: Record<string, Mods<never, {"m": "v1"|"v2"}>> = {
+      //@ts-expect-error
+      "arr": [],
+      "obj": {"m": "v1"}
+    }
+    expect(checks).toBeInstanceOf(Object)
+  })
+
+  it("mix", () => {
+    const checks: Record<string, Mods<"b1"|"b2", {"m": "v1"|"v2", "M": "X"|"Y"}>> = {
+      "bools arr": ["b1", "b2", false],
+      "single obj": {"M": "X"},
+      "mix arr": [
+        //@ts-expect-error //TODO consider
+        {"M": "X"}
+      , "b1"] 
+    }
+    expect(checks).toBeInstanceOf(Object)
+  })
+
+  it("coincide", () => {
+    const checks: Record<string, Mods<"m", {"m": "v1"|"v2"}>> = {
+      "m": "m",
+      "m+": {"m": true},
+      "m: v1": {"m": "v1"}
+    }
+
+    expect(checks).toBeInstanceOf(Object)
+  })
+
+  it("mix with PartDeep", () => {
+    const checks: Record<string, PartDeep<Mods<"b1"|"b2", {"m": "v1"|"v2", "M": "X"|"Y"}>>> = {
+      "bools arr": ["b1", "b2"],
+      "single obj": {"M": "X"},
+      "mix arr": [
+        //@ts-expect-error //TODO consider
+        {"M": "X"}
+      , "b1"] 
     }
     expect(checks).toBeInstanceOf(Object)
   })

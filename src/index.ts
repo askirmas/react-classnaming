@@ -6,6 +6,7 @@ export type {
   ClassHash,
   ClassNamed,
   ClassNamesFrom,
+  Undefineds
 } from "./main.types"
 
 export default classNaming

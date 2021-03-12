@@ -1,6 +1,6 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import classNaming, { classBeming } from "../src"
+import classNaming, { classBeming, ClassNamed, Undefineds } from "../src"
 import type {ClassHash, ClassNamesProperty} from "../src"
 // import css_module from "./button.module.css"
 const css_module = {button: "BTN"}
@@ -161,7 +161,7 @@ it("Using ClassHash", () => {
   </>)
 })
 
-describe("bem leaf", () => {
+it("bem leaf", () => {
   type Props = ClassNamesProperty<MaterialClasses>
   & { focused?: boolean }
 
@@ -185,6 +185,52 @@ describe("bem leaf", () => {
   )
 })
 
+describe("bem from https://material.io/components/buttons/web#contained-button", () => {
+  const CONSTS = {ripple: "ripple-upgraded", icon: {"material-icons": true}} as const
+
+  type Props = ClassNamed & ClassNamesProperty<MaterialClasses>
+  & { focused?: boolean; clicking?: boolean }
+
+  const {ripple, icon} = CONSTS
+  const {
+    button__icon,
+    button__label,
+    button__ripple
+  } = {} as Undefineds<MaterialClasses>
+
+  function Button(props: Props) {
+    const {
+      clicking,
+      focused = false,
+    } = props
+
+    const bem = classBeming(props)
+
+    return <button {...bem(true, {
+      button: "raised",
+      [ripple]: [
+        "unbounded",
+        focused && "background-focused",
+        clicking ? "foreground-activation" : clicking === false && "foreground-deactivation"
+      ]
+    })}>
+      <span  {...bem({button__ripple})}/>
+      <i  {...bem({button__icon, ...icon})}>bookmark</i>
+      <span  {...bem({button__label})}>Contained Button plus Icon</span>
+    </button>
+  }
+
+  expectRender(
+    <Button className="dialog__button" clicking={false} focused={true} classnames={{} as MaterialClasses}/>
+  ).toSame(
+    <button className="dialog__button button button--raised ripple-upgraded ripple-upgraded--unbounded ripple-upgraded--background-focused ripple-upgraded--foreground-deactivation">
+      <span className="button__ripple"/>
+      <i className="button__icon material-icons">bookmark</i>
+      <span className="button__label">Contained Button plus Icon</span>
+    </button>
+  )
+})
+
 type MaterialClasses = {
   "material-icons": ClassHash
   ripple: ClassHash
@@ -193,12 +239,22 @@ type MaterialClasses = {
   "ripple--background-focused": ClassHash
   "ripple--foreground-activation": ClassHash
   "ripple--foreground-deactivation": ClassHash
+  
+  "ripple-upgraded": ClassHash
+  "ripple-upgraded--bounded": ClassHash
+  "ripple-upgraded--unbounded": ClassHash
+  "ripple-upgraded--background-focused": ClassHash
+  "ripple-upgraded--foreground-activation": ClassHash
+  "ripple-upgraded--foreground-deactivation": ClassHash
+    
   button: ClassHash
+  "button--raised": ClassHash
   "button--type--raised": ClassHash
   "button--type--outlined": ClassHash
   button__label: ClassHash
   button__ripple: ClassHash
   button__icon: ClassHash
+
   dialog: ClassHash
   dialog__button: ClassHash
 }

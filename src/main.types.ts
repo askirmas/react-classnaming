@@ -89,3 +89,15 @@ export type ClassNamed = {
  * ```
  */
 export type ClassNamesFrom<C extends ReactRelated> = GetClassNames<GetProps<C>, EmptyObject, EmptyObject>
+
+/**
+ * @example
+ * ```typescript
+ *   const {primitive, array, object} = {} as Undefined<{
+ *     primitive: any
+ *     array: any[]
+ *     object: {}
+ *   }>
+ * ```
+ */
+export type Undefineds<M> = {[K in keyof M]: undefined}
