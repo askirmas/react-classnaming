@@ -1,6 +1,6 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import classNaming, { classBeming, ClassNamed } from "../src"
+import classNaming, { classBeming } from "../src"
 import type {ClassHash, ClassNamesProperty} from "../src"
 // import css_module from "./button.module.css"
 const css_module = {button: "BTN"}
@@ -161,26 +161,44 @@ it("Using ClassHash", () => {
   </>)
 })
 
-describe("bem", () => {
-  type MyClassNames = ClassNamed & ClassNamesProperty<{
-    form__item: ClassHash
-    button: ClassHash
-    "button--status--warning": ClassHash
-    "button--status--danger": ClassHash
-    button__icon: ClassHash
-    "button__icon--hover": ClassHash
-    "button__icon--focus": ClassHash
-  }>
-  const props = {className: "${props.className}"} as MyClassNames
+describe("bem leaf", () => {
+  type Props = ClassNamesProperty<MaterialClasses>
+  & { focused?: boolean }
 
-  const bem = classBeming(props)
-  expectRender(
-    <div {...bem(true, {
-      form__item: true,
-      button: {status: "danger"},
-      button__icon: {hover: true}
+  function DialogButton({focused}: Props) {
+    const bem = classBeming<Props>()
+  
+    return <button {...bem({
+      dialog__button: true,
+      button: {type: "raised"},
+      ripple: focused && "background-focused"
     })}/>
+  }
+
+  
+  const props = {focused: true} as Props
+
+  expectRender(
+    <DialogButton {...props}/>
   ).toSame(
-    <div className="${props.className} form__item button button--status--danger button__icon button__icon--hover" />
+    <button className="dialog__button button button--type--raised ripple ripple--background-focused" />
   )
 })
+
+type MaterialClasses = {
+  "material-icons": ClassHash
+  ripple: ClassHash
+  "ripple--bounded": ClassHash
+  "ripple--unbounded": ClassHash
+  "ripple--background-focused": ClassHash
+  "ripple--foreground-activation": ClassHash
+  "ripple--foreground-deactivation": ClassHash
+  button: ClassHash
+  "button--type--raised": ClassHash
+  "button--type--outlined": ClassHash
+  button__label: ClassHash
+  button__ripple: ClassHash
+  button__icon: ClassHash
+  dialog: ClassHash
+  dialog__button: ClassHash
+}

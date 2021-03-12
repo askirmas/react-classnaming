@@ -145,7 +145,7 @@ Only declared CSS classes will be allowed as keys with IDE hint on possibilities
 
 ### BEM
 
-It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L186)
+It is possible to use BEM as condition query. With explicitly declared CSS classes (i.e. via [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts))  TS and IDE will check and hint on available blocks, elements, modifiers and values. [\__tests__/readme.spec.tsx:165](./__tests__/readme.spec.tsx#L165-L176)
 
 ```diff
 import {
@@ -219,10 +219,8 @@ Sets context to returned function for using BEM conditioned CSS classes queries.
 
 ```typescript
 type BemInGeneral = {
-  [__Block__]: boolean | __Block_Mod__ | {
-    [__Element__ | $ /*key for block mods*/]:  boolean | __BE_Mod__ | {
+  [__Block_or_Element__]: undefined | boolean | __Block_Mod__ | {
       [__Mod__]: false | (true | __BE_Mod_Value__ )
-    }
   }
 }
 ```
