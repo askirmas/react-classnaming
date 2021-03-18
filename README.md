@@ -27,7 +27,7 @@ Tools to establish CSS classes as an explicit [abstraction layer](https://en.wik
 4. BEM
 5. CSS-modules agnostic
 
-Use package like [`postcss-plugin-d-ts`](https://www.npmjs.com/package/postcss-plugin-d-ts) to prepare strict declaration of CSS 
+Use package like [`postcss-d-ts`](https://www.npmjs.com/package/postcss-d-ts) to prepare strict declaration of CSS 
 
 ## Installation and brief overview
 
