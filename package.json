@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --onlyFailures --watch",
+    "dev": "npm run jest -- --collectCoverageFrom=[] --bail=false --watch",
     "test": "npm run jest --",
     "pretest": "jest --clearCache",
     "build": "npm run compile",
