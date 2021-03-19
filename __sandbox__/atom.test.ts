@@ -6,33 +6,59 @@ type After<Str extends string, Start extends string> = Str extends `${Start}${in
 type StrToInt<K extends string> = K extends keyof ReactClassNaming.StrToNum ? ReactClassNaming.StrToNum[K] : K
 type Merge<Base extends string, Result extends string> = [Result] extends [never] ? Base : [UnionToIntersection<Result>] extends [never] ? Base : Result
 
-type RootProps<classes extends string> = {
-  [root in Strip<classes, "-">]: Merge<root, `${root}-${Strip<Cut<classes, `${root}-`, true>, "-">}`>
-}[Strip<classes, "-">]
+type RootProps<
+  classes extends string,
+  delimiter extends string
+> = {
+  [root in Strip<classes, delimiter>]: Merge<root, `${root}${delimiter}${Strip<Cut<classes, `${root}${delimiter}`, true>, delimiter>}`>
+}[Strip<classes, delimiter>]
 
-type MiddleProps<classes extends string> = {
-  [root in Strip<classes, "-", true>]: Exclude<classes extends `${string}-${root}` ? never : root, classes>
-}[Strip<classes, "-", true>]
+type MiddleProps<
+  classes extends string,
+  delimiter extends string
+> = {
+  [root in Strip<classes, delimiter, true>]: Exclude<classes extends `${string}${delimiter}${root}` ? never : root, classes>
+}[Strip<classes, delimiter, true>]
 
-type ValuesQ<classes extends string, props extends string, values extends boolean|string> = (
+type ValuesQ<
+  classes extends string,
+  props extends string,
+  values extends boolean|string|number,
+  delimiter extends string,
+  selfKey extends string
+> = (
   false
   | values
-  | {[p in props|"_"]?: p extends "_" ? values : After<classes, `${p}-`>}
+  | {[p in props|selfKey]?: p extends selfKey ? values : After<classes, `${p}${delimiter}`>}
   | [
     values,
-    {[p in props]?: After<classes, `${p}-`>}
+    {[p in props]?: After<classes, `${p}${delimiter}`>}
   ]
 )
 
-type Values<classes extends string> = ValuesQ<
+type Values<
+  classes extends string,
+  delimiter extends string,
+  selfKey extends string
+> = ValuesQ<
   classes,
-  MiddleProps<classes>,
-  Ever0<StrToInt<Cut<classes, `${MiddleProps<classes>}-`>>, true>
+  MiddleProps<classes, delimiter>,
+  Ever0<StrToInt<Cut<classes, `${MiddleProps<classes, delimiter>}${delimiter}`>>, true>,
+  delimiter,
+  selfKey
 >
 
-type AtomicQuery<classes extends string> = {
-  //TODO #38 Make good values hint here
-  [p in RootProps<classes>]?: Values<After<classes, `${p}-`>>
+type AtomicQuery<
+  classes extends string,
+  delimiter extends string = "delimiter" extends keyof ReactClassNaming.AtomOptions
+  ? ReactClassNaming.AtomOptions["delimiter"]
+  : ReactClassNaming.AtomOptions["$default"]["delimiter"],
+  selfKey extends string = "selfKey" extends keyof ReactClassNaming.AtomOptions
+  ? ReactClassNaming.AtomOptions["selfKey"]
+  : ReactClassNaming.AtomOptions["$default"]["selfKey"]
+> = {
+  //TODO #38 Make good values hint here and without delimiter and selfkey
+  [p in RootProps<classes, delimiter>]?: Values<After<classes, `${p}${delimiter}`>, delimiter, selfKey>
 }
 
 it("atomic bootstrap", () => {
@@ -58,7 +84,7 @@ it("merge values",() => {
     |"inline"
     |`${"inline-"|""}${"block"|"flex"}`
   }`
-  const check: Record<string, Values<Display>> = {
+  const check: Record<string, Values<Display, "-", "_">> = {
     "1": ["block", {lg: "block"}]
   }
   expect(check).toBeInstanceOf(Object)
