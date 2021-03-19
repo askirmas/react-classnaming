@@ -28,11 +28,11 @@ export type Cut<Str extends string, Delimiter extends string, toNever extends bo
 > = Str extends `${string}${Delimiter}${infer Back}` ? Back : toNever extends false ? Str : never
 export type NoSubString<Str extends string, Sub extends string> = Exclude<Str, `${string}${Sub}${string}`>
 
-export type Subest<Base, Extendent> = string extends keyof Base
-? Extendent
-: Base extends Extendent
-  ? Extendent
-  : Base
+export type Subest<Extended, Base> = string extends keyof Base
+? Extended
+: Base extends Extended
+  ? Extended
+  : {[K in keyof Base]?: Base[K]}
 
 export type Extends<T, V, X> = [T extends V ? true : never] extends [never] ? never : X
 
