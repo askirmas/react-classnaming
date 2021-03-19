@@ -18,6 +18,9 @@ describe(bem2arr.name, () => {
         [{base: {mod: false}}, "base"],
         [{base: {mod: true }}, "base base--mod"],
         [{base: {mod: "val"}}, "base base--mod--val"],
+        [{base: [{mod: false}]}, "base"],
+        [{base: [{mod: true }]}, "base base--mod"],
+        [{base: [{mod: "val"}]}, "base base--mod--val"],
       ],
     }
 
@@ -51,3 +54,12 @@ describe("optioning", () => {
     expect(true).toBe(true)
   })
 })
+
+it("extended values shape", () => expect(bem2arr({
+  base: [
+    {"mod1": 1},
+    "mod2"
+  ]
+}).join(" ")).toBe(
+  "base base--mod1--1 base--mod2"
+))

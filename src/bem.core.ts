@@ -1,3 +1,4 @@
+import type { primitive } from "ts-swiss.types"
 import type { BemInGeneral } from "./bem.types"
 
 const {isArray: $isArray} = Array
@@ -30,28 +31,48 @@ function bem2arr(query: BemInGeneral) {
       continue
     }
 
-    const isArray = $isArray(baseQ)
+    if (!$isArray(baseQ))
+      $return.push(...mods2arr(base, baseQ))
+    else {
+      const {length} = baseQ
 
-    // TODO check performance of `const in Array`
-    for (const mod in baseQ) {
-      //@ts-expect-error //TODO Split Array and Object?
-      const modValue = baseQ[mod]
-      if (!modValue)
-        continue
+      for (let i = 0; i < length; i++) {
+        const modQ = baseQ[i]
 
-      $return.push(`${base}${
-        isArray
-        ? ""
-        : `${modDelimiter}${mod}`
-      }${
-        typeof modValue !== "string"
-        ? ""
-        : `${modDelimiter}${modValue}`
-      }`)
+        if (modQ === false)
+          continue
+          
+        if (modQ !== null && typeof modQ === "object")
+          $return.push(...mods2arr(base, modQ))
+        else
+          $return.push(bmv(base, modQ))
+      }
     }
   }
 
   return $return
+}
+
+function mods2arr(base: string, mods: Record<string, primitive>) {
+  const classes = []
+
+  for (const mod in mods) {
+    const value = mods[mod]
+    if (value === false)
+      continue
+
+    classes.push(bmv(base, mod, value))
+  }
+
+  return classes
+}
+
+function bmv(base: string, mod: string, value: Exclude<primitive, false> = true) {
+  return `${base}${modDelimiter}${mod}${
+    value === true
+    ? ""
+    : `${modDelimiter}${value}`
+  }`
 }
 
 function setOptions({

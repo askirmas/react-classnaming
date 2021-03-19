@@ -6,7 +6,8 @@ import type {
   PartDeep,
   Extends,
   KeyOf,
-  Ever
+  Ever,
+  primitive
 } from "./ts-swiss.types"
 import type { ClassNamed } from "./main.types"
 
@@ -81,9 +82,13 @@ export type Mods<Bools extends string, Enums extends Record<string, string>>
 }
 
 export type BemInGeneral = {
-  [base: string]: undefined | boolean | string
+  [base: string]: primitive
   | (false|string)[]
-  | {
-    [mod: string]: undefined | boolean | string
-  }
+  | [
+    // TODO Why not one array expression?
+    // false | string
+    | { [mod: string]: primitive },
+    ...(false|string)[]
+  ]
+  | { [mod: string]: primitive }
 }
