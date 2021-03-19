@@ -1,14 +1,18 @@
-# [react-classnaming](github.com/askirmas/react-classnaming)
+# [react-classnaming](github.com/askirmas/react-classnaming) <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K" alt="react" height="56px" align="right" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" height="56px" align="right"/><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" height="56px;" align="right"/>
 
 Tools to establish CSS classes as an explicit [abstraction layer](https://en.wikipedia.org/wiki/Abstraction_layer "a way of hiding the working details of a subsystem, allowing the separation of concerns to facilitate interoperability") and to handle it as an [interface](https://en.wikipedia.org/wiki/Interface_(computing) "a shared boundary across which two or more separate components of a computer system exchange information") between React and [CSSStyleDeclaration](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration "exposes style information and various style-related methods and properties"). 
 
-![keywords](https://img.shields.io/github/package-json/keywords/askirmas/react-classnaming) 
+[![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg)](https://github.com/askirmas/react-classnaming/actions)
+[![codecov](https://codecov.io/gh/askirmas/react-classnaming/branch/main/graph/badge.svg?token=JDPWYS3ZT6)](https://codecov.io/gh/askirmas/react-classnaming)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=askirmas_react-classnaming&metric=alert_status)](https://sonarcloud.io/dashboard?id=askirmas_react-classnaming)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/)
+[![DeepScan grade](https://deepscan.io/api/teams/13158/projects/16163/branches/340904/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13158&pid=16163&bid=340904)
+[![CodeFactor](https://www.codefactor.io/repository/github/askirmas/react-classnaming/badge)](https://www.codefactor.io/repository/github/askirmas/react-classnaming)
 
-![build@ci](https://github.com/askirmas/react-classnaming/workflows/build/badge.svg?branch=main) ![coverage](https://img.shields.io/codecov/c/github/askirmas/react-classnaming) [![Maintainability](https://api.codeclimate.com/v1/badges/6d424425b4bd07a77a43/maintainability)](https://codeclimate.com/github/askirmas/react-classnaming/issues) [![quailty](https://img.shields.io/scrutinizer/quality/g/askirmas/react-classnaming/main)](https://scrutinizer-ci.com/g/askirmas/react-classnaming/) [![DeepScan grade](https://deepscan.io/api/teams/13158/projects/16163/branches/340904/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13158&pid=16163&bid=340904) [![CodeFactor](https://www.codefactor.io/repository/github/askirmas/react-classnaming/badge)](https://www.codefactor.io/repository/github/askirmas/react-classnaming)
-
-[![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming) [![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming) ![license](https://img.shields.io/npm/l/react-classnaming)
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="react" height="64px" /><img src="https://raw.githubusercontent.com/microsoft/TypeScript-Website/f407e1ae19e5e990d9901ac8064a32a8cc60edf0/packages/typescriptlang-org/static/branding/ts-logo-128.svg" alt="TypeScript" height="64px" />     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="css" height="64px;" />
+[![dependencies Status](https://status.david-dm.org/gh/askirmas/react-classnaming.svg)](https://david-dm.org/askirmas/react-classnaming)
+[![version](https://img.shields.io/npm/v/react-classnaming)](https://www.npmjs.com/package/react-classnaming)
+[![license](https://img.shields.io/npm/l/react-classnaming)](https://github.com/askirmas/react-classnaming/blob/main/LICENSE)
 
 ![](./images/classbeming.gif)
 
@@ -108,7 +112,7 @@ As shown, producing function `classNaming` returns a multipurpose object. It can
 
 ## Demos
 
-You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. [<img src="./images/vscode.png" width="50%"/>](./images/vscode.png) 
+You can find demonstration with all main points in folder [./\__examples__/](./__examples__/), in addition *`*.test.*`* and *`*.spec.*`*. [<img src="./images/vscode.png" width="50%" align="right/>](./images/vscode.png) 
 
 ## Getting more
 

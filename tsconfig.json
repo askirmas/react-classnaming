@@ -45,6 +45,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
+    "importsNotUsedAsValues": "error",
+
     "pretty": true,
 
     "jsx": "react",
