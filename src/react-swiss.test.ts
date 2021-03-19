@@ -8,7 +8,7 @@ import type {
 import type {
   ReactRelated,
 } from "./definitions.types"
-import {
+import type {
   GetProps
 } from "./react-swiss.types"
 

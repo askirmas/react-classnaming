@@ -1,13 +1,12 @@
-import {
+import type {
   CssModule,
 } from "./definitions.types";
 import type {
   ClassNamesMapping, ClassNamesMap,
 } from "./naming.types";
 import {resolver} from "./core"
-import { AnyObject, OmitIndexed } from "./ts-swiss.types";
-import { GetProps } from "./react-swiss.types";
-
+import type { AnyObject, OmitIndexed } from "./ts-swiss.types";
+import type { GetProps } from "./react-swiss.types"
 const {keys: $keys} = Object
 
 export {

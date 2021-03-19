@@ -5,7 +5,7 @@ import classnames_default from "classnames"
 import classnames_bind from "classnames/bind"
 
 import css from "./some.css"
-import module from "./some.module.css"
+import type module from "./some.module.css"
 
 const module_css: typeof module = {
   "class1": "hash1",

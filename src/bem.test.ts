@@ -1,6 +1,6 @@
 import { classBeming, setOptions } from "./bem";
-import { ClassHash } from "./definitions.types";
-import { ClassNamed, ClassNamesProperty } from "./main.types";
+import type { ClassHash } from "./definitions.types";
+import type { ClassNamed, ClassNamesProperty } from "./main.types";
 
 describe("contexting", () => {
   describe("empty", () => {

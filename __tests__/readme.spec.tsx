@@ -1,6 +1,7 @@
 import React from "react"
 import expectRender from "../expect-to-same-render"
-import classNaming, { classBeming, ClassNamed, Undefineds } from "../src"
+import classNaming, { classBeming } from "../src"
+import type { ClassNamed, Undefineds } from "../src"
 import type {ClassHash, ClassNamesProperty} from "../src"
 // import css_module from "./button.module.css"
 const css_module = {button: "BTN"}

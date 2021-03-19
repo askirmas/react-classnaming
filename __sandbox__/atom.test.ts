@@ -1,4 +1,4 @@
-import { Cut, Strip, UnionToIntersection } from "../src/ts-swiss.types"
+import type { Cut, Strip, UnionToIntersection } from "../src/ts-swiss.types"
 
 it("stripper", () => {
   type C1 = `${"visible-print"}-${"inline"|"block"|"inline-block"}`|`col${""|"-y"|"-x"}`|"display"

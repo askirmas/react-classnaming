@@ -1,5 +1,5 @@
 import type { Ever0, Extends, PartDeep } from "../src/ts-swiss.types"
-import { CssModule } from "../src/definitions.types"
+import type { CssModule } from "../src/definitions.types"
 
 it("tree2classes", () => {
 
