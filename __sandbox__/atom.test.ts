@@ -1,16 +1,15 @@
 /// <reference path="../src/global.d.ts" />
 import type {CssIdentifiersMap as BootStrap4} from "../__typing__/bootstrap4.css"
-import type { Cut, Ever0, Strip, UnionToIntersection } from "../src/ts-swiss.types"
+import type { After, Cut, Ever0, Strip, UnionToIntersection } from "../src/ts-swiss.types"
+import type { CssModule } from "definitions.types"
 
-type After<Str extends string, Start extends string> = Str extends `${Start}${infer End}` ? End : never
-type StrToInt<K extends string> = K extends keyof ReactClassNaming.StrToNum ? ReactClassNaming.StrToNum[K] : K
-type Merge<Base extends string, Result extends string> = [Result] extends [never] ? Base : [UnionToIntersection<Result>] extends [never] ? Base : Result
+type MergeProps<Base extends string, Result extends string> = [Result] extends [never] ? Base : [UnionToIntersection<Result>] extends [never] ? Base : Result
 
 type RootProps<
   classes extends string,
   delimiter extends string
 > = {
-  [root in Strip<classes, delimiter>]: Merge<root, `${root}${delimiter}${Strip<Cut<classes, `${root}${delimiter}`, true>, delimiter>}`>
+  [root in Strip<classes, delimiter>]: MergeProps<root, `${root}${delimiter}${Strip<Cut<classes, `${root}${delimiter}`, true>, delimiter>}`>
 }[Strip<classes, delimiter>]
 
 type MiddleProps<
@@ -43,13 +42,13 @@ type Values<
 > = ValuesQ<
   classes,
   MiddleProps<classes, delimiter>,
-  Ever0<StrToInt<Cut<classes, `${MiddleProps<classes, delimiter>}${delimiter}`>>, true>,
+  Ever0<ReactClassNaming.ParseInt<Cut<classes, `${MiddleProps<classes, delimiter>}${delimiter}`>>, true>,
   delimiter,
   selfKey
 >
 
 type AtomicQuery<
-  classes extends string,
+  css extends CssModule,
   delimiter extends string = "delimiter" extends keyof ReactClassNaming.AtomOptions
   ? ReactClassNaming.AtomOptions["delimiter"]
   : ReactClassNaming.AtomOptions["$default"]["delimiter"],
@@ -58,11 +57,11 @@ type AtomicQuery<
   : ReactClassNaming.AtomOptions["$default"]["selfKey"]
 > = {
   //TODO #38 Make good values hint here and without delimiter and selfkey
-  [p in RootProps<classes, delimiter>]?: Values<After<classes, `${p}${delimiter}`>, delimiter, selfKey>
+  [p in RootProps<keyof css, delimiter>]?: Values<After<keyof css, `${p}${delimiter}`>, delimiter, selfKey>
 }
 
-it("atomic bootstrap", () => {
-  const check: Record<string, AtomicQuery<keyof BootStrap4>> = {
+it("atomic bootstrap4", () => {
+  const check: Record<string, AtomicQuery<BootStrap4>> = {
     "1": {
       collapse: true,
       display: 1,

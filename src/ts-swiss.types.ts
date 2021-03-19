@@ -58,3 +58,5 @@ export type UnionToIntersection<Union> = (
 ) extends (argument: infer Intersection) => void
 ? Intersection
 : never;
+
+export type After<Str extends string, Start extends string> = Str extends `${Start}${infer End}` ? End : never

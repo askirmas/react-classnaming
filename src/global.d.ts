@@ -91,4 +91,7 @@ declare namespace ReactClassNaming {
     "75": 75
     "100": 100
   }
+
+  //TODO apply to bem
+  type ParseInt<K extends string> = K extends keyof StrToNum ? StrToNum[K] : K
 }
